@@ -54,8 +54,14 @@ public class Player : MonoBehaviour
     {
         StartCoroutine(Attack());
     }
+    IEnumerator AttackMove()
+    {
+        UIManager.instance.cam.DOOrthoSize(3.5f,0.5f).SetEase(Ease.OutCubic);
+        yield return anim.transform.DOMoveX(-2,0.5f).SetEase(Ease.OutCubic).WaitForCompletion();
+    }
     IEnumerator Attack()
     {
+        yield return StartCoroutine(AttackMove());
         isAttack = true;
         var count = attackRequest.Count;
         for (int i = 0; i < count; i++)
@@ -74,6 +80,9 @@ public class Player : MonoBehaviour
             yield return new WaitForSeconds(skill.animation.length + 0.1f);
             iconAnim.Play();
         }
+        yield return new WaitForSeconds(0.5f);
+        UIManager.instance.cam.DOOrthoSize(5f,0.5f).SetEase(Ease.OutCubic);
+        yield return anim.transform.DOMoveX(-3.5f,0.5f).SetEase(Ease.InOutSine).WaitForCompletion();
         isAttack = false;
     }
 }

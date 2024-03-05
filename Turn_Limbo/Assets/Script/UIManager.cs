@@ -11,8 +11,15 @@ public class UIManager : MonoBehaviour
         instance = this;
     }
     public Transform RequestPos;
+    public Camera cam;
+    [SerializeField] Transform player;
     [SerializeField] Image baseIcon;
     [SerializeField] Image[] keys;
+
+    private void Update() {
+        RequestPos.localPosition 
+        = Camera.main.WorldToScreenPoint(player.localPosition + new Vector3(-7,0 + (5 - cam.orthographicSize)));
+    }
 
     public Image AddImage(Sprite sprite)
     {

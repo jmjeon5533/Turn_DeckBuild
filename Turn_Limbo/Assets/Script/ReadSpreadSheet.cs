@@ -43,15 +43,20 @@ public class ReadSpreadSheet : MonoBehaviour
                 skillDatas.Add(keyCode, new List<Skill>());
 
             //TODO Parsing
+            print(columns[3]);
+            print(columns[6]);
+            print(columns[7]);
+            print(columns[0]);
+            print(columns[10]);
+
             var newSkill = new Skill()
             {
                 skillName = columns[3],
                 minDamage = int.Parse(columns[6]),
                 maxDamage = int.Parse(columns[7]),
-                animation = Resources.Load<AnimationClip>($"Animation/{columns[9].Trim()}"),
+                animation = Resources.Load<AnimationClip>($"Animation/{columns[10].Trim()}"),
                 icon = Resources.Load<Sprite>($"Icon/skill{int.Parse(columns[0]) + 1}")
             };
-            print($"Animation/{columns[9]}");
             print(newSkill.animation == null);
             skillDatas[keyCode].Add(newSkill);
         }
