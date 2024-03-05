@@ -1,60 +1,71 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+
 [System.Serializable]
-public class keyInput
-{
-    public KeyCode key;
-    public List<skill> insertSkills = new List<skill>();
-}
-[System.Serializable]
-public class skill
+public class Skill
 {
     public string skillName;
-    public int attackDamage;
+    public int minDamage;
+    public int maxDamage;
     public Sprite icon;
     public AnimationClip animation;
 }
+
 public class Player_input : MonoBehaviour
 {
     private Player player;
-    public List<keyInput> inputs = new List<keyInput>();
+    public Dictionary<KeyCode, List<Skill>> inputs = new();
+    private static readonly KeyCode[] KEY_CODES = { KeyCode.Q, KeyCode.W, KeyCode.E };
     private void Awake()
     {
         player = GetComponent<Player>();
     }
     private void Start()
     {
-        for(int i = 0; i < inputs.Count; i++)
-        {
-            UIManager.instance.NextImage(i,inputs[i].insertSkills[0].icon);
-        }
+        
     }
     private void Update()
     {
-        for(int i = 0; i < inputs.Count; i++)
-        {
-            if(Input.GetKeyDown(inputs[i].key))
-            {
-                player.AddRequest(inputs[i].insertSkills[0]);
-                SwapSkills(inputs[i]);
-                UIManager.instance.NextImage(i,inputs[i].insertSkills[0].icon);
-            }
-        }
-        if(Input.GetKeyDown(KeyCode.A))
+        CheckInput();
+        if (Input.GetKeyDown(KeyCode.A))
         {
             player.UseAttack();
         }
-        if(Input.GetKeyDown(KeyCode.L))
+        if (Input.GetKeyDown(KeyCode.L))
         {
             print(player.attackRequest.Count);
         }
     }
-    public void SwapSkills(keyInput key)
+    public void InitBtn()
     {
-        var useSkills = key.insertSkills[0];
-        key.insertSkills.RemoveAt(0);
-        key.insertSkills.Add(useSkills);
+        for (int i = 0; i < KEY_CODES.Length; i++)
+        {
+            UIManager.instance.NextImage(i, inputs[KEY_CODES[i]][0].icon);
+        }
+    }
+
+    private void CheckInput()
+    {
+        for (int i = 0; i < KEY_CODES.Length; i++)
+        {
+            KeyCode keyCode = KEY_CODES[i];
+            if (Input.GetKeyDown(keyCode))
+            {
+                var input = inputs[keyCode];
+                player.AddRequest(input[0]);
+                SwapSkills(input);
+                UIManager.instance.NextImage(i, input[0].icon);
+            }
+        }
+    }
+
+    public void SwapSkills(List<Skill> key)
+    {
+        var useSkills = key[0];
+        key.RemoveAt(0);
+        key.Add(useSkills);
     }
 }

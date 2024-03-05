@@ -4,17 +4,18 @@ using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UI;
 
-public struct Requestskill
+public struct RequestSkill
 {
     public string skillName;
-    public int attackDamage;
+    public int minDamage;
+    public int maxDamage;
     public Sprite icon;
     public Image insertImage;
     public AnimationClip animation;
 }
 public class Player : MonoBehaviour
 {
-    public Queue<Requestskill> attackRequest = new Queue<Requestskill>();
+    public Queue<RequestSkill> attackRequest = new Queue<RequestSkill>();
     Animator anim;
     bool isAttack;
     Sequence iconAnim;
@@ -27,7 +28,7 @@ public class Player : MonoBehaviour
     {
 
     }
-    public void AddRequest(skill addSkill)
+    public void AddRequest(Skill addSkill)
     {
         if (!isAttack)
         {
@@ -38,11 +39,12 @@ public class Player : MonoBehaviour
             attackRequest.Enqueue(newSkill);
         }
     }
-    public Requestskill ConvertRequest(skill skill)
+    public RequestSkill ConvertRequest(Skill skill)
     {
-        Requestskill newRequest = new Requestskill();
+        RequestSkill newRequest = new RequestSkill();
         newRequest.animation = skill.animation;
-        newRequest.attackDamage = skill.attackDamage;
+        newRequest.minDamage = skill.minDamage;
+        newRequest.maxDamage = skill.maxDamage;
         newRequest.icon = skill.icon;
         newRequest.skillName = skill.skillName;
         return newRequest;

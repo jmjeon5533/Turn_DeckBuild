@@ -123,6 +123,51 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &322587326
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 322587328}
+  - component: {fileID: 322587327}
+  m_Layer: 0
+  m_Name: <<<LoadManager>>>
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &322587327
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 322587326}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 557997653729a964fa66e63e1c147f3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player_Input: {fileID: 1715296848}
+--- !u!4 &322587328
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 322587326}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1778.8325, y: 923.4459, z: 0.5946022}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &368066302
 GameObject:
   m_ObjectHideFlags: 0
@@ -1121,55 +1166,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c557cd1c07a362440bf0b51eb48c2924, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputs:
-  - key: 113
-    insertSkills:
-    - skillName: Q1
-      attackDamage: 0
-      icon: {fileID: 21300000, guid: 373d69e886bd46a4f8c9ebe389fe0e84, type: 3}
-      insertImage: {fileID: 0}
-      animation: {fileID: 7400000, guid: 55855508312d92143a67a54f910896a0, type: 2}
-    - skillName: Q2
-      attackDamage: 0
-      icon: {fileID: 21300000, guid: 4f7eae31e9b2fb448b4ac2fcce69e0ba, type: 3}
-      insertImage: {fileID: 0}
-      animation: {fileID: 7400000, guid: 55855508312d92143a67a54f910896a0, type: 2}
-    - skillName: Q3
-      attackDamage: 0
-      icon: {fileID: 21300000, guid: f57845d058bf33946b28bc9c6d3d932b, type: 3}
-      insertImage: {fileID: 0}
-      animation: {fileID: 7400000, guid: 55855508312d92143a67a54f910896a0, type: 2}
-  - key: 119
-    insertSkills:
-    - skillName: W1
-      attackDamage: 0
-      icon: {fileID: 21300000, guid: 40c4702e47f2fb841b97b592f344d1d5, type: 3}
-      insertImage: {fileID: 0}
-      animation: {fileID: 7400000, guid: 55855508312d92143a67a54f910896a0, type: 2}
-    - skillName: W2
-      attackDamage: 0
-      icon: {fileID: 21300000, guid: c9616b36d42b94c4ea1fc5110e43d5ff, type: 3}
-      insertImage: {fileID: 0}
-      animation: {fileID: 7400000, guid: 55855508312d92143a67a54f910896a0, type: 2}
-    - skillName: W3
-      attackDamage: 0
-      icon: {fileID: 21300000, guid: 84a33276bb305304f90a665d01c66a97, type: 3}
-      insertImage: {fileID: 0}
-      animation: {fileID: 7400000, guid: 55855508312d92143a67a54f910896a0, type: 2}
-  - key: 101
-    insertSkills:
-    - skillName: E1
-      attackDamage: 0
-      icon: {fileID: 21300000, guid: 20e1ecd780e4db544a8bbdefcb76ce08, type: 3}
-      insertImage: {fileID: 0}
-      animation: {fileID: 7400000, guid: 55855508312d92143a67a54f910896a0, type: 2}
-    - skillName: E2
-      attackDamage: 0
-      icon: {fileID: 21300000, guid: 53ce6ea15adc56341a2d98ec448ffc71, type: 3}
-      insertImage: {fileID: 0}
-      animation: {fileID: 7400000, guid: 55855508312d92143a67a54f910896a0, type: 2}
-    - skillName: E3
-      attackDamage: 0
-      icon: {fileID: 21300000, guid: 6ff08705aba19be4faaf55f4f299a570, type: 3}
-      insertImage: {fileID: 0}
-      animation: {fileID: 7400000, guid: 55855508312d92143a67a54f910896a0, type: 2}
