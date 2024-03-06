@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.UI;
 
 [System.Serializable]
 public class Skill
@@ -14,31 +12,26 @@ public class Skill
     public AnimationClip animation;
 }
 
-public class Player_input : MonoBehaviour
+public class Controller : MonoBehaviour
 {
-    private Player player;
-    public Dictionary<KeyCode, List<Skill>> inputs = new();
-    private static readonly KeyCode[] KEY_CODES = { KeyCode.Q, KeyCode.W, KeyCode.E };
-    private void Awake()
+    public Player player;
+    public Enemy enemy;
+    void Start()
     {
-        player = GetComponent<Player>();
+
     }
-    private void Start()
-    {
-        
-    }
-    private void Update()
+    void Update()
     {
         CheckInput();
         if (Input.GetKeyDown(KeyCode.A))
         {
             player.UseAttack();
-        }
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            print(player.attackRequest.Count);
+            enemy.UseAttack();
         }
     }
+        public Dictionary<KeyCode, List<Skill>> inputs = new();
+    private static readonly KeyCode[] KEY_CODES = { KeyCode.Q, KeyCode.W, KeyCode.E };
+        
     public void InitBtn()
     {
         for (int i = 0; i < KEY_CODES.Length; i++)
