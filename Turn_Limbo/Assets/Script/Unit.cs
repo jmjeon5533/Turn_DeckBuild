@@ -22,10 +22,12 @@ public class Unit : MonoBehaviour
     public int shield;
     public int maxShield;
 
-    Animator anim;
-    protected bool isAttack;
-    protected bool isLeft;
-    Sequence iconAnim;
+    public int curDamage;
+
+    [HideInInspector] public Animator anim;
+    [HideInInspector] public bool isLeft;
+    [HideInInspector] public Sequence iconAnim;
+    public RectTransform requestUIParent;
 
     public Unit target;
     [SerializeField] protected Image hpImage;
@@ -41,10 +43,33 @@ public class Unit : MonoBehaviour
     }
     protected virtual void Update()
     {
+        UIUpdate();
+    }
+    public virtual void AttackStart()
+    {
+
+    }
+    public virtual void AttackEnd()
+    {
+
+    }
+    void UIUpdate()
+    {
+        var ui = UIManager.instance;
         hpImage.rectTransform.anchoredPosition 
-        = UIManager.instance.cam.WorldToScreenPoint(transform.position + (new Vector3(-2f,0) * (isLeft ? 1 : -1)));
+        = ui.cam.WorldToScreenPoint(transform.position + (new Vector3(-2f,0) * (isLeft ? 1 : -1)));
         hpImage.fillAmount = (float)hp / maxHP;
         shieldImage.fillAmount = (float)shield / maxShield;
+
+        requestUIParent.anchoredPosition 
+        = ui.cam.WorldToScreenPoint(transform.position
+        + new Vector3((3 - (5 - ui.cam.orthographicSize)) * (isLeft ? 1 : -1),2.5f + (5 - ui.cam.orthographicSize) * 0.5f));
+        requestUIParent.localScale = Vector3.one * (1 + (5 - ui.cam.orthographicSize) * 0.3f);
+    }
+    public void InitCurSkillDamage(RequestSkill skill)
+    {
+        curDamage = Random.Range(skill.minDamage,skill.maxDamage + 1);
+        print($"Damage = {curDamage}");
     }
     public RequestSkill ConvertRequest(Skill skill)
     {
@@ -55,46 +80,6 @@ public class Unit : MonoBehaviour
         newRequest.icon = skill.icon;
         newRequest.skillName = skill.skillName;
         return newRequest;
-    }
-
-    public void UseAttack()
-    {
-        StartCoroutine(Attack());
-    }
-    IEnumerator AttackMove()
-    {
-        Vector3 movePos = Vector3.Lerp(transform.position, target.transform.position,0.5f);
-        
-        UIManager.instance.cam.DOOrthoSize(3.5f,0.5f).SetEase(Ease.OutCubic);
-        yield return transform.DOMoveX(movePos.x - (1 * (isLeft ? 1 : -1)),0.5f)
-        .SetEase(Ease.OutCubic).WaitForCompletion();
-    }
-    IEnumerator Attack()
-    {
-        yield return StartCoroutine(AttackMove());
-        isAttack = true;
-        var count = attackRequest.Count;
-        for (int i = 0; i < count; i++)
-        {
-            var skill = attackRequest.Dequeue();
-            print($"Attacked : {skill.skillName}");
-            anim.Play(skill.animation.name);
-            iconAnim = DOTween.Sequence();
-            iconAnim.Append(skill.insertImage.transform.DOScale(1.5f, 0.5f).SetEase(Ease.OutQuint));
-            iconAnim.Append(skill.insertImage.transform.DOScale(0, 0.3f).SetEase(Ease.OutQuint));
-            iconAnim.AppendCallback(() =>
-            {
-                Destroy(skill.insertImage.gameObject);
-                print("destroy");
-            });
-            yield return new WaitForSeconds(skill.animation.length + 0.1f);
-            iconAnim.Play();
-        }
-        yield return new WaitForSeconds(0.5f);
-        UIManager.instance.cam.DOOrthoSize(5f,0.5f).SetEase(Ease.OutCubic);
-        yield return transform.DOMoveX(-3.5f * (isLeft ? 1 : -1),0.5f)
-        .SetEase(Ease.InOutSine).WaitForCompletion();
-        isAttack = false;
     }
     public void Damage(int Damage)
     {

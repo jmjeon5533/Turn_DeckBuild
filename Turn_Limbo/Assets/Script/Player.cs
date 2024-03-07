@@ -10,15 +10,4 @@ public class Player : Unit
     {
         base.Update();
     }
-    public void AddRequest(Skill addSkill)
-    {
-        if (!isAttack)
-        {
-            print(addSkill.skillName);
-
-            var newSkill = ConvertRequest(addSkill);
-            newSkill.insertImage = UIManager.instance.AddImage(newSkill.icon);
-            attackRequest.Enqueue(newSkill);
-        }
-    }
 }

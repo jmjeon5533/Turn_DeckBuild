@@ -10,22 +10,15 @@ public class UIManager : MonoBehaviour
     {
         instance = this;
     }
-    public RectTransform RequestPos;
     public Camera cam;
-    [SerializeField] Transform player;
     [SerializeField] Image[] keys;
     
     [SerializeField] Image baseIcon;
 
-    private void Update() {
-        RequestPos.anchoredPosition 
-        = cam.WorldToScreenPoint(player.position + new Vector3(3,2.5f + (5 - cam.orthographicSize) * 0.5f));
-        RequestPos.localScale = Vector3.one * (1 + (5 - cam.orthographicSize) * 0.3f);
-    }
 
-    public Image AddImage(Sprite sprite)
+    public Image AddImage(Sprite sprite,Transform parent)
     {
-        var img = Instantiate(baseIcon,RequestPos);
+        var img = Instantiate(baseIcon,parent);
         img.sprite = sprite;
         return img;
     }
