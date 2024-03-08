@@ -4,5 +4,5 @@ using UnityEngine;
 
 public abstract class SkillScript : MonoBehaviour
 {
-    
+    public List<ParticleSystem> Hitparticles = new();
 }

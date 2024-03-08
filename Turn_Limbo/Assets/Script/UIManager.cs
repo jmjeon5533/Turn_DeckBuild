@@ -11,11 +11,22 @@ public class UIManager : MonoBehaviour
         instance = this;
     }
     public Camera cam;
+    [SerializeField] Controller controller;
     [SerializeField] Image[] keys;
     
     [SerializeField] Image baseIcon;
 
-
+    private void Update() {
+        cam.transform.position = Vector3.Lerp(cam.transform.position,controller.movePos + (Vector3.forward * -10),0.2f);
+        if(controller.isAttack)
+        {
+            cam.orthographicSize = Mathf.Lerp(cam.orthographicSize,3,0.2f);
+        }
+        else
+        {
+            cam.orthographicSize = Mathf.Lerp(cam.orthographicSize,5,0.2f);
+        }
+    }
     public Image AddImage(Sprite sprite,Transform parent)
     {
         var img = Instantiate(baseIcon,parent);

@@ -155,7 +155,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 32
+  spritePixelsToUnits: 10
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -184,7 +184,7 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 1
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Standalone
     maxTextureSize: 2048
@@ -196,7 +196,7 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 1
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Server
     maxTextureSize: 2048
@@ -208,7 +208,7 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 1
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Android
     maxTextureSize: 2048
@@ -220,7 +220,7 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 1
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -232,8 +232,8 @@ TextureImporter:
         y: 208
         width: 48
         height: 48
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -253,8 +253,8 @@ TextureImporter:
         y: 208
         width: 48
         height: 48
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -267,15 +267,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HeavyBandit_2
+      name: HeavyBandit_10
       rect:
         serializedVersion: 2
         x: 96
-        y: 208
+        y: 160
         width: 48
         height: 48
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -288,15 +288,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HeavyBandit_3
+      name: HeavyBandit_11
       rect:
         serializedVersion: 2
         x: 144
-        y: 208
+        y: 160
         width: 48
         height: 48
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -309,15 +309,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HeavyBandit_4
+      name: HeavyBandit_12
       rect:
         serializedVersion: 2
         x: 192
-        y: 208
+        y: 160
         width: 48
         height: 48
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -330,15 +330,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HeavyBandit_5
+      name: HeavyBandit_13
       rect:
         serializedVersion: 2
         x: 240
-        y: 208
+        y: 160
         width: 48
         height: 48
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -351,15 +351,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HeavyBandit_6
+      name: HeavyBandit_14
       rect:
         serializedVersion: 2
         x: 288
-        y: 208
+        y: 160
         width: 48
         height: 48
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -372,15 +372,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HeavyBandit_7
+      name: HeavyBandit_15
       rect:
         serializedVersion: 2
         x: 336
-        y: 208
+        y: 160
         width: 48
         height: 48
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -393,15 +393,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HeavyBandit_8
+      name: HeavyBandit_16
       rect:
         serializedVersion: 2
         x: 0
-        y: 160
+        y: 112
         width: 48
         height: 48
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -414,15 +414,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HeavyBandit_9
+      name: HeavyBandit_17
       rect:
         serializedVersion: 2
         x: 48
-        y: 160
+        y: 112
         width: 48
         height: 48
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -435,15 +435,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HeavyBandit_10
+      name: HeavyBandit_18
       rect:
         serializedVersion: 2
         x: 96
-        y: 160
+        y: 112
         width: 48
         height: 48
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -456,15 +456,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HeavyBandit_11
+      name: HeavyBandit_19
       rect:
         serializedVersion: 2
         x: 144
-        y: 160
+        y: 112
         width: 48
         height: 48
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -477,15 +477,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HeavyBandit_12
+      name: HeavyBandit_2
       rect:
         serializedVersion: 2
-        x: 192
-        y: 160
+        x: 96
+        y: 208
         width: 48
         height: 48
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -498,15 +498,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HeavyBandit_13
+      name: HeavyBandit_20
       rect:
         serializedVersion: 2
-        x: 240
-        y: 160
+        x: 192
+        y: 112
         width: 48
         height: 48
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -519,15 +519,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HeavyBandit_14
+      name: HeavyBandit_21
       rect:
         serializedVersion: 2
-        x: 288
-        y: 160
+        x: 240
+        y: 112
         width: 48
         height: 48
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -540,15 +540,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HeavyBandit_15
+      name: HeavyBandit_22
       rect:
         serializedVersion: 2
-        x: 336
-        y: 160
+        x: 288
+        y: 112
         width: 48
         height: 48
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -561,15 +561,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HeavyBandit_16
+      name: HeavyBandit_23
       rect:
         serializedVersion: 2
-        x: 0
+        x: 336
         y: 112
         width: 48
         height: 48
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -582,15 +582,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HeavyBandit_17
+      name: HeavyBandit_24
       rect:
         serializedVersion: 2
-        x: 48
-        y: 112
+        x: 0
+        y: 64
         width: 48
         height: 48
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -603,15 +603,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HeavyBandit_18
+      name: HeavyBandit_25
       rect:
         serializedVersion: 2
-        x: 96
-        y: 112
+        x: 48
+        y: 64
         width: 48
         height: 48
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -624,15 +624,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HeavyBandit_19
+      name: HeavyBandit_26
       rect:
         serializedVersion: 2
-        x: 144
-        y: 112
+        x: 96
+        y: 64
         width: 48
         height: 48
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -645,15 +645,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HeavyBandit_20
+      name: HeavyBandit_27
       rect:
         serializedVersion: 2
-        x: 192
-        y: 112
+        x: 144
+        y: 64
         width: 48
         height: 48
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -666,15 +666,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HeavyBandit_21
+      name: HeavyBandit_28
       rect:
         serializedVersion: 2
-        x: 240
-        y: 112
+        x: 192
+        y: 64
         width: 48
         height: 48
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -687,15 +687,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HeavyBandit_22
+      name: HeavyBandit_29
       rect:
         serializedVersion: 2
-        x: 288
-        y: 112
+        x: 240
+        y: 64
         width: 48
         height: 48
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -708,15 +708,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HeavyBandit_23
+      name: HeavyBandit_3
       rect:
         serializedVersion: 2
-        x: 336
-        y: 112
+        x: 144
+        y: 208
         width: 48
         height: 48
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -729,15 +729,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HeavyBandit_24
+      name: HeavyBandit_30
       rect:
         serializedVersion: 2
-        x: 0
+        x: 288
         y: 64
         width: 48
         height: 48
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -750,15 +750,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HeavyBandit_25
+      name: HeavyBandit_31
       rect:
         serializedVersion: 2
-        x: 48
+        x: 336
         y: 64
         width: 48
         height: 48
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -771,15 +771,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HeavyBandit_26
+      name: HeavyBandit_32
       rect:
         serializedVersion: 2
-        x: 96
-        y: 64
+        x: 0
+        y: 16
         width: 48
         height: 48
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -792,15 +792,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HeavyBandit_27
+      name: HeavyBandit_33
       rect:
         serializedVersion: 2
-        x: 144
-        y: 64
+        x: 48
+        y: 16
         width: 48
         height: 48
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -813,15 +813,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HeavyBandit_28
+      name: HeavyBandit_34
       rect:
         serializedVersion: 2
-        x: 192
-        y: 64
+        x: 96
+        y: 16
         width: 48
         height: 48
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -834,15 +834,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HeavyBandit_29
+      name: HeavyBandit_35
       rect:
         serializedVersion: 2
-        x: 240
-        y: 64
+        x: 144
+        y: 16
         width: 48
         height: 48
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -855,15 +855,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HeavyBandit_30
+      name: HeavyBandit_4
       rect:
         serializedVersion: 2
-        x: 288
-        y: 64
+        x: 192
+        y: 208
         width: 48
         height: 48
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -876,15 +876,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HeavyBandit_31
+      name: HeavyBandit_5
       rect:
         serializedVersion: 2
-        x: 336
-        y: 64
+        x: 240
+        y: 208
         width: 48
         height: 48
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -897,15 +897,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HeavyBandit_32
+      name: HeavyBandit_6
       rect:
         serializedVersion: 2
-        x: 0
-        y: 16
+        x: 288
+        y: 208
         width: 48
         height: 48
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -918,15 +918,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HeavyBandit_33
+      name: HeavyBandit_7
       rect:
         serializedVersion: 2
-        x: 48
-        y: 16
+        x: 336
+        y: 208
         width: 48
         height: 48
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -939,15 +939,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HeavyBandit_34
+      name: HeavyBandit_8
       rect:
         serializedVersion: 2
-        x: 96
-        y: 16
+        x: 0
+        y: 160
         width: 48
         height: 48
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -960,15 +960,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HeavyBandit_35
+      name: HeavyBandit_9
       rect:
         serializedVersion: 2
-        x: 144
-        y: 16
+        x: 48
+        y: 160
         width: 48
         height: 48
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -993,40 +993,40 @@ TextureImporter:
     nameFileIdTable:
       HeavyBandit_0: 21300000
       HeavyBandit_1: 21300002
-      HeavyBandit_10: 21300020
-      HeavyBandit_11: 21300022
-      HeavyBandit_12: 21300024
-      HeavyBandit_13: 21300026
-      HeavyBandit_14: 21300028
-      HeavyBandit_15: 21300030
-      HeavyBandit_16: 21300032
-      HeavyBandit_17: 21300034
-      HeavyBandit_18: 21300036
-      HeavyBandit_19: 21300038
-      HeavyBandit_2: 21300004
-      HeavyBandit_20: 21300040
-      HeavyBandit_21: 21300042
-      HeavyBandit_22: 21300044
-      HeavyBandit_23: 21300046
-      HeavyBandit_24: 21300048
-      HeavyBandit_25: 21300050
-      HeavyBandit_26: 21300052
-      HeavyBandit_27: 21300054
-      HeavyBandit_28: 21300056
-      HeavyBandit_29: 21300058
-      HeavyBandit_3: 21300006
-      HeavyBandit_30: 21300060
-      HeavyBandit_31: 21300062
-      HeavyBandit_32: 21300064
-      HeavyBandit_33: 21300066
-      HeavyBandit_34: 21300068
-      HeavyBandit_35: 21300070
-      HeavyBandit_4: 21300008
-      HeavyBandit_5: 21300010
-      HeavyBandit_6: 21300012
-      HeavyBandit_7: 21300014
-      HeavyBandit_8: 21300016
-      HeavyBandit_9: 21300018
+      HeavyBandit_10: 21300004
+      HeavyBandit_11: 21300006
+      HeavyBandit_12: 21300008
+      HeavyBandit_13: 21300010
+      HeavyBandit_14: 21300012
+      HeavyBandit_15: 21300014
+      HeavyBandit_16: 21300016
+      HeavyBandit_17: 21300018
+      HeavyBandit_18: 21300020
+      HeavyBandit_19: 21300022
+      HeavyBandit_2: 21300024
+      HeavyBandit_20: 21300026
+      HeavyBandit_21: 21300028
+      HeavyBandit_22: 21300030
+      HeavyBandit_23: 21300032
+      HeavyBandit_24: 21300034
+      HeavyBandit_25: 21300036
+      HeavyBandit_26: 21300038
+      HeavyBandit_27: 21300040
+      HeavyBandit_28: 21300042
+      HeavyBandit_29: 21300044
+      HeavyBandit_3: 21300046
+      HeavyBandit_30: 21300048
+      HeavyBandit_31: 21300050
+      HeavyBandit_32: 21300052
+      HeavyBandit_33: 21300054
+      HeavyBandit_34: 21300056
+      HeavyBandit_35: 21300058
+      HeavyBandit_4: 21300060
+      HeavyBandit_5: 21300062
+      HeavyBandit_6: 21300064
+      HeavyBandit_7: 21300066
+      HeavyBandit_8: 21300068
+      HeavyBandit_9: 21300070
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

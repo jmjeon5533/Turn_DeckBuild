@@ -36,6 +36,8 @@ public class Unit : MonoBehaviour
     public int maxShield;
 
     public int curDamage;
+    public RequestSkill curSkill;
+    public ParticleSystem effect;
 
     [HideInInspector] public Animator anim;
     [HideInInspector] public bool isLeft;
@@ -50,9 +52,9 @@ public class Unit : MonoBehaviour
 
     private void Awake()
     {
-        anim = GetComponentInChildren<Animator>();
+        anim = GetComponent<Animator>();
     }
-    private void Start()
+    protected virtual void Start()
     {
         isLeft = target.transform.position.x > transform.position.x;
     }
@@ -62,11 +64,22 @@ public class Unit : MonoBehaviour
     }
     public virtual void AttackStart(RequestSkill skill)
     {
-        //skill.effect.Start()
+        //skill.effect.Start();
     }
     public virtual void AttackEnd(RequestSkill skill)
     {
-        //skill.effect.End()
+        //skill.effect.End();
+    }
+    public virtual void Attacking()
+    {
+        //skill.effect.Attacking();
+        var cam = UIManager.instance.cam;
+        cam.transform.position = cam.transform.position + ((Vector3)Random.insideUnitCircle.normalized * 1);
+        //Instantiate(curSkill.effect.Hitparticles[0],transform.position,Quaternion.identity);
+        Instantiate(effect,transform.position + (Vector3.right * (isLeft ? 1 : -1) * 2),Quaternion.identity);
+        cam.orthographicSize = 2;
+
+        target.Damage(curDamage);
     }
     void UIUpdate()
     {
@@ -84,7 +97,7 @@ public class Unit : MonoBehaviour
     public void InitCurSkillDamage(RequestSkill skill)
     {
         curDamage = Mathf.FloorToInt((float)Random.Range(skill.minDamage,skill.maxDamage + 1) / skill.attackCount);
-        print($"Damage = {curDamage}");
+        print($"name = {skill.skillName}, Damage = {curDamage} : SkillDmg = {skill.minDamage}, {skill.maxDamage} : count = {skill.attackCount}");
     }
     public RequestSkill ConvertRequest(Skill skill)
     {

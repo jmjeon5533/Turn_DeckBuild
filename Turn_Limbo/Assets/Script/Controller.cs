@@ -21,10 +21,11 @@ public class Controller : MonoBehaviour
 {
     public Player player;
     public Enemy enemy;
+    public Vector3 movePos;
     public List<SkillScript> skills = new();
     public List<Skill> inputLists = new();
 
-    private bool isAttack;
+    public bool isAttack;
 
     public Dictionary<KeyCode, List<Skill>> inputs = new();
     private static readonly KeyCode[] KEY_CODES = { KeyCode.Q, KeyCode.W, KeyCode.E };
@@ -52,10 +53,11 @@ public class Controller : MonoBehaviour
     void Update()
     {
         CheckInput();
-        if (Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKeyDown(KeyCode.A) && !isAttack)
         {
             UseAttack();
         }
+        if(!isAttack) movePos = Vector3.zero;
     }
 
     public void InitBtn()
@@ -69,8 +71,6 @@ public class Controller : MonoBehaviour
     {
         if (!isAttack)
         {
-            print(addSkill.skillName);
-
             var newSkill = target.ConvertRequest(addSkill);
             newSkill.insertImage = UIManager.instance.AddImage(newSkill.icon, target.requestUIParent);
             target.attackRequest.Enqueue(newSkill);
@@ -100,7 +100,7 @@ public class Controller : MonoBehaviour
 
     IEnumerator FirstAttackMove(Unit unit)
     {
-        Vector3 movePos = Vector3.Lerp(unit.transform.position, unit.target.transform.position, 0.5f);
+        movePos = Vector3.Lerp(unit.transform.position, unit.target.transform.position, 0.5f);
 
         yield return unit.transform.DOMoveX(movePos.x - (2 * (unit.isLeft ? 1 : -1)), 0.5f)
         .SetEase(Ease.OutCubic).WaitForCompletion();
@@ -135,6 +135,7 @@ public class Controller : MonoBehaviour
     {
         if (unit.attackRequest.Count <= 0) return 0;
         var skill = unit.attackRequest.Dequeue();
+        unit.curSkill = skill;
         unit.AttackStart(skill);
         unit.InitCurSkillDamage(skill);
         unit.anim.Play(skill.animation.name);
