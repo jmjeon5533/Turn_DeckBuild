@@ -11,6 +11,7 @@ public struct RequestSkill
     public int maxDamage;
     public int attackCount;
     public Sprite icon;
+    public SkillScript effect;
     public Image insertImage;
     public AnimationClip animation;
     public Unit.ActionType actionType;
@@ -40,7 +41,7 @@ public class Unit : MonoBehaviour
     [HideInInspector] public bool isLeft;
     [HideInInspector] public Sequence iconAnim;
     public SkillEffect skillInfo;
-    
+
     public RectTransform requestUIParent;
 
     public Unit target;
@@ -59,13 +60,13 @@ public class Unit : MonoBehaviour
     {
         UIUpdate();
     }
-    public virtual void AttackStart()
+    public virtual void AttackStart(RequestSkill skill)
     {
-
+        //skill.effect.Start()
     }
-    public virtual void AttackEnd()
+    public virtual void AttackEnd(RequestSkill skill)
     {
-
+        //skill.effect.End()
     }
     void UIUpdate()
     {
@@ -92,6 +93,7 @@ public class Unit : MonoBehaviour
         newRequest.minDamage = skill.minDamage;
         newRequest.maxDamage = skill.maxDamage;
         newRequest.attackCount = skill.attackCount;
+        newRequest.effect = skill.effect;
         newRequest.icon = skill.icon;
         newRequest.skillName = skill.skillName;
         return newRequest;

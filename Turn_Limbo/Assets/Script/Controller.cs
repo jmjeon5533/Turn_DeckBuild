@@ -11,6 +11,7 @@ public class Skill
     public int minDamage;
     public int maxDamage;
     public int attackCount;
+    public SkillScript effect;
     public Sprite icon;
     public AnimationClip animation;
     public Unit.ActionType actionType;
@@ -93,6 +94,7 @@ public class Controller : MonoBehaviour
     public void UseAttack()
     {
         UIManager.instance.TriggerBtn(false);
+        TurnStart();
         StartCoroutine(Attack());
     }
 
@@ -133,6 +135,7 @@ public class Controller : MonoBehaviour
     {
         if (unit.attackRequest.Count <= 0) return 0;
         var skill = unit.attackRequest.Dequeue();
+        unit.AttackStart(skill);
         unit.InitCurSkillDamage(skill);
         unit.anim.Play(skill.animation.name);
         unit.iconAnim = DOTween.Sequence();
@@ -144,6 +147,7 @@ public class Controller : MonoBehaviour
             print("destroy");
         });
         unit.iconAnim.Play();
+        unit.AttackEnd(skill);
         return skill.animation.length;
     }
 
