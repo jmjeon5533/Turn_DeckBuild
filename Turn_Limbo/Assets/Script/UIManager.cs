@@ -22,6 +22,13 @@ public class UIManager : MonoBehaviour
         img.sprite = sprite;
         return img;
     }
+    public void TriggerBtn(bool isActive)
+    {
+        for(int i = 0; i < keys.Length; i++)
+        {
+            keys[i].enabled = isActive;
+        }
+    }
     public void NextImage(int index,Sprite sprite)
     {
         keys[index].sprite = sprite;

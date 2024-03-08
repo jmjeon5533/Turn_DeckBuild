@@ -11,6 +11,7 @@ public class ReadSpreadSheet : MonoBehaviour
     public readonly long[] SHEET_ID = { 1705787959};
 
     public Dictionary<KeyCode, List<Skill>> skillDatas = new();
+    public List<Skill> skillLists = new();
 
     [SerializeField] private Controller controller;
 
@@ -37,7 +38,7 @@ public class ReadSpreadSheet : MonoBehaviour
     {
         string[] rows = data.Split('\n');
         for (int i = 1; i < rows.Length; i++)
-        {
+        {   
             string[] columns = rows[i].Split(',');
             KeyCode keyCode = columns[1].EnumParse<KeyCode>();
             if (!skillDatas.ContainsKey(keyCode))
@@ -45,17 +46,22 @@ public class ReadSpreadSheet : MonoBehaviour
 
             var newSkill = new Skill()
             {
-                skillName = columns[3],
+                skillName = columns[2],
                 minDamage = int.Parse(columns[6]),
                 maxDamage = int.Parse(columns[7]),
+                attackCount = int.Parse(columns[8]),
+                actionType = columns[3].EnumParse<Unit.ActionType>(),
                 animation = Resources.Load<AnimationClip>($"Animation/Player/{columns[10].Trim()}"),
                 icon = Resources.Load<Sprite>($"Icon/skill{int.Parse(columns[0]) + 1}")
             };
+            skillLists.Add(newSkill);
             skillDatas[keyCode].Add(newSkill);
         }
         print(controller.inputs == null);
         print(skillDatas == null);
         controller.inputs = new Dictionary<KeyCode, List<Skill>>(skillDatas);
+        controller.inputLists = new List<Skill>(skillLists);
+        controller.InitEnemy();
         controller.InitBtn();
     }
     // public void ParseEnemyData(string data)

@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class Enemy : Unit
 {
-    public EnemySkill skillInfo;
-    public int skillLoopCount = 0;
+    public int skillCurCount = 0;
+    public int requestMaxCount = 4;
+    public int requestMinCount = 1;
     private void Start()
     {
 

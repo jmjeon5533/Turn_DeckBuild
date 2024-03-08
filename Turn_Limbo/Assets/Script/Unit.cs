@@ -9,12 +9,24 @@ public struct RequestSkill
     public string skillName;
     public int minDamage;
     public int maxDamage;
+    public int attackCount;
     public Sprite icon;
     public Image insertImage;
     public AnimationClip animation;
+    public Unit.ActionType actionType;
 }
 public class Unit : MonoBehaviour
 {
+    public enum ActionType
+    {
+        Attack,
+        Defence,
+        Dodge
+    }
+    public enum PropertyType
+    {
+
+    }
     public Queue<RequestSkill> attackRequest = new Queue<RequestSkill>();
     public int hp;
     public int maxHP;
@@ -27,6 +39,8 @@ public class Unit : MonoBehaviour
     [HideInInspector] public Animator anim;
     [HideInInspector] public bool isLeft;
     [HideInInspector] public Sequence iconAnim;
+    public SkillEffect skillInfo;
+    
     public RectTransform requestUIParent;
 
     public Unit target;
@@ -68,7 +82,7 @@ public class Unit : MonoBehaviour
     }
     public void InitCurSkillDamage(RequestSkill skill)
     {
-        curDamage = Random.Range(skill.minDamage,skill.maxDamage + 1);
+        curDamage = Mathf.FloorToInt((float)Random.Range(skill.minDamage,skill.maxDamage + 1) / skill.attackCount);
         print($"Damage = {curDamage}");
     }
     public RequestSkill ConvertRequest(Skill skill)
@@ -77,6 +91,7 @@ public class Unit : MonoBehaviour
         newRequest.animation = skill.animation;
         newRequest.minDamage = skill.minDamage;
         newRequest.maxDamage = skill.maxDamage;
+        newRequest.attackCount = skill.attackCount;
         newRequest.icon = skill.icon;
         newRequest.skillName = skill.skillName;
         return newRequest;

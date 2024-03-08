@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using System.Linq;
 
 [System.Serializable]
 public class Skill
@@ -9,27 +10,43 @@ public class Skill
     public string skillName;
     public int minDamage;
     public int maxDamage;
+    public int attackCount;
     public Sprite icon;
     public AnimationClip animation;
+    public Unit.ActionType actionType;
 }
 
 public class Controller : MonoBehaviour
 {
     public Player player;
     public Enemy enemy;
+    public List<SkillScript> skills = new();
+    public List<Skill> inputLists = new();
+
     private bool isAttack;
+
+    public Dictionary<KeyCode, List<Skill>> inputs = new();
+    private static readonly KeyCode[] KEY_CODES = { KeyCode.Q, KeyCode.W, KeyCode.E };
     void Start()
     {
         TurnStart();
     }
     public void TurnStart()
     {
-        for(int i = 0; i < enemy.skillInfo.requestCount; i++)
-        AddRequest(enemy,enemy.skillInfo.skills[enemy.skillLoopCount]);
     }
     public void TurnEnd()
     {
-        
+        InitEnemy();
+    }
+    public void InitEnemy()
+    {
+        var skillArray = inputs.Values.ToArray();
+        var coinCount = Random.Range(enemy.requestMinCount, enemy.requestMaxCount);
+        for (int i = 0; i < coinCount; i++)
+        {
+            AddRequest(enemy, inputLists[enemy.skillInfo.holdIndex[enemy.skillCurCount % enemy.skillInfo.holdIndex.Count]]);
+            enemy.skillCurCount++;
+        }
     }
     void Update()
     {
@@ -39,8 +56,6 @@ public class Controller : MonoBehaviour
             UseAttack();
         }
     }
-    public Dictionary<KeyCode, List<Skill>> inputs = new();
-    private static readonly KeyCode[] KEY_CODES = { KeyCode.Q, KeyCode.W, KeyCode.E };
 
     public void InitBtn()
     {
@@ -49,14 +64,14 @@ public class Controller : MonoBehaviour
             UIManager.instance.NextImage(i, inputs[KEY_CODES[i]][0].icon);
         }
     }
-    public void AddRequest(Unit target,Skill addSkill)
+    public void AddRequest(Unit target, Skill addSkill)
     {
         if (!isAttack)
         {
             print(addSkill.skillName);
 
             var newSkill = target.ConvertRequest(addSkill);
-            newSkill.insertImage = UIManager.instance.AddImage(newSkill.icon,target.requestUIParent);
+            newSkill.insertImage = UIManager.instance.AddImage(newSkill.icon, target.requestUIParent);
             target.attackRequest.Enqueue(newSkill);
         }
     }
@@ -68,16 +83,19 @@ public class Controller : MonoBehaviour
             if (Input.GetKeyDown(keyCode))
             {
                 var input = inputs[keyCode];
-                AddRequest(player,input[0]);
+                AddRequest(player, input[0]);
                 SwapSkills(input);
                 UIManager.instance.NextImage(i, input[0].icon);
             }
         }
     }
+
     public void UseAttack()
     {
+        UIManager.instance.TriggerBtn(false);
         StartCoroutine(Attack());
     }
+
     IEnumerator FirstAttackMove(Unit unit)
     {
         Vector3 movePos = Vector3.Lerp(unit.transform.position, unit.target.transform.position, 0.5f);
@@ -85,6 +103,7 @@ public class Controller : MonoBehaviour
         yield return unit.transform.DOMoveX(movePos.x - (2 * (unit.isLeft ? 1 : -1)), 0.5f)
         .SetEase(Ease.OutCubic).WaitForCompletion();
     }
+
     IEnumerator Attack()
     {
         UIManager.instance.cam.DOOrthoSize(3.5f, 0.5f).SetEase(Ease.OutCubic);
@@ -106,10 +125,13 @@ public class Controller : MonoBehaviour
         yield return enemy.transform.DOMoveX(-3.5f * (enemy.isLeft ? 1 : -1), 0.5f)
         .SetEase(Ease.InOutSine).WaitForCompletion();
         isAttack = false;
+        UIManager.instance.TriggerBtn(true);
+        TurnEnd();
     }
+
     float AttackAction(Unit unit)
     {
-        if(unit.attackRequest.Count <= 0) return 0;
+        if (unit.attackRequest.Count <= 0) return 0;
         var skill = unit.attackRequest.Dequeue();
         unit.InitCurSkillDamage(skill);
         unit.anim.Play(skill.animation.name);
