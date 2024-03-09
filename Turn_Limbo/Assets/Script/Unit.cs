@@ -20,6 +20,7 @@ public class Unit : MonoBehaviour
 {
     public enum ActionType
     {
+        none,
         Attack,
         Defence,
         Dodge
@@ -37,6 +38,10 @@ public class Unit : MonoBehaviour
 
     public int curDamage;
     public RequestSkill curSkill;
+    public readonly RequestSkill nullSkill = new RequestSkill()
+    {
+        actionType = ActionType.none
+    };
     public ParticleSystem effect;
 
     [HideInInspector] public Animator anim;
@@ -47,6 +52,7 @@ public class Unit : MonoBehaviour
     public RectTransform requestUIParent;
 
     public Unit target;
+    [SerializeField] protected RectTransform statParent;
     [SerializeField] protected Image hpImage;
     [SerializeField] protected Image shieldImage;
 
@@ -57,6 +63,7 @@ public class Unit : MonoBehaviour
     protected virtual void Start()
     {
         isLeft = target.transform.position.x > transform.position.x;
+
     }
     protected virtual void Update()
     {
@@ -65,26 +72,59 @@ public class Unit : MonoBehaviour
     public virtual void AttackStart(RequestSkill skill)
     {
         //skill.effect.Start();
+        print(target.curSkill.actionType);
     }
     public virtual void AttackEnd(RequestSkill skill)
     {
         //skill.effect.End();
+        curSkill = nullSkill;
     }
     public virtual void Attacking()
     {
+        int totalDmg = 0;
+        print(target.curSkill.actionType);
+        switch(target.curSkill.actionType)
+        {
+            case ActionType.none:
+            {
+                totalDmg = curDamage;
+                target.Damage(curDamage);
+            }
+            break;
+            case ActionType.Attack:
+            {
+                totalDmg = curDamage;
+                target.ShieldDamage(totalDmg);
+            }
+            break;
+            case ActionType.Defence:
+            {
+                totalDmg = Mathf.Clamp(curDamage - target.curDamage,0,999);
+                target.Damage(totalDmg);
+            }
+            break;
+            case ActionType.Dodge:
+            {
+                if(target.curDamage < curDamage)
+                {
+                    totalDmg = curDamage;
+                    target.Damage(totalDmg);
+                }
+            }
+            break;
+        }
+        UIManager.instance.DamageText(totalDmg,transform.position + Vector3.right * (isLeft ? 2.5f : -2.5f));
         //skill.effect.Attacking();
         var cam = UIManager.instance.cam;
         cam.transform.position = cam.transform.position + ((Vector3)Random.insideUnitCircle.normalized * 1);
         //Instantiate(curSkill.effect.Hitparticles[0],transform.position,Quaternion.identity);
         Instantiate(effect,transform.position + (Vector3.right * (isLeft ? 1 : -1) * 2),Quaternion.identity);
         cam.orthographicSize = 2;
-
-        target.Damage(curDamage);
     }
     void UIUpdate()
     {
         var ui = UIManager.instance;
-        hpImage.rectTransform.anchoredPosition 
+        statParent.anchoredPosition 
         = ui.cam.WorldToScreenPoint(transform.position + (new Vector3(-2f,0) * (isLeft ? 1 : -1)));
         hpImage.fillAmount = (float)hp / maxHP;
         shieldImage.fillAmount = (float)shield / maxShield;
@@ -105,14 +145,24 @@ public class Unit : MonoBehaviour
         newRequest.animation = skill.animation;
         newRequest.minDamage = skill.minDamage;
         newRequest.maxDamage = skill.maxDamage;
+        newRequest.actionType = skill.actionType;
         newRequest.attackCount = skill.attackCount;
         newRequest.effect = skill.effect;
         newRequest.icon = skill.icon;
         newRequest.skillName = skill.skillName;
         return newRequest;
     }
-    public void Damage(int Damage)
+    public void ShieldDamage(int damage)
     {
-        hp -= Damage;
+        if(shield <= damage)
+        {
+            Damage(damage - shield);
+            shield = 0;
+        }
+        else shield -= damage;
+    }
+    public void Damage(int damage)
+    {
+        hp -= shield <= 0 ? Mathf.CeilToInt(1.5f * damage) : damage;
     }
 }

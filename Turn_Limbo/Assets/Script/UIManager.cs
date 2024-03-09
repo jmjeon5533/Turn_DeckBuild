@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,18 +15,23 @@ public class UIManager : MonoBehaviour
     public Camera cam;
     [SerializeField] Controller controller;
     [SerializeField] Image[] keys;
+    [SerializeField] TMP_Text coinText;
     
+    [SerializeField] Transform dmgTextParent;
     [SerializeField] Image baseIcon;
+    [SerializeField] Image timer;
+    public TMP_Text damageText;
 
     private void Update() {
         cam.transform.position = Vector3.Lerp(cam.transform.position,controller.movePos + (Vector3.forward * -10),0.2f);
         if(controller.isAttack)
         {
-            cam.orthographicSize = Mathf.Lerp(cam.orthographicSize,3,0.2f);
+            cam.orthographicSize = Mathf.Lerp(cam.orthographicSize,3.5f,0.2f);
         }
         else
         {
             cam.orthographicSize = Mathf.Lerp(cam.orthographicSize,5,0.2f);
+            timer.fillAmount = controller.curTime / 10;
         }
     }
     public Image AddImage(Sprite sprite,Transform parent)
@@ -33,15 +40,35 @@ public class UIManager : MonoBehaviour
         img.sprite = sprite;
         return img;
     }
-    public void TriggerBtn(bool isActive)
+    public void isAbleCoin()
+    {
+        bool isActiveBtn = controller.useAbleCoin > 0;
+        for(int i = 0; i < keys.Length; i++)
+        {
+            keys[i].color = isActiveBtn ? Color.white : Color.grey;
+        }
+        coinText.text = $"Coin : {controller.useAbleCoin}";
+    }
+    public void ActiveBtn(bool isActive)
     {
         for(int i = 0; i < keys.Length; i++)
         {
             keys[i].enabled = isActive;
         }
+        coinText.enabled = isActive;
+        timer.enabled = isActive;
     }
     public void NextImage(int index,Sprite sprite)
     {
         keys[index].sprite = sprite;
+    }
+    public void DamageText(int damage,Vector3 pos)
+    {
+        var text = Instantiate(damageText,dmgTextParent);
+        text.text = damage.ToString();
+        text.transform.localPosition = cam.WorldToScreenPoint(pos + (Vector3)Random.insideUnitCircle);
+
+        text.transform.DOScale(0,0.8f);
+        text.DOColor(Color.clear,0.8f).OnComplete(() => Destroy(text.gameObject));
     }
 }

@@ -25,20 +25,31 @@ public class Controller : MonoBehaviour
     public List<SkillScript> skills = new();
     public List<Skill> inputLists = new();
 
+    public float curTime;
+    public int useAbleCoin;
+
     public bool isAttack;
 
     public Dictionary<KeyCode, List<Skill>> inputs = new();
     private static readonly KeyCode[] KEY_CODES = { KeyCode.Q, KeyCode.W, KeyCode.E };
     void Start()
     {
-        TurnStart();
+        TurnReset();
+    }
+    public void TurnReset()
+    {
+        curTime = 10;
+        useAbleCoin += 5;
+        UIManager.instance.isAbleCoin();
     }
     public void TurnStart()
     {
+
     }
     public void TurnEnd()
     {
         InitEnemy();
+        TurnReset();
     }
     public void InitEnemy()
     {
@@ -57,7 +68,12 @@ public class Controller : MonoBehaviour
         {
             UseAttack();
         }
-        if(!isAttack) movePos = Vector3.zero;
+        if (!isAttack)
+        {
+            movePos = Vector3.zero;
+            curTime -= Time.deltaTime;
+            if (curTime <= 0) UseAttack();
+        }
     }
 
     public void InitBtn()
@@ -78,6 +94,7 @@ public class Controller : MonoBehaviour
     }
     private void CheckInput()
     {
+        if(useAbleCoin <= 0) return;
         for (int i = 0; i < KEY_CODES.Length; i++)
         {
             KeyCode keyCode = KEY_CODES[i];
@@ -86,6 +103,8 @@ public class Controller : MonoBehaviour
                 var input = inputs[keyCode];
                 AddRequest(player, input[0]);
                 SwapSkills(input);
+                useAbleCoin--;
+                UIManager.instance.isAbleCoin();
                 UIManager.instance.NextImage(i, input[0].icon);
             }
         }
@@ -93,8 +112,7 @@ public class Controller : MonoBehaviour
 
     public void UseAttack()
     {
-        UIManager.instance.TriggerBtn(false);
-        TurnStart();
+        UIManager.instance.ActiveBtn(false);
         StartCoroutine(Attack());
     }
 
@@ -108,16 +126,18 @@ public class Controller : MonoBehaviour
 
     IEnumerator Attack()
     {
+        isAttack = true;
         UIManager.instance.cam.DOOrthoSize(3.5f, 0.5f).SetEase(Ease.OutCubic);
         StartCoroutine(FirstAttackMove(player));
         yield return StartCoroutine(FirstAttackMove(enemy));
-        isAttack = true;
         var attackCount = Mathf.Max(player.attackRequest.Count, enemy.attackRequest.Count);
         for (int i = 0; i < attackCount; i++)
         {
             // yield return new WaitForSeconds(skill.animation.length + 0.1f);
             float waitTime = Mathf.Max(AttackAction(player), AttackAction(enemy));
             yield return new WaitForSeconds(waitTime);
+            player.AttackEnd(player.curSkill);
+            enemy.AttackEnd(enemy.curSkill);
         }
         yield return new WaitForSeconds(0.5f);
         UIManager.instance.cam.DOOrthoSize(5f, 0.5f).SetEase(Ease.OutCubic);
@@ -127,7 +147,7 @@ public class Controller : MonoBehaviour
         yield return enemy.transform.DOMoveX(-3.5f * (enemy.isLeft ? 1 : -1), 0.5f)
         .SetEase(Ease.InOutSine).WaitForCompletion();
         isAttack = false;
-        UIManager.instance.TriggerBtn(true);
+        UIManager.instance.ActiveBtn(true);
         TurnEnd();
     }
 
@@ -135,6 +155,7 @@ public class Controller : MonoBehaviour
     {
         if (unit.attackRequest.Count <= 0) return 0;
         var skill = unit.attackRequest.Dequeue();
+        print($"{unit},{skill.actionType}");
         unit.curSkill = skill;
         unit.AttackStart(skill);
         unit.InitCurSkillDamage(skill);
@@ -148,7 +169,6 @@ public class Controller : MonoBehaviour
             print("destroy");
         });
         unit.iconAnim.Play();
-        unit.AttackEnd(skill);
         return skill.animation.length;
     }
 

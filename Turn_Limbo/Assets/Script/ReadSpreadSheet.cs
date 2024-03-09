@@ -58,8 +58,6 @@ public class ReadSpreadSheet : MonoBehaviour
             skillLists.Add(newSkill);
             skillDatas[keyCode].Add(newSkill);
         }
-        print(controller.inputs == null);
-        print(skillDatas == null);
         controller.inputs = new Dictionary<KeyCode, List<Skill>>(skillDatas);
         controller.inputLists = new List<Skill>(skillLists);
         controller.InitEnemy();
