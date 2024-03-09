@@ -23,14 +23,14 @@ public class UIManager : MonoBehaviour
     public TMP_Text damageText;
 
     private void Update() {
-        cam.transform.position = Vector3.Lerp(cam.transform.position,controller.movePos + (Vector3.forward * -10),0.2f);
+        cam.transform.position = Vector3.Lerp(cam.transform.position,controller.movePos + (Vector3.forward * -10),0.1f);
         if(controller.isAttack)
         {
-            cam.orthographicSize = Mathf.Lerp(cam.orthographicSize,3.5f,0.2f);
+            cam.orthographicSize = Mathf.Lerp(cam.orthographicSize,3.5f,0.1f);
         }
         else
         {
-            cam.orthographicSize = Mathf.Lerp(cam.orthographicSize,5,0.2f);
+            cam.orthographicSize = Mathf.Lerp(cam.orthographicSize,5,0.1f);
             timer.fillAmount = controller.curTime / 10;
         }
     }
@@ -40,7 +40,7 @@ public class UIManager : MonoBehaviour
         img.sprite = sprite;
         return img;
     }
-    public void isAbleCoin()
+    public void ChangeCoinSkillImg()
     {
         bool isActiveBtn = controller.useAbleCoin > 0;
         for(int i = 0; i < keys.Length; i++)
@@ -66,7 +66,8 @@ public class UIManager : MonoBehaviour
     {
         var text = Instantiate(damageText,dmgTextParent);
         text.text = damage.ToString();
-        text.transform.localPosition = cam.WorldToScreenPoint(pos + (Vector3)Random.insideUnitCircle);
+        
+        text.rectTransform.anchoredPosition = cam.WorldToScreenPoint(pos + (Vector3)Random.insideUnitCircle * 1.5f);
 
         text.transform.DOScale(0,0.8f);
         text.DOColor(Color.clear,0.8f).OnComplete(() => Destroy(text.gameObject));

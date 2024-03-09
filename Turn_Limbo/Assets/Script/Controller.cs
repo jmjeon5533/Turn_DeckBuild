@@ -30,21 +30,25 @@ public class Controller : MonoBehaviour
 
     public bool isAttack;
 
+    public AudioClip hitSound;
+    public AudioClip[] addSkillSound;
+
     public Dictionary<KeyCode, List<Skill>> inputs = new();
     private static readonly KeyCode[] KEY_CODES = { KeyCode.Q, KeyCode.W, KeyCode.E };
     void Start()
     {
         TurnReset();
+        player.hitSound = hitSound;
+        enemy.hitSound = hitSound;
     }
     public void TurnReset()
     {
         curTime = 10;
         useAbleCoin += 5;
-        UIManager.instance.isAbleCoin();
-    }
-    public void TurnStart()
-    {
+        UIManager.instance.ChangeCoinSkillImg();
 
+        player.TurnInit();
+        enemy.TurnInit();
     }
     public void TurnEnd()
     {
@@ -70,7 +74,6 @@ public class Controller : MonoBehaviour
         }
         if (!isAttack)
         {
-            movePos = Vector3.zero;
             curTime -= Time.deltaTime;
             if (curTime <= 0) UseAttack();
         }
@@ -104,8 +107,9 @@ public class Controller : MonoBehaviour
                 AddRequest(player, input[0]);
                 SwapSkills(input);
                 useAbleCoin--;
-                UIManager.instance.isAbleCoin();
+                UIManager.instance.ChangeCoinSkillImg();
                 UIManager.instance.NextImage(i, input[0].icon);
+                SoundManager.instance.SetAudio(addSkillSound[Random.Range(0,addSkillSound.Length)],false);
             }
         }
     }
@@ -127,6 +131,7 @@ public class Controller : MonoBehaviour
     IEnumerator Attack()
     {
         isAttack = true;
+        Time.timeScale = 1.5f;
         UIManager.instance.cam.DOOrthoSize(3.5f, 0.5f).SetEase(Ease.OutCubic);
         StartCoroutine(FirstAttackMove(player));
         yield return StartCoroutine(FirstAttackMove(enemy));
@@ -146,6 +151,7 @@ public class Controller : MonoBehaviour
         .SetEase(Ease.InOutSine).WaitForCompletion();
         yield return enemy.transform.DOMoveX(-3.5f * (enemy.isLeft ? 1 : -1), 0.5f)
         .SetEase(Ease.InOutSine).WaitForCompletion();
+        Time.timeScale = 1f;
         isAttack = false;
         UIManager.instance.ActiveBtn(true);
         TurnEnd();

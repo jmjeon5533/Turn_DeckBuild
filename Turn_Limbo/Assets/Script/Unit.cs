@@ -36,13 +36,17 @@ public class Unit : MonoBehaviour
     public int shield;
     public int maxShield;
 
+    public bool shieldBreak;
+
     public int curDamage;
+    public Unit target;
     public RequestSkill curSkill;
     public readonly RequestSkill nullSkill = new RequestSkill()
     {
         actionType = ActionType.none
     };
     public ParticleSystem effect;
+    public AudioClip hitSound;
 
     [HideInInspector] public Animator anim;
     [HideInInspector] public bool isLeft;
@@ -50,8 +54,6 @@ public class Unit : MonoBehaviour
     public SkillEffect skillInfo;
 
     public RectTransform requestUIParent;
-
-    public Unit target;
     [SerializeField] protected RectTransform statParent;
     [SerializeField] protected Image hpImage;
     [SerializeField] protected Image shieldImage;
@@ -63,11 +65,23 @@ public class Unit : MonoBehaviour
     protected virtual void Start()
     {
         isLeft = target.transform.position.x > transform.position.x;
-
     }
     protected virtual void Update()
     {
         UIUpdate();
+    }
+    public virtual void TurnInit()
+    {
+        if(shield <= 0 && !shieldBreak)
+        {
+            shieldBreak = true;
+            return;
+        }
+        if(shieldBreak)
+        {
+            shield = maxShield;
+            shieldBreak = false;
+        }
     }
     public virtual void AttackStart(RequestSkill skill)
     {
@@ -81,42 +95,37 @@ public class Unit : MonoBehaviour
     }
     public virtual void Attacking()
     {
-        int totalDmg = 0;
         print(target.curSkill.actionType);
         switch(target.curSkill.actionType)
         {
             case ActionType.none:
             {
-                totalDmg = curDamage;
                 target.Damage(curDamage);
             }
             break;
             case ActionType.Attack:
             {
-                totalDmg = curDamage;
-                target.ShieldDamage(totalDmg);
+                target.ShieldDamage(curDamage);
             }
             break;
             case ActionType.Defence:
             {
-                totalDmg = Mathf.Clamp(curDamage - target.curDamage,0,999);
-                target.Damage(totalDmg);
+                target.Damage(Mathf.Clamp(curDamage - target.curDamage,0,999));
             }
             break;
             case ActionType.Dodge:
             {
                 if(target.curDamage < curDamage)
                 {
-                    totalDmg = curDamage;
-                    target.Damage(totalDmg);
+                    target.Damage(curDamage);
                 }
             }
             break;
         }
-        UIManager.instance.DamageText(totalDmg,transform.position + Vector3.right * (isLeft ? 2.5f : -2.5f));
         //skill.effect.Attacking();
         var cam = UIManager.instance.cam;
         cam.transform.position = cam.transform.position + ((Vector3)Random.insideUnitCircle.normalized * 1);
+        SoundManager.instance.SetAudio(hitSound,false);
         //Instantiate(curSkill.effect.Hitparticles[0],transform.position,Quaternion.identity);
         Instantiate(effect,transform.position + (Vector3.right * (isLeft ? 1 : -1) * 2),Quaternion.identity);
         cam.orthographicSize = 2;
@@ -159,10 +168,25 @@ public class Unit : MonoBehaviour
             Damage(damage - shield);
             shield = 0;
         }
-        else shield -= damage;
+        else
+        {
+            shield -= damage;
+            UIManager.instance.DamageText(damage,transform.position);
+        }
     }
     public void Damage(int damage)
     {
-        hp -= shield <= 0 ? Mathf.CeilToInt(1.5f * damage) : damage;
+        int totalDmg = 0;
+        if(shield <= 0)
+        {
+            totalDmg = Mathf.FloorToInt(2f * damage);
+            hp -= totalDmg;
+        }
+        else
+        {
+            totalDmg = damage;
+            hp -= totalDmg;
+        }
+        UIManager.instance.DamageText(totalDmg,transform.position);
     }
 }
