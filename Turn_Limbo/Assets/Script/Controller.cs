@@ -30,6 +30,8 @@ public class Controller : MonoBehaviour
 
     public bool isAttack;
 
+    [SerializeField] protected float AnimTime;
+
     public AudioClip hitSound;
     public AudioClip[] addSkillSound;
 
@@ -40,6 +42,8 @@ public class Controller : MonoBehaviour
         TurnReset();
         player.hitSound = hitSound;
         enemy.hitSound = hitSound;
+        player.AnimTime = AnimTime;
+        enemy.AnimTime = AnimTime;
     }
     public void TurnReset()
     {
@@ -77,6 +81,16 @@ public class Controller : MonoBehaviour
             curTime -= Time.deltaTime;
             if (curTime <= 0) UseAttack();
         }
+        UIUpdate(player);
+        UIUpdate(enemy);
+    }
+    void UIUpdate(Unit character)
+    {
+        var ui = UIManager.instance;
+        character.requestUIParent.anchoredPosition
+        = !isAttack ? ui.cam.WorldToScreenPoint(character.transform.position
+        + new Vector3((3 - (5 - ui.cam.orthographicSize)) * (character.isLeft ? 1 : -1),3)) 
+        : new Vector3(ui.cam.WorldToScreenPoint(character.transform.position).x,900);
     }
 
     public void InitBtn()
@@ -161,7 +175,6 @@ public class Controller : MonoBehaviour
     {
         if (unit.attackRequest.Count <= 0) return 0;
         var skill = unit.attackRequest.Dequeue();
-        print($"{unit},{skill.actionType}");
         unit.curSkill = skill;
         unit.AttackStart(skill);
         unit.InitCurSkillDamage(skill);
@@ -172,7 +185,6 @@ public class Controller : MonoBehaviour
         unit.iconAnim.AppendCallback(() =>
         {
             Destroy(skill.insertImage.gameObject);
-            print("destroy");
         });
         unit.iconAnim.Play();
         return skill.animation.length;

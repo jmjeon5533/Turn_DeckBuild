@@ -56,7 +56,11 @@ public class Unit : MonoBehaviour
     public RectTransform requestUIParent;
     [SerializeField] protected RectTransform statParent;
     [SerializeField] protected Image hpImage;
+    [SerializeField] protected Image hpAnimImage;
     [SerializeField] protected Image shieldImage;
+    [SerializeField] protected Image shieldAnimImage;
+    [HideInInspector] public float AnimTime;
+    [SerializeField] private float AnimCurTime;
 
     private void Awake()
     {
@@ -72,12 +76,12 @@ public class Unit : MonoBehaviour
     }
     public virtual void TurnInit()
     {
-        if(shield <= 0 && !shieldBreak)
+        if (shield <= 0 && !shieldBreak)
         {
             shieldBreak = true;
             return;
         }
-        if(shieldBreak)
+        if (shieldBreak)
         {
             shield = maxShield;
             shieldBreak = false;
@@ -86,7 +90,6 @@ public class Unit : MonoBehaviour
     public virtual void AttackStart(RequestSkill skill)
     {
         //skill.effect.Start();
-        print(target.curSkill.actionType);
     }
     public virtual void AttackEnd(RequestSkill skill)
     {
@@ -95,58 +98,59 @@ public class Unit : MonoBehaviour
     }
     public virtual void Attacking()
     {
-        print(target.curSkill.actionType);
-        switch(target.curSkill.actionType)
+        switch (target.curSkill.actionType)
         {
             case ActionType.none:
-            {
-                target.Damage(curDamage);
-            }
-            break;
-            case ActionType.Attack:
-            {
-                target.ShieldDamage(curDamage);
-            }
-            break;
-            case ActionType.Defence:
-            {
-                target.Damage(Mathf.Clamp(curDamage - target.curDamage,0,999));
-            }
-            break;
-            case ActionType.Dodge:
-            {
-                if(target.curDamage < curDamage)
                 {
                     target.Damage(curDamage);
                 }
-            }
-            break;
+                break;
+            case ActionType.Attack:
+                {
+                    target.ShieldDamage(curDamage);
+                }
+                break;
+            case ActionType.Defence:
+                {
+                    target.Damage(Mathf.Clamp(curDamage - target.curDamage, 0, 999));
+                }
+                break;
+            case ActionType.Dodge:
+                {
+                    if (target.curDamage < curDamage)
+                    {
+                        target.Damage(curDamage);
+                    }
+                }
+                break;
         }
         //skill.effect.Attacking();
         var cam = UIManager.instance.cam;
         cam.transform.position = cam.transform.position + ((Vector3)Random.insideUnitCircle.normalized * 1);
-        SoundManager.instance.SetAudio(hitSound,false);
+        SoundManager.instance.SetAudio(hitSound, false);
         //Instantiate(curSkill.effect.Hitparticles[0],transform.position,Quaternion.identity);
-        Instantiate(effect,transform.position + (Vector3.right * (isLeft ? 1 : -1) * 2),Quaternion.identity);
+        Instantiate(effect, transform.position + (Vector3.right * (isLeft ? 1 : -1) * 2), Quaternion.identity);
         cam.orthographicSize = 2;
     }
     void UIUpdate()
     {
         var ui = UIManager.instance;
-        statParent.anchoredPosition 
-        = ui.cam.WorldToScreenPoint(transform.position + (new Vector3(-2f,0) * (isLeft ? 1 : -1)));
+        statParent.anchoredPosition
+        = ui.cam.WorldToScreenPoint(transform.position + (new Vector3(-2f, 0) * (isLeft ? 1 : -1)));
         hpImage.fillAmount = (float)hp / maxHP;
+        if (AnimCurTime <= 0)
+        {
+            hpAnimImage.fillAmount = Mathf.MoveTowards(hpAnimImage.fillAmount, hpImage.fillAmount, Time.deltaTime);
+            shieldAnimImage.fillAmount = Mathf.MoveTowards(shieldAnimImage.fillAmount, shieldImage.fillAmount, Time.deltaTime);
+        }
+        else AnimCurTime -= Time.deltaTime;
         shieldImage.fillAmount = (float)shield / maxShield;
 
-        requestUIParent.anchoredPosition 
-        = ui.cam.WorldToScreenPoint(transform.position
-        + new Vector3((3 - (5 - ui.cam.orthographicSize)) * (isLeft ? 1 : -1),2.5f + (5 - ui.cam.orthographicSize) * 0.5f));
         requestUIParent.localScale = Vector3.one * (1 + (5 - ui.cam.orthographicSize) * 0.3f);
     }
     public void InitCurSkillDamage(RequestSkill skill)
     {
-        curDamage = Mathf.FloorToInt((float)Random.Range(skill.minDamage,skill.maxDamage + 1) / skill.attackCount);
-        print($"name = {skill.skillName}, Damage = {curDamage} : SkillDmg = {skill.minDamage}, {skill.maxDamage} : count = {skill.attackCount}");
+        curDamage = Mathf.FloorToInt((float)Random.Range(skill.minDamage, skill.maxDamage + 1) / skill.attackCount);
     }
     public RequestSkill ConvertRequest(Skill skill)
     {
@@ -163,21 +167,23 @@ public class Unit : MonoBehaviour
     }
     public void ShieldDamage(int damage)
     {
-        if(shield <= damage)
+        if (shield <= damage)
         {
             Damage(damage - shield);
             shield = 0;
         }
         else
         {
+            AnimCurTime = AnimTime;
             shield -= damage;
-            UIManager.instance.DamageText(damage,transform.position);
+            UIManager.instance.DamageText(damage, transform.position);
+            StartCoroutine(HitAnimation(curDamage));
         }
     }
     public void Damage(int damage)
     {
         int totalDmg = 0;
-        if(shield <= 0)
+        if (shield <= 0)
         {
             totalDmg = Mathf.FloorToInt(2f * damage);
             hp -= totalDmg;
@@ -187,6 +193,24 @@ public class Unit : MonoBehaviour
             totalDmg = damage;
             hp -= totalDmg;
         }
-        UIManager.instance.DamageText(totalDmg,transform.position);
+        AnimCurTime = AnimTime;
+        UIManager.instance.DamageText(totalDmg, transform.position);
+        StartCoroutine(HitAnimation(curDamage));
+    }
+    IEnumerator HitAnimation(int damage)
+    {
+        var wait = new WaitForSeconds(0.1f);
+        var curPos = transform.position;
+        int[] dir = { -1, 1 };
+
+        var addValue = Mathf.InverseLerp(0, 30, Mathf.Clamp(damage, 0, 30)) + 1;
+        var value = new Vector3(dir[Random.Range(0, 2)] * 0.5f * addValue, 0, 0);
+        print($"{addValue},{value.magnitude}");
+
+        transform.position += value;
+        yield return wait;
+        transform.position -= value * 1.5f;
+        yield return wait;
+        transform.position = curPos;
     }
 }
