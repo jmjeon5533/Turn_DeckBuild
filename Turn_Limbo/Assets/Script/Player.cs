@@ -10,4 +10,8 @@ public class Player : Unit
     {
         base.Update();
     }
+    protected override void FatalDamage()
+    {
+        UIManager.instance.FatalDamage();
+    }
 }

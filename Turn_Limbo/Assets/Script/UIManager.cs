@@ -13,8 +13,10 @@ public class UIManager : MonoBehaviour
         instance = this;
     }
     public Camera cam;
+    public Camera bgCam;
     [SerializeField] Controller controller;
     [SerializeField] Image[] keys;
+    [SerializeField] Image[] nextKeys;
     [SerializeField] TMP_Text coinText;
     
     [SerializeField] Transform dmgTextParent;
@@ -30,9 +32,14 @@ public class UIManager : MonoBehaviour
         }
         else
         {
-            cam.orthographicSize = Mathf.Lerp(cam.orthographicSize,5,0.1f);
+            cam.orthographicSize = Mathf.Lerp(cam.orthographicSize,5 - Mathf.InverseLerp(10,0,controller.curTime),0.1f);
             timer.fillAmount = controller.curTime / 10;
         }
+        bgCam.orthographicSize = cam.orthographicSize;
+    }
+    public void FatalDamage()
+    {
+        controller.glitch.intensity.value = 1;
     }
     public Image AddImage(Sprite sprite,Transform parent)
     {
@@ -54,13 +61,15 @@ public class UIManager : MonoBehaviour
         for(int i = 0; i < keys.Length; i++)
         {
             keys[i].enabled = isActive;
+            nextKeys[i].enabled = isActive;
         }
         coinText.enabled = isActive;
         timer.enabled = isActive;
     }
-    public void NextImage(int index,Sprite sprite)
+    public void NextImage(int index,Sprite sprite, Sprite nextSprite)
     {
         keys[index].sprite = sprite;
+        nextKeys[index].sprite = nextSprite;
     }
     public void DamageText(int damage,Vector3 pos)
     {

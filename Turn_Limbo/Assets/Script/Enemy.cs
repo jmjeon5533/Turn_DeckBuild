@@ -7,8 +7,8 @@ public class Enemy : Unit
     public int skillCurCount = 0;
     public int requestMaxCount = 4;
     public int requestMinCount = 1;
-    private void Start()
+    protected override void FatalDamage()
     {
-
+        
     }
 }

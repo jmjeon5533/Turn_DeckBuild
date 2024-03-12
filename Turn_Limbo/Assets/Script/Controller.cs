@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using System.Linq;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 [System.Serializable]
 public class Skill
@@ -11,6 +13,7 @@ public class Skill
     public int minDamage;
     public int maxDamage;
     public int attackCount;
+    public KeyCode key;
     public SkillScript effect;
     public Sprite icon;
     public AnimationClip animation;
@@ -30,6 +33,10 @@ public class Controller : MonoBehaviour
 
     public bool isAttack;
 
+    public VolumeProfile volume;
+    [HideInInspector] public ChromaticAberration glitch;
+    [HideInInspector] public DepthOfField depth;
+
     [SerializeField] protected float AnimTime;
 
     public AudioClip hitSound;
@@ -37,6 +44,11 @@ public class Controller : MonoBehaviour
 
     public Dictionary<KeyCode, List<Skill>> inputs = new();
     private static readonly KeyCode[] KEY_CODES = { KeyCode.Q, KeyCode.W, KeyCode.E };
+    private void Awake()
+    {
+        volume.TryGet(out glitch);
+        volume.TryGet(out depth);
+    }
     void Start()
     {
         TurnReset();
@@ -44,11 +56,13 @@ public class Controller : MonoBehaviour
         enemy.hitSound = hitSound;
         player.AnimTime = AnimTime;
         enemy.AnimTime = AnimTime;
+
+        depth.focalLength.value = 1;
     }
     public void TurnReset()
     {
         curTime = 10;
-        useAbleCoin += 5;
+        useAbleCoin += 3;
         UIManager.instance.ChangeCoinSkillImg();
 
         player.TurnInit();
@@ -61,43 +75,49 @@ public class Controller : MonoBehaviour
     }
     public void InitEnemy()
     {
+        var d = DataManager.instance;
         var skillArray = inputs.Values.ToArray();
-        var coinCount = Random.Range(enemy.requestMinCount, enemy.requestMaxCount);
+        var coinCount = Random.Range(enemy.requestMinCount, enemy.requestMaxCount + 1);
         for (int i = 0; i < coinCount; i++)
         {
-            AddRequest(enemy, inputLists[enemy.skillInfo.holdIndex[enemy.skillCurCount % enemy.skillInfo.holdIndex.Count]]);
+            AddRequest(enemy, d.SkillList[d.skillEffects[1].holdIndex[enemy.skillCurCount % d.skillEffects[1].holdIndex.Count]]);
             enemy.skillCurCount++;
         }
     }
     void Update()
     {
+        int blurValue = 0;
         CheckInput();
         if (Input.GetKeyDown(KeyCode.A) && !isAttack)
         {
             UseAttack();
         }
-        if (!isAttack)
+        if (isAttack) blurValue = 500;
+        else
         {
+            blurValue = 1;
             curTime -= Time.deltaTime;
             if (curTime <= 0) UseAttack();
         }
         UIUpdate(player);
         UIUpdate(enemy);
+        depth.focalLength.value = Mathf.MoveTowards(depth.focalLength.value,blurValue,Time.deltaTime * 500);
+        glitch.intensity.value = Mathf.MoveTowards(glitch.intensity.value,0,Time.deltaTime);
     }
     void UIUpdate(Unit character)
     {
         var ui = UIManager.instance;
         character.requestUIParent.anchoredPosition
         = !isAttack ? ui.cam.WorldToScreenPoint(character.transform.position
-        + new Vector3((3 - (5 - ui.cam.orthographicSize)) * (character.isLeft ? 1 : -1),3)) 
-        : new Vector3(ui.cam.WorldToScreenPoint(character.transform.position).x,900);
+        + new Vector3((3 - (5 - ui.cam.orthographicSize)) * (character.isLeft ? 1 : -1), 3))
+        : new Vector3(ui.cam.WorldToScreenPoint(character.transform.position).x, 900);
     }
 
     public void InitBtn()
     {
         for (int i = 0; i < KEY_CODES.Length; i++)
         {
-            UIManager.instance.NextImage(i, inputs[KEY_CODES[i]][0].icon);
+            UIManager.instance.NextImage(i, inputs[KEY_CODES[i]][0].icon, inputs[KEY_CODES[i]][1].icon);
         }
     }
     public void AddRequest(Unit target, Skill addSkill)
@@ -111,7 +131,7 @@ public class Controller : MonoBehaviour
     }
     private void CheckInput()
     {
-        if(useAbleCoin <= 0) return;
+        if (useAbleCoin <= 0) return;
         for (int i = 0; i < KEY_CODES.Length; i++)
         {
             KeyCode keyCode = KEY_CODES[i];
@@ -122,8 +142,8 @@ public class Controller : MonoBehaviour
                 SwapSkills(input);
                 useAbleCoin--;
                 UIManager.instance.ChangeCoinSkillImg();
-                UIManager.instance.NextImage(i, input[0].icon);
-                SoundManager.instance.SetAudio(addSkillSound[Random.Range(0,addSkillSound.Length)],false);
+                UIManager.instance.NextImage(i, input[0].icon, input[1].icon);
+                SoundManager.instance.SetAudio(addSkillSound[Random.Range(0, addSkillSound.Length)], false);
             }
         }
     }

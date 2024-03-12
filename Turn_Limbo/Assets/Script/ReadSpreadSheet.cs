@@ -36,6 +36,7 @@ public class ReadSpreadSheet : MonoBehaviour
 
     public void ParseSkillData(string data)
     {
+        var d = DataManager.instance;
         string[] rows = data.Split('\n');
         for (int i = 1; i < rows.Length; i++)
         {   
@@ -51,17 +52,19 @@ public class ReadSpreadSheet : MonoBehaviour
                 maxDamage = int.Parse(columns[7]),
                 attackCount = int.Parse(columns[8]),
                 //effect = controller.skills[int.Parse(columns[0])],
+                key = keyCode,
                 actionType = columns[3].EnumParse<Unit.ActionType>(),
                 animation = Resources.Load<AnimationClip>($"Animation/Player/{columns[10].Trim()}"),
-                icon = Resources.Load<Sprite>($"Icon/skill{int.Parse(columns[0]) + 1}")
+                icon = Resources.Load<Sprite>($"Icon/skill{int.Parse(columns[0])}")
             };
             skillLists.Add(newSkill);
             skillDatas[keyCode].Add(newSkill);
         }
-        controller.inputs = new Dictionary<KeyCode, List<Skill>>(skillDatas);
-        controller.inputLists = new List<Skill>(skillLists);
-        controller.InitEnemy();
-        controller.InitBtn();
+        d.skillData = new Dictionary<KeyCode, List<Skill>>(skillDatas);
+        d.SkillList = new List<Skill>(skillLists);
+        d.GivePlayerSkill();
+        //controller.inputs = new Dictionary<KeyCode, List<Skill>>(skillDatas);
+        //controller.inputLists = new List<Skill>(skillLists);
     }
     // public void ParseEnemyData(string data)
     // {

@@ -16,7 +16,7 @@ public struct RequestSkill
     public AnimationClip animation;
     public Unit.ActionType actionType;
 }
-public class Unit : MonoBehaviour
+public abstract class Unit : MonoBehaviour
 {
     public enum ActionType
     {
@@ -51,7 +51,6 @@ public class Unit : MonoBehaviour
     [HideInInspector] public Animator anim;
     [HideInInspector] public bool isLeft;
     [HideInInspector] public Sequence iconAnim;
-    public SkillEffect skillInfo;
 
     public RectTransform requestUIParent;
     [SerializeField] protected RectTransform statParent;
@@ -167,19 +166,22 @@ public class Unit : MonoBehaviour
     }
     public void ShieldDamage(int damage)
     {
+        var u = UIManager.instance;
         if (shield <= damage)
         {
             Damage(damage - shield);
+            if(shield > 0) FatalDamage();
             shield = 0;
         }
         else
         {
             AnimCurTime = AnimTime;
             shield -= damage;
-            UIManager.instance.DamageText(damage, transform.position);
+            u.DamageText(damage, transform.position);
             StartCoroutine(HitAnimation(curDamage));
         }
     }
+    protected abstract void FatalDamage();
     public void Damage(int damage)
     {
         int totalDmg = 0;
@@ -194,6 +196,7 @@ public class Unit : MonoBehaviour
             hp -= totalDmg;
         }
         AnimCurTime = AnimTime;
+        if(totalDmg >= 12) FatalDamage();
         UIManager.instance.DamageText(totalDmg, transform.position);
         StartCoroutine(HitAnimation(curDamage));
     }
