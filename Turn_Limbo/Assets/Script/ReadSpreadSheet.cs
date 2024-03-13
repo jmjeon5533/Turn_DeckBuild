@@ -52,7 +52,7 @@ public class ReadSpreadSheet : MonoBehaviour
                 maxDamage = int.Parse(columns[7]),
                 attackCount = int.Parse(columns[8]),
                 //effect = controller.skills[int.Parse(columns[0])],
-                key = keyCode,
+                keyIndex = int.Parse(columns[1]) - 1,
                 actionType = columns[3].EnumParse<Unit.ActionType>(),
                 animation = Resources.Load<AnimationClip>($"Animation/Player/{columns[10].Trim()}"),
                 icon = Resources.Load<Sprite>($"Icon/skill{int.Parse(columns[0])}")

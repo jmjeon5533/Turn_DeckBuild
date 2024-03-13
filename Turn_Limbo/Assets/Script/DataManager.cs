@@ -19,7 +19,7 @@ public class DataManager : MonoBehaviour
         {
             var skill = SkillList[skillEffects[0].holdIndex[i]];
             controller.inputLists.Add(skill);
-            KeyCode keyCode = skill.key;
+            int keyCode = skill.keyIndex;
             if (!controller.inputs.ContainsKey(keyCode))
                 controller.inputs.Add(keyCode, new List<Skill>());
 

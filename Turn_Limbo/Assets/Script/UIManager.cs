@@ -14,8 +14,8 @@ public class UIManager : MonoBehaviour
     }
     public Camera cam;
     public Camera bgCam;
+    public Image[] keys;
     [SerializeField] Controller controller;
-    [SerializeField] Image[] keys;
     [SerializeField] Image[] nextKeys;
     [SerializeField] TMP_Text coinText;
     
@@ -65,6 +65,7 @@ public class UIManager : MonoBehaviour
         }
         coinText.enabled = isActive;
         timer.enabled = isActive;
+        controller.cursorImage.enabled = isActive;
     }
     public void NextImage(int index,Sprite sprite, Sprite nextSprite)
     {

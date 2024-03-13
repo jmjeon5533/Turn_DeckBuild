@@ -5,6 +5,7 @@ using DG.Tweening;
 using System.Linq;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.UI;
 
 [System.Serializable]
 public class Skill
@@ -13,7 +14,7 @@ public class Skill
     public int minDamage;
     public int maxDamage;
     public int attackCount;
-    public KeyCode key;
+    public int keyIndex;
     public SkillScript effect;
     public Sprite icon;
     public AnimationClip animation;
@@ -25,6 +26,8 @@ public class Controller : MonoBehaviour
     public Player player;
     public Enemy enemy;
     public Vector3 movePos;
+    public int cursorIndex;
+    public Image cursorImage;
     public List<SkillScript> skills = new();
     public List<Skill> inputLists = new();
 
@@ -42,8 +45,8 @@ public class Controller : MonoBehaviour
     public AudioClip hitSound;
     public AudioClip[] addSkillSound;
 
-    public Dictionary<KeyCode, List<Skill>> inputs = new();
-    private static readonly KeyCode[] KEY_CODES = { KeyCode.Q, KeyCode.W, KeyCode.E };
+    public Dictionary<int, List<Skill>> inputs = new();
+    private readonly KeyCode[] cursorKeys = { KeyCode.LeftArrow, KeyCode.RightArrow };
     private void Awake()
     {
         volume.TryGet(out glitch);
@@ -58,6 +61,8 @@ public class Controller : MonoBehaviour
         enemy.AnimTime = AnimTime;
 
         depth.focalLength.value = 1;
+
+        cursorIndex = 0;
     }
     public void TurnReset()
     {
@@ -101,8 +106,8 @@ public class Controller : MonoBehaviour
         }
         UIUpdate(player);
         UIUpdate(enemy);
-        depth.focalLength.value = Mathf.MoveTowards(depth.focalLength.value,blurValue,Time.deltaTime * 500);
-        glitch.intensity.value = Mathf.MoveTowards(glitch.intensity.value,0,Time.deltaTime);
+        depth.focalLength.value = Mathf.MoveTowards(depth.focalLength.value, blurValue, Time.deltaTime * 500);
+        glitch.intensity.value = Mathf.MoveTowards(glitch.intensity.value, 0, Time.deltaTime);
     }
     void UIUpdate(Unit character)
     {
@@ -115,9 +120,9 @@ public class Controller : MonoBehaviour
 
     public void InitBtn()
     {
-        for (int i = 0; i < KEY_CODES.Length; i++)
+        for (int i = 0; i < 3; i++)
         {
-            UIManager.instance.NextImage(i, inputs[KEY_CODES[i]][0].icon, inputs[KEY_CODES[i]][1].icon);
+            UIManager.instance.NextImage(i, inputs[i][0].icon, inputs[i][1].icon);
         }
     }
     public void AddRequest(Unit target, Skill addSkill)
@@ -131,19 +136,27 @@ public class Controller : MonoBehaviour
     }
     private void CheckInput()
     {
+        int[] plusIndex = { -1, 1 };
         if (useAbleCoin <= 0) return;
-        for (int i = 0; i < KEY_CODES.Length; i++)
+        if (Input.GetKeyDown(KeyCode.LeftShift))
         {
-            KeyCode keyCode = KEY_CODES[i];
-            if (Input.GetKeyDown(keyCode))
+            var input = inputs[cursorIndex];
+            AddRequest(player, input[0]);
+            SwapSkills(input);
+            useAbleCoin--;
+            UIManager.instance.ChangeCoinSkillImg();
+            UIManager.instance.NextImage(cursorIndex, input[0].icon, input[1].icon);
+            SoundManager.instance.SetAudio(addSkillSound[Random.Range(0, addSkillSound.Length)], false);
+        }
+        for (int i = 0; i < cursorKeys.Length; i++)
+        {
+            if (Input.GetKeyDown(cursorKeys[i]))
             {
-                var input = inputs[keyCode];
-                AddRequest(player, input[0]);
-                SwapSkills(input);
-                useAbleCoin--;
-                UIManager.instance.ChangeCoinSkillImg();
-                UIManager.instance.NextImage(i, input[0].icon, input[1].icon);
-                SoundManager.instance.SetAudio(addSkillSound[Random.Range(0, addSkillSound.Length)], false);
+                var ui = UIManager.instance;
+                cursorIndex += plusIndex[i];
+                if (cursorIndex <= -1) cursorIndex = ui.keys.Length - 1;
+                else if (cursorIndex >= ui.keys.Length) cursorIndex = 0;
+                cursorImage.transform.position = ui.keys[cursorIndex].transform.position;
             }
         }
     }
