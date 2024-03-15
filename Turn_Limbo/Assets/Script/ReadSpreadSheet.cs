@@ -11,6 +11,7 @@ public class ReadSpreadSheet : MonoBehaviour
     public readonly long[] SHEET_ID = { 1705787959};
 
     public Dictionary<KeyCode, List<Skill>> skillDatas = new();
+    public List<SkillScript> skillScripts = new();
     public List<Skill> skillLists = new();
 
     [SerializeField] private Controller controller;
@@ -51,9 +52,10 @@ public class ReadSpreadSheet : MonoBehaviour
                 minDamage = int.Parse(columns[6]),
                 maxDamage = int.Parse(columns[7]),
                 attackCount = int.Parse(columns[8]),
-                //effect = controller.skills[int.Parse(columns[0])],
+                effect = skillScripts[int.Parse(columns[0])],
                 keyIndex = int.Parse(columns[1]) - 1,
                 actionType = columns[3].EnumParse<Unit.ActionType>(),
+                propertyType = columns[4].EnumParse<Unit.PropertyType>(),
                 animation = Resources.Load<AnimationClip>($"Animation/Player/{columns[10].Trim()}"),
                 icon = Resources.Load<Sprite>($"Icon/skill{int.Parse(columns[0])}")
             };

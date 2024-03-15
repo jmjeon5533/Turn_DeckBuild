@@ -15,7 +15,23 @@ public struct RequestSkill
     public Image insertImage;
     public AnimationClip animation;
     public Unit.ActionType actionType;
+    public Unit.PropertyType propertyType;
 }
+
+public class Buff
+{
+    public Buff_Base curBuff;
+    public int stack;
+    public bool isDisposable;
+
+    public Buff(Buff_Base _curBuff, int _stack, bool _isDisposable = false)
+    {
+        curBuff = _curBuff;
+        stack = _stack;
+        isDisposable = _isDisposable;
+    }
+}
+
 public abstract class Unit : MonoBehaviour
 {
     public enum ActionType
@@ -27,8 +43,16 @@ public abstract class Unit : MonoBehaviour
     }
     public enum PropertyType
     {
+        AllType,
+        Slash,
+        Hit,
+        Penetrate,
+        Defense    }
+    [HideInInspector] public List<Buff> turnStart = new();
+    [HideInInspector] public List<Buff> turnEnd = new();
+    [HideInInspector] public List<Buff> battleEnd = new();
+    [HideInInspector] public List<Buff> inUse = new();
 
-    }
     public Queue<RequestSkill> attackRequest = new Queue<RequestSkill>();
     public int hp;
     public int maxHP;
@@ -39,6 +63,10 @@ public abstract class Unit : MonoBehaviour
     public bool shieldBreak;
 
     public int curDamage;
+    public float attack_Drainage;
+    public float defense_Drainage;
+    public bool isAttack;
+
     public Unit target;
     public RequestSkill curSkill;
     public readonly RequestSkill nullSkill = new RequestSkill()
@@ -88,11 +116,20 @@ public abstract class Unit : MonoBehaviour
     }
     public virtual void AttackStart(RequestSkill skill)
     {
-        //skill.effect.Start();
+        for (int i = 0; i < turnStart.Count; i++)
+        {
+            turnStart[i].curBuff.Use(this, turnStart[i].stack);
+
+            if(turnStart[i].isDisposable) turnStart.Remove(turnStart[i]);
+            else turnStart[i].stack--;
+        }
+
+        curSkill.effect.Setting(this, target);
     }
     public virtual void AttackEnd(RequestSkill skill)
     {
-        //skill.effect.End();
+        Debug.Log($"{this == null} {target == null} {curSkill.effect == null}");
+        curSkill.effect.End(this, target);
         curSkill = nullSkill;
     }
     public virtual void Attacking()
@@ -123,7 +160,7 @@ public abstract class Unit : MonoBehaviour
                 }
                 break;
         }
-        //skill.effect.Attacking();
+        //curSkill.effect.Attack(this, target);
         var cam = UIManager.instance.cam;
         cam.transform.position = cam.transform.position + ((Vector3)Random.insideUnitCircle.normalized * 1);
         SoundManager.instance.SetAudio(hitSound, false);
@@ -147,9 +184,9 @@ public abstract class Unit : MonoBehaviour
 
         requestUIParent.localScale = Vector3.one * (1 + (5 - ui.cam.orthographicSize) * 0.3f);
     }
-    public void InitCurSkillDamage(RequestSkill skill)
+    public void InitCurSkillDamage(int min, int max, int count)
     {
-        curDamage = Mathf.FloorToInt((float)Random.Range(skill.minDamage, skill.maxDamage + 1) / skill.attackCount);
+        curDamage = Mathf.FloorToInt((float)UnityEngine.Random.Range(min, max + 1) * attack_Drainage / count);
     }
     public RequestSkill ConvertRequest(Skill skill)
     {
@@ -162,6 +199,7 @@ public abstract class Unit : MonoBehaviour
         newRequest.effect = skill.effect;
         newRequest.icon = skill.icon;
         newRequest.skillName = skill.skillName;
+        newRequest.propertyType = skill.propertyType;
         return newRequest;
     }
     public void ShieldDamage(int damage)
@@ -170,7 +208,7 @@ public abstract class Unit : MonoBehaviour
         if (shield <= damage)
         {
             Damage(damage - shield);
-            if(shield > 0) FatalDamage();
+            if (shield > 0) FatalDamage();
             shield = 0;
         }
         else
@@ -196,7 +234,7 @@ public abstract class Unit : MonoBehaviour
             hp -= totalDmg;
         }
         AnimCurTime = AnimTime;
-        if(totalDmg >= 12) FatalDamage();
+        if (totalDmg >= 12) FatalDamage();
         UIManager.instance.DamageText(totalDmg, transform.position);
         StartCoroutine(HitAnimation(curDamage));
     }

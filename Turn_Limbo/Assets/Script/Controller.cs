@@ -19,6 +19,7 @@ public class Skill
     public Sprite icon;
     public AnimationClip animation;
     public Unit.ActionType actionType;
+    public Unit.PropertyType propertyType;
 }
 
 public class Controller : MonoBehaviour
@@ -28,7 +29,6 @@ public class Controller : MonoBehaviour
     public Vector3 movePos;
     public int cursorIndex;
     public Image cursorImage;
-    public List<SkillScript> skills = new();
     public List<Skill> inputLists = new();
 
     public float curTime;
@@ -210,7 +210,7 @@ public class Controller : MonoBehaviour
         var skill = unit.attackRequest.Dequeue();
         unit.curSkill = skill;
         unit.AttackStart(skill);
-        unit.InitCurSkillDamage(skill);
+        unit.InitCurSkillDamage(skill.minDamage, skill.maxDamage, skill.attackCount);
         unit.anim.Play(skill.animation.name);
         unit.iconAnim = DOTween.Sequence();
         unit.iconAnim.Append(skill.insertImage.transform.DOScale(1.5f, 0.5f).SetEase(Ease.OutQuint));
