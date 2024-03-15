@@ -42,6 +42,7 @@ public class Controller : MonoBehaviour
     public VolumeProfile volume;
     [HideInInspector] public ChromaticAberration glitch;
     [HideInInspector] public DepthOfField depth;
+    [HideInInspector] public ColorAdjustments color;
 
     [SerializeField] protected float AnimTime;
 
@@ -54,6 +55,7 @@ public class Controller : MonoBehaviour
     {
         volume.TryGet(out glitch);
         volume.TryGet(out depth);
+        volume.TryGet(out color);
     }
     void Start()
     {
@@ -64,6 +66,8 @@ public class Controller : MonoBehaviour
         enemy.AnimTime = AnimTime;
 
         depth.focalLength.value = 1;
+        color.postExposure.value = 0;
+        color.saturation.value = 0;
 
         cursorIndex = 0;
     }
@@ -103,6 +107,12 @@ public class Controller : MonoBehaviour
             curTime -= Time.deltaTime;
             if (curTime <= 0) UseAttack();
         }
+        UIUpdate(player);
+        UIUpdate(enemy);
+        depth.focalLength.value = Mathf.MoveTowards(depth.focalLength.value, blurValue, Time.deltaTime * 375);
+        glitch.intensity.value = Mathf.MoveTowards(glitch.intensity.value, 0, Time.deltaTime * 0.75f);
+        color.postExposure.value = Mathf.MoveTowards(color.postExposure.value, 0, Time.deltaTime * 0.75f);
+        color.saturation.value = Mathf.MoveTowards(color.saturation.value, 0, Time.deltaTime * 60);
         depth.focalLength.value = Mathf.MoveTowards(depth.focalLength.value, blurValue, Time.deltaTime * 500);
         glitch.intensity.value = Mathf.MoveTowards(glitch.intensity.value, 0, Time.deltaTime);
 

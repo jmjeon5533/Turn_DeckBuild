@@ -51,6 +51,8 @@ public class UIManager : MonoBehaviour
     public void FatalDamage()
     {
         controller.glitch.intensity.value = 1;
+        controller.color.saturation.value = -80;
+        controller.color.postExposure.value = 1;
     }
     public Image AddImage(Sprite sprite,Transform parent)
     {

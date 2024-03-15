@@ -3969,6 +3969,7 @@ MonoBehaviour:
   volume: {fileID: 11400000, guid: 72a2e1dd5db4404458eb0cd8ea9798eb, type: 2}
   glitch: {fileID: 0}
   depth: {fileID: 0}
+  color: {fileID: 0}
   AnimTime: 0.65
   hitSound: {fileID: 8300000, guid: ca1b554fb27e3ee47b09922655e3d343, type: 3}
   addSkillSound:
