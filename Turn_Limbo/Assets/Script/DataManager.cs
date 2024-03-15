@@ -27,5 +27,6 @@ public class DataManager : MonoBehaviour
         }
         controller.InitEnemy();
         controller.InitBtn();
+        controller.isGame = true;
     }
 }

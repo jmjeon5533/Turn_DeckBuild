@@ -12,11 +12,15 @@ public class UIManager : MonoBehaviour
     {
         instance = this;
     }
+    public float camRotZ = 0;
+    public bool isCamRotate;
     public Camera cam;
     public Camera bgCam;
+    
+    public Image inputPanel;
     public Image[] keys;
-    [SerializeField] Controller controller;
     [SerializeField] Image[] nextKeys;
+    [SerializeField] Controller controller;
     [SerializeField] TMP_Text coinText;
     
     [SerializeField] Transform dmgTextParent;
@@ -24,17 +28,24 @@ public class UIManager : MonoBehaviour
     [SerializeField] Image timer;
     public TMP_Text damageText;
 
-    private void Update() {
-        cam.transform.position = Vector3.Lerp(cam.transform.position,controller.movePos + (Vector3.forward * -10),0.1f);
+    private void Update()
+    {
+        if(!controller.isGame) return;
+        if(isCamRotate) 
+        cam.transform.rotation = Quaternion.Lerp(cam.transform.rotation, Quaternion.Euler(Vector3.forward * camRotZ), 0.05f);
+        Vector3 camPos; 
         if(controller.isAttack)
         {
             cam.orthographicSize = Mathf.Lerp(cam.orthographicSize,3.5f,0.1f);
+            camPos = new Vector3(0, 0,-10);
         }
         else
         {
-            cam.orthographicSize = Mathf.Lerp(cam.orthographicSize,5 - Mathf.InverseLerp(10,0,controller.curTime),0.1f);
+            cam.orthographicSize = Mathf.Lerp(cam.orthographicSize,6 - Mathf.InverseLerp(10,0,controller.curTime),0.1f);
             timer.fillAmount = controller.curTime / 10;
+            camPos = new Vector3(0, -1.5f,-10);
         }
+        cam.transform.position = Vector3.Lerp(cam.transform.position,controller.movePos + camPos,0.1f);
         bgCam.orthographicSize = cam.orthographicSize;
     }
     public void FatalDamage()

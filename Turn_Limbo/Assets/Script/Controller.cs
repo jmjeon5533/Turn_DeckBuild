@@ -34,7 +34,10 @@ public class Controller : MonoBehaviour
     public float curTime;
     public int useAbleCoin;
 
+    public bool isGame;
     public bool isAttack;
+
+    private int lastSign;
 
     public VolumeProfile volume;
     [HideInInspector] public ChromaticAberration glitch;
@@ -81,7 +84,6 @@ public class Controller : MonoBehaviour
     public void InitEnemy()
     {
         var d = DataManager.instance;
-        var skillArray = inputs.Values.ToArray();
         var coinCount = Random.Range(enemy.requestMinCount, enemy.requestMaxCount + 1);
         for (int i = 0; i < coinCount; i++)
         {
@@ -91,31 +93,41 @@ public class Controller : MonoBehaviour
     }
     void Update()
     {
+        UIUpdate(player);
+        UIUpdate(enemy);
         int blurValue = 0;
-        CheckInput();
-        if (Input.GetKeyDown(KeyCode.A) && !isAttack)
-        {
-            UseAttack();
-        }
-        if (isAttack) blurValue = 500;
+        if (isAttack && isGame) blurValue = 500;
         else
         {
             blurValue = 1;
             curTime -= Time.deltaTime;
             if (curTime <= 0) UseAttack();
         }
-        UIUpdate(player);
-        UIUpdate(enemy);
         depth.focalLength.value = Mathf.MoveTowards(depth.focalLength.value, blurValue, Time.deltaTime * 500);
         glitch.intensity.value = Mathf.MoveTowards(glitch.intensity.value, 0, Time.deltaTime);
+
+        if(!isGame) return;
+        
+        CheckInput();
+        if (Input.GetKeyDown(KeyCode.A) && !isAttack)
+        {
+            UseAttack();
+        }
     }
     void UIUpdate(Unit character)
     {
         var ui = UIManager.instance;
-        character.requestUIParent.anchoredPosition
-        = !isAttack ? ui.cam.WorldToScreenPoint(character.transform.position
-        + new Vector3((3 - (5 - ui.cam.orthographicSize)) * (character.isLeft ? 1 : -1), 3))
+        var requestPos = !isAttack ? ui.cam.WorldToScreenPoint(character.transform.position
+        + new Vector3((2 - (5 - ui.cam.orthographicSize)) * (character.isLeft ? 1 : -1), 2))
         : new Vector3(ui.cam.WorldToScreenPoint(character.transform.position).x, 900);
+
+        character.requestUIParent.anchoredPosition
+        = Vector3.Lerp(character.requestUIParent.anchoredPosition, requestPos, 0.05f);
+
+        float scale = 0;
+        if (isAttack) scale = 1.5f;
+        else scale = 1 + (5 - ui.cam.orthographicSize) * 0.2f;
+        character.requestUIParent.localScale = Vector3.one * scale;
     }
 
     public void InitBtn()
@@ -160,6 +172,19 @@ public class Controller : MonoBehaviour
             }
         }
     }
+    public void GameEnd()
+    {
+        if(player.hp <= 0) GameOver();
+        else GameClear();
+    }
+    public void GameOver()
+    {
+        print("게임 오버");
+    }
+    public void GameClear()
+    {
+        print("게임 클리어");
+    }
 
     public void UseAttack()
     {
@@ -180,24 +205,44 @@ public class Controller : MonoBehaviour
         isAttack = true;
         Time.timeScale = 1.5f;
         UIManager.instance.cam.DOOrthoSize(3.5f, 0.5f).SetEase(Ease.OutCubic);
+        UIManager.instance.inputPanel.rectTransform.DOSizeDelta(Vector2.zero,0.5f);
         StartCoroutine(FirstAttackMove(player));
         yield return StartCoroutine(FirstAttackMove(enemy));
         var attackCount = Mathf.Max(player.attackRequest.Count, enemy.attackRequest.Count);
         for (int i = 0; i < attackCount; i++)
         {
             // yield return new WaitForSeconds(skill.animation.length + 0.1f);
+            if (lastSign == 0)
+            {
+                UIManager.instance.camRotZ = Random.Range(-20, 20);
+                lastSign = (int)Mathf.Sign(UIManager.instance.camRotZ);
+            }
+            else
+            {
+                UIManager.instance.camRotZ = -lastSign * Random.Range(5, 20);
+                lastSign *= -1;
+            }
             float waitTime = Mathf.Max(AttackAction(player), AttackAction(enemy));
             yield return new WaitForSeconds(waitTime);
             player.AttackEnd(player.curSkill);
             enemy.AttackEnd(enemy.curSkill);
+            if(player.hp <= 0 || enemy.hp <= 0)
+            {
+                isAttack = false;
+                isGame = false;
+                Time.timeScale = 1f;
+                yield break;
+            }
         }
         yield return new WaitForSeconds(0.5f);
         UIManager.instance.cam.DOOrthoSize(5f, 0.5f).SetEase(Ease.OutCubic);
 
+        UIManager.instance.camRotZ = 0;
         player.transform.DOMoveX(-3.5f * (player.isLeft ? 1 : -1), 0.5f)
         .SetEase(Ease.InOutSine).WaitForCompletion();
         yield return enemy.transform.DOMoveX(-3.5f * (enemy.isLeft ? 1 : -1), 0.5f)
         .SetEase(Ease.InOutSine).WaitForCompletion();
+        UIManager.instance.inputPanel.rectTransform.sizeDelta = new Vector2(0,400);
         Time.timeScale = 1f;
         isAttack = false;
         UIManager.instance.ActiveBtn(true);

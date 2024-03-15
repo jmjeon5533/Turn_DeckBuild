@@ -126,6 +126,7 @@ public abstract class Unit : MonoBehaviour
         //skill.effect.Attacking();
         var cam = UIManager.instance.cam;
         cam.transform.position = cam.transform.position + ((Vector3)Random.insideUnitCircle.normalized * 1);
+        UIManager.instance.camRotZ -=  Random.Range(UIManager.instance.camRotZ/2,UIManager.instance.camRotZ*2.5f);
         SoundManager.instance.SetAudio(hitSound, false);
         //Instantiate(curSkill.effect.Hitparticles[0],transform.position,Quaternion.identity);
         Instantiate(effect, transform.position + (Vector3.right * (isLeft ? 1 : -1) * 2), Quaternion.identity);
@@ -144,8 +145,6 @@ public abstract class Unit : MonoBehaviour
         }
         else AnimCurTime -= Time.deltaTime;
         shieldImage.fillAmount = (float)shield / maxShield;
-
-        requestUIParent.localScale = Vector3.one * (1 + (5 - ui.cam.orthographicSize) * 0.3f);
     }
     public void InitCurSkillDamage(RequestSkill skill)
     {
