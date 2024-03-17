@@ -54,7 +54,7 @@ public class ReadSpreadSheet : MonoBehaviour
                 //effect = controller.skills[int.Parse(columns[0])],
                 keyIndex = int.Parse(columns[1]) - 1,
                 actionType = columns[3].EnumParse<Unit.ActionType>(),
-                animation = Resources.Load<AnimationClip>($"Animation/Player/{columns[10].Trim()}"),
+                animationName = columns[10],
                 icon = Resources.Load<Sprite>($"Icon/skill{int.Parse(columns[0])}")
             };
             skillLists.Add(newSkill);

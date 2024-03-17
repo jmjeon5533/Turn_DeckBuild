@@ -30,6 +30,7 @@ public abstract class Unit : MonoBehaviour
 
     }
     public Queue<RequestSkill> attackRequest = new Queue<RequestSkill>();
+    public string unitName => gameObject.name;
     public int hp;
     public int maxHP;
 
@@ -58,8 +59,8 @@ public abstract class Unit : MonoBehaviour
     [SerializeField] protected Image hpAnimImage;
     [SerializeField] protected Image shieldImage;
     [SerializeField] protected Image shieldAnimImage;
-    [HideInInspector] public float AnimTime;
-    [SerializeField] private float AnimCurTime;
+    [HideInInspector] public float dmgDelayTime;
+    [SerializeField] private float dmgDelayCurTime;
 
     private void Awake()
     {
@@ -138,12 +139,12 @@ public abstract class Unit : MonoBehaviour
         statParent.anchoredPosition
         = ui.cam.WorldToScreenPoint(transform.position + (new Vector3(-2f, 0) * (isLeft ? 1 : -1)));
         hpImage.fillAmount = (float)hp / maxHP;
-        if (AnimCurTime <= 0)
+        if (dmgDelayCurTime <= 0)
         {
             hpAnimImage.fillAmount = Mathf.MoveTowards(hpAnimImage.fillAmount, hpImage.fillAmount, Time.deltaTime);
             shieldAnimImage.fillAmount = Mathf.MoveTowards(shieldAnimImage.fillAmount, shieldImage.fillAmount, Time.deltaTime);
         }
-        else AnimCurTime -= Time.deltaTime;
+        else dmgDelayCurTime -= Time.deltaTime;
         shieldImage.fillAmount = (float)shield / maxShield;
     }
     public void InitCurSkillDamage(RequestSkill skill)
@@ -153,7 +154,7 @@ public abstract class Unit : MonoBehaviour
     public RequestSkill ConvertRequest(Skill skill)
     {
         RequestSkill newRequest = new RequestSkill();
-        newRequest.animation = skill.animation;
+        newRequest.animation = Resources.Load<AnimationClip>($"Animation/{unitName.Trim()}/{skill.animationName.Trim()}");
         newRequest.minDamage = skill.minDamage;
         newRequest.maxDamage = skill.maxDamage;
         newRequest.actionType = skill.actionType;
@@ -174,7 +175,7 @@ public abstract class Unit : MonoBehaviour
         }
         else
         {
-            AnimCurTime = AnimTime;
+            dmgDelayCurTime = dmgDelayTime;
             shield -= damage;
             u.DamageText(damage, transform.position);
             StartCoroutine(HitAnimation(curDamage));
@@ -194,7 +195,7 @@ public abstract class Unit : MonoBehaviour
             totalDmg = damage;
             hp -= totalDmg;
         }
-        AnimCurTime = AnimTime;
+        dmgDelayCurTime = dmgDelayTime;
         if(totalDmg >= 12) FatalDamage();
         UIManager.instance.DamageText(totalDmg, transform.position);
         StartCoroutine(HitAnimation(curDamage));
@@ -207,7 +208,6 @@ public abstract class Unit : MonoBehaviour
 
         var addValue = Mathf.InverseLerp(0, 30, Mathf.Clamp(damage, 0, 30)) + 1;
         var value = new Vector3(dir[Random.Range(0, 2)] * 0.5f * addValue, 0, 0);
-        print($"{addValue},{value.magnitude}");
 
         transform.position += value;
         yield return wait;

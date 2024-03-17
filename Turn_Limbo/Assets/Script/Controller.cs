@@ -17,7 +17,7 @@ public class Skill
     public int keyIndex;
     public SkillScript effect;
     public Sprite icon;
-    public AnimationClip animation;
+    public string animationName;
     public Unit.ActionType actionType;
 }
 
@@ -28,6 +28,7 @@ public class Controller : MonoBehaviour
     public Vector3 movePos;
     public int cursorIndex;
     public Image cursorImage;
+    public SpriteRenderer bg;
     public List<SkillScript> skills = new();
     public List<Skill> inputLists = new();
 
@@ -62,8 +63,8 @@ public class Controller : MonoBehaviour
         TurnReset();
         player.hitSound = hitSound;
         enemy.hitSound = hitSound;
-        player.AnimTime = AnimTime;
-        enemy.AnimTime = AnimTime;
+        player.dmgDelayTime = AnimTime;
+        enemy.dmgDelayTime = AnimTime;
 
         depth.focalLength.value = 1;
         color.postExposure.value = 0;
@@ -116,13 +117,18 @@ public class Controller : MonoBehaviour
         depth.focalLength.value = Mathf.MoveTowards(depth.focalLength.value, blurValue, Time.deltaTime * 500);
         glitch.intensity.value = Mathf.MoveTowards(glitch.intensity.value, 0, Time.deltaTime);
 
-        if(!isGame) return;
-        
+        if (!isGame) return;
+
         CheckInput();
         if (Input.GetKeyDown(KeyCode.A) && !isAttack)
         {
             UseAttack();
         }
+        bool isSpace = Input.GetKey(KeyCode.Space);
+        float timeScale = isSpace ? 0.4f : 1;
+        Time.timeScale = timeScale;
+        Color bgColor = isSpace ? new Color(0.6f, 0.6f, 0.6f, 1) : Color.white;
+        bg.color = bg.color.MoveToward(bgColor, Time.deltaTime * 5f);
     }
     void UIUpdate(Unit character)
     {
@@ -184,7 +190,7 @@ public class Controller : MonoBehaviour
     }
     public void GameEnd()
     {
-        if(player.hp <= 0) GameOver();
+        if (player.hp <= 0) GameOver();
         else GameClear();
     }
     public void GameOver()
@@ -213,9 +219,8 @@ public class Controller : MonoBehaviour
     IEnumerator Attack()
     {
         isAttack = true;
-        Time.timeScale = 1.5f;
         UIManager.instance.cam.DOOrthoSize(3.5f, 0.5f).SetEase(Ease.OutCubic);
-        UIManager.instance.inputPanel.rectTransform.DOSizeDelta(Vector2.zero,0.5f);
+        UIManager.instance.inputPanel.rectTransform.DOSizeDelta(Vector2.zero, 0.5f);
         StartCoroutine(FirstAttackMove(player));
         yield return StartCoroutine(FirstAttackMove(enemy));
         var attackCount = Mathf.Max(player.attackRequest.Count, enemy.attackRequest.Count);
@@ -234,13 +239,10 @@ public class Controller : MonoBehaviour
             }
             float waitTime = Mathf.Max(AttackAction(player), AttackAction(enemy));
             yield return new WaitForSeconds(waitTime);
-            player.AttackEnd(player.curSkill);
-            enemy.AttackEnd(enemy.curSkill);
-            if(player.hp <= 0 || enemy.hp <= 0)
+            if (player.hp <= 0 || enemy.hp <= 0)
             {
                 isAttack = false;
                 isGame = false;
-                Time.timeScale = 1f;
                 yield break;
             }
         }
@@ -252,8 +254,7 @@ public class Controller : MonoBehaviour
         .SetEase(Ease.InOutSine).WaitForCompletion();
         yield return enemy.transform.DOMoveX(-3.5f * (enemy.isLeft ? 1 : -1), 0.5f)
         .SetEase(Ease.InOutSine).WaitForCompletion();
-        UIManager.instance.inputPanel.rectTransform.sizeDelta = new Vector2(0,400);
-        Time.timeScale = 1f;
+        UIManager.instance.inputPanel.rectTransform.sizeDelta = new Vector2(0, 400);
         isAttack = false;
         UIManager.instance.ActiveBtn(true);
         TurnEnd();
@@ -268,13 +269,14 @@ public class Controller : MonoBehaviour
         unit.InitCurSkillDamage(skill);
         unit.anim.Play(skill.animation.name);
         unit.iconAnim = DOTween.Sequence();
-        unit.iconAnim.Append(skill.insertImage.transform.DOScale(1.5f, 0.5f).SetEase(Ease.OutQuint));
-        unit.iconAnim.Append(skill.insertImage.transform.DOScale(0, 0.3f).SetEase(Ease.OutQuint));
+        unit.iconAnim.Append(skill.insertImage.transform.DOScale(1.5f, 0.7f * skill.animation.length).SetEase(Ease.OutQuint));
+        unit.iconAnim.Append(skill.insertImage.transform.DOScale(0, 0.5f * skill.animation.length).SetEase(Ease.OutQuint));
         unit.iconAnim.AppendCallback(() =>
         {
             Destroy(skill.insertImage.gameObject);
         });
         unit.iconAnim.Play();
+        print($"{unit.name} : {skill.animation.length}");
         return skill.animation.length;
     }
 
