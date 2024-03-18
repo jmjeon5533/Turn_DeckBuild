@@ -24,6 +24,8 @@ public class Skill
 
 public class Controller : MonoBehaviour
 {
+    public static Controller instance{get; private set;}
+
     public Player player;
     public Enemy enemy;
     public Vector3 movePos;
@@ -49,6 +51,8 @@ public class Controller : MonoBehaviour
     private readonly KeyCode[] cursorKeys = { KeyCode.LeftArrow, KeyCode.RightArrow };
     private void Awake()
     {
+        instance = this;
+
         volume.TryGet(out glitch);
         volume.TryGet(out depth);
     }
@@ -186,7 +190,9 @@ public class Controller : MonoBehaviour
         for (int i = 0; i < attackCount; i++)
         {
             // yield return new WaitForSeconds(skill.animation.length + 0.1f);
-            float waitTime = Mathf.Max(AttackAction(player), AttackAction(enemy));
+            float waitTime = Mathf.Max(AttackTime(player), AttackTime(enemy));
+            AttackStart(player); AttackStart(enemy);
+            AttackAction(player); AttackAction(enemy);
             yield return new WaitForSeconds(waitTime);
             player.AttackEnd(player.curSkill);
             enemy.AttackEnd(enemy.curSkill);
@@ -204,13 +210,26 @@ public class Controller : MonoBehaviour
         TurnEnd();
     }
 
-    float AttackAction(Unit unit)
+    float AttackTime(Unit unit)
     {
-        if (unit.attackRequest.Count <= 0) return 0;
-        var skill = unit.attackRequest.Dequeue();
-        unit.curSkill = skill;
-        unit.AttackStart(skill);
+        if (unit.attackRequest.Count <= 0) { unit.SkillInit(new()); return 0; }
+        var skill = unit.attackRequest.Peek();
+        unit.SkillInit(skill);
+
+        return skill.animation.length;
+    }
+
+    void AttackStart(Unit unit){
+        if (unit.attackRequest.Count <= 0) return;
+        var skill = unit.attackRequest.Peek();
         unit.InitCurSkillDamage(skill.minDamage, skill.maxDamage, skill.attackCount);
+        unit.AttackStart(skill);
+    }
+
+    void AttackAction(Unit unit)
+    {
+        if (unit.attackRequest.Count <= 0) return;
+        var skill = unit.attackRequest.Dequeue();
         unit.anim.Play(skill.animation.name);
         unit.iconAnim = DOTween.Sequence();
         unit.iconAnim.Append(skill.insertImage.transform.DOScale(1.5f, 0.5f).SetEase(Ease.OutQuint));
@@ -220,7 +239,6 @@ public class Controller : MonoBehaviour
             Destroy(skill.insertImage.gameObject);
         });
         unit.iconAnim.Play();
-        return skill.animation.length;
     }
 
     public void SwapSkills(List<Skill> key)

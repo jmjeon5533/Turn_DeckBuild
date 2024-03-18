@@ -21,14 +21,16 @@ public struct RequestSkill
 public class Buff
 {
     public Buff_Base curBuff;
+    public Unit.PropertyType type;
     public int stack;
-    public bool isDisposable;
+    public int count;
 
-    public Buff(Buff_Base _curBuff, int _stack, bool _isDisposable = false)
+    public Buff(Buff_Base _curBuff, int _stack, int _count, Unit.PropertyType _type = Unit.PropertyType.AllType)
     {
         curBuff = _curBuff;
+        type = _type;
         stack = _stack;
-        isDisposable = _isDisposable;
+        count = _count;
     }
 }
 
@@ -47,11 +49,12 @@ public abstract class Unit : MonoBehaviour
         Slash,
         Hit,
         Penetrate,
-        Defense    }
+        Defense
+    }
     [HideInInspector] public List<Buff> turnStart = new();
+    [HideInInspector] public List<Buff> inUse = new();
     [HideInInspector] public List<Buff> turnEnd = new();
     [HideInInspector] public List<Buff> battleEnd = new();
-    [HideInInspector] public List<Buff> inUse = new();
 
     public Queue<RequestSkill> attackRequest = new Queue<RequestSkill>();
     public int hp;
@@ -69,6 +72,7 @@ public abstract class Unit : MonoBehaviour
 
     public Unit target;
     public RequestSkill curSkill;
+    public RequestSkill usedSkill;
     public readonly RequestSkill nullSkill = new RequestSkill()
     {
         actionType = ActionType.none
@@ -103,6 +107,23 @@ public abstract class Unit : MonoBehaviour
     }
     public virtual void TurnInit()
     {
+        for (int i = 0; i < battleEnd.Count; i++)
+        {
+            var curBuff = battleEnd[i];
+
+            curBuff.curBuff.Use(this, curBuff.stack, curBuff.type);
+
+            curBuff.count--;
+            if(curBuff.count <= 0) battleEnd[i] = null;
+        }
+
+        turnStart.Clear();
+        turnEnd.Clear();
+        inUse.Clear();
+        battleEnd.Clear();
+
+        isAttack = true;
+
         if (shield <= 0 && !shieldBreak)
         {
             shieldBreak = true;
@@ -114,59 +135,88 @@ public abstract class Unit : MonoBehaviour
             shieldBreak = false;
         }
     }
+    public void SkillInit(RequestSkill skill)
+    {
+        attack_Drainage = 1;
+        defense_Drainage = 1;
+
+        usedSkill = curSkill;
+        curSkill = skill;
+    }
+
     public virtual void AttackStart(RequestSkill skill)
     {
         for (int i = 0; i < turnStart.Count; i++)
         {
-            turnStart[i].curBuff.Use(this, turnStart[i].stack);
+            var curBuff = turnStart[i];
 
-            if(turnStart[i].isDisposable) turnStart.Remove(turnStart[i]);
-            else turnStart[i].stack--;
+            curBuff.curBuff.Use(this, curBuff.stack, curBuff.type);
+
+            curBuff.count--;
+            if(curBuff.count <= 0) turnStart[i] = null;
         }
 
         curSkill.effect.Setting(this, target);
     }
-    public virtual void AttackEnd(RequestSkill skill)
-    {
-        Debug.Log($"{this == null} {target == null} {curSkill.effect == null}");
-        curSkill.effect.End(this, target);
-        curSkill = nullSkill;
-    }
     public virtual void Attacking()
     {
-        switch (target.curSkill.actionType)
+        Debug.Log($">{this.name} {curSkill.skillName} {usedSkill.skillName}");
+        if (isAttack)
         {
-            case ActionType.none:
-                {
-                    target.Damage(curDamage);
-                }
-                break;
-            case ActionType.Attack:
-                {
-                    target.ShieldDamage(curDamage);
-                }
-                break;
-            case ActionType.Defence:
-                {
-                    target.Damage(Mathf.Clamp(curDamage - target.curDamage, 0, 999));
-                }
-                break;
-            case ActionType.Dodge:
-                {
-                    if (target.curDamage < curDamage)
+            switch (target.curSkill.actionType)
+            {
+                case ActionType.none:
                     {
                         target.Damage(curDamage);
                     }
-                }
-                break;
-        }
-        //curSkill.effect.Attack(this, target);
+                    break;
+                case ActionType.Attack:
+                    {
+                        target.ShieldDamage(curDamage);
+                    }
+                    break;
+                case ActionType.Defence:
+                    {
+                        target.Damage(Mathf.Clamp(curDamage - target.curDamage, 0, 999));
+                    }
+                    break;
+                case ActionType.Dodge:
+                    {
+                        if (target.curDamage < curDamage)
+                        {
+                            target.Damage(curDamage);
+                        }
+                    }
+                    break;
+            }
+            curSkill.effect.Attack(this, target);
+        }else Debug.Log($"{this.name} Attack Break!!");
         var cam = UIManager.instance.cam;
         cam.transform.position = cam.transform.position + ((Vector3)Random.insideUnitCircle.normalized * 1);
         SoundManager.instance.SetAudio(hitSound, false);
         //Instantiate(curSkill.effect.Hitparticles[0],transform.position,Quaternion.identity);
         Instantiate(effect, transform.position + (Vector3.right * (isLeft ? 1 : -1) * 2), Quaternion.identity);
         cam.orthographicSize = 2;
+    }
+    public virtual void AttackEnd(RequestSkill skill)
+    {
+        curSkill.effect?.End(this, target);
+        
+        turnStart = ClearList(turnStart);
+        turnEnd = ClearList(turnEnd);
+        inUse = ClearList(inUse);
+        battleEnd = ClearList(battleEnd);
+
+        isAttack = true;
+    }
+    List<Buff> ClearList(List<Buff> list){
+        List<Buff> temp = new();
+
+        for(int i = 0; i < list.Count; i++){
+            if(list[i] != null) temp.Add(list[i]);
+        }
+
+        return temp;
     }
     void UIUpdate()
     {
@@ -187,6 +237,7 @@ public abstract class Unit : MonoBehaviour
     public void InitCurSkillDamage(int min, int max, int count)
     {
         curDamage = Mathf.FloorToInt((float)UnityEngine.Random.Range(min, max + 1) * attack_Drainage / count);
+        //Debug.Log($"{this.name} Damage : {curDamage} {attack_Drainage}");
     }
     public RequestSkill ConvertRequest(Skill skill)
     {
@@ -205,9 +256,11 @@ public abstract class Unit : MonoBehaviour
     public void ShieldDamage(int damage)
     {
         var u = UIManager.instance;
+        //Debug.Log($"{defense_Drainage} {damage} {damage * defense_Drainage} {Mathf.RoundToInt(damage * defense_Drainage)}");
+        damage = Mathf.RoundToInt(damage * defense_Drainage);
         if (shield <= damage)
         {
-            Damage(damage - shield);
+            Damage(damage - shield );
             if (shield > 0) FatalDamage();
             shield = 0;
         }
@@ -222,7 +275,9 @@ public abstract class Unit : MonoBehaviour
     protected abstract void FatalDamage();
     public void Damage(int damage)
     {
+        //Debug.Log(damage);
         int totalDmg = 0;
+        damage = Mathf.RoundToInt(damage * defense_Drainage);
         if (shield <= 0)
         {
             totalDmg = Mathf.FloorToInt(2f * damage);
@@ -233,6 +288,7 @@ public abstract class Unit : MonoBehaviour
             totalDmg = damage;
             hp -= totalDmg;
         }
+        //Debug.Log($"{defense_Drainage} {damage} {totalDmg}");
         AnimCurTime = AnimTime;
         if (totalDmg >= 12) FatalDamage();
         UIManager.instance.DamageText(totalDmg, transform.position);
@@ -246,7 +302,7 @@ public abstract class Unit : MonoBehaviour
 
         var addValue = Mathf.InverseLerp(0, 30, Mathf.Clamp(damage, 0, 30)) + 1;
         var value = new Vector3(dir[Random.Range(0, 2)] * 0.5f * addValue, 0, 0);
-        print($"{addValue},{value.magnitude}");
+        //print($"{addValue},{value.magnitude}");
 
         transform.position += value;
         yield return wait;

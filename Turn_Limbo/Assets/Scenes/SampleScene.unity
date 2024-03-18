@@ -252,6 +252,9 @@ MonoBehaviour:
   maxShield: 50
   shieldBreak: 0
   curDamage: 0
+  attack_Drainage: 0
+  defense_Drainage: 0
+  isAttack: 0
   target: {fileID: 1715296847}
   effect: {fileID: 1429954232896169632, guid: 83036083a4ebcd34f98131bd3cf6f4d2, type: 3}
   hitSound: {fileID: 0}
@@ -447,6 +450,56 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &313451867
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 313451869}
+  - component: {fileID: 313451868}
+  m_Layer: 0
+  m_Name: BuffManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &313451868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 313451867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d82417a13bf05645b5d08e467686398, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buffList:
+  - {fileID: 5203793184288221250, guid: ebf2ce8797515c849bc7a0d793fddc25, type: 3}
+  - {fileID: 5632709484723455211, guid: 919fddc57fb0f044f9290c5359027c6d, type: 3}
+  debuffList:
+  - {fileID: 3687390406078769358, guid: 5a11c7a01a1fe5b48a64927080e4c16e, type: 3}
+  - {fileID: 2989159582895876524, guid: 52428793ef23284469e6e7b4b500085d, type: 3}
+--- !u!4 &313451869
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 313451867}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 8.849254, y: 19.391474, z: -0.533876}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &322587326
 GameObject:
   m_ObjectHideFlags: 0
@@ -476,6 +529,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 557997653729a964fa66e63e1c147f3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skillScripts:
+  - {fileID: 7554005262253665195, guid: e1cf1323a409caa46b6d03bb638ed33d, type: 3}
+  - {fileID: 6723478794319699316, guid: a9591f40345da6d48852e79fff50e852, type: 3}
+  - {fileID: 4379374596702009568, guid: 5318c430bf3b314469baaa0b653754ed, type: 3}
+  - {fileID: 6261768977732146492, guid: 1e62bd7a91b40454cb19accf9c22d70a, type: 3}
+  - {fileID: 2546068888862172207, guid: f9807fb2fd3f18f4bbf0a6f9ddacb4ea, type: 3}
+  - {fileID: 889304274190611089, guid: c7f82c4e86086d74095022ee0db28279, type: 3}
+  - {fileID: 2725466540630877052, guid: f44ef47eae2ff8b4f8af4b03ed1afe4b, type: 3}
+  - {fileID: 8821608416463737886, guid: 1a73999ab1ec97940aa0cea919b74ab8, type: 3}
+  - {fileID: 8837853584634692564, guid: 065a9b89651284e4fa0d760681ec471a, type: 3}
+  - {fileID: 50940067375563935, guid: 48f41afec84542d47b963f4b332f7064, type: 3}
+  - {fileID: 2546068888862172207, guid: f9807fb2fd3f18f4bbf0a6f9ddacb4ea, type: 3}
+  - {fileID: 1019494004003608445, guid: 1a138f0671bda2745942044aaef52a6d, type: 3}
+  - {fileID: 2546068888862172207, guid: f9807fb2fd3f18f4bbf0a6f9ddacb4ea, type: 3}
+  - {fileID: 2546068888862172207, guid: f9807fb2fd3f18f4bbf0a6f9ddacb4ea, type: 3}
+  - {fileID: 2546068888862172207, guid: f9807fb2fd3f18f4bbf0a6f9ddacb4ea, type: 3}
+  - {fileID: 2546068888862172207, guid: f9807fb2fd3f18f4bbf0a6f9ddacb4ea, type: 3}
+  - {fileID: 2546068888862172207, guid: f9807fb2fd3f18f4bbf0a6f9ddacb4ea, type: 3}
+  - {fileID: 2546068888862172207, guid: f9807fb2fd3f18f4bbf0a6f9ddacb4ea, type: 3}
+  - {fileID: 2546068888862172207, guid: f9807fb2fd3f18f4bbf0a6f9ddacb4ea, type: 3}
+  - {fileID: 2546068888862172207, guid: f9807fb2fd3f18f4bbf0a6f9ddacb4ea, type: 3}
   skillLists: []
   controller: {fileID: 1885881912}
 --- !u!4 &322587328
@@ -2552,6 +2626,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1377501121}
   m_CullTransparentMesh: 1
+--- !u!1 &1438158975
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1438158976}
+  m_Layer: 0
+  m_Name: Hekireki_issen
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1438158976
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1438158975}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.5981171, y: 0.69790393, z: -9.999394}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 14
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1469693785
 GameObject:
   m_ObjectHideFlags: 0
@@ -3084,6 +3189,9 @@ MonoBehaviour:
   maxShield: 50
   shieldBreak: 0
   curDamage: 0
+  attack_Drainage: 0
+  defense_Drainage: 0
+  isAttack: 0
   target: {fileID: 98593525}
   effect: {fileID: 1429954232896169632, guid: 83036083a4ebcd34f98131bd3cf6f4d2, type: 3}
   hitSound: {fileID: 0}
@@ -3516,11 +3624,6 @@ MonoBehaviour:
   movePos: {x: 0, y: 0, z: 0}
   cursorIndex: 0
   cursorImage: {fileID: 472618415}
-  skills:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   inputLists: []
   curTime: 0
   useAbleCoin: 0
