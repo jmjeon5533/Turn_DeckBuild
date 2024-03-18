@@ -41,8 +41,8 @@ public class UIManager : MonoBehaviour
         }
         else
         {
-            cam.orthographicSize = Mathf.Lerp(cam.orthographicSize,6 - Mathf.InverseLerp(10,0,controller.curTime),0.1f);
-            timer.fillAmount = controller.curTime / 10;
+            cam.orthographicSize = Mathf.Lerp(cam.orthographicSize,6 - Mathf.InverseLerp(10,0,controller.gameCurTimeCount),0.1f);
+            timer.fillAmount = controller.gameCurTimeCount / 10;
             camPos = new Vector3(0, -1.5f,-10);
         }
         cam.transform.position = Vector3.Lerp(cam.transform.position,controller.movePos + camPos,0.1f);
@@ -78,7 +78,6 @@ public class UIManager : MonoBehaviour
         }
         coinText.enabled = isActive;
         timer.enabled = isActive;
-        controller.cursorImage.enabled = isActive;
     }
     public void NextImage(int index,Sprite sprite, Sprite nextSprite)
     {

@@ -26,17 +26,18 @@ public class Controller : MonoBehaviour
     public Player player;
     public Enemy enemy;
     public Vector3 movePos;
-    public int cursorIndex;
-    public Image cursorImage;
     public SpriteRenderer bg;
+    public Image keyHoldImage;
     public List<SkillScript> skills = new();
     public List<Skill> inputLists = new();
 
-    public float curTime;
+    public float gameCurTimeCount;
+    public float keyHoldTime;
     public int useAbleCoin;
 
     public bool isGame;
     public bool isAttack;
+    public bool isSkillExplain;
 
     private int lastSign;
 
@@ -51,7 +52,7 @@ public class Controller : MonoBehaviour
     public AudioClip[] addSkillSound;
 
     public Dictionary<int, List<Skill>> inputs = new();
-    private readonly KeyCode[] cursorKeys = { KeyCode.LeftArrow, KeyCode.RightArrow };
+    private readonly KeyCode[] KEY_CODE = { KeyCode.Q, KeyCode.W, KeyCode.E };
     private void Awake()
     {
         volume.TryGet(out glitch);
@@ -69,12 +70,10 @@ public class Controller : MonoBehaviour
         depth.focalLength.value = 1;
         color.postExposure.value = 0;
         color.saturation.value = 0;
-
-        cursorIndex = 0;
     }
     public void TurnReset()
     {
-        curTime = 10;
+        gameCurTimeCount = 10;
         useAbleCoin += 3;
         UIManager.instance.ChangeCoinSkillImg();
 
@@ -105,8 +104,8 @@ public class Controller : MonoBehaviour
         else
         {
             blurValue = 1;
-            curTime -= Time.deltaTime;
-            if (curTime <= 0) UseAttack();
+            gameCurTimeCount -= Time.deltaTime;
+            if (gameCurTimeCount <= 0) UseAttack();
         }
         UIUpdate(player);
         UIUpdate(enemy);
@@ -164,27 +163,42 @@ public class Controller : MonoBehaviour
     }
     private void CheckInput()
     {
-        int[] plusIndex = { -1, 1 };
         if (useAbleCoin <= 0) return;
-        if (Input.GetKeyDown(KeyCode.LeftShift))
+        for (int i = 0; i < KEY_CODE.Length; i++)
         {
-            var input = inputs[cursorIndex];
-            AddRequest(player, input[0]);
-            SwapSkills(input);
-            useAbleCoin--;
-            UIManager.instance.ChangeCoinSkillImg();
-            UIManager.instance.NextImage(cursorIndex, input[0].icon, input[1].icon);
-            SoundManager.instance.SetAudio(addSkillSound[Random.Range(0, addSkillSound.Length)], false);
-        }
-        for (int i = 0; i < cursorKeys.Length; i++)
-        {
-            if (Input.GetKeyDown(cursorKeys[i]))
+            if (Input.GetKeyUp(KEY_CODE[i]))
             {
-                var ui = UIManager.instance;
-                cursorIndex += plusIndex[i];
-                if (cursorIndex <= -1) cursorIndex = ui.keys.Length - 1;
-                else if (cursorIndex >= ui.keys.Length) cursorIndex = 0;
-                cursorImage.transform.position = ui.keys[cursorIndex].transform.position;
+                if (keyHoldTime <= 0.5f && !isSkillExplain)
+                {
+                    var input = inputs[i];
+                    AddRequest(player, input[0]);
+                    SwapSkills(input);
+                    useAbleCoin--;
+                    UIManager.instance.ChangeCoinSkillImg();
+                    UIManager.instance.NextImage(i, input[0].icon, input[1].icon);
+                    SoundManager.instance.SetAudio(addSkillSound[Random.Range(0, addSkillSound.Length)], false);
+                }
+                keyHoldTime = 0;
+                keyHoldImage.fillAmount = Mathf.Clamp(keyHoldTime - 0.5f, 0, 10) / 1f;
+            }
+            if (Input.GetKeyDown(KEY_CODE[i]) && isSkillExplain)
+            {
+                if (isSkillExplain)
+                {
+                    //SetExplain(false); //설명 삭제
+                    isSkillExplain = false;
+                }
+            }
+            if (Input.GetKey(KEY_CODE[i]) && !isSkillExplain)
+            {
+                keyHoldTime += Time.deltaTime;
+                if (keyHoldTime > 1.5f)
+                {
+                    isSkillExplain = true;
+                    keyHoldTime = 0;
+                    //SetExplain(true); //설명 소환
+                }
+                keyHoldImage.fillAmount = Mathf.Clamp(keyHoldTime - 0.5f, 0, 10) / 1f;
             }
         }
     }
@@ -276,7 +290,6 @@ public class Controller : MonoBehaviour
             Destroy(skill.insertImage.gameObject);
         });
         unit.iconAnim.Play();
-        print($"{unit.name} : {skill.animation.length}");
         return skill.animation.length;
     }
 
