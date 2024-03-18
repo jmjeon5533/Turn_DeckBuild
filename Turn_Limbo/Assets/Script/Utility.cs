@@ -15,7 +15,16 @@ public static class Utility
         b = Mathf.MoveTowards(value.b, target.b, maxDelta);
         a = Mathf.MoveTowards(value.a, target.a, maxDelta);
         Color color = new Color(r, g, b, a);
-        //Debug.Log($"[{target}]{value} => {color}");
+        return color;
+    }
+    public static Color ColorLerp(Color first, Color second, float t)
+    {
+        float r, g, b, a;
+        r = Mathf.Lerp(first.r, second.r, t);
+        g = Mathf.Lerp(first.g, second.g, t);
+        b = Mathf.Lerp(first.b, second.b, t);
+        a = Mathf.Lerp(first.a, second.a, t);
+        Color color = new Color(r, g, b, a);
         return color;
     }
 }

@@ -19,6 +19,7 @@ public class Skill
     public Sprite icon;
     public string animationName;
     public Unit.ActionType actionType;
+    public string explain;
 }
 
 public class Controller : MonoBehaviour
@@ -62,6 +63,7 @@ public class Controller : MonoBehaviour
     void Start()
     {
         TurnReset();
+        UIManager.instance.SetExplain(false);
         player.hitSound = hitSound;
         enemy.hitSound = hitSound;
         player.dmgDelayTime = AnimTime;
@@ -164,18 +166,19 @@ public class Controller : MonoBehaviour
     private void CheckInput()
     {
         if (useAbleCoin <= 0) return;
+        var ui = UIManager.instance;
         for (int i = 0; i < KEY_CODE.Length; i++)
         {
             if (Input.GetKeyUp(KEY_CODE[i]))
             {
-                if (keyHoldTime <= 0.5f && !isSkillExplain)
+                if (keyHoldTime <= 0.3f && !isSkillExplain)
                 {
                     var input = inputs[i];
                     AddRequest(player, input[0]);
                     SwapSkills(input);
                     useAbleCoin--;
-                    UIManager.instance.ChangeCoinSkillImg();
-                    UIManager.instance.NextImage(i, input[0].icon, input[1].icon);
+                    ui.ChangeCoinSkillImg();
+                    ui.NextImage(i, input[0].icon, input[1].icon);
                     SoundManager.instance.SetAudio(addSkillSound[Random.Range(0, addSkillSound.Length)], false);
                 }
                 keyHoldTime = 0;
@@ -185,20 +188,21 @@ public class Controller : MonoBehaviour
             {
                 if (isSkillExplain)
                 {
-                    //SetExplain(false); //설명 삭제
+                    ui.SetExplain(false);
                     isSkillExplain = false;
                 }
             }
             if (Input.GetKey(KEY_CODE[i]) && !isSkillExplain)
             {
-                keyHoldTime += Time.deltaTime;
-                if (keyHoldTime > 1.5f)
+                keyHoldTime += Time.unscaledDeltaTime;
+                keyHoldImage.rectTransform.anchoredPosition = ui.keys[i].rectTransform.anchoredPosition;
+                if (keyHoldTime > 1f)
                 {
                     isSkillExplain = true;
                     keyHoldTime = 0;
-                    //SetExplain(true); //설명 소환
+                    ui.SetExplain(true,inputs[i][0],ui.keys[i].rectTransform.anchoredPosition);
                 }
-                keyHoldImage.fillAmount = Mathf.Clamp(keyHoldTime - 0.5f, 0, 10) / 1f;
+                keyHoldImage.fillAmount = Mathf.Clamp(keyHoldTime - 0.3f, 0, 10) / 0.5f;
             }
         }
     }
@@ -209,16 +213,17 @@ public class Controller : MonoBehaviour
     }
     public void GameOver()
     {
-        print("게임 오버");
+        print("게임 ?���?");
     }
     public void GameClear()
     {
-        print("게임 클리어");
+        print("게임 ?��리어");
     }
 
     public void UseAttack()
     {
         UIManager.instance.ActiveBtn(false);
+        UIManager.instance.SetExplain(false);
         StartCoroutine(Attack());
     }
 

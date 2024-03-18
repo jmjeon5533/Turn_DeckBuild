@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Mono.Cecil;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -45,6 +46,8 @@ public class ReadSpreadSheet : MonoBehaviour
             if (!skillDatas.ContainsKey(keyCode))
                 skillDatas.Add(keyCode, new List<Skill>());
 
+            var splitExplain = columns[9].Split('&');
+            string explain = string.Join("\n",splitExplain);
             var newSkill = new Skill()
             {
                 skillName = columns[2],
@@ -55,6 +58,7 @@ public class ReadSpreadSheet : MonoBehaviour
                 keyIndex = int.Parse(columns[1]) - 1,
                 actionType = columns[3].EnumParse<Unit.ActionType>(),
                 animationName = columns[10],
+                explain = explain,
                 icon = Resources.Load<Sprite>($"Icon/skill{int.Parse(columns[0])}")
             };
             skillLists.Add(newSkill);

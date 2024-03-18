@@ -26,7 +26,12 @@ public class UIManager : MonoBehaviour
     [SerializeField] Transform dmgTextParent;
     [SerializeField] Image baseIcon;
     [SerializeField] Image timer;
+    [SerializeField] Image timerBG;
     public TMP_Text damageText;
+
+    [Header("DamageText")]
+    [SerializeField] Image skillExplainPanel;
+    [SerializeField] TMP_Text skillExplainText;
 
     private void Update()
     {
@@ -43,6 +48,7 @@ public class UIManager : MonoBehaviour
         {
             cam.orthographicSize = Mathf.Lerp(cam.orthographicSize,6 - Mathf.InverseLerp(10,0,controller.gameCurTimeCount),0.1f);
             timer.fillAmount = controller.gameCurTimeCount / 10;
+            timer.color = Utility.ColorLerp(Color.red,Color.yellow,controller.gameCurTimeCount / 10);
             camPos = new Vector3(0, -1.5f,-10);
         }
         cam.transform.position = Vector3.Lerp(cam.transform.position,controller.movePos + camPos,0.1f);
@@ -77,12 +83,19 @@ public class UIManager : MonoBehaviour
             nextKeys[i].enabled = isActive;
         }
         coinText.enabled = isActive;
-        timer.enabled = isActive;
+        if(!isActive) timerBG.rectTransform.DOAnchorPosY(100,0.5f).SetEase(Ease.OutCubic);
+        else timerBG.rectTransform.anchoredPosition = new Vector2(0,-75f);
     }
     public void NextImage(int index,Sprite sprite, Sprite nextSprite)
     {
         keys[index].sprite = sprite;
         nextKeys[index].sprite = nextSprite;
+    }
+    public void SetExplain(bool isActive, Skill skill = null,Vector3 pos = default)
+    {
+        skillExplainPanel.gameObject.SetActive(isActive);
+        skillExplainPanel.rectTransform.anchoredPosition = pos + new Vector3(350f,300);
+        if(skill != null) skillExplainText.text = skill.explain;
     }
     public void DamageText(int damage,Vector3 pos)
     {
