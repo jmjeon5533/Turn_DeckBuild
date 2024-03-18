@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class HitAndRun : SkillScript
 {
-    public override void Setting(Unit @this, Unit target) { }
-    public override void Attack(Unit @this, Unit target)
+    public override void Setting(Unit unit, Unit target) { }
+    public override void Attack(Unit unit, Unit target)
     {
-        if (@this.TryGetComponent<Player>(out var p))
-            Controller.instance.useAbleCoin += 2;
+        if (unit.TryGetComponent<Player>(out var p))
+            unit.coin += 2;
     }
-    public override void End(Unit @this, Unit target) { }
+    public override void End(Unit unit, Unit target) { }
 }

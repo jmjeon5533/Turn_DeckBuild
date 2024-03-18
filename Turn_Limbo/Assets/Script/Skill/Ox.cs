@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class Ox : SkillScript
 {
-    public override void Setting(Unit @this, Unit target) { }
-    public override void Attack(Unit @this, Unit target) { }
-    public override void End(Unit @this, Unit target)
+    public override void Setting(Unit unit, Unit target) { }
+    public override void Attack(Unit unit, Unit target) { }
+    public override void End(Unit unit, Unit target)
     {
-        @this.turnStart.Add(new Buff(BuffManager.instance.buffList[0], 2, 2, Unit.PropertyType.AllType));
+        unit.turnStart.Add(new Buff(BuffManager.instance.buffList[0], 2, 2, Unit.PropertyType.AllType));
     }
 }

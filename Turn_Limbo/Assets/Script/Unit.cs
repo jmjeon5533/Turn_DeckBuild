@@ -71,6 +71,7 @@ public abstract class Unit : MonoBehaviour
     public bool isAttack;
 
     public Unit target;
+    public RequestSkill nextSkill;
     public RequestSkill curSkill;
     public RequestSkill usedSkill;
     public readonly RequestSkill nullSkill = new RequestSkill()
@@ -83,6 +84,7 @@ public abstract class Unit : MonoBehaviour
     [HideInInspector] public Animator anim;
     [HideInInspector] public bool isLeft;
     [HideInInspector] public Sequence iconAnim;
+    [HideInInspector] public int coin = 3;
 
     public RectTransform requestUIParent;
     [SerializeField] protected RectTransform statParent;
@@ -114,7 +116,7 @@ public abstract class Unit : MonoBehaviour
             curBuff.curBuff.Use(this, curBuff.stack, curBuff.type);
 
             curBuff.count--;
-            if(curBuff.count <= 0) battleEnd[i] = null;
+            if (curBuff.count <= 0) battleEnd[i] = null;
         }
 
         turnStart.Clear();
@@ -122,7 +124,9 @@ public abstract class Unit : MonoBehaviour
         inUse.Clear();
         battleEnd.Clear();
 
+        coin = 3;
         isAttack = true;
+        nextSkill = new();
 
         if (shield <= 0 && !shieldBreak)
         {
@@ -142,6 +146,8 @@ public abstract class Unit : MonoBehaviour
 
         usedSkill = curSkill;
         curSkill = skill;
+
+        Debug.Log($"{this.name} >>> {usedSkill.skillName}_ _{curSkill.skillName}");
     }
 
     public virtual void AttackStart(RequestSkill skill)
@@ -153,7 +159,6 @@ public abstract class Unit : MonoBehaviour
             curBuff.curBuff.Use(this, curBuff.stack, curBuff.type);
 
             curBuff.count--;
-            if(curBuff.count <= 0) turnStart[i] = null;
         }
 
         curSkill.effect.Setting(this, target);
@@ -190,7 +195,8 @@ public abstract class Unit : MonoBehaviour
                     break;
             }
             curSkill.effect.Attack(this, target);
-        }else Debug.Log($"{this.name} Attack Break!!");
+        }
+        else Debug.Log($"{this.name} Attack Break!!");
         var cam = UIManager.instance.cam;
         cam.transform.position = cam.transform.position + ((Vector3)Random.insideUnitCircle.normalized * 1);
         SoundManager.instance.SetAudio(hitSound, false);
@@ -201,7 +207,7 @@ public abstract class Unit : MonoBehaviour
     public virtual void AttackEnd(RequestSkill skill)
     {
         curSkill.effect?.End(this, target);
-        
+
         turnStart = ClearList(turnStart);
         turnEnd = ClearList(turnEnd);
         inUse = ClearList(inUse);
@@ -209,11 +215,13 @@ public abstract class Unit : MonoBehaviour
 
         isAttack = true;
     }
-    List<Buff> ClearList(List<Buff> list){
+    List<Buff> ClearList(List<Buff> list)
+    {
         List<Buff> temp = new();
 
-        for(int i = 0; i < list.Count; i++){
-            if(list[i] != null) temp.Add(list[i]);
+        for (int i = 0; i < list.Count; i++)
+        {
+            if (list[i].count != 0) temp.Add(list[i]);
         }
 
         return temp;
@@ -253,6 +261,38 @@ public abstract class Unit : MonoBehaviour
         newRequest.propertyType = skill.propertyType;
         return newRequest;
     }
+
+    public RequestSkill SkillChange()
+    {
+        RequestSkill temp = new();
+
+        if (attackRequest.Count != 0)
+        {
+            temp = attackRequest.Dequeue();
+        }
+
+        if (nextSkill.skillName != null)
+        {
+            temp.skillName = nextSkill.skillName;
+            temp.minDamage = nextSkill.minDamage;
+            temp.maxDamage = nextSkill.maxDamage;
+            temp.attackCount = nextSkill.attackCount;
+            temp.icon = nextSkill.icon;
+            temp.effect = nextSkill.effect;
+            temp.animation = nextSkill.animation;
+            temp.actionType = nextSkill.actionType;
+            temp.propertyType = nextSkill.propertyType;
+
+            temp.insertImage.sprite = temp.icon;
+
+            nextSkill = new();
+
+            Debug.Log($"IN {temp.skillName}");
+        }
+
+        return temp;
+    }
+
     public void ShieldDamage(int damage)
     {
         var u = UIManager.instance;
@@ -260,7 +300,7 @@ public abstract class Unit : MonoBehaviour
         damage = Mathf.RoundToInt(damage * defense_Drainage);
         if (shield <= damage)
         {
-            Damage(damage - shield );
+            Damage(damage - shield);
             if (shield > 0) FatalDamage();
             shield = 0;
         }

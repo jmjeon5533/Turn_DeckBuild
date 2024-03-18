@@ -4,18 +4,19 @@ using UnityEngine;
 
 public class Hekireki_issen : SkillScript
 {
-    public override void Setting(Unit @this, Unit target) { }
-    public override void Attack(Unit @this, Unit target)
+    public override void Setting(Unit unit, Unit target) { }
+    public override void Attack(Unit unit, Unit target)
     {
-        // foreach (var n in target.turnStart)
-        // {
-        //     if (n.curBuff == BuffManager.instance.debuffList[1])
-        //     {
-        //         target.curSkill.insertImage = UIManager.instance.AddImage(target.curSkill.icon, target.requestUIParent);
-        //         target.attackRequest.Peek() = target.curSkill;
-        //         return;
-        //     }
-        // }
+        foreach (var n in target.turnStart)
+        {
+            if (n.curBuff == BuffManager.instance.debuffList[1])
+            {
+                Debug.Log("innn");
+                unit.nextSkill = unit.curSkill;
+                return;
+            }
+        }
+        target.turnStart.Add(new Buff(BuffManager.instance.debuffList[1], 1, 1, Unit.PropertyType.AllType));
     }
-    public override void End(Unit @this, Unit target) { }
+    public override void End(Unit unit, Unit target) { }
 }

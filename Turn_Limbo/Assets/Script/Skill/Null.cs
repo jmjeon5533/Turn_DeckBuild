@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Null : SkillScript
 {
-    public override void Setting(Unit @this, Unit target) { }
-    public override void Attack(Unit @this, Unit target) { }
-    public override void End(Unit @this, Unit target) { }
+    public override void Setting(Unit unit, Unit target) { }
+    public override void Attack(Unit unit, Unit target) { }
+    public override void End(Unit unit, Unit target) { }
 }

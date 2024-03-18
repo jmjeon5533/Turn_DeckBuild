@@ -260,6 +260,7 @@ MonoBehaviour:
   hitSound: {fileID: 0}
   anim: {fileID: 0}
   isLeft: 0
+  coin: 0
   requestUIParent: {fileID: 1204488381}
   statParent: {fileID: 1889515122}
   hpImage: {fileID: 571595539}
@@ -540,7 +541,7 @@ MonoBehaviour:
   - {fileID: 8821608416463737886, guid: 1a73999ab1ec97940aa0cea919b74ab8, type: 3}
   - {fileID: 8837853584634692564, guid: 065a9b89651284e4fa0d760681ec471a, type: 3}
   - {fileID: 50940067375563935, guid: 48f41afec84542d47b963f4b332f7064, type: 3}
-  - {fileID: 2546068888862172207, guid: f9807fb2fd3f18f4bbf0a6f9ddacb4ea, type: 3}
+  - {fileID: 6607895925291553834, guid: 991a835d5fcaa8a46a21dd6ca74fe5c5, type: 3}
   - {fileID: 1019494004003608445, guid: 1a138f0671bda2745942044aaef52a6d, type: 3}
   - {fileID: 2546068888862172207, guid: f9807fb2fd3f18f4bbf0a6f9ddacb4ea, type: 3}
   - {fileID: 2546068888862172207, guid: f9807fb2fd3f18f4bbf0a6f9ddacb4ea, type: 3}
@@ -549,7 +550,8 @@ MonoBehaviour:
   - {fileID: 2546068888862172207, guid: f9807fb2fd3f18f4bbf0a6f9ddacb4ea, type: 3}
   - {fileID: 2546068888862172207, guid: f9807fb2fd3f18f4bbf0a6f9ddacb4ea, type: 3}
   - {fileID: 2546068888862172207, guid: f9807fb2fd3f18f4bbf0a6f9ddacb4ea, type: 3}
-  - {fileID: 2546068888862172207, guid: f9807fb2fd3f18f4bbf0a6f9ddacb4ea, type: 3}
+  - {fileID: 6607895925291553834, guid: 991a835d5fcaa8a46a21dd6ca74fe5c5, type: 3}
+  - {fileID: 6607895925291553834, guid: 991a835d5fcaa8a46a21dd6ca74fe5c5, type: 3}
   skillLists: []
   controller: {fileID: 1885881912}
 --- !u!4 &322587328
@@ -2626,37 +2628,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1377501121}
   m_CullTransparentMesh: 1
---- !u!1 &1438158975
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1438158976}
-  m_Layer: 0
-  m_Name: Hekireki_issen
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1438158976
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1438158975}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.5981171, y: 0.69790393, z: -9.999394}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 14
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1469693785
 GameObject:
   m_ObjectHideFlags: 0
@@ -3197,6 +3168,7 @@ MonoBehaviour:
   hitSound: {fileID: 0}
   anim: {fileID: 0}
   isLeft: 0
+  coin: 0
   requestUIParent: {fileID: 1612152959}
   statParent: {fileID: 1568465721}
   hpImage: {fileID: 586273665}

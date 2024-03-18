@@ -24,8 +24,6 @@ public class Skill
 
 public class Controller : MonoBehaviour
 {
-    public static Controller instance{get; private set;}
-
     public Player player;
     public Enemy enemy;
     public Vector3 movePos;
@@ -51,13 +49,12 @@ public class Controller : MonoBehaviour
     private readonly KeyCode[] cursorKeys = { KeyCode.LeftArrow, KeyCode.RightArrow };
     private void Awake()
     {
-        instance = this;
-
         volume.TryGet(out glitch);
         volume.TryGet(out depth);
     }
     void Start()
     {
+        useAbleCoin = 3;
         TurnReset();
         player.hitSound = hitSound;
         enemy.hitSound = hitSound;
@@ -71,7 +68,7 @@ public class Controller : MonoBehaviour
     public void TurnReset()
     {
         curTime = 10;
-        useAbleCoin += 3;
+        useAbleCoin += player.coin;
         UIManager.instance.ChangeCoinSkillImg();
 
         player.TurnInit();
@@ -213,23 +210,24 @@ public class Controller : MonoBehaviour
     float AttackTime(Unit unit)
     {
         if (unit.attackRequest.Count <= 0) { unit.SkillInit(new()); return 0; }
-        var skill = unit.attackRequest.Peek();
+        var skill = unit.SkillChange();
         unit.SkillInit(skill);
 
         return skill.animation.length;
     }
 
-    void AttackStart(Unit unit){
-        if (unit.attackRequest.Count <= 0) return;
-        var skill = unit.attackRequest.Peek();
+    void AttackStart(Unit unit)
+    {
+        var skill = unit.curSkill;
+        if (unit.curSkill.skillName == null) return;
         unit.InitCurSkillDamage(skill.minDamage, skill.maxDamage, skill.attackCount);
         unit.AttackStart(skill);
     }
 
     void AttackAction(Unit unit)
     {
-        if (unit.attackRequest.Count <= 0) return;
-        var skill = unit.attackRequest.Dequeue();
+        var skill = unit.curSkill;
+        if (unit.curSkill.skillName == null) return;
         unit.anim.Play(skill.animation.name);
         unit.iconAnim = DOTween.Sequence();
         unit.iconAnim.Append(skill.insertImage.transform.DOScale(1.5f, 0.5f).SetEase(Ease.OutQuint));

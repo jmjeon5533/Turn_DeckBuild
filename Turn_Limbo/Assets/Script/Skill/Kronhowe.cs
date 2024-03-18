@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class Kronhowe : SkillScript
 {
-    public override void Setting(Unit @this, Unit target)
+    public override void Setting(Unit unit, Unit target)
     {
-        if (@this.usedSkill.propertyType == Unit.PropertyType.Defense) Controller.instance.useAbleCoin += 2;
+        if (unit.usedSkill.propertyType == Unit.PropertyType.Defense)
+            unit.coin += 2;
     }
-    public override void Attack(Unit @this, Unit target) { }
-    public override void End(Unit @this, Unit target) { }
+    public override void Attack(Unit unit, Unit target) { }
+    public override void End(Unit unit, Unit target) { }
 }
