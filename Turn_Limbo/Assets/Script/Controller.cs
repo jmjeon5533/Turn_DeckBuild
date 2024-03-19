@@ -115,9 +115,6 @@ public class Controller : MonoBehaviour
         glitch.intensity.value = Mathf.MoveTowards(glitch.intensity.value, 0, Time.deltaTime * 0.75f);
         color.postExposure.value = Mathf.MoveTowards(color.postExposure.value, 0, Time.deltaTime * 0.75f);
         color.saturation.value = Mathf.MoveTowards(color.saturation.value, 0, Time.deltaTime * 60);
-        depth.focalLength.value = Mathf.MoveTowards(depth.focalLength.value, blurValue, Time.deltaTime * 500);
-        glitch.intensity.value = Mathf.MoveTowards(glitch.intensity.value, 0, Time.deltaTime);
-
         if (!isGame) return;
 
         CheckInput();
@@ -210,14 +207,16 @@ public class Controller : MonoBehaviour
     {
         if (player.hp <= 0) GameOver();
         else GameClear();
+        Time.timeScale = 0;
     }
     public void GameOver()
     {
-        print("게임 ?���?");
+        UIManager.instance.SetGameEndUI(false);
     }
     public void GameClear()
     {
-        print("게임 ?��리어");
+        UIManager.instance.SetGameEndUI(true);
+        print("게임 ?��리어");
     }
 
     public void UseAttack()
@@ -260,8 +259,7 @@ public class Controller : MonoBehaviour
             yield return new WaitForSeconds(waitTime);
             if (player.hp <= 0 || enemy.hp <= 0)
             {
-                isAttack = false;
-                isGame = false;
+                GameEnd();
                 yield break;
             }
         }
@@ -273,7 +271,7 @@ public class Controller : MonoBehaviour
         .SetEase(Ease.InOutSine).WaitForCompletion();
         yield return enemy.transform.DOMoveX(-3.5f * (enemy.isLeft ? 1 : -1), 0.5f)
         .SetEase(Ease.InOutSine).WaitForCompletion();
-        UIManager.instance.inputPanel.rectTransform.sizeDelta = new Vector2(0, 400);
+        UIManager.instance.inputPanel.rectTransform.sizeDelta = new Vector2(0, 250);
         isAttack = false;
         UIManager.instance.ActiveBtn(true);
         TurnEnd();

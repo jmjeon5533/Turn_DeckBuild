@@ -21,13 +21,17 @@ public class UIManager : MonoBehaviour
     public Image[] keys;
     [SerializeField] Image[] nextKeys;
     [SerializeField] Controller controller;
-    [SerializeField] TMP_Text coinText;
+    [SerializeField] Image coinGauge;
     
     [SerializeField] Transform dmgTextParent;
     [SerializeField] Image baseIcon;
     [SerializeField] Image timer;
     [SerializeField] Image timerBG;
     public TMP_Text damageText;
+
+    [Header("GameEnd")]
+    [SerializeField] Image gameEndPanel;
+    [SerializeField] TMP_Text gameEndText;
 
     [Header("DamageText")]
     [SerializeField] Image skillExplainPanel;
@@ -73,7 +77,7 @@ public class UIManager : MonoBehaviour
         {
             keys[i].color = isActiveBtn ? Color.white : Color.grey;
         }
-        coinText.text = $"Coin : {controller.useAbleCoin}";
+        coinGauge.fillAmount = (float)controller.useAbleCoin / 10;
     }
     public void ActiveBtn(bool isActive)
     {
@@ -82,7 +86,7 @@ public class UIManager : MonoBehaviour
             keys[i].enabled = isActive;
             nextKeys[i].enabled = isActive;
         }
-        coinText.enabled = isActive;
+        coinGauge.enabled = isActive;
         if(!isActive) timerBG.rectTransform.DOAnchorPosY(100,0.5f).SetEase(Ease.OutCubic);
         else timerBG.rectTransform.anchoredPosition = new Vector2(0,-75f);
     }
@@ -96,6 +100,16 @@ public class UIManager : MonoBehaviour
         skillExplainPanel.gameObject.SetActive(isActive);
         skillExplainPanel.rectTransform.anchoredPosition = pos + new Vector3(350f,300);
         if(skill != null) skillExplainText.text = skill.explain;
+    }
+    public void SetGameEndUI(bool isWin)
+    {
+        StartCoroutine(SetGameEnd(isWin));
+    }
+    IEnumerator SetGameEnd(bool isWin)
+    {
+        string text = isWin ? "Victory" : "Defeat";
+        yield return gameEndPanel.DOColor(new Color(0,0,0,0.5f),0.5f).SetUpdate(true).WaitForCompletion();
+        gameEndText.text = text;
     }
     public void DamageText(int damage,Vector3 pos)
     {
