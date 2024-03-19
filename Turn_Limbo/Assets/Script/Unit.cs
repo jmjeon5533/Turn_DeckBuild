@@ -40,6 +40,7 @@ public abstract class Unit : MonoBehaviour
     public bool shieldBreak;
 
     public int curDamage;
+    public int curAttackCount;
     public Unit target;
     public RequestSkill curSkill;
     public readonly RequestSkill nullSkill = new RequestSkill()
@@ -112,7 +113,7 @@ public abstract class Unit : MonoBehaviour
                 break;
             case ActionType.Defence:
                 {
-                    target.Damage(Mathf.Clamp(curDamage - target.curDamage, 0, 999));
+                    target.Damage(Mathf.Clamp(curDamage - Mathf.FloorToInt(target.curDamage / curAttackCount), 0, 999));
                 }
                 break;
             case ActionType.Dodge:
@@ -127,7 +128,7 @@ public abstract class Unit : MonoBehaviour
         //skill.effect.Attacking();
         var cam = UIManager.instance.cam;
         cam.transform.position = cam.transform.position + ((Vector3)Random.insideUnitCircle.normalized * 1);
-        UIManager.instance.camRotZ -=  Random.Range(UIManager.instance.camRotZ/2,UIManager.instance.camRotZ*2.5f);
+        UIManager.instance.camRotZ -= Random.Range(UIManager.instance.camRotZ / 2, UIManager.instance.camRotZ * 2.5f);
         SoundManager.instance.SetAudio(hitSound, false);
         //Instantiate(curSkill.effect.Hitparticles[0],transform.position,Quaternion.identity);
         Instantiate(effect, transform.position + (Vector3.right * (isLeft ? 1 : -1) * 2), Quaternion.identity);
@@ -149,7 +150,10 @@ public abstract class Unit : MonoBehaviour
     }
     public void InitCurSkillDamage(RequestSkill skill)
     {
-        curDamage = Mathf.FloorToInt((float)Random.Range(skill.minDamage, skill.maxDamage + 1) / skill.attackCount);
+        var damage = (float)Random.Range(skill.minDamage, skill.maxDamage + 1);
+        curDamage = Mathf.FloorToInt(damage / skill.attackCount);
+        curAttackCount = skill.attackCount;
+        print($"{gameObject.name} : {damage} / {skill.attackCount}");
     }
     public RequestSkill ConvertRequest(Skill skill)
     {
@@ -170,14 +174,15 @@ public abstract class Unit : MonoBehaviour
         if (shield <= damage)
         {
             Damage(damage - shield);
-            if(shield > 0) FatalDamage();
+            if (shield > 0) FatalDamage();
             shield = 0;
         }
         else
         {
             dmgDelayCurTime = dmgDelayTime;
-            shield -= damage;
-            u.DamageText(damage, transform.position);
+            var totalDmg = damage;
+            shield -= totalDmg;
+            u.DamageText(totalDmg, transform.position);
             StartCoroutine(HitAnimation(curDamage));
         }
     }
@@ -196,7 +201,7 @@ public abstract class Unit : MonoBehaviour
             hp -= totalDmg;
         }
         dmgDelayCurTime = dmgDelayTime;
-        if(totalDmg >= 12) FatalDamage();
+        if (totalDmg >= 12) FatalDamage();
         UIManager.instance.DamageText(totalDmg, transform.position);
         StartCoroutine(HitAnimation(curDamage));
     }

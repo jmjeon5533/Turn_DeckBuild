@@ -16,6 +16,7 @@ public class UIManager : MonoBehaviour
     public bool isCamRotate;
     public Camera cam;
     public Camera bgCam;
+    public Camera effectCam;
     
     public Image inputPanel;
     public Image[] keys;
@@ -57,6 +58,7 @@ public class UIManager : MonoBehaviour
         }
         cam.transform.position = Vector3.Lerp(cam.transform.position,controller.movePos + camPos,0.1f);
         bgCam.orthographicSize = cam.orthographicSize;
+        effectCam.orthographicSize = cam.orthographicSize;
     }
     public void FatalDamage()
     {
@@ -114,11 +116,12 @@ public class UIManager : MonoBehaviour
     public void DamageText(int damage,Vector3 pos)
     {
         var text = Instantiate(damageText,dmgTextParent);
+        text.transform.localScale = Vector3.one * Mathf.Clamp(0.5f + (damage * 0.03f),0.5f,3f);
         text.text = damage.ToString();
         
         text.rectTransform.anchoredPosition = cam.WorldToScreenPoint(pos + (Vector3)Random.insideUnitCircle * 1.5f);
 
-        text.transform.DOScale(0,0.8f);
-        text.DOColor(Color.clear,0.8f).OnComplete(() => Destroy(text.gameObject));
+        text.transform.DOScale(0,0.8f + (damage * 0.02f));
+        text.DOColor(Color.clear,0.8f + (damage * 0.02f)).OnComplete(() => Destroy(text.gameObject));
     }
 }
