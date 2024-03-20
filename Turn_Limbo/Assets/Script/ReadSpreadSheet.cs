@@ -64,6 +64,7 @@ public class ReadSpreadSheet : MonoBehaviour
         }
         d.skillData = new Dictionary<KeyCode, List<Skill>>(skillDatas);
         d.SkillList = new List<Skill>(skillLists);
+        Debug.Log("ReadEnd");
         d.GivePlayerSkill();
         //controller.inputs = new Dictionary<KeyCode, List<Skill>>(skillDatas);
         //controller.inputLists = new List<Skill>(skillLists);

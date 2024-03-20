@@ -10,6 +10,5 @@ public class Spilling : SkillScript
         if (target.curSkill.propertyType == Unit.PropertyType.Slash)
             target.isAttack = false; 
     }
-    public override void Attack(Unit unit, Unit target) { }
     public override void End(Unit unit, Unit target) { }
 }

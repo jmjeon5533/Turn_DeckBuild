@@ -10,11 +10,10 @@ public class ExplodingBlade : SkillScript
         {
             if (n.curBuff == BuffManager.instance.debuffList[0])
             {
-                target.turnStart.Add(new Buff( BuffManager.instance.buffList[1], -10, 10, Unit.PropertyType.AllType));
+                //target.turnStart.Add(new Buff( BuffManager.instance.buffList[1], -10, 10, Unit.PropertyType.AllType));
                 return;
             }
         }
     }
-    public override void Attack(Unit unit, Unit target) { }
     public override void End(Unit unit, Unit target) { }
 }

@@ -5,7 +5,6 @@ using UnityEngine;
 public class BurnAttack : SkillScript
 {
     public override void Setting(Unit unit, Unit target) { }
-    public override void Attack(Unit unit, Unit target) { }
     public override void End(Unit unit, Unit target)
     {
         foreach (var n in target.battleEnd)

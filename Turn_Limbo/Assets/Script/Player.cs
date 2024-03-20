@@ -6,6 +6,14 @@ using UnityEngine.UI;
 
 public class Player : Unit
 {
+    public int addCoin;
+
+    public override void TurnInit()
+    {
+        base.TurnInit();
+        addCoin = 3;
+    }
+
     protected override void Update()
     {
         base.Update();

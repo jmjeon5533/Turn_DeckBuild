@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class Hekireki_issen : SkillScript
 {
-    public override void Setting(Unit unit, Unit target) { }
-    public override void Attack(Unit unit, Unit target)
+    public override void Setting(Unit unit, Unit target)
     {
         foreach (var n in target.turnStart)
         {

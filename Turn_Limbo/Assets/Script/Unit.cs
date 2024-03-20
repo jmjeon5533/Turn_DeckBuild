@@ -22,6 +22,7 @@ public class Buff
 {
     public Buff_Base curBuff;
     public Unit.PropertyType type;
+    public Image insertImage;
     public int stack;
     public int count;
 
@@ -51,10 +52,10 @@ public abstract class Unit : MonoBehaviour
         Penetrate,
         Defense
     }
-    [HideInInspector] public List<Buff> turnStart = new();
-    [HideInInspector] public List<Buff> inUse = new();
-    [HideInInspector] public List<Buff> turnEnd = new();
-    [HideInInspector] public List<Buff> battleEnd = new();
+    public List<Buff> turnStart = new();
+    public List<Buff> turnEnd = new();
+    public List<Buff> battleEnd = new();
+    public List<Buff> usedBuff = new();
 
     public Queue<RequestSkill> attackRequest = new Queue<RequestSkill>();
     public int hp;
@@ -84,9 +85,9 @@ public abstract class Unit : MonoBehaviour
     [HideInInspector] public Animator anim;
     [HideInInspector] public bool isLeft;
     [HideInInspector] public Sequence iconAnim;
-    [HideInInspector] public int coin = 3;
 
     public RectTransform requestUIParent;
+    public RectTransform requestBuffParent;
     [SerializeField] protected RectTransform statParent;
     [SerializeField] protected Image hpImage;
     [SerializeField] protected Image hpAnimImage;
@@ -114,19 +115,15 @@ public abstract class Unit : MonoBehaviour
             var curBuff = battleEnd[i];
 
             curBuff.curBuff.Use(this, curBuff.stack, curBuff.type);
-
             curBuff.count--;
-            if (curBuff.count <= 0) battleEnd[i] = null;
         }
+        turnStart = ClearBuffList(turnStart, true);
+        turnEnd = ClearBuffList(turnEnd, true);
+        battleEnd = ClearBuffList(battleEnd, true);
 
-        turnStart.Clear();
-        turnEnd.Clear();
-        inUse.Clear();
-        battleEnd.Clear();
-
-        coin = 3;
         isAttack = true;
-        nextSkill = new();
+        nextSkill = nullSkill;
+        usedSkill = nullSkill;
 
         if (shield <= 0 && !shieldBreak)
         {
@@ -146,11 +143,10 @@ public abstract class Unit : MonoBehaviour
 
         usedSkill = curSkill;
         curSkill = skill;
-
-        Debug.Log($"{this.name} >>> {usedSkill.skillName}_ _{curSkill.skillName}");
+        Debug.Log($"{this.name} >>> {usedSkill.skillName}_ _{curSkill.skillName} / usedBuffList : {usedBuff.Count}");
     }
 
-    public virtual void AttackStart(RequestSkill skill)
+    public virtual void BuffSetting()
     {
         for (int i = 0; i < turnStart.Count; i++)
         {
@@ -160,12 +156,11 @@ public abstract class Unit : MonoBehaviour
 
             curBuff.count--;
         }
-
-        curSkill.effect.Setting(this, target);
     }
+
     public virtual void Attacking()
     {
-        Debug.Log($">{this.name} {curSkill.skillName} {usedSkill.skillName}");
+        //Debug.Log($">{this.name} {curSkill.skillName} {usedSkill.skillName}");
         if (isAttack)
         {
             switch (target.curSkill.actionType)
@@ -194,7 +189,6 @@ public abstract class Unit : MonoBehaviour
                     }
                     break;
             }
-            curSkill.effect.Attack(this, target);
         }
         else Debug.Log($"{this.name} Attack Break!!");
         var cam = UIManager.instance.cam;
@@ -204,26 +198,35 @@ public abstract class Unit : MonoBehaviour
         Instantiate(effect, transform.position + (Vector3.right * (isLeft ? 1 : -1) * 2), Quaternion.identity);
         cam.orthographicSize = 2;
     }
-    public virtual void AttackEnd(RequestSkill skill)
-    {
-        curSkill.effect?.End(this, target);
 
-        turnStart = ClearList(turnStart);
-        turnEnd = ClearList(turnEnd);
-        inUse = ClearList(inUse);
-        battleEnd = ClearList(battleEnd);
-
-        isAttack = true;
+    public virtual void ClaerBuff(){
+        turnStart = ClearBuffList(turnStart);
+        turnEnd = ClearBuffList(turnEnd);
+        battleEnd = ClearBuffList(battleEnd);
     }
-    List<Buff> ClearList(List<Buff> list)
+
+    List<Buff> ClearBuffList(List<Buff> list, bool allClaer = false)
     {
         List<Buff> temp = new();
 
         for (int i = 0; i < list.Count; i++)
         {
-            if (list[i].count != 0) temp.Add(list[i]);
+            if (list[i].count != 0 && !allClaer)
+            {
+                if (list[i].insertImage == null)
+                {
+                    list[i].insertImage = UIManager.instance.AddImage(list[i].curBuff.buffIcon, requestBuffParent);
+                    Debug.Log($"AddImage {this.name} {list[i].curBuff} {list[i].insertImage == null}");
+                }
+                Debug.Log($"AddList {this.name} {list[i].curBuff} {list[i].insertImage == null}");
+                temp.Add(list[i]);
+            }
+            else
+            {
+                Debug.Log($"Die : {this.name} {list[i].curBuff} {list[i].insertImage == null} {allClaer} {list[i].count}");
+                usedBuff.Add(list[i]);
+            }
         }
-
         return temp;
     }
     void UIUpdate()
@@ -241,6 +244,7 @@ public abstract class Unit : MonoBehaviour
         shieldImage.fillAmount = (float)shield / maxShield;
 
         requestUIParent.localScale = Vector3.one * (1 + (5 - ui.cam.orthographicSize) * 0.3f);
+        requestBuffParent.localScale = Vector3.one * (1 + (5 - ui.cam.orthographicSize) * 0.3f);
     }
     public void InitCurSkillDamage(int min, int max, int count)
     {
@@ -264,12 +268,7 @@ public abstract class Unit : MonoBehaviour
 
     public RequestSkill SkillChange()
     {
-        RequestSkill temp = new();
-
-        if (attackRequest.Count != 0)
-        {
-            temp = attackRequest.Dequeue();
-        }
+        RequestSkill temp = temp = attackRequest.Dequeue();
 
         if (nextSkill.skillName != null)
         {

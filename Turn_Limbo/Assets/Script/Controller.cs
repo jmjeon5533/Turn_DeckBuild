@@ -39,6 +39,7 @@ public class Controller : MonoBehaviour
     public VolumeProfile volume;
     [HideInInspector] public ChromaticAberration glitch;
     [HideInInspector] public DepthOfField depth;
+    public Sprite test;
 
     [SerializeField] protected float AnimTime;
 
@@ -54,7 +55,6 @@ public class Controller : MonoBehaviour
     }
     void Start()
     {
-        useAbleCoin = 3;
         TurnReset();
         player.hitSound = hitSound;
         enemy.hitSound = hitSound;
@@ -68,11 +68,16 @@ public class Controller : MonoBehaviour
     public void TurnReset()
     {
         curTime = 10;
-        useAbleCoin += player.coin;
+        useAbleCoin += player.addCoin;
         UIManager.instance.ChangeCoinSkillImg();
 
         player.TurnInit();
         enemy.TurnInit();
+
+        foreach (var n in player.usedBuff) IconAnim(player, n.insertImage);
+        player.usedBuff.Clear();
+        foreach (var n in enemy.usedBuff) IconAnim(enemy, n.insertImage);
+        enemy.usedBuff.Clear();
     }
     public void TurnEnd()
     {
@@ -117,6 +122,11 @@ public class Controller : MonoBehaviour
         = !isAttack ? ui.cam.WorldToScreenPoint(character.transform.position
         + new Vector3((3 - (5 - ui.cam.orthographicSize)) * (character.isLeft ? 1 : -1), 3))
         : new Vector3(ui.cam.WorldToScreenPoint(character.transform.position).x, 900);
+
+        character.requestBuffParent.anchoredPosition
+        = !isAttack ? ui.cam.WorldToScreenPoint(character.transform.position
+        + new Vector3((3 - (5 - ui.cam.orthographicSize)) * (character.isLeft ? 1 : -1), 4))
+        : new Vector3(ui.cam.WorldToScreenPoint(character.transform.position).x, 1000);
     }
 
     public void InitBtn()
@@ -187,13 +197,15 @@ public class Controller : MonoBehaviour
         for (int i = 0; i < attackCount; i++)
         {
             // yield return new WaitForSeconds(skill.animation.length + 0.1f);
-            float waitTime = Mathf.Max(AttackTime(player), AttackTime(enemy));
+            float waitTime = Mathf.Max(AttackInit(player), AttackInit(enemy));
+            player.BuffSetting(); enemy.BuffSetting();
             AttackStart(player); AttackStart(enemy);
-            AttackAction(player); AttackAction(enemy);
+            player.curSkill.effect?.End(player, player.target);
+            enemy.curSkill.effect?.End(enemy, enemy.target);
+            BuffClaer(player); BuffClaer(enemy);
             yield return new WaitForSeconds(waitTime);
-            player.AttackEnd(player.curSkill);
-            enemy.AttackEnd(enemy.curSkill);
         }
+
         yield return new WaitForSeconds(0.5f);
         UIManager.instance.cam.DOOrthoSize(5f, 0.5f).SetEase(Ease.OutCubic);
 
@@ -207,9 +219,9 @@ public class Controller : MonoBehaviour
         TurnEnd();
     }
 
-    float AttackTime(Unit unit)
+    float AttackInit(Unit unit)
     {
-        if (unit.attackRequest.Count <= 0) { unit.SkillInit(new()); return 0; }
+        if (unit.attackRequest.Count <= 0) { unit.SkillInit(unit.nullSkill); return 0; }
         var skill = unit.SkillChange();
         unit.SkillInit(skill);
 
@@ -219,22 +231,35 @@ public class Controller : MonoBehaviour
     void AttackStart(Unit unit)
     {
         var skill = unit.curSkill;
-        if (unit.curSkill.skillName == null) return;
+        if (unit.curSkill.actionType == Unit.ActionType.none) { return; }
         unit.InitCurSkillDamage(skill.minDamage, skill.maxDamage, skill.attackCount);
-        unit.AttackStart(skill);
+        unit.curSkill.effect?.Setting(unit, unit.target);
+        unit.anim.Play(skill.animation.name);
+        IconAnim(unit, skill.insertImage);
     }
 
-    void AttackAction(Unit unit)
+    void BuffClaer(Unit unit)
     {
-        var skill = unit.curSkill;
-        if (unit.curSkill.skillName == null) return;
-        unit.anim.Play(skill.animation.name);
+        unit.ClaerBuff();
+
+        foreach (var n in unit.usedBuff)
+        {
+            Debug.Log($"{unit.name} {n.curBuff} {n.insertImage == null}");
+            IconAnim(unit, n.insertImage);
+        }
+
+        unit.usedBuff.Clear();
+    }
+
+    void IconAnim(Unit unit, Image insertImage)
+    {
         unit.iconAnim = DOTween.Sequence();
-        unit.iconAnim.Append(skill.insertImage.transform.DOScale(1.5f, 0.5f).SetEase(Ease.OutQuint));
-        unit.iconAnim.Append(skill.insertImage.transform.DOScale(0, 0.3f).SetEase(Ease.OutQuint));
+
+        unit.iconAnim.Append(insertImage.transform.DOScale(1.5f, 0.5f).SetEase(Ease.OutQuint));
+        unit.iconAnim.Append(insertImage.transform.DOScale(0, 0.3f).SetEase(Ease.OutQuint));
         unit.iconAnim.AppendCallback(() =>
         {
-            Destroy(skill.insertImage.gameObject);
+            Destroy(insertImage.gameObject);
         });
         unit.iconAnim.Play();
     }
