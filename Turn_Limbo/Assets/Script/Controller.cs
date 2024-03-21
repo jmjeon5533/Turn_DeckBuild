@@ -20,6 +20,7 @@ public class Skill
     public string animationName;
     public Unit.ActionType actionType;
     public string explain;
+    public Unit.PropertyType propertyType;
 }
 
 public class Controller : MonoBehaviour
@@ -81,6 +82,11 @@ public class Controller : MonoBehaviour
 
         player.TurnInit();
         enemy.TurnInit();
+
+        foreach (var n in player.usedBuff) IconAnim(player, n.insertImage);
+        player.usedBuff.Clear();
+        foreach (var n in enemy.usedBuff) IconAnim(enemy, n.insertImage);
+        enemy.usedBuff.Clear();
     }
     public void TurnEnd()
     {
@@ -135,6 +141,10 @@ public class Controller : MonoBehaviour
         + new Vector3((2 - (5 - ui.cam.orthographicSize)) * (character.isLeft ? 1 : -1), 2))
         : new Vector3(ui.cam.WorldToScreenPoint(character.transform.position).x, 900);
 
+        character.requestBuffParent.anchoredPosition
+        = !isAttack ? ui.cam.WorldToScreenPoint(character.transform.position
+        + new Vector3((3 - (5 - ui.cam.orthographicSize)) * (character.isLeft ? 1 : -1), 4))
+        : new Vector3(ui.cam.WorldToScreenPoint(character.transform.position).x, 1000);
         character.requestUIParent.anchoredPosition
         = Vector3.Lerp(character.requestUIParent.anchoredPosition, requestPos, 0.05f);
 
@@ -245,6 +255,13 @@ public class Controller : MonoBehaviour
         for (int i = 0; i < attackCount; i++)
         {
             // yield return new WaitForSeconds(skill.animation.length + 0.1f);
+            float waitTime = Mathf.Max(AttackInit(player), AttackInit(enemy));
+            player.BuffSetting(); enemy.BuffSetting();
+            AttackStart(player); AttackStart(enemy);
+            player.curSkill.effect?.End(player, player.target);
+            enemy.curSkill.effect?.End(enemy, enemy.target);
+            BuffClaer(player); BuffClaer(enemy);
+            yield return new WaitForSeconds(waitTime);
             if (lastSign == 0)
             {
                 UIManager.instance.camRotZ = Random.Range(-20, 20);
@@ -263,6 +280,7 @@ public class Controller : MonoBehaviour
                 yield break;
             }
         }
+
         yield return new WaitForSeconds(0.5f);
         UIManager.instance.cam.DOOrthoSize(5f, 0.5f).SetEase(Ease.OutCubic);
 
@@ -277,23 +295,49 @@ public class Controller : MonoBehaviour
         TurnEnd();
     }
 
-    float AttackAction(Unit unit)
+    float AttackInit(Unit unit)
     {
-        if (unit.attackRequest.Count <= 0) return 0;
-        var skill = unit.attackRequest.Dequeue();
-        unit.curSkill = skill;
-        unit.AttackStart(skill);
-        unit.InitCurSkillDamage(skill);
+        if (unit.attackRequest.Count <= 0) { unit.SkillInit(unit.nullSkill); return 0; }
+        var skill = unit.SkillChange();
+        unit.SkillInit(skill);
+
+        return skill.animation.length;
+    }
+
+    void AttackStart(Unit unit)
+    {
+        var skill = unit.curSkill;
+        if (unit.curSkill.actionType == Unit.ActionType.none) { return; }
+        unit.InitCurSkillDamage(skill.minDamage, skill.maxDamage, skill.attackCount);
+        unit.curSkill.effect?.Setting(unit, unit.target);
         unit.anim.Play(skill.animation.name);
+        IconAnim(unit, skill.insertImage);
+    }
+
+    void BuffClaer(Unit unit)
+    {
+        unit.ClaerBuff();
+
+        foreach (var n in unit.usedBuff)
+        {
+            Debug.Log($"{unit.name} {n.curBuff} {n.insertImage == null}");
+            IconAnim(unit, n.insertImage);
+        }
+
+        unit.usedBuff.Clear();
+    }
+
+    void IconAnim(Unit unit, Image insertImage)
+    {
         unit.iconAnim = DOTween.Sequence();
-        unit.iconAnim.Append(skill.insertImage.transform.DOScale(1.5f, 0.7f * skill.animation.length).SetEase(Ease.OutQuint));
-        unit.iconAnim.Append(skill.insertImage.transform.DOScale(0, 0.5f * skill.animation.length).SetEase(Ease.OutQuint));
+
+        unit.iconAnim.Append(insertImage.transform.DOScale(1.5f, 0.5f).SetEase(Ease.OutQuint));
+        unit.iconAnim.Append(insertImage.transform.DOScale(0, 0.3f).SetEase(Ease.OutQuint));
         unit.iconAnim.AppendCallback(() =>
         {
-            Destroy(skill.insertImage.gameObject);
+            Destroy(insertImage.gameObject);
         });
         unit.iconAnim.Play();
-        return skill.animation.length;
     }
 
     public void SwapSkills(List<Skill> key)

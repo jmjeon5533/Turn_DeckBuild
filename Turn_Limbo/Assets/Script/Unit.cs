@@ -15,7 +15,26 @@ public struct RequestSkill
     public Image insertImage;
     public AnimationClip animation;
     public Unit.ActionType actionType;
+    public Unit.PropertyType propertyType;
 }
+
+public class Buff
+{
+    public Buff_Base curBuff;
+    public Unit.PropertyType type;
+    public Image insertImage;
+    public int stack;
+    public int count;
+
+    public Buff(Buff_Base _curBuff, int _stack, int _count, Unit.PropertyType _type = Unit.PropertyType.AllType)
+    {
+        curBuff = _curBuff;
+        type = _type;
+        stack = _stack;
+        count = _count;
+    }
+}
+
 public abstract class Unit : MonoBehaviour
 {
     public enum ActionType
@@ -27,8 +46,17 @@ public abstract class Unit : MonoBehaviour
     }
     public enum PropertyType
     {
-
+        AllType,
+        Slash,
+        Hit,
+        Penetrate,
+        Defense
     }
+    public List<Buff> turnStart = new();
+    public List<Buff> turnEnd = new();
+    public List<Buff> battleEnd = new();
+    public List<Buff> usedBuff = new();
+
     public Queue<RequestSkill> attackRequest = new Queue<RequestSkill>();
     public string unitName => gameObject.name;
     public int hp;
@@ -41,8 +69,14 @@ public abstract class Unit : MonoBehaviour
 
     public int curDamage;
     public int curAttackCount;
+    public float attack_Drainage;
+    public float defense_Drainage;
+    public bool isAttack;
+
     public Unit target;
+    public RequestSkill nextSkill;
     public RequestSkill curSkill;
+    public RequestSkill usedSkill;
     public readonly RequestSkill nullSkill = new RequestSkill()
     {
         actionType = ActionType.none
@@ -55,6 +89,7 @@ public abstract class Unit : MonoBehaviour
     [HideInInspector] public Sequence iconAnim;
 
     public RectTransform requestUIParent;
+    public RectTransform requestBuffParent;
     [SerializeField] protected RectTransform statParent;
     [SerializeField] protected Image hpImage;
     [SerializeField] protected Image hpAnimImage;
@@ -77,6 +112,21 @@ public abstract class Unit : MonoBehaviour
     }
     public virtual void TurnInit()
     {
+        for (int i = 0; i < battleEnd.Count; i++)
+        {
+            var curBuff = battleEnd[i];
+
+            curBuff.curBuff.Use(this, curBuff.stack, curBuff.type);
+            curBuff.count--;
+        }
+        turnStart = ClearBuffList(turnStart, true);
+        turnEnd = ClearBuffList(turnEnd, true);
+        battleEnd = ClearBuffList(battleEnd, true);
+
+        isAttack = true;
+        nextSkill = nullSkill;
+        usedSkill = nullSkill;
+
         if (shield <= 0 && !shieldBreak)
         {
             shieldBreak = true;
@@ -88,18 +138,32 @@ public abstract class Unit : MonoBehaviour
             shieldBreak = false;
         }
     }
-    public virtual void AttackStart(RequestSkill skill)
+    public void SkillInit(RequestSkill skill)
     {
-        //skill.effect.Start();
+        attack_Drainage = 1;
+        defense_Drainage = 1;
+
+        usedSkill = curSkill;
+        curSkill = skill;
+        Debug.Log($"{this.name} >>> {usedSkill.skillName}_ _{curSkill.skillName} / usedBuffList : {usedBuff.Count}");
     }
-    public virtual void AttackEnd(RequestSkill skill)
+
+    public virtual void BuffSetting()
     {
-        //skill.effect.End();
-        curSkill = nullSkill;
+        for (int i = 0; i < turnStart.Count; i++)
+        {
+            var curBuff = turnStart[i];
+
+            curBuff.curBuff.Use(this, curBuff.stack, curBuff.type);
+
+            curBuff.count--;
+        }
     }
+
     public virtual void Attacking()
     {
-        switch (target.curSkill.actionType)
+        //Debug.Log($">{this.name} {curSkill.skillName} {usedSkill.skillName}");
+        if (isAttack)
         {
             case ActionType.none:
                 {
@@ -122,10 +186,28 @@ public abstract class Unit : MonoBehaviour
                     {
                         target.Damage(curDamage);
                     }
-                }
-                break;
+                    break;
+                case ActionType.Attack:
+                    {
+                        target.ShieldDamage(curDamage);
+                    }
+                    break;
+                case ActionType.Defence:
+                    {
+                        target.Damage(Mathf.Clamp(curDamage - target.curDamage, 0, 999));
+                    }
+                    break;
+                case ActionType.Dodge:
+                    {
+                        if (target.curDamage < curDamage)
+                        {
+                            target.Damage(curDamage);
+                        }
+                    }
+                    break;
+            }
         }
-        //skill.effect.Attacking();
+        else Debug.Log($"{this.name} Attack Break!!");
         var cam = UIManager.instance.cam;
         cam.transform.position = cam.transform.position + ((Vector3)Random.insideUnitCircle.normalized * 1);
         UIManager.instance.camRotZ -= Random.Range(UIManager.instance.camRotZ / 2, UIManager.instance.camRotZ * 2.5f);
@@ -133,6 +215,37 @@ public abstract class Unit : MonoBehaviour
         //Instantiate(curSkill.effect.Hitparticles[0],transform.position,Quaternion.identity);
         Instantiate(effect, transform.position + (Vector3.right * (isLeft ? 1 : -1) * 2), Quaternion.identity);
         cam.orthographicSize = 2;
+    }
+
+    public virtual void ClaerBuff(){
+        turnStart = ClearBuffList(turnStart);
+        turnEnd = ClearBuffList(turnEnd);
+        battleEnd = ClearBuffList(battleEnd);
+    }
+
+    List<Buff> ClearBuffList(List<Buff> list, bool allClaer = false)
+    {
+        List<Buff> temp = new();
+
+        for (int i = 0; i < list.Count; i++)
+        {
+            if (list[i].count != 0 && !allClaer)
+            {
+                if (list[i].insertImage == null)
+                {
+                    list[i].insertImage = UIManager.instance.AddImage(list[i].curBuff.buffIcon, requestBuffParent);
+                    Debug.Log($"AddImage {this.name} {list[i].curBuff} {list[i].insertImage == null}");
+                }
+                Debug.Log($"AddList {this.name} {list[i].curBuff} {list[i].insertImage == null}");
+                temp.Add(list[i]);
+            }
+            else
+            {
+                Debug.Log($"Die : {this.name} {list[i].curBuff} {list[i].insertImage == null} {allClaer} {list[i].count}");
+                usedBuff.Add(list[i]);
+            }
+        }
+        return temp;
     }
     void UIUpdate()
     {
@@ -147,9 +260,14 @@ public abstract class Unit : MonoBehaviour
         }
         else dmgDelayCurTime -= Time.deltaTime;
         shieldImage.fillAmount = (float)shield / maxShield;
+
+        requestUIParent.localScale = Vector3.one * (1 + (5 - ui.cam.orthographicSize) * 0.3f);
+        requestBuffParent.localScale = Vector3.one * (1 + (5 - ui.cam.orthographicSize) * 0.3f);
     }
-    public void InitCurSkillDamage(RequestSkill skill)
+    public void InitCurSkillDamage(int min, int max, int count)
     {
+        curDamage = Mathf.FloorToInt((float)UnityEngine.Random.Range(min, max + 1) * attack_Drainage / count);
+        //Debug.Log($"{this.name} Damage : {curDamage} {attack_Drainage}");
         var damage = (float)Random.Range(skill.minDamage, skill.maxDamage + 1);
         curDamage = Mathf.FloorToInt(damage / skill.attackCount);
         curAttackCount = skill.attackCount;
@@ -166,11 +284,41 @@ public abstract class Unit : MonoBehaviour
         newRequest.effect = skill.effect;
         newRequest.icon = skill.icon;
         newRequest.skillName = skill.skillName;
+        newRequest.propertyType = skill.propertyType;
         return newRequest;
     }
+
+    public RequestSkill SkillChange()
+    {
+        RequestSkill temp = temp = attackRequest.Dequeue();
+
+        if (nextSkill.skillName != null)
+        {
+            temp.skillName = nextSkill.skillName;
+            temp.minDamage = nextSkill.minDamage;
+            temp.maxDamage = nextSkill.maxDamage;
+            temp.attackCount = nextSkill.attackCount;
+            temp.icon = nextSkill.icon;
+            temp.effect = nextSkill.effect;
+            temp.animation = nextSkill.animation;
+            temp.actionType = nextSkill.actionType;
+            temp.propertyType = nextSkill.propertyType;
+
+            temp.insertImage.sprite = temp.icon;
+
+            nextSkill = new();
+
+            Debug.Log($"IN {temp.skillName}");
+        }
+
+        return temp;
+    }
+
     public void ShieldDamage(int damage)
     {
         var u = UIManager.instance;
+        //Debug.Log($"{defense_Drainage} {damage} {damage * defense_Drainage} {Mathf.RoundToInt(damage * defense_Drainage)}");
+        damage = Mathf.RoundToInt(damage * defense_Drainage);
         if (shield <= damage)
         {
             Damage(damage - shield);
@@ -189,7 +337,9 @@ public abstract class Unit : MonoBehaviour
     protected abstract void FatalDamage();
     public void Damage(int damage)
     {
+        //Debug.Log(damage);
         int totalDmg = 0;
+        damage = Mathf.RoundToInt(damage * defense_Drainage);
         if (shield <= 0)
         {
             totalDmg = Mathf.FloorToInt(2f * damage);
@@ -200,6 +350,8 @@ public abstract class Unit : MonoBehaviour
             totalDmg = damage;
             hp -= totalDmg;
         }
+        //Debug.Log($"{defense_Drainage} {damage} {totalDmg}");
+        AnimCurTime = AnimTime;
         dmgDelayCurTime = dmgDelayTime;
         if (totalDmg >= 12) FatalDamage();
         UIManager.instance.DamageText(totalDmg, transform.position);
@@ -213,6 +365,7 @@ public abstract class Unit : MonoBehaviour
 
         var addValue = Mathf.InverseLerp(0, 30, Mathf.Clamp(damage, 0, 30)) + 1;
         var value = new Vector3(dir[Random.Range(0, 2)] * 0.5f * addValue, 0, 0);
+        //print($"{addValue},{value.magnitude}");
 
         transform.position += value;
         yield return wait;
