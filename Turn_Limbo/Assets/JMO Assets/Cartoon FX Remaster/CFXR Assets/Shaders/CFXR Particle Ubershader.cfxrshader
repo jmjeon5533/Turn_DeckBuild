@@ -235,7 +235,7 @@ Shader "Cartoon FX/Remaster/Particle Ubershader"
 				#define CFXR_UBERSHADER
 				#include "CFXR_PASSES.cginc"
 
-				// struct appdata 
+				// 	struct appdata 
 				//{
 				//	float4 position : POSITION;
 				//	float2 uv_MainTex : TEXCOORD0;

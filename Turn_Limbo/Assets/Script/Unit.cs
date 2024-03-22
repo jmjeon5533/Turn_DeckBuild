@@ -140,6 +140,7 @@ public abstract class Unit : MonoBehaviour
     }
     public void SkillInit(RequestSkill skill)
     {
+        isAttack = true;
         attack_Drainage = 1;
         defense_Drainage = 1;
 
