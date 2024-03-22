@@ -77,11 +77,11 @@ public class Controller : MonoBehaviour
     public void TurnReset()
     {
         gameCurTimeCount = 10;
-        useAbleCoin += 3;
-        UIManager.instance.ChangeCoinSkillImg();
 
         player.TurnInit();
         enemy.TurnInit();
+        useAbleCoin += player.addCoin;
+        UIManager.instance.ChangeCoinSkillImg();
 
         foreach (var n in player.usedBuff) IconAnim(player, n.insertImage);
         player.usedBuff.Clear();
