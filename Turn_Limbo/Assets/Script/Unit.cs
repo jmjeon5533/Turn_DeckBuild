@@ -165,24 +165,10 @@ public abstract class Unit : MonoBehaviour
         //Debug.Log($">{this.name} {curSkill.skillName} {usedSkill.skillName}");
         if (isAttack)
         {
-            case ActionType.none:
-                {
-                    target.Damage(curDamage);
-                }
-                break;
-            case ActionType.Attack:
-                {
-                    target.ShieldDamage(curDamage);
-                }
-                break;
-            case ActionType.Defence:
-                {
-                    target.Damage(Mathf.Clamp(curDamage - Mathf.FloorToInt(target.curDamage / curAttackCount), 0, 999));
-                }
-                break;
-            case ActionType.Dodge:
-                {
-                    if (target.curDamage < curDamage)
+            switch (target.curSkill.actionType)
+            {
+
+                case ActionType.none:
                     {
                         target.Damage(curDamage);
                     }
@@ -194,7 +180,7 @@ public abstract class Unit : MonoBehaviour
                     break;
                 case ActionType.Defence:
                     {
-                        target.Damage(Mathf.Clamp(curDamage - target.curDamage, 0, 999));
+                        target.Damage(Mathf.Clamp(curDamage - Mathf.FloorToInt(target.curDamage / curAttackCount), 0, 999));
                     }
                     break;
                 case ActionType.Dodge:
@@ -203,8 +189,8 @@ public abstract class Unit : MonoBehaviour
                         {
                             target.Damage(curDamage);
                         }
+                        break;
                     }
-                    break;
             }
         }
         else Debug.Log($"{this.name} Attack Break!!");
@@ -217,7 +203,8 @@ public abstract class Unit : MonoBehaviour
         cam.orthographicSize = 2;
     }
 
-    public virtual void ClaerBuff(){
+    public virtual void ClaerBuff()
+    {
         turnStart = ClearBuffList(turnStart);
         turnEnd = ClearBuffList(turnEnd);
         battleEnd = ClearBuffList(battleEnd);
@@ -266,12 +253,10 @@ public abstract class Unit : MonoBehaviour
     }
     public void InitCurSkillDamage(int min, int max, int count)
     {
-        curDamage = Mathf.FloorToInt((float)UnityEngine.Random.Range(min, max + 1) * attack_Drainage / count);
         //Debug.Log($"{this.name} Damage : {curDamage} {attack_Drainage}");
-        var damage = (float)Random.Range(skill.minDamage, skill.maxDamage + 1);
-        curDamage = Mathf.FloorToInt(damage / skill.attackCount);
-        curAttackCount = skill.attackCount;
-        print($"{gameObject.name} : {damage} / {skill.attackCount}");
+        var damage = (float)Random.Range(min, max + 1);
+        curDamage = Mathf.FloorToInt(damage * attack_Drainage / count);
+        curAttackCount = count;
     }
     public RequestSkill ConvertRequest(Skill skill)
     {
@@ -351,7 +336,6 @@ public abstract class Unit : MonoBehaviour
             hp -= totalDmg;
         }
         //Debug.Log($"{defense_Drainage} {damage} {totalDmg}");
-        AnimCurTime = AnimTime;
         dmgDelayCurTime = dmgDelayTime;
         if (totalDmg >= 12) FatalDamage();
         UIManager.instance.DamageText(totalDmg, transform.position);

@@ -207,7 +207,7 @@ public class Controller : MonoBehaviour
                 {
                     isSkillExplain = true;
                     keyHoldTime = 0;
-                    ui.SetExplain(true,inputs[i][0],ui.keys[i].rectTransform.anchoredPosition);
+                    ui.SetExplain(true, inputs[i][0], ui.keys[i].rectTransform.anchoredPosition);
                 }
                 keyHoldImage.fillAmount = Mathf.Clamp(keyHoldTime - 0.3f, 0, 10) / 0.5f;
             }
@@ -255,13 +255,7 @@ public class Controller : MonoBehaviour
         for (int i = 0; i < attackCount; i++)
         {
             // yield return new WaitForSeconds(skill.animation.length + 0.1f);
-            float waitTime = Mathf.Max(AttackInit(player), AttackInit(enemy));
-            player.BuffSetting(); enemy.BuffSetting();
-            AttackStart(player); AttackStart(enemy);
-            player.curSkill.effect?.End(player, player.target);
-            enemy.curSkill.effect?.End(enemy, enemy.target);
-            BuffClaer(player); BuffClaer(enemy);
-            yield return new WaitForSeconds(waitTime);
+
             if (lastSign == 0)
             {
                 UIManager.instance.camRotZ = Random.Range(-20, 20);
@@ -272,8 +266,15 @@ public class Controller : MonoBehaviour
                 UIManager.instance.camRotZ = -lastSign * Random.Range(5, 20);
                 lastSign *= -1;
             }
-            float waitTime = Mathf.Max(AttackAction(player), AttackAction(enemy));
+
+            float waitTime = Mathf.Max(AttackInit(player), AttackInit(enemy));
+            player.BuffSetting(); enemy.BuffSetting();
+            AttackStart(player); AttackStart(enemy);
+            player.curSkill.effect?.End(player, player.target);
+            enemy.curSkill.effect?.End(enemy, enemy.target);
+            BuffClear(player); BuffClear(enemy);
             yield return new WaitForSeconds(waitTime);
+
             if (player.hp <= 0 || enemy.hp <= 0)
             {
                 GameEnd();
@@ -314,7 +315,7 @@ public class Controller : MonoBehaviour
         IconAnim(unit, skill.insertImage);
     }
 
-    void BuffClaer(Unit unit)
+    void BuffClear(Unit unit)
     {
         unit.ClaerBuff();
 

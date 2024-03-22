@@ -58,6 +58,7 @@ public class ReadSpreadSheet : MonoBehaviour
                 effect = skillScripts[int.Parse(columns[0])],
                 keyIndex = int.Parse(columns[1]) - 1,
                 actionType = columns[3].EnumParse<Unit.ActionType>(),
+                propertyType = columns[4].EnumParse<Unit.PropertyType>(),
                 animationName = columns[10],
                 explain = explain,
                 icon = Resources.Load<Sprite>($"Icon/skill{int.Parse(columns[0])}")
