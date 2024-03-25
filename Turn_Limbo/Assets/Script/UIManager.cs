@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    public static UIManager instance {get; private set;}
+    public static UIManager instance { get; private set; }
     private void Awake()
     {
         instance = this;
@@ -17,13 +17,14 @@ public class UIManager : MonoBehaviour
     public Camera cam;
     public Camera bgCam;
     public Camera effectCam;
-    
+
     public Image inputPanel;
     public Image[] keys;
     [SerializeField] Image[] nextKeys;
     [SerializeField] Controller controller;
     [SerializeField] Image coinGauge;
-    
+    [SerializeField] Image enemySkillCursor;
+
     [SerializeField] Transform dmgTextParent;
     [SerializeField] Image baseIcon;
     [SerializeField] Image timer;
@@ -40,23 +41,26 @@ public class UIManager : MonoBehaviour
 
     private void Update()
     {
-        if(!controller.isGame) return;
-        if(isCamRotate) 
-        cam.transform.rotation = Quaternion.Lerp(cam.transform.rotation, Quaternion.Euler(Vector3.forward * camRotZ), 0.05f);
-        Vector3 camPos; 
-        if(controller.isAttack)
+        if (!controller.isGame) return;
+        if (isCamRotate)
+            cam.transform.rotation = Quaternion.Lerp(cam.transform.rotation, Quaternion.Euler(Vector3.forward * camRotZ), 0.05f);
+        Vector3 camPos;
+        if (controller.isAttack)
         {
-            cam.orthographicSize = Mathf.Lerp(cam.orthographicSize,3.5f,0.1f);
-            camPos = new Vector3(0, 0,-10);
+            cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, 3.5f, 0.1f);
+            camPos = new Vector3(0, 0, -10);
         }
         else
         {
-            cam.orthographicSize = Mathf.Lerp(cam.orthographicSize,6 - Mathf.InverseLerp(10,0,controller.gameCurTimeCount),0.1f);
             timer.fillAmount = controller.gameCurTimeCount / 10;
-            timer.color = Utility.ColorLerp(Color.red,Color.yellow,controller.gameCurTimeCount / 10);
-            camPos = new Vector3(0, -1.5f,-10);
+            timer.color = Utility.ColorLerp(Color.red, Color.yellow, controller.gameCurTimeCount / 10);
+            cam.orthographicSize = Mathf.Lerp(cam.orthographicSize,
+            !controller.isTab ? 6 - Mathf.InverseLerp(10, 0, controller.gameCurTimeCount) : 3.5f, 0.1f);
+            camPos = new Vector3(0, -1.5f, -10);
         }
-        cam.transform.position = Vector3.Lerp(cam.transform.position,controller.movePos + camPos,0.1f);
+        cam.transform.position = Vector3.Lerp(cam.transform.position,
+        controller.isTab ? controller.enemy.transform.position + new Vector3(0,2,0) + camPos : controller.movePos + camPos, 0.1f);
+
         bgCam.orthographicSize = cam.orthographicSize;
         effectCam.orthographicSize = cam.orthographicSize;
     }
@@ -66,16 +70,16 @@ public class UIManager : MonoBehaviour
         controller.color.saturation.value = -80;
         controller.color.postExposure.value = 1;
     }
-    public Image AddImage(Sprite sprite,Transform parent)
+    public Image AddImage(Sprite sprite, Transform parent)
     {
-        var img = Instantiate(baseIcon,parent);
+        var img = Instantiate(baseIcon, parent);
         img.sprite = sprite;
         return img;
     }
     public void ChangeCoinSkillImg()
     {
         bool isActiveBtn = controller.useAbleCoin > 0;
-        for(int i = 0; i < keys.Length; i++)
+        for (int i = 0; i < keys.Length; i++)
         {
             keys[i].color = isActiveBtn ? Color.white : Color.grey;
         }
@@ -83,25 +87,26 @@ public class UIManager : MonoBehaviour
     }
     public void ActiveBtn(bool isActive)
     {
-        for(int i = 0; i < keys.Length; i++)
+        for (int i = 0; i < keys.Length; i++)
         {
             keys[i].enabled = isActive;
             nextKeys[i].enabled = isActive;
         }
         coinGauge.enabled = isActive;
-        if(!isActive) timerBG.rectTransform.DOAnchorPosY(100,0.5f).SetEase(Ease.OutCubic);
-        else timerBG.rectTransform.anchoredPosition = new Vector2(0,-75f);
+        enemySkillCursor.enabled = isActive;
+        if (!isActive) timerBG.rectTransform.DOAnchorPosY(100, 0.5f).SetEase(Ease.OutCubic);
+        else timerBG.rectTransform.anchoredPosition = new Vector2(0, -75f);
     }
-    public void NextImage(int index,Sprite sprite, Sprite nextSprite)
+    public void NextImage(int index, Sprite sprite, Sprite nextSprite)
     {
         keys[index].sprite = sprite;
         nextKeys[index].sprite = nextSprite;
     }
-    public void SetExplain(bool isActive, Skill skill = null,Vector3 pos = default)
+    public void SetExplain(bool isActive, Skill skill = null, Vector3 pos = default)
     {
         skillExplainPanel.gameObject.SetActive(isActive);
-        skillExplainPanel.rectTransform.anchoredPosition = pos + new Vector3(350f,300);
-        if(skill != null) skillExplainText.text = skill.explain;
+        skillExplainPanel.rectTransform.anchoredPosition = pos + new Vector3(350f, 300);
+        if (skill != null) skillExplainText.text = skill.explain;
     }
     public void SetGameEndUI(bool isWin)
     {
@@ -110,18 +115,18 @@ public class UIManager : MonoBehaviour
     IEnumerator SetGameEnd(bool isWin)
     {
         string text = isWin ? "Victory" : "Defeat";
-        yield return gameEndPanel.DOColor(new Color(0,0,0,0.5f),0.5f).SetUpdate(true).WaitForCompletion();
+        yield return gameEndPanel.DOColor(new Color(0, 0, 0, 0.5f), 0.5f).SetUpdate(true).WaitForCompletion();
         gameEndText.text = text;
     }
-    public void DamageText(int damage,Vector3 pos)
+    public void DamageText(int damage, Vector3 pos)
     {
-        var text = Instantiate(damageText,dmgTextParent);
-        text.transform.localScale = Vector3.one * Mathf.Clamp(0.5f + (damage * 0.03f),0.5f,3f);
+        var text = Instantiate(damageText, dmgTextParent);
+        text.transform.localScale = Vector3.one * Mathf.Clamp(0.5f + (damage * 0.03f), 0.5f, 3f);
         text.text = damage.ToString();
-        
+
         text.rectTransform.anchoredPosition = cam.WorldToScreenPoint(pos + (Vector3)Random.insideUnitCircle * 1.5f);
 
-        text.transform.DOScale(0,0.8f + (damage * 0.02f));
-        text.DOColor(Color.clear,0.8f + (damage * 0.02f)).OnComplete(() => Destroy(text.gameObject));
+        text.transform.DOScale(0, 0.8f + (damage * 0.02f));
+        text.DOColor(Color.clear, 0.8f + (damage * 0.02f)).OnComplete(() => Destroy(text.gameObject));
     }
 }

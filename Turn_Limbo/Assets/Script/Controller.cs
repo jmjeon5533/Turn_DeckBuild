@@ -38,6 +38,7 @@ public class Controller : MonoBehaviour
     public int useAbleCoin;
 
     public bool isGame;
+    public bool isTab;
     public bool isAttack;
     public bool isSkillExplain;
 
@@ -128,10 +129,20 @@ public class Controller : MonoBehaviour
         {
             UseAttack();
         }
-        bool isSpace = Input.GetKey(KeyCode.Space);
-        float timeScale = isSpace ? 0.4f : 1;
+        bool isSpace = Input.GetKey(KeyCode.Space) && isAttack;
+        isTab = Input.GetKey(KeyCode.Tab) && !isAttack;
+        float timeScale;
+        if(isAttack)
+        {
+            timeScale = isSpace ? 0.4f : 1;
+        }
+        else
+        {
+            timeScale = isTab ? 0.2f : 1;
+        }
+        
         Time.timeScale = timeScale;
-        Color bgColor = isSpace ? new Color(0.6f, 0.6f, 0.6f, 1) : Color.white;
+        Color bgColor = isSpace || isTab ? new Color(0.6f, 0.6f, 0.6f, 1) : Color.white;
         bg.color = bg.color.MoveToward(bgColor, Time.deltaTime * 5f);
     }
     void UIUpdate(Unit character)
@@ -167,13 +178,14 @@ public class Controller : MonoBehaviour
         {
             var newSkill = target.ConvertRequest(addSkill);
             newSkill.insertImage = UIManager.instance.AddImage(newSkill.icon, target.requestUIParent);
-            target.attackRequest.Enqueue(newSkill);
+            target.attackRequest.Add(newSkill);
         }
     }
     private void CheckInput()
     {
         if (useAbleCoin <= 0) return;
         var ui = UIManager.instance;
+        if(isTab) return;
         for (int i = 0; i < KEY_CODE.Length; i++)
         {
             if (Input.GetKeyUp(KEY_CODE[i]))

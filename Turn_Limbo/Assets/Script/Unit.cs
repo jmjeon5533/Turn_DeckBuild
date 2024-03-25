@@ -57,7 +57,7 @@ public abstract class Unit : MonoBehaviour
     public List<Buff> battleEnd = new();
     public List<Buff> usedBuff = new();
 
-    public Queue<RequestSkill> attackRequest = new Queue<RequestSkill>();
+    public List<RequestSkill> attackRequest = new List<RequestSkill>();
     public string unitName => gameObject.name;
     public int hp;
     public int maxHP;
@@ -276,7 +276,8 @@ public abstract class Unit : MonoBehaviour
 
     public RequestSkill SkillChange()
     {
-        RequestSkill temp = temp = attackRequest.Dequeue();
+        RequestSkill temp = attackRequest[0];
+        attackRequest.RemoveAt(0);
 
         if (nextSkill.skillName != null)
         {
