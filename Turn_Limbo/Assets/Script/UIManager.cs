@@ -13,6 +13,7 @@ public class UIManager : MonoBehaviour
         instance = this;
     }
     public float camRotZ = 0;
+    public int enemyCursorIndex = 0;
     public bool isCamRotate;
     public Camera cam;
     public Camera bgCam;
@@ -57,9 +58,19 @@ public class UIManager : MonoBehaviour
             cam.orthographicSize = Mathf.Lerp(cam.orthographicSize,
             !controller.isTab ? 6 - Mathf.InverseLerp(10, 0, controller.gameCurTimeCount) : 3.5f, 0.1f);
             camPos = new Vector3(0, -1.5f, -10);
+
+            enemySkillCursor.transform.position
+            = controller.enemy.attackRequest[enemyCursorIndex].insertImage.transform.position;
+            enemySkillCursor.enabled = controller.isTab;
         }
         cam.transform.position = Vector3.Lerp(cam.transform.position,
-        controller.isTab ? controller.enemy.transform.position + new Vector3(0,2,0) + camPos : controller.movePos + camPos, 0.1f);
+        controller.isTab ? controller.enemy.transform.position + new Vector3(0, 2, 0) + camPos : controller.movePos + camPos, 0.1f);
+        if (controller.isTab)
+        {
+            if (Input.GetKeyDown(KeyCode.LeftArrow)) enemyCursorIndex--;
+            else if (Input.GetKeyDown(KeyCode.RightArrow)) enemyCursorIndex++;
+            enemyCursorIndex = Mathf.Clamp(enemyCursorIndex, 0, controller.enemy.attackRequest.Count - 1);
+        }
 
         bgCam.orthographicSize = cam.orthographicSize;
         effectCam.orthographicSize = cam.orthographicSize;

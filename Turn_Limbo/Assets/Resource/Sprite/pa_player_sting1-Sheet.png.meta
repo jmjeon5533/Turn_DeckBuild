@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: f051629bb84cb4f439c9d0b23715b2d7
+guid: 9216dd85f95942546af0004a2847dca1
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -117,12 +117,12 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: pa_player_nike-Sheet_0
+      name: pa_player_sting1-Sheet_0
       rect:
         serializedVersion: 2
         x: 0
         y: 80
-        width: 144
+        width: 160
         height: 80
       alignment: 9
       pivot: {x: 0.48, y: 0.45}
@@ -131,19 +131,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 73279dfd12993244c85b839eb7738200
-      internalID: 1393769325
+      spriteID: d79f535a1f653e94586f10c0434e9187
+      internalID: -1124714851
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: pa_player_nike-Sheet_1
+      name: pa_player_sting1-Sheet_1
       rect:
         serializedVersion: 2
-        x: 144
+        x: 160
         y: 80
-        width: 144
+        width: 160
         height: 80
       alignment: 9
       pivot: {x: 0.48, y: 0.45}
@@ -152,19 +152,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f2886fa96ca72044fac409eee1ee9b85
-      internalID: 1471931496
+      spriteID: 75c654a749572e34bac6365adae730fc
+      internalID: -484003371
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: pa_player_nike-Sheet_2
+      name: pa_player_sting1-Sheet_2
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 144
+        width: 160
         height: 80
       alignment: 9
       pivot: {x: 0.48, y: 0.45}
@@ -173,19 +173,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b39b827a8cdcc994ea79a5820fc2bd58
-      internalID: -505774255
+      spriteID: 87f17d00779b42e4a8fdd30e8e3463e2
+      internalID: 465292029
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: pa_player_nike-Sheet_3
+      name: pa_player_sting1-Sheet_3
       rect:
         serializedVersion: 2
-        x: 144
+        x: 160
         y: 0
-        width: 144
+        width: 160
         height: 80
       alignment: 9
       pivot: {x: 0.48, y: 0.45}
@@ -194,8 +194,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c6d75182cc2a9fd489bdf2c783496150
-      internalID: 1050962544
+      spriteID: 544f8f14b291aaa48aa5415b6dfc1348
+      internalID: -144041772
       vertices: []
       indices: 
       edges: []
@@ -211,10 +211,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      pa_player_nike-Sheet_0: 1393769325
-      pa_player_nike-Sheet_1: 1471931496
-      pa_player_nike-Sheet_2: -505774255
-      pa_player_nike-Sheet_3: 1050962544
+      pa_player_sting1-Sheet_0: -1124714851
+      pa_player_sting1-Sheet_1: -484003371
+      pa_player_sting1-Sheet_2: 465292029
+      pa_player_sting1-Sheet_3: -144041772
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

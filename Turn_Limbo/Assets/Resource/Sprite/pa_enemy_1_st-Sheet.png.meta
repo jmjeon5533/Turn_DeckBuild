@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: f051629bb84cb4f439c9d0b23715b2d7
+guid: b96eee692b47a764396d50b362b572de
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -117,85 +117,85 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: pa_player_nike-Sheet_0
+      name: pa_enemy_1_st-Sheet_0
       rect:
         serializedVersion: 2
         x: 0
         y: 80
-        width: 144
+        width: 160
         height: 80
       alignment: 9
-      pivot: {x: 0.48, y: 0.45}
+      pivot: {x: 0.65, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 73279dfd12993244c85b839eb7738200
-      internalID: 1393769325
+      spriteID: ea1211d0bbffb4a41ab93b6986185e52
+      internalID: -470089504
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: pa_player_nike-Sheet_1
+      name: pa_enemy_1_st-Sheet_1
       rect:
         serializedVersion: 2
-        x: 144
+        x: 160
         y: 80
-        width: 144
+        width: 160
         height: 80
       alignment: 9
-      pivot: {x: 0.48, y: 0.45}
+      pivot: {x: 0.65, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f2886fa96ca72044fac409eee1ee9b85
-      internalID: 1471931496
+      spriteID: 400eda2dc71e4b744bbe2e73338c63e5
+      internalID: -1876127649
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: pa_player_nike-Sheet_2
+      name: pa_enemy_1_st-Sheet_2
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 144
+        width: 160
         height: 80
       alignment: 9
-      pivot: {x: 0.48, y: 0.45}
+      pivot: {x: 0.65, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b39b827a8cdcc994ea79a5820fc2bd58
-      internalID: -505774255
+      spriteID: dc7f7c90eeef0984db312f5e464da366
+      internalID: -1718195894
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: pa_player_nike-Sheet_3
+      name: pa_enemy_1_st-Sheet_3
       rect:
         serializedVersion: 2
-        x: 144
+        x: 160
         y: 0
-        width: 144
+        width: 160
         height: 80
       alignment: 9
-      pivot: {x: 0.48, y: 0.45}
+      pivot: {x: 0.65, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c6d75182cc2a9fd489bdf2c783496150
-      internalID: 1050962544
+      spriteID: d9844171ac7290940a8a915e6588db01
+      internalID: -316685795
       vertices: []
       indices: 
       edges: []
@@ -211,10 +211,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      pa_player_nike-Sheet_0: 1393769325
-      pa_player_nike-Sheet_1: 1471931496
-      pa_player_nike-Sheet_2: -505774255
-      pa_player_nike-Sheet_3: 1050962544
+      pa_enemy_1_st-Sheet_0: -470089504
+      pa_enemy_1_st-Sheet_1: -1876127649
+      pa_enemy_1_st-Sheet_2: -1718195894
+      pa_enemy_1_st-Sheet_3: -316685795
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

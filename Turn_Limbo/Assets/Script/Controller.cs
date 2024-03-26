@@ -313,6 +313,7 @@ public class Controller : MonoBehaviour
         if (unit.attackRequest.Count <= 0) { unit.SkillInit(unit.nullSkill); return 0; }
         var skill = unit.SkillChange();
         unit.SkillInit(skill);
+        print(skill.animation.name);
 
         return skill.animation.length;
     }

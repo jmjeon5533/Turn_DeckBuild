@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: f051629bb84cb4f439c9d0b23715b2d7
+guid: 2a15d9b7d5c1800429bb4d22f457165a
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -117,85 +117,169 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: pa_player_nike-Sheet_0
+      name: pa_enemy_1_i-Sheet_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 80
-        width: 144
-        height: 80
+        y: 128
+        width: 80
+        height: 64
       alignment: 9
-      pivot: {x: 0.48, y: 0.45}
+      pivot: {x: 0.3, y: 0.65}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 73279dfd12993244c85b839eb7738200
-      internalID: 1393769325
+      spriteID: 455ae2b61919d6b4f9bd5154319e6907
+      internalID: -1755108507
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: pa_player_nike-Sheet_1
+      name: pa_enemy_1_i-Sheet_1
       rect:
         serializedVersion: 2
-        x: 144
-        y: 80
-        width: 144
-        height: 80
+        x: 80
+        y: 128
+        width: 80
+        height: 64
       alignment: 9
-      pivot: {x: 0.48, y: 0.45}
+      pivot: {x: 0.3, y: 0.65}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f2886fa96ca72044fac409eee1ee9b85
-      internalID: 1471931496
+      spriteID: bad7b30091619094ab93c3809e992cf8
+      internalID: 1050715613
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: pa_player_nike-Sheet_2
+      name: pa_enemy_1_i-Sheet_2
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 128
+        width: 80
+        height: 64
+      alignment: 9
+      pivot: {x: 0.3, y: 0.65}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ca95b2561e2b84446a9fa8e4a0628667
+      internalID: 1182146713
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pa_enemy_1_i-Sheet_3
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 64
+        width: 80
+        height: 64
+      alignment: 9
+      pivot: {x: 0.3, y: 0.65}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 135d12e11d3ebdd469d1b505e1615bb7
+      internalID: -1679736900
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pa_enemy_1_i-Sheet_4
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 64
+        width: 80
+        height: 64
+      alignment: 9
+      pivot: {x: 0.3, y: 0.65}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e03280fa60205db42b34167e63a6ec8a
+      internalID: -2102846100
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pa_enemy_1_i-Sheet_5
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 64
+        width: 80
+        height: 64
+      alignment: 9
+      pivot: {x: 0.3, y: 0.65}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 294a2b45f15e912418bb0bae6d92857e
+      internalID: -1646561562
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pa_enemy_1_i-Sheet_6
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 144
-        height: 80
+        width: 80
+        height: 64
       alignment: 9
-      pivot: {x: 0.48, y: 0.45}
+      pivot: {x: 0.3, y: 0.65}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b39b827a8cdcc994ea79a5820fc2bd58
-      internalID: -505774255
+      spriteID: 4e2db4c8d1c684641a282193710256b2
+      internalID: 119296467
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: pa_player_nike-Sheet_3
+      name: pa_enemy_1_i-Sheet_7
       rect:
         serializedVersion: 2
-        x: 144
+        x: 80
         y: 0
-        width: 144
-        height: 80
+        width: 80
+        height: 64
       alignment: 9
-      pivot: {x: 0.48, y: 0.45}
+      pivot: {x: 0.3, y: 0.65}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c6d75182cc2a9fd489bdf2c783496150
-      internalID: 1050962544
+      spriteID: 89695e6c88d7be148a5e2681518d6630
+      internalID: 307250669
       vertices: []
       indices: 
       edges: []
@@ -211,10 +295,14 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      pa_player_nike-Sheet_0: 1393769325
-      pa_player_nike-Sheet_1: 1471931496
-      pa_player_nike-Sheet_2: -505774255
-      pa_player_nike-Sheet_3: 1050962544
+      pa_enemy_1_i-Sheet_0: -1755108507
+      pa_enemy_1_i-Sheet_1: 1050715613
+      pa_enemy_1_i-Sheet_2: 1182146713
+      pa_enemy_1_i-Sheet_3: -1679736900
+      pa_enemy_1_i-Sheet_4: -2102846100
+      pa_enemy_1_i-Sheet_5: -1646561562
+      pa_enemy_1_i-Sheet_6: 119296467
+      pa_enemy_1_i-Sheet_7: 307250669
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
