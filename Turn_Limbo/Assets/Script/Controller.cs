@@ -177,7 +177,7 @@ public class Controller : MonoBehaviour
         if (!isAttack)
         {
             var newSkill = target.ConvertRequest(addSkill);
-            newSkill.insertImage = UIManager.instance.AddImage(newSkill.icon, target.requestUIParent);
+            newSkill.insertImage = UIManager.instance.AddIcon(newSkill.icon, target.requestUIParent);
             target.attackRequest.Add(newSkill);
         }
     }
@@ -313,7 +313,6 @@ public class Controller : MonoBehaviour
         if (unit.attackRequest.Count <= 0) { unit.SkillInit(unit.nullSkill); return 0; }
         var skill = unit.SkillChange();
         unit.SkillInit(skill);
-        print(skill.animation.name);
 
         return skill.animation.length;
     }
@@ -325,7 +324,7 @@ public class Controller : MonoBehaviour
         unit.InitCurSkillDamage(skill.minDamage, skill.maxDamage, skill.attackCount);
         unit.curSkill.effect?.Setting(unit, unit.target);
         unit.anim.Play(skill.animation.name);
-        IconAnim(unit, skill.insertImage);
+        IconAnim(unit, skill.insertImage.iconImage);
     }
 
     void BuffClear(Unit unit)

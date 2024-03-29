@@ -5,13 +5,16 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+[System.Serializable]
+public class UnitUI
+{
+    public RectTransform requestParent,
+    requestBuffParent,
+    statParent;
+}
 public class UIManager : MonoBehaviour
 {
     public static UIManager instance { get; private set; }
-    private void Awake()
-    {
-        instance = this;
-    }
     public float camRotZ = 0;
     public int enemyCursorIndex = 0;
     public bool isCamRotate;
@@ -24,10 +27,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] Image[] nextKeys;
     [SerializeField] Controller controller;
     [SerializeField] Image coinGauge;
-    [SerializeField] Image enemySkillCursor;
 
     [SerializeField] Transform dmgTextParent;
-    [SerializeField] Image baseIcon;
+    [SerializeField] Icon baseIcon;
     [SerializeField] Image timer;
     [SerializeField] Image timerBG;
     public TMP_Text damageText;
@@ -36,10 +38,30 @@ public class UIManager : MonoBehaviour
     [SerializeField] Image gameEndPanel;
     [SerializeField] TMP_Text gameEndText;
 
-    [Header("DamageText")]
+    [Header("ExplainText")]
     [SerializeField] Image skillExplainPanel;
     [SerializeField] TMP_Text skillExplainText;
+    [Space(5)]
+    [SerializeField] Image enemySkillExplainPanel;
+    [SerializeField] TMP_Text enemySkillExplainText;
 
+    [Header("Unit")]
+    [SerializeField] UnitUI[] unitUI;
+
+    private void Awake()
+    {
+        instance = this;
+    }
+    private void Start()
+    {
+        SelectEnemyImage(false);
+    }
+    public void InitUnitParent(Unit unit, int index)
+    {
+        unit.requestBuffParent = unitUI[index].requestBuffParent;
+        unit.requestUIParent = unitUI[index].requestParent;
+        unit.statParent = unitUI[index].statParent;
+    }
     private void Update()
     {
         if (!controller.isGame) return;
@@ -57,23 +79,42 @@ public class UIManager : MonoBehaviour
             timer.color = Utility.ColorLerp(Color.red, Color.yellow, controller.gameCurTimeCount / 10);
             cam.orthographicSize = Mathf.Lerp(cam.orthographicSize,
             !controller.isTab ? 6 - Mathf.InverseLerp(10, 0, controller.gameCurTimeCount) : 3.5f, 0.1f);
-            camPos = new Vector3(0, -1.5f, -10);
 
-            enemySkillCursor.transform.position
-            = controller.enemy.attackRequest[enemyCursorIndex].insertImage.transform.position;
-            enemySkillCursor.enabled = controller.isTab;
+            camPos = new Vector3(0, -1.5f, -10);
         }
         cam.transform.position = Vector3.Lerp(cam.transform.position,
         controller.isTab ? controller.enemy.transform.position + new Vector3(0, 2, 0) + camPos : controller.movePos + camPos, 0.1f);
+        if (Input.GetKeyDown(KeyCode.Tab)) SelectEnemyImage(true);
+        if (Input.GetKeyUp(KeyCode.Tab)) SelectEnemyImage(false);
         if (controller.isTab)
         {
-            if (Input.GetKeyDown(KeyCode.LeftArrow)) enemyCursorIndex--;
-            else if (Input.GetKeyDown(KeyCode.RightArrow)) enemyCursorIndex++;
-            enemyCursorIndex = Mathf.Clamp(enemyCursorIndex, 0, controller.enemy.attackRequest.Count - 1);
+            if (Input.GetKeyDown(KeyCode.LeftArrow))
+            {
+                enemyCursorIndex--;
+                SelectEnemyImage(true);
+            }
+            else if (Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                enemyCursorIndex++;
+                SelectEnemyImage(true);
+            }
         }
 
         bgCam.orthographicSize = cam.orthographicSize;
         effectCam.orthographicSize = cam.orthographicSize;
+    }
+    private void SelectEnemyImage(bool isActive)
+    {
+        var request = controller.enemy.attackRequest;
+        enemySkillExplainPanel.gameObject.SetActive(isActive);
+        for (int i = 0; i < request.Count; i++)
+        {
+            request[i].insertImage.selected.enabled = false;
+        }
+        if(!isActive) return;
+        enemyCursorIndex = Mathf.Clamp(enemyCursorIndex, 0, controller.enemy.attackRequest.Count - 1);
+        request[enemyCursorIndex].insertImage.selected.enabled = isActive;
+        enemySkillExplainText.text = request[enemyCursorIndex].explain;
     }
     public void FatalDamage()
     {
@@ -84,7 +125,15 @@ public class UIManager : MonoBehaviour
     public Image AddImage(Sprite sprite, Transform parent)
     {
         var img = Instantiate(baseIcon, parent);
-        img.sprite = sprite;
+        img.iconImage.sprite = sprite;
+        img.selected.enabled = false;
+        return img.iconImage;
+    }
+    public Icon AddIcon(Sprite sprite, Transform parent)
+    {
+        var img = Instantiate(baseIcon, parent);
+        img.iconImage.sprite = sprite;
+        img.selected.enabled = false;
         return img;
     }
     public void ChangeCoinSkillImg()
@@ -104,7 +153,6 @@ public class UIManager : MonoBehaviour
             nextKeys[i].enabled = isActive;
         }
         coinGauge.enabled = isActive;
-        enemySkillCursor.enabled = isActive;
         if (!isActive) timerBG.rectTransform.DOAnchorPosY(100, 0.5f).SetEase(Ease.OutCubic);
         else timerBG.rectTransform.anchoredPosition = new Vector2(0, -75f);
     }

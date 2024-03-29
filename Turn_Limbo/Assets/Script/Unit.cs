@@ -12,9 +12,10 @@ public struct RequestSkill
     public int attackCount;
     public Sprite icon;
     public SkillScript effect;
-    public Image insertImage;
+    public Icon insertImage;
     public AnimationClip animation;
     public Unit.ActionType actionType;
+    public string explain;
     public Unit.PropertyType propertyType;
 }
 
@@ -88,13 +89,13 @@ public abstract class Unit : MonoBehaviour
     [HideInInspector] public bool isLeft;
     [HideInInspector] public Sequence iconAnim;
 
-    public RectTransform requestUIParent;
-    public RectTransform requestBuffParent;
-    [SerializeField] protected RectTransform statParent;
-    [SerializeField] protected Image hpImage;
-    [SerializeField] protected Image hpAnimImage;
-    [SerializeField] protected Image shieldImage;
-    [SerializeField] protected Image shieldAnimImage;
+    [HideInInspector] public RectTransform requestUIParent;
+    [HideInInspector] public RectTransform requestBuffParent;
+    [HideInInspector] public RectTransform statParent;
+    protected Image hpImage;
+    protected Image hpAnimImage;
+    protected Image shieldImage;
+    protected Image shieldAnimImage;
     [HideInInspector] public float dmgDelayTime;
     [SerializeField] private float dmgDelayCurTime;
 
@@ -105,6 +106,15 @@ public abstract class Unit : MonoBehaviour
     protected virtual void Start()
     {
         isLeft = target.transform.position.x > transform.position.x;
+        InitUnit();
+    }
+    public virtual void InitUnit()
+    {
+        hpAnimImage = statParent.GetChild(1).GetComponent<Image>();
+        hpImage = hpAnimImage.transform.GetChild(0).GetComponent<Image>();
+
+        shieldAnimImage = statParent.GetChild(3).GetComponent<Image>();
+        shieldImage = shieldAnimImage.transform.GetChild(0).GetComponent<Image>();
     }
     protected virtual void Update()
     {
@@ -268,6 +278,7 @@ public abstract class Unit : MonoBehaviour
         newRequest.actionType = skill.actionType;
         newRequest.attackCount = skill.attackCount;
         newRequest.effect = skill.effect;
+        newRequest.explain = skill.explain;
         newRequest.icon = skill.icon;
         newRequest.skillName = skill.skillName;
         newRequest.propertyType = skill.propertyType;
@@ -291,7 +302,7 @@ public abstract class Unit : MonoBehaviour
             temp.actionType = nextSkill.actionType;
             temp.propertyType = nextSkill.propertyType;
 
-            temp.insertImage.sprite = temp.icon;
+            temp.insertImage.iconImage.sprite = temp.icon;
 
             nextSkill = new();
 
