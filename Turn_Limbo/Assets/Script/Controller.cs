@@ -84,9 +84,9 @@ public class Controller : MonoBehaviour
         useAbleCoin += player.addCoin;
         UIManager.instance.ChangeCoinSkillImg();
 
-        foreach (var n in player.usedBuff) IconAnim(player, n.insertImage);
+        foreach (var n in player.usedBuff) ImageAnim(player, n.insertImage);
         player.usedBuff.Clear();
-        foreach (var n in enemy.usedBuff) IconAnim(enemy, n.insertImage);
+        foreach (var n in enemy.usedBuff) ImageAnim(enemy, n.insertImage);
         enemy.usedBuff.Clear();
     }
     public void TurnEnd()
@@ -106,8 +106,6 @@ public class Controller : MonoBehaviour
     }
     void Update()
     {
-        UIUpdate(player);
-        UIUpdate(enemy);
         int blurValue = 0;
         if (isAttack && isGame) blurValue = 500;
         else
@@ -127,6 +125,7 @@ public class Controller : MonoBehaviour
         CheckInput();
         if (Input.GetKeyDown(KeyCode.A) && !isAttack)
         {
+            UIManager.instance.SelectEnemyImage(false);
             UseAttack();
         }
         bool isSpace = Input.GetKey(KeyCode.Space) && isAttack;
@@ -285,7 +284,7 @@ public class Controller : MonoBehaviour
             player.curSkill.effect?.End(player, player.target);
             enemy.curSkill.effect?.End(enemy, enemy.target);
             BuffClear(player); BuffClear(enemy);
-            yield return new WaitForSeconds(waitTime);
+            yield return new WaitForSeconds(waitTime + 0.01f);
 
             if (player.hp <= 0 || enemy.hp <= 0)
             {
@@ -324,7 +323,7 @@ public class Controller : MonoBehaviour
         unit.InitCurSkillDamage(skill.minDamage, skill.maxDamage, skill.attackCount);
         unit.curSkill.effect?.Setting(unit, unit.target);
         unit.anim.Play(skill.animation.name);
-        IconAnim(unit, skill.insertImage.iconImage);
+        IconAnim(unit, skill.insertImage);
     }
 
     void BuffClear(Unit unit)
@@ -334,13 +333,25 @@ public class Controller : MonoBehaviour
         foreach (var n in unit.usedBuff)
         {
             Debug.Log($"{unit.name} {n.curBuff} {n.insertImage == null}");
-            IconAnim(unit, n.insertImage);
+            ImageAnim(unit, n.insertImage);
         }
 
         unit.usedBuff.Clear();
     }
 
-    void IconAnim(Unit unit, Image insertImage)
+    void ImageAnim(Unit unit, Image insertImage)
+    {
+        unit.iconAnim = DOTween.Sequence();
+
+        unit.iconAnim.Append(insertImage.transform.DOScale(1.5f, 0.5f).SetEase(Ease.OutQuint));
+        unit.iconAnim.Append(insertImage.transform.DOScale(0, 0.3f).SetEase(Ease.OutQuint));
+        unit.iconAnim.AppendCallback(() =>
+        {
+            Destroy(insertImage.gameObject);
+        });
+        unit.iconAnim.Play();
+    }
+    void IconAnim(Unit unit, Icon insertImage)
     {
         unit.iconAnim = DOTween.Sequence();
 

@@ -84,8 +84,11 @@ public class UIManager : MonoBehaviour
         }
         cam.transform.position = Vector3.Lerp(cam.transform.position,
         controller.isTab ? controller.enemy.transform.position + new Vector3(0, 2, 0) + camPos : controller.movePos + camPos, 0.1f);
-        if (Input.GetKeyDown(KeyCode.Tab)) SelectEnemyImage(true);
-        if (Input.GetKeyUp(KeyCode.Tab)) SelectEnemyImage(false);
+        if (!controller.isAttack)
+        {
+            if (Input.GetKeyDown(KeyCode.Tab)) SelectEnemyImage(true);
+            if (Input.GetKeyUp(KeyCode.Tab)) SelectEnemyImage(false);
+        }
         if (controller.isTab)
         {
             if (Input.GetKeyDown(KeyCode.LeftArrow))
@@ -103,7 +106,7 @@ public class UIManager : MonoBehaviour
         bgCam.orthographicSize = cam.orthographicSize;
         effectCam.orthographicSize = cam.orthographicSize;
     }
-    private void SelectEnemyImage(bool isActive)
+    public void SelectEnemyImage(bool isActive)
     {
         var request = controller.enemy.attackRequest;
         enemySkillExplainPanel.gameObject.SetActive(isActive);
@@ -111,7 +114,7 @@ public class UIManager : MonoBehaviour
         {
             request[i].insertImage.selected.enabled = false;
         }
-        if(!isActive) return;
+        if (!isActive) return;
         enemyCursorIndex = Mathf.Clamp(enemyCursorIndex, 0, controller.enemy.attackRequest.Count - 1);
         request[enemyCursorIndex].insertImage.selected.enabled = isActive;
         enemySkillExplainText.text = request[enemyCursorIndex].explain;
