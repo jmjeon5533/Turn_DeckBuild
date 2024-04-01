@@ -91,6 +91,7 @@ public abstract class Unit : MonoBehaviour
     public RectTransform requestUIParent;
     public RectTransform requestBuffParent;
     [SerializeField] protected RectTransform statParent;
+    [SerializeField] protected GameObject status;
     [SerializeField] protected Image hpImage;
     [SerializeField] protected Image hpAnimImage;
     [SerializeField] protected Image shieldImage;
@@ -357,5 +358,11 @@ public abstract class Unit : MonoBehaviour
         transform.position -= value * 1.5f;
         yield return wait;
         transform.position = curPos;
+    }
+    public void HideUI(bool isOn)
+    {
+        requestUIParent.gameObject.SetActive(isOn);
+        requestBuffParent.gameObject.SetActive(isOn);
+        status.SetActive(isOn);
     }
 }

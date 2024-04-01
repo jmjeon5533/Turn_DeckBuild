@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using Mono.Cecil;
 using Unity.Mathematics;
 using UnityEngine;
@@ -9,17 +10,20 @@ using UnityEngine.Networking;
 public class ReadSpreadSheet : MonoBehaviour
 {
     public const string ADDRESS = "https://docs.google.com/spreadsheets/d/1ENYCDg5E6WuUwf-NZjCOpJfRufJsxQI8d7qEKh3Kf_I";
-    public readonly long[] SHEET_ID = { 1705787959};
+    public readonly long[] SHEET_ID = { 1705787959, 930614922};
 
     public Dictionary<KeyCode, List<Skill>> skillDatas = new();
     public List<SkillScript> skillScripts = new();
     public List<Skill> skillLists = new();
+
+    public Queue<Queue<Dialogue>> dialogBox = new();
 
     [SerializeField] private Controller controller;
 
     private void Start()
     {
         StartCoroutine(LoadData(0, ParseSkillData));
+        StartCoroutine(LoadData(1, ParseTextData));
         // StartCoroutine(LoadData(0, ParseEnemyData));
     }
     private IEnumerator LoadData(int pageIndex, Action<string> dataAction)
@@ -41,14 +45,14 @@ public class ReadSpreadSheet : MonoBehaviour
         var d = DataManager.instance;
         string[] rows = data.Split('\n');
         for (int i = 1; i < rows.Length; i++)
-        {   
+        {
             string[] columns = rows[i].Split(',');
             KeyCode keyCode = columns[1].EnumParse<KeyCode>();
             if (!skillDatas.ContainsKey(keyCode))
                 skillDatas.Add(keyCode, new List<Skill>());
 
             var splitExplain = columns[9].Split('&');
-            string explain = string.Join("\n",splitExplain);
+            string explain = string.Join("\n", splitExplain);
             var newSkill = new Skill()
             {
                 skillName = columns[2],
@@ -73,6 +77,7 @@ public class ReadSpreadSheet : MonoBehaviour
         //controller.inputs = new Dictionary<KeyCode, List<Skill>>(skillDatas);
         //controller.inputLists = new List<Skill>(skillLists);
     }
+
     // public void ParseEnemyData(string data)
     // {
     //     string[] rows = data.Split('\n');
@@ -97,4 +102,35 @@ public class ReadSpreadSheet : MonoBehaviour
     //     player_Input.inputs = new Dictionary<KeyCode, List<Skill>>(skillDatas);
     //     player_Input.InitBtn();
     // }
+
+    public void ParseTextData(string data)
+    {
+        Queue<Dialogue> act = new();
+        var d = DataManager.instance;
+        string[] rows = data.Split('\n');
+        for (int i = 1; i < rows.Length; i++)
+        {
+            string[] columns = Regex.Split(rows[i], ",(?=(?:[^\"]*\"[^\"]*\")*(?![^\"]*\"))");
+            
+            if(columns[0] == "start" && act.Count != 0){
+                Debug.Log($"{columns[0]} {i}");
+                dialogBox.Enqueue(new Queue<Dialogue>(act));
+                act.Clear();
+            }
+
+            var newText = new Dialogue(){
+                name = columns[1],
+                job = columns[2],
+                //icon = Resources.Load<Sprite>
+                text = columns[4],
+                time = float.Parse(columns[5])
+            };
+            act.Enqueue(newText);
+
+            // Debug.Log($"ReadData : {id} {name} {job} {text}");
+        }
+        dialogBox.Enqueue(new Queue<Dialogue>(act));
+
+        d.curStageDialogBox = new Queue<Queue<Dialogue>>(dialogBox);
+    }
 }

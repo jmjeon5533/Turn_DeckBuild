@@ -23,6 +23,19 @@ public class Skill
     public Unit.PropertyType propertyType;
 }
 
+[System.Serializable]
+public class Dialogue
+{
+    public string name;
+    public string job;
+    public Sprite icon;
+    public string text;
+    public float time;
+    //effect
+    //target
+    //background
+}
+
 public class Controller : MonoBehaviour
 {
     public Player player;
@@ -32,6 +45,7 @@ public class Controller : MonoBehaviour
     public Image keyHoldImage;
     public List<SkillScript> skills = new();
     public List<Skill> inputLists = new();
+    Queue<Dialogue> dialogueBox = new();
 
     public float gameCurTimeCount;
     public float keyHoldTime;
@@ -39,6 +53,7 @@ public class Controller : MonoBehaviour
 
     public bool isGame;
     public bool isAttack;
+    public bool isDialogue;
     public bool isSkillExplain;
 
     private int lastSign;
@@ -105,6 +120,11 @@ public class Controller : MonoBehaviour
     }
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            Dialogue();
+        }
+
         UIUpdate(player);
         UIUpdate(enemy);
         int blurValue = 0;
@@ -346,5 +366,57 @@ public class Controller : MonoBehaviour
         var useSkills = key[0];
         key.RemoveAt(0);
         key.Add(useSkills);
+    }
+
+    void Dialogue()
+    {
+        if (!isDialogue)
+        {
+            if (!isAttack) StartCoroutine(StartDialogue());
+            else if (dialogueBox.Count == 0 && !UIManager.instance.isTyping) StartCoroutine(EndDialogue());
+            else if (!UIManager.instance.isTyping)
+            {
+                UIManager.instance.InputDialogue(dialogueBox.Dequeue());
+                StartCoroutine(UIManager.instance.TypingText());
+            }
+            else StartCoroutine(UIManager.instance.TypingText());
+        }
+    }
+
+    IEnumerator StartDialogue()
+    {
+        var d = DataManager.instance;
+
+        isAttack = true;
+        dialogueBox = d.curStageDialogBox.Dequeue();
+        UIManager.instance.OnOffDialogue(isAttack);
+        StartCoroutine(FirstDialogueMove(player));
+        yield return StartCoroutine(FirstDialogueMove(enemy));
+        UIManager.instance.InputDialogue(dialogueBox.Dequeue());
+        StartCoroutine(UIManager.instance.TypingText());
+    }
+
+    IEnumerator EndDialogue()
+    {
+        isAttack = false;
+        UIManager.instance.OnOffDialogue(isAttack);
+        StartCoroutine(EndDialogueMove(player));
+        yield return EndDialogueMove(enemy);
+    }
+
+    //Dialogue position
+    IEnumerator FirstDialogueMove(Unit unit)
+    {
+        movePos = Vector3.Lerp(unit.transform.position, unit.target.transform.position, 0.5f);
+
+        unit.HideUI(false);
+        yield return unit.transform.DOMoveX(movePos.x - (2 * (unit.isLeft ? 1 : -1)), 0.5f)
+        .SetEase(Ease.OutCubic).WaitForCompletion();
+    }
+
+    IEnumerator EndDialogueMove(Unit unit)
+    {
+        unit.HideUI(true);
+        yield return unit.transform.DOMoveX(-3.5f * (unit.isLeft ? 1 : -1), 0.5f).SetEase(Ease.InOutSine).WaitForCompletion();
     }
 }
