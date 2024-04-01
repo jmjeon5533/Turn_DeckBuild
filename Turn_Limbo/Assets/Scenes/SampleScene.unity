@@ -527,7 +527,58 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 14
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &180840130
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 180840132}
+  - component: {fileID: 180840131}
+  m_Layer: 0
+  m_Name: <<<DialogueManager>>>
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &180840131
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 180840130}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7d8f092b26f7864c89ca56f127e472d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogueBar: {fileID: 458884115}
+  dialogueNameBar: {fileID: 1675618189}
+  dialogueText: {fileID: 786085426}
+  dialogueName: {fileID: 1598615250}
+  focusUI: {fileID: 1679756403}
+  typingTime: 0.1
+  isTyping: 0
+--- !u!4 &180840132
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 180840130}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.077687, y: -1.7438679, z: -10.023341}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &260191882
 GameObject:
@@ -854,7 +905,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &334556400
 GameObject:
@@ -1051,6 +1102,7 @@ MonoBehaviour:
   cam: {fileID: 519420031}
   bgCam: {fileID: 824250005}
   effectCam: {fileID: 1616153422}
+  camPlusPos: {x: 0, y: 0, z: 0}
   inputPanel: {fileID: 1607977934}
   keys:
   - {fileID: 1469693787}
@@ -1071,13 +1123,6 @@ MonoBehaviour:
   gameEndText: {fileID: 1800967359}
   skillExplainPanel: {fileID: 296627447}
   skillExplainText: {fileID: 2093505819}
-  dialogueBar: {fileID: 458884115}
-  dialogueNameBar: {fileID: 1675618189}
-  dialogueText: {fileID: 786085426}
-  dialogueName: {fileID: 1598615250}
-  focusUI: {fileID: 1679756403}
-  typingTime: 0.1
-  isTyping: 0
 --- !u!4 &368066304
 Transform:
   m_ObjectHideFlags: 0
@@ -5924,7 +5969,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1912842898
 GameObject:
@@ -5969,7 +6014,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1970810575
 GameObject:
@@ -6153,7 +6198,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2060325678
 MonoBehaviour:
