@@ -16,17 +16,6 @@ public class DataManager : MonoBehaviour
 
     public Queue<Queue<Dialogue>> curStageDialogBox = new();
 
-    // private void Update() {
-    //     if(Input.GetKeyDown(KeyCode.T)){
-    //         var box = curStageDialogBox.Dequeue();
-    //         //Debug.Log($"{box.Count} {curStageDialogBox.Count}");
-    //         while(box.Count > 0){
-    //             var dialog = box.Dequeue();
-    //             Debug.Log($"{dialog.name} {dialog.job} {dialog.text} {dialog.time}");
-    //         }
-    //     }
-    // }
-
     public void GivePlayerSkill()
     {
         for (int i = 0; i < skillEffects[0].holdIndex.Count; i++)

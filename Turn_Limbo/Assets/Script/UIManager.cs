@@ -45,6 +45,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] Image dialogueNameBar;
     [SerializeField] TMP_Text dialogueText;
     [SerializeField] TMP_Text dialogueName;
+    [SerializeField] GameObject focusUI;
     //[SerializeField] TMP_Text dialogueJob;
     private string tempText;
     [SerializeField] float typingTime;
@@ -152,10 +153,12 @@ public class UIManager : MonoBehaviour
             dialogueName.text = null;
             dialogueText.text = null;
             timerBG.gameObject.SetActive(!isOn);
+            focusUI.SetActive(isOn);
         }
         else
         {
             timerBG.gameObject.SetActive(isOn);
+            focusUI.SetActive(!isOn);
         }
         inputPanel.rectTransform.DOSizeDelta(isOn ? Vector2.zero : new(0, 250), 0.5f);
         dialogueBar.rectTransform.DOSizeDelta(isOn ? new(0, 250) : Vector2.zero, 0.5f);

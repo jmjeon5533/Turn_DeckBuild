@@ -11,6 +11,7 @@ public class ReadSpreadSheet : MonoBehaviour
 {
     public const string ADDRESS = "https://docs.google.com/spreadsheets/d/1ENYCDg5E6WuUwf-NZjCOpJfRufJsxQI8d7qEKh3Kf_I";
     public readonly long[] SHEET_ID = { 1705787959, 930614922};
+    public string curStageID;
 
     public Dictionary<KeyCode, List<Skill>> skillDatas = new();
     public List<SkillScript> skillScripts = new();
@@ -112,18 +113,20 @@ public class ReadSpreadSheet : MonoBehaviour
         {
             string[] columns = Regex.Split(rows[i], ",(?=(?:[^\"]*\"[^\"]*\")*(?![^\"]*\"))");
             
-            if(columns[0] == "start" && act.Count != 0){
+            //Only text with the same CurStageID and stageID is imported from the sheet << Papago GO
+            if(columns[0] != curStageID) continue;
+
+            if(columns[1] == "this" && act.Count != 0){
                 Debug.Log($"{columns[0]} {i}");
                 dialogBox.Enqueue(new Queue<Dialogue>(act));
                 act.Clear();
             }
 
             var newText = new Dialogue(){
-                name = columns[1],
-                job = columns[2],
+                name = columns[2],
+                job = columns[3],
                 //icon = Resources.Load<Sprite>
-                text = columns[4],
-                time = float.Parse(columns[5])
+                text = columns[5],
             };
             act.Enqueue(newText);
 

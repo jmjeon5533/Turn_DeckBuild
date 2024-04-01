@@ -30,7 +30,6 @@ public class Dialogue
     public string job;
     public Sprite icon;
     public string text;
-    public float time;
     //effect
     //target
     //background
