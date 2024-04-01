@@ -125,7 +125,7 @@ public class ReadSpreadSheet : MonoBehaviour
             var newText = new Dialogue(){
                 name = columns[2],
                 job = columns[3],
-                //icon = Resources.Load<Sprite>
+                pos = columns[4].EnumParse<UIManager.CamPos>(),
                 text = columns[5],
             };
             act.Enqueue(newText);

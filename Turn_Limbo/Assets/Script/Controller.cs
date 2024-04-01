@@ -28,8 +28,9 @@ public class Dialogue
 {
     public string name;
     public string job;
-    public Sprite icon;
     public string text;
+    public UIManager.CamPos pos;
+    //public Sprite icon;
     //effect
     //target
     //background
@@ -389,8 +390,11 @@ public class Controller : MonoBehaviour
         isAttack = true;
         dialogueBox = d.curStageDialogBox.Dequeue();
         UIManager.instance.OnOffDialogue(isAttack);
-        StartCoroutine(FirstDialogueMove(player));
-        yield return StartCoroutine(FirstDialogueMove(enemy));
+        player.HideUI(false);
+        enemy.HideUI(false);
+        // StartCoroutine(FirstDialogueMove(player));
+        // yield return StartCoroutine(FirstDialogueMove(enemy));
+        yield return null;
         UIManager.instance.InputDialogue(dialogueBox.Dequeue());
         StartCoroutine(UIManager.instance.TypingText());
     }
@@ -399,6 +403,8 @@ public class Controller : MonoBehaviour
     {
         isAttack = false;
         UIManager.instance.OnOffDialogue(isAttack);
+        player.HideUI(true);
+        enemy.HideUI(true);
         StartCoroutine(EndDialogueMove(player));
         yield return EndDialogueMove(enemy);
     }
@@ -408,14 +414,12 @@ public class Controller : MonoBehaviour
     {
         movePos = Vector3.Lerp(unit.transform.position, unit.target.transform.position, 0.5f);
 
-        unit.HideUI(false);
         yield return unit.transform.DOMoveX(movePos.x - (2 * (unit.isLeft ? 1 : -1)), 0.5f)
         .SetEase(Ease.OutCubic).WaitForCompletion();
     }
 
     IEnumerator EndDialogueMove(Unit unit)
     {
-        unit.HideUI(true);
         yield return unit.transform.DOMoveX(-3.5f * (unit.isLeft ? 1 : -1), 0.5f).SetEase(Ease.InOutSine).WaitForCompletion();
     }
 }

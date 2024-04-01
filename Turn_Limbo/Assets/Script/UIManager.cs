@@ -14,6 +14,14 @@ public class UIManager : MonoBehaviour
     {
         instance = this;
     }
+    public enum CamPos{
+        LeftEnd,
+        Left,
+        Middle,
+        Right,
+        RightEnd
+    }
+
     public float camRotZ = 0;
     public bool isCamRotate;
     public Camera cam;
@@ -149,7 +157,7 @@ public class UIManager : MonoBehaviour
     {
         if (isOn)
         {
-            cam.DOOrthoSize(3.5f, 0.5f).SetEase(Ease.OutCubic);
+            //cam.DOOrthoSize(3.5f, 0.5f).SetEase(Ease.OutCubic);
             dialogueName.text = null;
             dialogueText.text = null;
             timerBG.gameObject.SetActive(!isOn);
