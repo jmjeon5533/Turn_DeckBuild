@@ -29,7 +29,7 @@ public class Dialogue
     public string name;
     public string job;
     public string text;
-    public UIManager.CamPos pos;
+    public DialogueManager.CamPos pos;
     //public Sprite icon;
     //effect
     //target
@@ -373,13 +373,13 @@ public class Controller : MonoBehaviour
         if (!isDialogue)
         {
             if (!isAttack) StartCoroutine(StartDialogue());
-            else if (dialogueBox.Count == 0 && !UIManager.instance.isTyping) StartCoroutine(EndDialogue());
-            else if (!UIManager.instance.isTyping)
+            else if (dialogueBox.Count == 0 && !DialogueManager.instance.isTyping) StartCoroutine(EndDialogue());
+            else if (!DialogueManager.instance.isTyping)
             {
-                UIManager.instance.InputDialogue(dialogueBox.Dequeue());
-                StartCoroutine(UIManager.instance.TypingText());
+                DialogueManager.instance.InputDialogue(dialogueBox.Dequeue());
+                StartCoroutine(DialogueManager.instance.TypingText());
             }
-            else StartCoroutine(UIManager.instance.TypingText());
+            else StartCoroutine(DialogueManager.instance.TypingText());
         }
     }
 
@@ -389,20 +389,20 @@ public class Controller : MonoBehaviour
 
         isAttack = true;
         dialogueBox = d.curStageDialogBox.Dequeue();
-        UIManager.instance.OnOffDialogue(isAttack);
+        DialogueManager.instance.OnOffDialogue(isAttack);
         player.HideUI(false);
         enemy.HideUI(false);
         // StartCoroutine(FirstDialogueMove(player));
         // yield return StartCoroutine(FirstDialogueMove(enemy));
         yield return null;
-        UIManager.instance.InputDialogue(dialogueBox.Dequeue());
-        StartCoroutine(UIManager.instance.TypingText());
+        DialogueManager.instance.InputDialogue(dialogueBox.Dequeue());
+        StartCoroutine(DialogueManager.instance.TypingText());
     }
 
     IEnumerator EndDialogue()
     {
         isAttack = false;
-        UIManager.instance.OnOffDialogue(isAttack);
+        DialogueManager.instance.OnOffDialogue(isAttack);
         player.HideUI(true);
         enemy.HideUI(true);
         StartCoroutine(EndDialogueMove(player));

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using Newtonsoft.Json.Serialization;
 using TMPro;
+using Unity.Burst.Intrinsics;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,19 +15,13 @@ public class UIManager : MonoBehaviour
     {
         instance = this;
     }
-    public enum CamPos{
-        LeftEnd,
-        Left,
-        Middle,
-        Right,
-        RightEnd
-    }
 
     public float camRotZ = 0;
     public bool isCamRotate;
     public Camera cam;
     public Camera bgCam;
     public Camera effectCam;
+    [HideInInspector] public Vector3 camPlusPos;
 
     public Image inputPanel;
     public Image[] keys;
@@ -37,7 +32,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] Transform dmgTextParent;
     [SerializeField] Image baseIcon;
     [SerializeField] Image timer;
-    [SerializeField] Image timerBG;
+    public Image timerBG;
     public TMP_Text damageText;
 
     [Header("GameEnd")]
@@ -48,23 +43,6 @@ public class UIManager : MonoBehaviour
     [SerializeField] Image skillExplainPanel;
     [SerializeField] TMP_Text skillExplainText;
 
-    [Header("Dialogue")]
-    [SerializeField] Image dialogueBar;
-    [SerializeField] Image dialogueNameBar;
-    [SerializeField] TMP_Text dialogueText;
-    [SerializeField] TMP_Text dialogueName;
-    [SerializeField] GameObject focusUI;
-    //[SerializeField] TMP_Text dialogueJob;
-    private string tempText;
-    [SerializeField] float typingTime;
-    [HideInInspector] public bool isTyping;
-    bool isSkip;
-
-    private void Start()
-    {
-        dialogueText.text = null;
-        dialogueName.text = null;
-    }
 
     private void Update()
     {
@@ -84,7 +62,7 @@ public class UIManager : MonoBehaviour
             timer.color = Utility.ColorLerp(Color.red, Color.yellow, controller.gameCurTimeCount / 10);
             camPos = new Vector3(0, -1.5f, -10);
         }
-        cam.transform.position = Vector3.Lerp(cam.transform.position, controller.movePos + camPos, 0.1f);
+        cam.transform.position = Vector3.Lerp(cam.transform.position, controller.movePos + camPos + camPlusPos, 0.1f);
         bgCam.orthographicSize = cam.orthographicSize;
         effectCam.orthographicSize = cam.orthographicSize;
     }
@@ -151,52 +129,5 @@ public class UIManager : MonoBehaviour
 
         text.transform.DOScale(0, 0.8f + (damage * 0.02f));
         text.DOColor(Color.clear, 0.8f + (damage * 0.02f)).OnComplete(() => Destroy(text.gameObject));
-    }
-
-    public void OnOffDialogue(bool isOn)
-    {
-        if (isOn)
-        {
-            //cam.DOOrthoSize(3.5f, 0.5f).SetEase(Ease.OutCubic);
-            dialogueName.text = null;
-            dialogueText.text = null;
-            timerBG.gameObject.SetActive(!isOn);
-            focusUI.SetActive(isOn);
-        }
-        else
-        {
-            timerBG.gameObject.SetActive(isOn);
-            focusUI.SetActive(!isOn);
-        }
-        inputPanel.rectTransform.DOSizeDelta(isOn ? Vector2.zero : new(0, 250), 0.5f);
-        dialogueBar.rectTransform.DOSizeDelta(isOn ? new(0, 250) : Vector2.zero, 0.5f);
-        dialogueNameBar.rectTransform.DOSizeDelta(isOn ? new(700, 100) : Vector2.zero, 0.5f);
-    }
-
-    public void InputDialogue(Dialogue dialogue)
-    {
-        if(dialogueName.text != new string(dialogue.name + " / " + dialogue.job)) 
-            dialogueName.text = new string(dialogue.name + " / " + dialogue.job);
-
-        tempText = dialogue.text;
-    }
-
-    public IEnumerator TypingText()
-    {
-        if(isTyping) { isSkip = true; yield break; }
-        isTyping = true;
-        dialogueText.text = null;
-        for (int i = 0; i < tempText.Length; i++)
-        {
-            if(isSkip){
-                dialogueText.text = tempText;
-                isTyping = false;
-                isSkip = false;
-                yield break;
-            }
-            dialogueText.text += tempText[i];
-            yield return new WaitForSeconds(typingTime); //Can be cached
-        }
-        isTyping = false;
     }
 }
