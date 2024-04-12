@@ -281,10 +281,13 @@ public class Controller : MonoBehaviour
             float waitTime = Mathf.Max(AttackInit(player), AttackInit(enemy));
             player.BuffSetting(); enemy.BuffSetting();
             AttackStart(player); AttackStart(enemy);
+            LogView.instance.playerSkill = player.curSkill;
+            LogView.instance.enemySkill = enemy.curSkill;
             player.curSkill.effect?.End(player, player.target);
             enemy.curSkill.effect?.End(enemy, enemy.target);
             BuffClear(player); BuffClear(enemy);
             yield return new WaitForSeconds(waitTime + 0.01f);
+            LogView.instance.AddLogs(player.Uniticon,enemy.Uniticon);
 
             if (player.hp <= 0 || enemy.hp <= 0)
             {

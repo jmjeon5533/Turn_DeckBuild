@@ -84,6 +84,7 @@ public abstract class Unit : MonoBehaviour
     };
     public ParticleSystem effect;
     public AudioClip hitSound;
+    public Sprite Uniticon;
 
     [HideInInspector] public Animator anim;
     [HideInInspector] public bool isLeft;
@@ -320,6 +321,7 @@ public abstract class Unit : MonoBehaviour
         if (shield <= damage)
         {
             Damage(damage - shield);
+            DamageLogs(damage - shield);
             if (shield > 0) FatalDamage();
             shield = 0;
         }
@@ -328,10 +330,12 @@ public abstract class Unit : MonoBehaviour
             dmgDelayCurTime = dmgDelayTime;
             var totalDmg = damage;
             shield -= totalDmg;
+            DamageLogs(totalDmg);
             u.DamageText(totalDmg, transform.position);
             StartCoroutine(HitAnimation(curDamage));
         }
     }
+    protected abstract void DamageLogs(int damage);
     protected abstract void FatalDamage();
     public void Damage(int damage)
     {
@@ -351,6 +355,7 @@ public abstract class Unit : MonoBehaviour
         //Debug.Log($"{defense_Drainage} {damage} {totalDmg}");
         dmgDelayCurTime = dmgDelayTime;
         if (totalDmg >= 12) FatalDamage();
+        DamageLogs(totalDmg);
         UIManager.instance.DamageText(totalDmg, transform.position);
         StartCoroutine(HitAnimation(curDamage));
     }

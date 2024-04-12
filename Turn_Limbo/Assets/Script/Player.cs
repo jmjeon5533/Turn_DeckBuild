@@ -26,4 +26,8 @@ public class Player : Unit
     {
         UIManager.instance.FatalDamage();
     }
+    protected override void DamageLogs(int damage)
+    {
+        LogView.instance.enemyDmg = damage;
+    }
 }

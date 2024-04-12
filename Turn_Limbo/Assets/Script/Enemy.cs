@@ -16,4 +16,8 @@ public class Enemy : Unit
     {
         
     }
+    protected override void DamageLogs(int damage)
+    {
+        LogView.instance.playerDmg = damage;
+    }
 }
