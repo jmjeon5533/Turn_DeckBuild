@@ -65,6 +65,7 @@ public class UIManager : MonoBehaviour
         cam.transform.position = Vector3.Lerp(cam.transform.position, controller.movePos + camPos + camPlusPos, 0.1f);
         bgCam.orthographicSize = cam.orthographicSize;
         effectCam.orthographicSize = cam.orthographicSize;
+        if(Input.GetKeyDown(KeyCode.Y)){StartCoroutine(CameraShake());}
     }
     public void FatalDamage()
     {
@@ -129,5 +130,21 @@ public class UIManager : MonoBehaviour
 
         text.transform.DOScale(0, 0.8f + (damage * 0.02f));
         text.DOColor(Color.clear, 0.8f + (damage * 0.02f)).OnComplete(() => Destroy(text.gameObject));
+    }
+    public IEnumerator CameraShake(){
+        Vector3 orignalCamPos = camPlusPos;
+
+        float ranValueX = Random.Range(0, 2);
+        float ranValueY = Random.Range(0, 2);
+        if(ranValueX == 0) ranValueX = -1;
+        if(ranValueY == 0) ranValueY = -1;
+
+        Vector3 shakeValue = new(ranValueX / 2, ranValueY / 2);
+
+        camPlusPos += shakeValue;
+        yield return new WaitForSeconds(0.1f);
+        camPlusPos = orignalCamPos + -shakeValue;
+        yield return new WaitForSeconds(0.1f);
+        camPlusPos = orignalCamPos;
     }
 }

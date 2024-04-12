@@ -23,19 +23,6 @@ public class Skill
     public Unit.PropertyType propertyType;
 }
 
-[System.Serializable]
-public class Dialogue
-{
-    public string name;
-    public string job;
-    public string text;
-    public DialogueManager.CamPos pos;
-    //public Sprite icon;
-    //effect
-    //target
-    //background
-}
-
 public class Controller : MonoBehaviour
 {
     public Player player;
@@ -120,14 +107,14 @@ public class Controller : MonoBehaviour
     }
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.T))
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetMouseButtonDown(0))
         {
             Dialogue();
         }
 
         UIUpdate(player);
         UIUpdate(enemy);
-        int blurValue = 0;
+        int blurValue;
         if (isAttack && isGame) blurValue = 500;
         else
         {
@@ -370,17 +357,20 @@ public class Controller : MonoBehaviour
 
     void Dialogue()
     {
-        if (!isDialogue)
+        if (isDialogue) return;
+
+        if (!isAttack) StartCoroutine(StartDialogue());
+        else if (dialogueBox.Count == 0 && !DialogueManager.instance.isTyping) StartCoroutine(EndDialogue());
+        else if (!DialogueManager.instance.isTyping)
         {
-            if (!isAttack) StartCoroutine(StartDialogue());
-            else if (dialogueBox.Count == 0 && !DialogueManager.instance.isTyping) StartCoroutine(EndDialogue());
-            else if (!DialogueManager.instance.isTyping)
+            if (!DialogueManager.instance.isPanel)
             {
                 DialogueManager.instance.InputDialogue(dialogueBox.Dequeue());
                 StartCoroutine(DialogueManager.instance.TypingText());
             }
-            else StartCoroutine(DialogueManager.instance.TypingText());
+            else DialogueManager.instance.OnOffPanel(0);
         }
+        else StartCoroutine(DialogueManager.instance.TypingText());
     }
 
     IEnumerator StartDialogue()
