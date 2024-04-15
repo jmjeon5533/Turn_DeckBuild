@@ -52,6 +52,7 @@ public class Controller : MonoBehaviour
     [SerializeField] protected float AnimTime;
 
     public AudioClip hitSound;
+    public AudioClip BGM;
     public AudioClip[] addSkillSound;
 
     public Dictionary<int, List<Skill>> inputs = new();
@@ -74,6 +75,7 @@ public class Controller : MonoBehaviour
         depth.focalLength.value = 1;
         color.postExposure.value = 0;
         color.saturation.value = 0;
+        SoundManager.instance.SetAudio(BGM, true);
     }
     public void TurnReset()
     {

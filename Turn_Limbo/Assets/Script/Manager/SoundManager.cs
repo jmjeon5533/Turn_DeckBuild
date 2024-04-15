@@ -22,6 +22,6 @@ public class SoundManager : MonoBehaviour
         sound.clip = clip;
         sound.loop = looping;
         sound.Play();
-        Destroy(sound.gameObject,sound.clip.length);
+        if(!looping) Destroy(sound.gameObject,sound.clip.length);
     }
 }
