@@ -75,7 +75,7 @@ public class Controller : MonoBehaviour
         depth.focalLength.value = 1;
         color.postExposure.value = 0;
         color.saturation.value = 0;
-        SoundManager.instance.SetAudio(BGM, true);
+        if (BGM != null) SoundManager.instance.SetAudio(BGM, true);
     }
     public void TurnReset()
     {
@@ -133,7 +133,7 @@ public class Controller : MonoBehaviour
         bool isSpace = Input.GetKey(KeyCode.Space) && isAttack;
         isTab = Input.GetKey(KeyCode.Tab) && !isAttack;
         float timeScale;
-        if(isAttack)
+        if (isAttack)
         {
             timeScale = isSpace ? 0.4f : 1;
         }
@@ -141,7 +141,7 @@ public class Controller : MonoBehaviour
         {
             timeScale = isTab ? 0.2f : 1;
         }
-        
+
         Time.timeScale = timeScale;
         Color bgColor = isSpace || isTab ? new Color(0.6f, 0.6f, 0.6f, 1) : Color.white;
         bg.color = bg.color.MoveToward(bgColor, Time.deltaTime * 5f);
@@ -186,7 +186,7 @@ public class Controller : MonoBehaviour
     {
         if (useAbleCoin <= 0) return;
         var ui = UIManager.instance;
-        if(isTab) return;
+        if (isTab) return;
         for (int i = 0; i < KEY_CODE.Length; i++)
         {
             if (Input.GetKeyUp(KEY_CODE[i]))
@@ -265,9 +265,18 @@ public class Controller : MonoBehaviour
         StartCoroutine(FirstAttackMove(player));
         yield return StartCoroutine(FirstAttackMove(enemy));
         var attackCount = Mathf.Max(player.attackRequest.Count, enemy.attackRequest.Count);
+        Unit[] units = { player, enemy };
         for (int i = 0; i < attackCount; i++)
         {
             // yield return new WaitForSeconds(skill.animation.length + 0.1f);
+            for (int j = 0; j < units.Length; j++)
+            {
+                if (units[j].attackRequest.Count < i + 1)
+                {
+                    units[j].InitCurSkillDamage(0, 0, 1);
+                    LogView.instance.curDmg[j] = 0;
+                }
+            }
 
             if (lastSign == 0)
             {
@@ -283,13 +292,15 @@ public class Controller : MonoBehaviour
             float waitTime = Mathf.Max(AttackInit(player), AttackInit(enemy));
             player.BuffSetting(); enemy.BuffSetting();
             AttackStart(player); AttackStart(enemy);
-            LogView.instance.playerSkill = player.curSkill;
-            LogView.instance.enemySkill = enemy.curSkill;
+            for (int j = 0; j < units.Length; j++)
+            {
+                LogView.instance.curSkills[j] = units[j].curSkill;
+            }
             player.curSkill.effect?.End(player, player.target);
             enemy.curSkill.effect?.End(enemy, enemy.target);
             BuffClear(player); BuffClear(enemy);
             yield return new WaitForSeconds(waitTime + 0.01f);
-            LogView.instance.AddLogs(player.Uniticon,enemy.Uniticon);
+            LogView.instance.AddLogs(player.Uniticon, enemy.Uniticon);
 
             if (player.hp <= 0 || enemy.hp <= 0)
             {

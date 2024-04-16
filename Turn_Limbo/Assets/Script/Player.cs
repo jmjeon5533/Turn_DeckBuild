@@ -28,6 +28,6 @@ public class Player : Unit
     }
     protected override void DamageLogs(int damage)
     {
-        LogView.instance.enemyDmg = damage;
+        LogView.instance.curDmg[1] = damage;
     }
 }

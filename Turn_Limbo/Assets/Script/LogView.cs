@@ -9,8 +9,9 @@ public class LogView : MonoBehaviour
     public static LogView instance { get; private set; }
     private RectTransform UIPanel;
     private bool isPanelMove;
-    public int playerDmg, enemyDmg;
-    public RequestSkill playerSkill, enemySkill;
+    public int[] curDmg = new int[2];
+    public RequestSkill[] curSkills = new RequestSkill[2];
+    [SerializeField] RectTransform ContentPanel;
     [SerializeField] RectTransform[] Panels;
     [SerializeField] LogPanel[] BaseObjs;
     [Space(10)]
@@ -47,13 +48,14 @@ public class LogView : MonoBehaviour
     }
     public void AddLogs(Sprite playerImg, Sprite enemyImg)
     {
-        var player = Instantiate(BaseObjs[0], Panels[0]);
-        player.DamageText.text = playerDmg.ToString();
-        player.SkillText.text = playerSkill.skillName;
-        player.Icon.sprite = playerImg;
-        var enemy = Instantiate(BaseObjs[1], Panels[1]);
-        enemy.DamageText.text = enemyDmg.ToString();
-        enemy.Icon.sprite = enemyImg;
-        enemy.SkillText.text = enemySkill.skillName;
+        Sprite[] imgs = { playerImg, enemyImg };
+        for (int i = 0; i < 2; i++)
+        {
+            var ui = Instantiate(BaseObjs[i], Panels[i]);
+            ui.DamageText.text = curDmg[i].ToString();
+            ui.SkillText.text = curSkills[i].skillName;
+            ui.Icon.sprite = imgs[i];
+        }
+        ContentPanel.sizeDelta = new Vector2(0, Mathf.Clamp(Panels[0].transform.childCount * 220, 1000, 100000));
     }
 }
