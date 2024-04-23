@@ -7,23 +7,21 @@ using System;
 public class UIFadeObject : MonoBehaviour
 {
     [SerializeField] private Material targetMaterial;
+    [HideInInspector] public bool isShow;
+    [HideInInspector] public bool isFade;
 
     public void FadeIn(float time, Action onComplete = null)
     {
         gameObject.SetActive(true);
-        targetMaterial
-            .DOColor(Color.white, time)
-            .OnComplete(() => onComplete?.Invoke());
+        targetMaterial.DOColor(Color.white, time).OnComplete(() => onComplete?.Invoke());
     }
 
     public void FadeOut(float time, Action onComplete = null)
     {
-        targetMaterial
-            .DOColor(new Color(1, 1, 1, 0), time)
-            .OnComplete(() =>
-            {
-                gameObject.SetActive(false);
-                onComplete?.Invoke();
-            });
+        targetMaterial.DOColor(new Color(1, 1, 1, 0), time).OnComplete(() =>
+        {
+            gameObject.SetActive(false);
+            onComplete?.Invoke();
+        });
     }
 }
