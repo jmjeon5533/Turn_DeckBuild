@@ -8,27 +8,36 @@ using UnityEngine.Networking;
 
 public class ReadSpreadSheet : MonoBehaviour
 {
+    public static ReadSpreadSheet instance;
     public const string ADDRESS = "https://docs.google.com/spreadsheets/d/1ENYCDg5E6WuUwf-NZjCOpJfRufJsxQI8d7qEKh3Kf_I";
     public readonly long[] SHEET_ID = { 1705787959};
 
     public Dictionary<KeyCode, List<Skill>> skillDatas = new();
     public List<SkillScript> skillScripts = new();
-    public List<Skill> skillLists = new();
+    private List<Skill> skillLists = new();
 
-    [SerializeField] private Controller controller;
-
+    private void Awake()
+    {
+        if(instance != null) Destroy(gameObject);
+        else instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
     private void Start()
     {
-        StartCoroutine(LoadData(0, ParseSkillData));
         // StartCoroutine(LoadData(0, ParseEnemyData));
     }
-    private IEnumerator LoadData(int pageIndex, Action<string> dataAction)
+    public void Load(Action callBack = default)
+    {
+        StartCoroutine(LoadData(0, ParseSkillData,callBack));
+    }
+    private IEnumerator LoadData(int pageIndex, Action<string> dataAction,Action callBack)
     {
         UnityWebRequest www = UnityWebRequest.Get(GetCSVAddress(SHEET_ID[pageIndex]));
         yield return www.SendWebRequest();
 
         string data = www.downloadHandler.text;
         dataAction?.Invoke(data);
+        callBack?.Invoke();
     }
 
     public static string GetCSVAddress(long sheetID)
@@ -69,7 +78,6 @@ public class ReadSpreadSheet : MonoBehaviour
         d.skillData = new Dictionary<KeyCode, List<Skill>>(skillDatas);
         d.SkillList = new List<Skill>(skillLists);
         Debug.Log("ReadEnd");
-        d.GivePlayerSkill();
         //controller.inputs = new Dictionary<KeyCode, List<Skill>>(skillDatas);
         //controller.inputLists = new List<Skill>(skillLists);
     }
