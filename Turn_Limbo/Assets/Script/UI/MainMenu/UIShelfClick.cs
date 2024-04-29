@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 using UnityEngine.UI;
 
 public class UIShelfClick : MonoBehaviour
@@ -12,16 +13,14 @@ public class UIShelfClick : MonoBehaviour
         btn.onClick.AddListener(() => Actions());
     }
     [SerializeField] private UIFadeObject fadeObject;
-    private bool isShow;
-    private bool isFade;
 
     private void Actions()
     {
-        if (isFade) return;
-        isFade = true;
+        if (fadeObject.isFade) return;
+        fadeObject.isFade = true;
 
-        isShow = !isShow;
-        if (isShow) fadeObject.FadeIn(0.5f, () => isFade = false);
-        else fadeObject.FadeOut(0.5f, () => isFade = false);
+        fadeObject.isShow = !fadeObject.isShow;
+        if (fadeObject.isShow) fadeObject.FadeIn(0.5f, () => { fadeObject.isFade = false; });
+        else fadeObject.FadeOut(0.5f, () => fadeObject.isFade = false);
     }
 }
