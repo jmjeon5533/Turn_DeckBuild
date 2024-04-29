@@ -1849,6 +1849,10 @@ MonoBehaviour:
   - {fileID: 864503905}
   - {fileID: 319136979}
   skillSelectBaseBtn: {fileID: 3813341680143465324, guid: eb5fed3c42613d14aa88d7e44afdc736, type: 3}
+  BtnImage:
+  - btns: []
+  - btns: []
+  - btns: []
 --- !u!1 &664195563
 GameObject:
   m_ObjectHideFlags: 0
@@ -4179,7 +4183,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2009970080}
-  - component: {fileID: 2009970081}
   m_Layer: 5
   m_Name: MainScene
   m_TagString: Untagged
@@ -4209,21 +4212,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 1920, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &2009970081
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2009970079}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9532462032d8da8488884245b5d9ab20, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerSkill: {fileID: 11400000, guid: 7dc6ef30da862824fb326d50b28df9b0, type: 2}
-  skillSelectBtnParent: []
-  skillSelectBaseBtn: {fileID: 0}
 --- !u!1 &2067126254
 GameObject:
   m_ObjectHideFlags: 0
