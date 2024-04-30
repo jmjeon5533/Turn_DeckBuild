@@ -15,6 +15,16 @@ public class DataManager : MonoBehaviour
     public List<Skill> SkillList = new();
 
     public Queue<Queue<Dialogue>> curStageDialogBox = new();
+    public Queue<Queue<Dialogue>> hpDialogBox = new();
+    public bool isPlayer;
+
+    public void InitUnit(Unit unit){
+        if(hpDialogBox.Count == 0) return;
+
+        unit.hpLimit = hpDialogBox.Peek().Peek().hpValue;
+        Debug.Log("test");
+        unit.isDialogue = false;
+    }
 
     public void GivePlayerSkill()
     {
@@ -30,6 +40,9 @@ public class DataManager : MonoBehaviour
         }
         controller.InitEnemy();
         controller.InitBtn();
+        controller.talkUnit = isPlayer ? controller.player : controller.enemy;
+        InitUnit(controller.talkUnit);
+
         controller.isGame = true;
     }
 }

@@ -33,6 +33,8 @@ public class Controller : MonoBehaviour
     public List<SkillScript> skills = new();
     public List<Skill> inputLists = new();
     Queue<Dialogue> dialogueBox = new();
+    DataManager data;
+    public Unit talkUnit;
 
     public float gameCurTimeCount;
     public float keyHoldTime;
@@ -66,6 +68,7 @@ public class Controller : MonoBehaviour
     void Start()
     {
         TurnReset();
+        data = DataManager.instance;
         UIManager.instance.SetExplain(false);
         player.hitSound = hitSound;
         enemy.hitSound = hitSound;
@@ -107,7 +110,7 @@ public class Controller : MonoBehaviour
     }
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetMouseButtonDown(0))
+        if (Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetMouseButtonDown(0))
         {
             Dialogue();
         }
@@ -282,6 +285,12 @@ public class Controller : MonoBehaviour
             BuffClear(player); BuffClear(enemy);
             yield return new WaitForSeconds(waitTime);
 
+            if(talkUnit.isDialogue) {
+                StartCoroutine(StartDialogue(data.hpDialogBox.Dequeue()));
+                data.InitUnit(talkUnit);
+                yield break;
+            }
+
             if (player.hp <= 0 || enemy.hp <= 0)
             {
                 GameEnd();
@@ -357,28 +366,24 @@ public class Controller : MonoBehaviour
 
     void Dialogue()
     {
-        if (isDialogue) return;
-
-        if (!isAttack) StartCoroutine(StartDialogue());
+        if(!isAttack) StartCoroutine(StartDialogue(data.curStageDialogBox.Dequeue()));
         else if (dialogueBox.Count == 0 && !DialogueManager.instance.isTyping) StartCoroutine(EndDialogue());
         else if (!DialogueManager.instance.isTyping)
         {
-            if (!DialogueManager.instance.isPanel)
+            if (!DialogueManager.instance.panelState)
             {
                 DialogueManager.instance.InputDialogue(dialogueBox.Dequeue());
                 StartCoroutine(DialogueManager.instance.TypingText());
             }
-            else DialogueManager.instance.OnOffPanel(0);
+            else DialogueManager.instance.OnOffPanel();
         }
         else StartCoroutine(DialogueManager.instance.TypingText());
     }
 
-    IEnumerator StartDialogue()
+    IEnumerator StartDialogue(Queue<Dialogue> curDialogueBox)
     {
-        var d = DataManager.instance;
-
         isAttack = true;
-        dialogueBox = d.curStageDialogBox.Dequeue();
+        dialogueBox = curDialogueBox;
         DialogueManager.instance.OnOffDialogue(isAttack);
         player.HideUI(false);
         enemy.HideUI(false);

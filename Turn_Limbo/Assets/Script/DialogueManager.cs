@@ -17,6 +17,7 @@ public class Dialogue
     public DialogueManager.CamPos camPos;
     public DialogueManager.CurEvent curEvent;
     public int eventValue;
+    public int hpValue;
     //public Sprite icon;
     //effect
     //target
@@ -29,9 +30,9 @@ public class DialogueManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
-        dialogueText.text = null;
-        dialogueName.text = null;
-        dialogueJob.text = null;
+        text.text = null;
+        nameText.text = null;
+        jobText.text = null;
         waitTime = new WaitForSeconds(typingTime);
     }
     public enum NamePos
@@ -56,33 +57,39 @@ public class DialogueManager : MonoBehaviour
         Enemy_Damage,
     }
 
-    [SerializeField] Controller controller;
     [SerializeField] Image panel;
     [SerializeField] List<Sprite> panelImage = new();
 
     [Header("Dialogue")]
-    [SerializeField] Image dialogueBar;
-    [SerializeField] Image dialogueNameBar;
-    [SerializeField] TMP_Text dialogueText;
-    [SerializeField] TMP_Text dialogueName;
-    [SerializeField] TMP_Text dialogueJob;
+    [SerializeField] Image barSize;
+    [SerializeField] Image nameLeftBar;
+    [SerializeField] Image nameRightBar;
+    [SerializeField] TMP_Text text;
+    [SerializeField] TMP_Text nameText;
+    [SerializeField] TMP_Text jobText;
     [SerializeField] GameObject focusUI;
     private string tempText;
     [SerializeField] float typingTime;
     WaitForSeconds waitTime;
     [HideInInspector] public bool isTyping;
-    [HideInInspector] public bool isPanel;
+    [HideInInspector] public bool panelState;
     int eventValue;
     bool isSkip;
+    bool isPanel;
+    bool isNameHide;
     Action<int> curEvent;
+
+    //caching
+    Vector3 nameBarLeft = new(-610, 100);
+    Vector3 nameBarRight = new(610, 100);
 
     public void OnOffDialogue(bool isOn)
     {
         if (isOn)
         {
             //cam.DOOrthoSize(3.5f, 0.5f).SetEase(Ease.OutCubic);
-            dialogueName.text = null;
-            dialogueText.text = null;
+            nameText.text = null;
+            text.text = null;
             UIManager.instance.timerBG.gameObject.SetActive(!isOn);
             focusUI.SetActive(isOn);
         }
@@ -93,19 +100,37 @@ public class DialogueManager : MonoBehaviour
             focusUI.SetActive(!isOn);
         }
         UIManager.instance.inputPanel.rectTransform.DOSizeDelta(isOn ? Vector2.zero : new(0, 250), 0.5f);
-        dialogueBar.rectTransform.DOSizeDelta(isOn ? new(0, 250) : Vector2.zero, 0.5f);
-        dialogueNameBar.rectTransform.DOSizeDelta(isOn ? new(700, 150) : Vector2.zero, 0.5f);
+        barSize.rectTransform.DOSizeDelta(isOn ? new(0, 450) : Vector2.zero, 0.5f);
     }
 
     public void InputDialogue(Dialogue dialogue)
     {
-        if (dialogueName.text != dialogue.name)
+        switch (dialogue.namePos)
         {
-            dialogueName.text = dialogue.name;
-            dialogueJob.text = dialogue.job;
-        }
+            case NamePos.Left:
+                nameLeftBar.rectTransform.DOLocalMoveX(-610, 0.5f);
+                nameRightBar.rectTransform.DOLocalMoveX(1310, 0.5f);
+                nameText.transform.parent = nameLeftBar.transform;
+                jobText.transform.parent = nameLeftBar.transform;
+                isNameHide = false; break;
 
-        tempText = dialogue.text;
+            case NamePos.Right:
+                nameRightBar.rectTransform.DOLocalMoveX(610, 0.5f);
+                nameLeftBar.rectTransform.DOLocalMoveX(-1310, 0.5f);
+                nameText.transform.parent = nameRightBar.transform;
+                jobText.transform.parent = nameRightBar.transform;
+                isNameHide = false; break;
+
+            case NamePos.Hide:
+                if (isNameHide) break;
+                else
+                {
+                    nameRightBar.rectTransform.DOLocalMoveX(1310, 0.5f);
+                    nameLeftBar.rectTransform.DOLocalMoveX(-1310, 0.5f);
+                    isNameHide = true;
+                }
+                break;
+        }
 
         switch (dialogue.camPos)
         {
@@ -118,31 +143,40 @@ public class DialogueManager : MonoBehaviour
         switch (dialogue.curEvent)
         {
             case CurEvent.Null: curEvent = null; break;
-            case CurEvent.Panel: curEvent = OnOffPanel; break;
-            //case CurEvent.Player_Damage: curEvent = controller.player.Damage; break;
-            //case CurEvent.Enemy_Damage: curEvent = controller.enemy.Damage; break;
+            case CurEvent.Panel: curEvent = SettingPanel; break;
+                //case CurEvent.Player_Damage: curEvent = controller.player.Damage; break;
+                //case CurEvent.Enemy_Damage: curEvent = controller.enemy.Damage; break;
         }
 
+        if (nameText.text != dialogue.name && !isNameHide)
+        {
+            nameText.text = dialogue.name;
+            jobText.text = dialogue.job;
+        }
+
+        nameText.rectTransform.anchoredPosition = new Vector2(0, nameText.rectTransform.anchoredPosition.y);
+        jobText.rectTransform.anchoredPosition = new Vector2(0, jobText.rectTransform.anchoredPosition.y);
+
+        tempText = dialogue.text;
         eventValue = dialogue.eventValue;
-        Debug.Log(eventValue);
     }
 
     public IEnumerator TypingText()
     {
         if (isTyping) { isSkip = true; yield break; }
         isTyping = true;
-        dialogueText.text = null;
+        text.text = null;
         for (int i = 0; i < tempText.Length; i++)
         {
             if (isSkip)
             {
-                dialogueText.text = tempText;
+                text.text = tempText;
                 DialogueEvent();
                 isTyping = false;
                 isSkip = false;
                 yield break;
             }
-            dialogueText.text += tempText[i];
+            text.text += tempText[i];
             yield return waitTime;
         }
         isTyping = false;
@@ -156,18 +190,24 @@ public class DialogueManager : MonoBehaviour
         curEvent?.Invoke(eventValue);
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="isOn">-1 is On 0 is Off</param>
-    public void OnOffPanel(int isOn)
+    public void SettingPanel(int isOn)
     {
-        bool isOnOff = isOn != 0;
-        isPanel = isOnOff;
+        panelState = true;
+        isPanel = true;
+    }
 
-        // if(isOnOff) panel.sprite = panelImage[0];
-        // else panelImage.Remove(panelImage[0]);
-
-        panel.rectTransform.DOSizeDelta(isOnOff ? new(1500, 500) : Vector2.zero, 0.5f);
+    public void OnOffPanel()
+    {
+        panel.rectTransform.DOSizeDelta(isPanel ? new(1500, 500) : Vector2.zero, 0.5f);
+        if (isPanel)
+        {
+            panel.sprite = panelImage[0];
+            panelImage.Remove(panelImage[0]);
+            isPanel = !isPanel;
+        }
+        else
+        {
+            panelState = false;
+        }
     }
 }

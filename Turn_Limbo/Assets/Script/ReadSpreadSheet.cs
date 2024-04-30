@@ -10,14 +10,12 @@ using UnityEngine.Networking;
 public class ReadSpreadSheet : MonoBehaviour
 {
     public const string ADDRESS = "https://docs.google.com/spreadsheets/d/1ENYCDg5E6WuUwf-NZjCOpJfRufJsxQI8d7qEKh3Kf_I";
-    public readonly long[] SHEET_ID = { 1705787959, 930614922};
+    public readonly long[] SHEET_ID = { 1705787959, 930614922 };
     public string curStageID;
 
     public Dictionary<KeyCode, List<Skill>> skillDatas = new();
     public List<SkillScript> skillScripts = new();
     public List<Skill> skillLists = new();
-
-    public Queue<Queue<Dialogue>> dialogBox = new();
 
     [SerializeField] private Controller controller;
 
@@ -106,23 +104,34 @@ public class ReadSpreadSheet : MonoBehaviour
 
     public void ParseTextData(string data)
     {
+        Queue<Queue<Dialogue>> dialogBox = new();
+        Queue<Queue<Dialogue>> hpDialogBox = new();
+
         Queue<Dialogue> act = new();
+        
         var d = DataManager.instance;
         string[] rows = data.Split('\n');
+        string nowDialogueType = null;
+        bool isPlayer = false;
         for (int i = 1; i < rows.Length; i++)
         {
             string[] columns = Regex.Split(rows[i], ",(?=(?:[^\"]*\"[^\"]*\")*(?![^\"]*\"))");
-            
-            //Only text with the same CurStageID and stageID is imported from the sheet << Papago GO
-            if(columns[0] != curStageID) continue;
 
-            if(columns[1] == "this" && act.Count != 0){
-                Debug.Log($"{columns[0]} {i}");
-                dialogBox.Enqueue(new Queue<Dialogue>(act));
+            //Only text with the same CurStageID and stageID is imported from the sheet << Papago GO
+            if (columns[0] != curStageID || columns[0] == "") continue;
+
+            if (columns[1] != "" && act.Count != 0)
+            {
+                if (nowDialogueType == "StoryDialogue") dialogBox.Enqueue(new Queue<Dialogue>(act));
+                else hpDialogBox.Enqueue(new Queue<Dialogue>(act));
+                
                 act.Clear();
             }
+            
+            if (columns[1] != "") nowDialogueType = columns[1];
 
-            var newText = new Dialogue(){
+            var newText = new Dialogue()
+            {
                 name = columns[2],
                 job = columns[3],
                 namePos = columns[4].EnumParse<DialogueManager.NamePos>(),
@@ -131,12 +140,25 @@ public class ReadSpreadSheet : MonoBehaviour
                 curEvent = columns[7].EnumParse<DialogueManager.CurEvent>(),
                 eventValue = columns[8] != "" ? int.Parse(columns[8]) : 0,
             };
+
+            //Debug.Log(newText.text);
+
+            if (nowDialogueType == "HpDialogue" && columns[9] != "")
+            {
+                newText.hpValue = int.Parse(columns[10]);
+                isPlayer = columns[9] == "Player";
+            }
+
             act.Enqueue(newText);
 
             // Debug.Log($"ReadData : {id} {name} {job} {text}");
         }
-        dialogBox.Enqueue(new Queue<Dialogue>(act));
 
+        if (nowDialogueType == "StoryDialogue") dialogBox.Enqueue(new Queue<Dialogue>(act));
+        else hpDialogBox.Enqueue(new Queue<Dialogue>(act));
+        
         d.curStageDialogBox = new Queue<Queue<Dialogue>>(dialogBox);
+        d.hpDialogBox = new Queue<Queue<Dialogue>>(hpDialogBox);
+        d.isPlayer = isPlayer;
     }
 }
