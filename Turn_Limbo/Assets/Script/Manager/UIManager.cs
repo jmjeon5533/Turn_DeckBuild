@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 [System.Serializable]
@@ -37,6 +38,7 @@ public class UIManager : MonoBehaviour
     [Header("GameEnd")]
     [SerializeField] Image gameEndPanel;
     [SerializeField] TMP_Text gameEndText;
+    [SerializeField] Button retry, stageSelect;
 
     [Header("ExplainText")]
     [SerializeField] Image skillExplainPanel;
@@ -179,6 +181,12 @@ public class UIManager : MonoBehaviour
         string text = isWin ? "Victory" : "Defeat";
         yield return gameEndPanel.DOColor(new Color(0, 0, 0, 0.5f), 0.5f).SetUpdate(true).WaitForCompletion();
         gameEndText.text = text;
+        yield return new WaitForSeconds(0.2f);
+        retry.onClick.AddListener(() => SceneManager.LoadScene(1));
+        stageSelect.onClick.AddListener(() => SceneManager.LoadScene(0));
+
+        retry.transform.DOLocalMoveY(-500,0.2f);
+        stageSelect.transform.DOLocalMoveY(-500,0.2f);
     }
     public void DamageText(int damage, Vector3 pos)
     {
