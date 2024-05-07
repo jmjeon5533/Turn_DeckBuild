@@ -14,18 +14,6 @@ public class IngamePlayerSkillAdd : MonoBehaviour
     public Dictionary<KeyCode, List<Skill>> skillData = new();
     public List<Skill> SkillList = new();
 
-    public Queue<Queue<Dialogue>> curStageDialogBox = new();
-    public Queue<Queue<Dialogue>> hpDialogBox = new();
-    public bool isPlayer;
-
-    public void InitUnit(Unit unit){
-        if(hpDialogBox.Count == 0) return;
-
-        unit.hpLimit = hpDialogBox.Peek().Peek().hpValue;
-        Debug.Log("test");
-        unit.isDialogue = false;
-    }
-
     public void GivePlayerSkill()
     {
         var d = DataManager.instance;
@@ -41,8 +29,8 @@ public class IngamePlayerSkillAdd : MonoBehaviour
         }
         controller.InitEnemy();
         controller.InitBtn();
-        controller.talkUnit = isPlayer ? controller.player : controller.enemy;
-        InitUnit(controller.talkUnit);
+        controller.talkUnit = DataManager.instance.isPlayer ? controller.player : controller.enemy;
+        DataManager.instance.InitUnit(controller.talkUnit);
 
         controller.isGame = true;
     }

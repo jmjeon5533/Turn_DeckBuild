@@ -79,10 +79,6 @@ public class DialogueManager : MonoBehaviour
     bool isNameHide;
     Action<int> curEvent;
 
-    //caching
-    Vector3 nameBarLeft = new(-610, 100);
-    Vector3 nameBarRight = new(610, 100);
-
     public void OnOffDialogue(bool isOn)
     {
         if (isOn)
@@ -91,16 +87,19 @@ public class DialogueManager : MonoBehaviour
             nameText.text = null;
             text.text = null;
             UIManager.instance.timerBG.gameObject.SetActive(!isOn);
-            focusUI.SetActive(isOn);
+            focusUI.SetActive(true);
         }
         else
         {
+            text.text = null;
             UIManager.instance.camPlusPos = Vector3.zero;
             UIManager.instance.timerBG.gameObject.SetActive(isOn);
-            focusUI.SetActive(!isOn);
+            nameLeftBar.rectTransform.DOLocalMoveX(-1410, 0.5f);
+            nameRightBar.rectTransform.DOLocalMoveX(1410, 0.5f);
+            focusUI.SetActive(false);
         }
         UIManager.instance.inputPanel.rectTransform.DOSizeDelta(isOn ? Vector2.zero : new(0, 250), 0.5f);
-        barSize.rectTransform.DOSizeDelta(isOn ? new(0, 450) : Vector2.zero, 0.5f);
+        barSize.rectTransform.DOSizeDelta(isOn ? new(0, 275) : Vector2.zero, 0.5f);
     }
 
     public void InputDialogue(Dialogue dialogue)
@@ -108,15 +107,15 @@ public class DialogueManager : MonoBehaviour
         switch (dialogue.namePos)
         {
             case NamePos.Left:
-                nameLeftBar.rectTransform.DOLocalMoveX(-610, 0.5f);
-                nameRightBar.rectTransform.DOLocalMoveX(1310, 0.5f);
+                nameLeftBar.rectTransform.DOLocalMoveX(-960, 0.5f);
+                nameRightBar.rectTransform.DOLocalMoveX(1410, 0.5f);
                 nameText.transform.parent = nameLeftBar.transform;
                 jobText.transform.parent = nameLeftBar.transform;
                 isNameHide = false; break;
 
             case NamePos.Right:
-                nameRightBar.rectTransform.DOLocalMoveX(610, 0.5f);
-                nameLeftBar.rectTransform.DOLocalMoveX(-1310, 0.5f);
+                nameLeftBar.rectTransform.DOLocalMoveX(-1410, 0.5f);
+                nameRightBar.rectTransform.DOLocalMoveX(960, 0.5f);
                 nameText.transform.parent = nameRightBar.transform;
                 jobText.transform.parent = nameRightBar.transform;
                 isNameHide = false; break;
@@ -125,8 +124,8 @@ public class DialogueManager : MonoBehaviour
                 if (isNameHide) break;
                 else
                 {
-                    nameRightBar.rectTransform.DOLocalMoveX(1310, 0.5f);
-                    nameLeftBar.rectTransform.DOLocalMoveX(-1310, 0.5f);
+                    nameLeftBar.rectTransform.DOLocalMoveX(-1410, 0.5f);
+                    nameRightBar.rectTransform.DOLocalMoveX(1410, 0.5f);
                     isNameHide = true;
                 }
                 break;

@@ -20,7 +20,7 @@ public class ReadSpreadSheet : MonoBehaviour
 
     private void Awake()
     {
-        if(instance != null) Destroy(gameObject);
+        if (instance != null) Destroy(gameObject);
         else instance = this;
         DontDestroyOnLoad(gameObject);
     }
@@ -32,9 +32,9 @@ public class ReadSpreadSheet : MonoBehaviour
     }
     public void Load(Action callBack = default)
     {
-        StartCoroutine(LoadData(0, ParseSkillData,callBack));
+        StartCoroutine(LoadData(0, ParseSkillData, callBack));
     }
-    private IEnumerator LoadData(int pageIndex, Action<string> dataAction,Action callBack)
+    private IEnumerator LoadData(int pageIndex, Action<string> dataAction, Action callBack = default)
     {
         UnityWebRequest www = UnityWebRequest.Get(GetCSVAddress(SHEET_ID[pageIndex]));
         yield return www.SendWebRequest();
@@ -51,6 +51,8 @@ public class ReadSpreadSheet : MonoBehaviour
 
     public void ParseSkillData(string data)
     {
+        Debug.Log("Read");
+
         var d = DataManager.instance;
         string[] rows = data.Split('\n');
         for (int i = 1; i < rows.Length; i++)
@@ -117,7 +119,7 @@ public class ReadSpreadSheet : MonoBehaviour
         Queue<Queue<Dialogue>> hpDialogBox = new();
 
         Queue<Dialogue> act = new();
-        
+
         var d = DataManager.instance;
         string[] rows = data.Split('\n');
         string nowDialogueType = null;
@@ -133,10 +135,10 @@ public class ReadSpreadSheet : MonoBehaviour
             {
                 if (nowDialogueType == "StoryDialogue") dialogBox.Enqueue(new Queue<Dialogue>(act));
                 else hpDialogBox.Enqueue(new Queue<Dialogue>(act));
-                
+
                 act.Clear();
             }
-            
+
             if (columns[1] != "") nowDialogueType = columns[1];
 
             var newText = new Dialogue()
@@ -165,7 +167,7 @@ public class ReadSpreadSheet : MonoBehaviour
 
         if (nowDialogueType == "StoryDialogue") dialogBox.Enqueue(new Queue<Dialogue>(act));
         else hpDialogBox.Enqueue(new Queue<Dialogue>(act));
-        
+
         d.curStageDialogBox = new Queue<Queue<Dialogue>>(dialogBox);
         d.hpDialogBox = new Queue<Queue<Dialogue>>(hpDialogBox);
         d.isPlayer = isPlayer;

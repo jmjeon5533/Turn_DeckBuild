@@ -94,7 +94,7 @@ public abstract class Unit : MonoBehaviour
 
     public RectTransform requestUIParent;
     public RectTransform requestBuffParent;
-    [SerializeField] protected RectTransform statParent;
+    public RectTransform statParent;
     [SerializeField] protected GameObject status;
     [SerializeField] protected Image hpImage;
     [SerializeField] protected Image hpAnimImage;
