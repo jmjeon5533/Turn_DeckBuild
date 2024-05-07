@@ -22,6 +22,7 @@ public class UIManager : MonoBehaviour
     public Camera cam;
     public Camera bgCam;
     public Camera effectCam;
+    [HideInInspector] public Vector3 camPlusPos;
 
     public Image inputPanel;
     public Image[] keys;
@@ -32,7 +33,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] Transform dmgTextParent;
     [SerializeField] Icon baseIcon;
     [SerializeField] Image timer;
-    [SerializeField] Image timerBG;
+    public Image timerBG;
     public TMP_Text damageText;
 
     [Header("GameEnd")]
@@ -85,7 +86,7 @@ public class UIManager : MonoBehaviour
             camPos = new Vector3(0, -1.5f, -10);
         }
         cam.transform.position = Vector3.Lerp(cam.transform.position,
-        controller.isTab ? controller.enemy.transform.position + new Vector3(0, 2, 0) + camPos : controller.movePos + camPos, 0.1f);
+        controller.isTab ? controller.enemy.transform.position + new Vector3(0, 2, 0) + camPos : controller.movePos + camPos + camPlusPos, 0.1f);
         if (!controller.isAttack)
         {
             if (Input.GetKeyDown(KeyCode.Tab)) SelectEnemyImage(true);
@@ -198,5 +199,21 @@ public class UIManager : MonoBehaviour
 
         text.transform.DOScale(0, 0.8f + (damage * 0.02f));
         text.DOColor(Color.clear, 0.8f + (damage * 0.02f)).OnComplete(() => Destroy(text.gameObject));
+    }
+        public IEnumerator CameraShake(){
+        Vector3 orignalCamPos = camPlusPos;
+
+        float ranValueX = Random.Range(0, 2);
+        float ranValueY = Random.Range(0, 2);
+        if(ranValueX == 0) ranValueX = -1;
+        if(ranValueY == 0) ranValueY = -1;
+
+        Vector3 shakeValue = new(ranValueX / 2, ranValueY / 2);
+
+        camPlusPos += shakeValue;
+        yield return new WaitForSeconds(0.1f);
+        camPlusPos = orignalCamPos + -shakeValue;
+        yield return new WaitForSeconds(0.1f);
+        camPlusPos = orignalCamPos;
     }
 }

@@ -10,6 +10,10 @@ public class IngamePlayerSkillAdd : MonoBehaviour
         controller = GetComponent<Controller>();
         ReadSpreadSheet.instance.Load(GivePlayerSkill);
     }
+    public SkillEffect[] skillEffects = new SkillEffect[2];
+    public Dictionary<KeyCode, List<Skill>> skillData = new();
+    public List<Skill> SkillList = new();
+
     public void GivePlayerSkill()
     {
         var d = DataManager.instance;
@@ -25,6 +29,9 @@ public class IngamePlayerSkillAdd : MonoBehaviour
         }
         controller.InitEnemy();
         controller.InitBtn();
+        controller.talkUnit = DataManager.instance.isPlayer ? controller.player : controller.enemy;
+        DataManager.instance.InitUnit(controller.talkUnit);
+
         controller.isGame = true;
     }
 }

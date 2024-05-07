@@ -62,6 +62,7 @@ public abstract class Unit : MonoBehaviour
     public string unitName => gameObject.name;
     public int hp;
     public int maxHP;
+    public int hpLimit;
 
     public int shield;
     public int maxShield;
@@ -88,15 +89,17 @@ public abstract class Unit : MonoBehaviour
 
     [HideInInspector] public Animator anim;
     [HideInInspector] public bool isLeft;
+    [HideInInspector] public bool isDialogue;
     [HideInInspector] public Sequence iconAnim;
 
-    [HideInInspector] public RectTransform requestUIParent;
-    [HideInInspector] public RectTransform requestBuffParent;
-    [HideInInspector] public RectTransform statParent;
-    protected Image hpImage;
-    protected Image hpAnimImage;
-    protected Image shieldImage;
-    protected Image shieldAnimImage;
+    public RectTransform requestUIParent;
+    public RectTransform requestBuffParent;
+    public RectTransform statParent;
+    [SerializeField] protected GameObject status;
+    [SerializeField] protected Image hpImage;
+    [SerializeField] protected Image hpAnimImage;
+    [SerializeField] protected Image shieldImage;
+    [SerializeField] protected Image shieldAnimImage;
     [HideInInspector] public float dmgDelayTime;
     [SerializeField] private float dmgDelayCurTime;
 
@@ -157,7 +160,7 @@ public abstract class Unit : MonoBehaviour
 
         usedSkill = curSkill;
         curSkill = skill;
-        Debug.Log($"{this.name} >>> {usedSkill.skillName}_ _{curSkill.skillName} / usedBuffList : {usedBuff.Count}");
+        //Debug.Log($"{this.name} >>> {usedSkill.skillName}_ _{curSkill.skillName} / usedBuffList : {usedBuff.Count}");
     }
 
     public virtual void BuffSetting()
@@ -233,14 +236,14 @@ public abstract class Unit : MonoBehaviour
                 if (list[i].insertImage == null)
                 {
                     list[i].insertImage = UIManager.instance.AddImage(list[i].curBuff.buffIcon, requestBuffParent);
-                    Debug.Log($"AddImage {this.name} {list[i].curBuff} {list[i].insertImage == null}");
+                    //Debug.Log($"AddImage {this.name} {list[i].curBuff} {list[i].insertImage == null}");
                 }
-                Debug.Log($"AddList {this.name} {list[i].curBuff} {list[i].insertImage == null}");
+                //Debug.Log($"AddList {this.name} {list[i].curBuff} {list[i].insertImage == null}");
                 temp.Add(list[i]);
             }
             else
             {
-                Debug.Log($"Die : {this.name} {list[i].curBuff} {list[i].insertImage == null} {allClaer} {list[i].count}");
+                //Debug.Log($"Die : {this.name} {list[i].curBuff} {list[i].insertImage == null} {allClaer} {list[i].count}");
                 usedBuff.Add(list[i]);
             }
         }
@@ -352,6 +355,12 @@ public abstract class Unit : MonoBehaviour
             totalDmg = damage;
             hp -= totalDmg;
         }
+        
+        if(hp <= hpLimit){
+            isDialogue = true;
+            hp = hpLimit;
+        }
+
         //Debug.Log($"{defense_Drainage} {damage} {totalDmg}");
         dmgDelayCurTime = dmgDelayTime;
         if (totalDmg >= 12) FatalDamage();
@@ -374,5 +383,11 @@ public abstract class Unit : MonoBehaviour
         transform.position -= value * 1.5f;
         yield return wait;
         transform.position = curPos;
+    }
+    public void HideUI(bool isOn)
+    {
+        requestUIParent.gameObject.SetActive(isOn);
+        requestBuffParent.gameObject.SetActive(isOn);
+        status.SetActive(isOn);
     }
 }

@@ -32,6 +32,9 @@ public class Controller : MonoBehaviour
     public Image keyHoldImage;
     public List<SkillScript> skills = new();
     public List<Skill> inputLists = new();
+    Queue<Dialogue> dialogueBox = new();
+    DataManager data;
+    public Unit talkUnit;
 
     public float gameCurTimeCount;
     public float keyHoldTime;
@@ -40,6 +43,7 @@ public class Controller : MonoBehaviour
     public bool isGame;
     public bool isTab;
     public bool isAttack;
+    public bool isDialogue;
     public bool isSkillExplain;
 
     private int lastSign;
@@ -66,6 +70,7 @@ public class Controller : MonoBehaviour
     void Start()
     {
         TurnReset();
+        data = DataManager.instance;
         UIManager.instance.SetExplain(false);
         player.hitSound = hitSound;
         enemy.hitSound = hitSound;
@@ -108,7 +113,14 @@ public class Controller : MonoBehaviour
     }
     void Update()
     {
-        int blurValue = 0;
+        if (Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetMouseButtonDown(0))
+        {
+            Dialogue();
+        }
+
+        UIUpdate(player);
+        UIUpdate(enemy);
+        int blurValue;
         if (isAttack && isGame) blurValue = 500;
         else
         {
@@ -302,6 +314,12 @@ public class Controller : MonoBehaviour
             yield return new WaitForSeconds(waitTime + 0.01f);
             LogView.instance.AddLogs(player.Uniticon, enemy.Uniticon);
 
+            if(talkUnit.isDialogue) {
+                StartCoroutine(StartDialogue(data.hpDialogBox.Dequeue()));
+                data.InitUnit(talkUnit);
+                yield break;
+            }
+
             if (player.hp <= 0 || enemy.hp <= 0)
             {
                 GameEnd();
@@ -385,5 +403,59 @@ public class Controller : MonoBehaviour
         var useSkills = key[0];
         key.RemoveAt(0);
         key.Add(useSkills);
+    }
+
+    void Dialogue()
+    {
+        if(!isAttack) StartCoroutine(StartDialogue(data.curStageDialogBox.Dequeue()));
+        else if (dialogueBox.Count == 0 && !DialogueManager.instance.isTyping) StartCoroutine(EndDialogue());
+        else if (!DialogueManager.instance.isTyping)
+        {
+            if (!DialogueManager.instance.panelState)
+            {
+                DialogueManager.instance.InputDialogue(dialogueBox.Dequeue());
+                StartCoroutine(DialogueManager.instance.TypingText());
+            }
+            else DialogueManager.instance.OnOffPanel();
+        }
+        else StartCoroutine(DialogueManager.instance.TypingText());
+    }
+
+    IEnumerator StartDialogue(Queue<Dialogue> curDialogueBox)
+    {
+        isAttack = true;
+        dialogueBox = curDialogueBox;
+        DialogueManager.instance.OnOffDialogue(isAttack);
+        player.HideUI(false);
+        enemy.HideUI(false);
+        // StartCoroutine(FirstDialogueMove(player));
+        // yield return StartCoroutine(FirstDialogueMove(enemy));
+        yield return null;
+        DialogueManager.instance.InputDialogue(dialogueBox.Dequeue());
+        StartCoroutine(DialogueManager.instance.TypingText());
+    }
+
+    IEnumerator EndDialogue()
+    {
+        isAttack = false;
+        DialogueManager.instance.OnOffDialogue(isAttack);
+        player.HideUI(true);
+        enemy.HideUI(true);
+        StartCoroutine(EndDialogueMove(player));
+        yield return EndDialogueMove(enemy);
+    }
+
+    //Dialogue position
+    IEnumerator FirstDialogueMove(Unit unit)
+    {
+        movePos = Vector3.Lerp(unit.transform.position, unit.target.transform.position, 0.5f);
+
+        yield return unit.transform.DOMoveX(movePos.x - (2 * (unit.isLeft ? 1 : -1)), 0.5f)
+        .SetEase(Ease.OutCubic).WaitForCompletion();
+    }
+
+    IEnumerator EndDialogueMove(Unit unit)
+    {
+        yield return unit.transform.DOMoveX(-3.5f * (unit.isLeft ? 1 : -1), 0.5f).SetEase(Ease.InOutSine).WaitForCompletion();
     }
 }

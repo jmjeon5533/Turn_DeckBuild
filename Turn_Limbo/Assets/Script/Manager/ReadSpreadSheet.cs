@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using Mono.Cecil;
 using Unity.Mathematics;
 using UnityEngine;
@@ -10,7 +11,8 @@ public class ReadSpreadSheet : MonoBehaviour
 {
     public static ReadSpreadSheet instance;
     public const string ADDRESS = "https://docs.google.com/spreadsheets/d/1ENYCDg5E6WuUwf-NZjCOpJfRufJsxQI8d7qEKh3Kf_I";
-    public readonly long[] SHEET_ID = { 1705787959};
+    public readonly long[] SHEET_ID = { 1705787959, 930614922 };
+    public string curStageID;
 
     public Dictionary<KeyCode, List<Skill>> skillDatas = new();
     public List<SkillScript> skillScripts = new();
@@ -18,19 +20,21 @@ public class ReadSpreadSheet : MonoBehaviour
 
     private void Awake()
     {
-        if(instance != null) Destroy(gameObject);
+        if (instance != null) Destroy(gameObject);
         else instance = this;
         DontDestroyOnLoad(gameObject);
     }
     private void Start()
     {
+        StartCoroutine(LoadData(0, ParseSkillData));
+        StartCoroutine(LoadData(1, ParseTextData));
         // StartCoroutine(LoadData(0, ParseEnemyData));
     }
     public void Load(Action callBack = default)
     {
-        StartCoroutine(LoadData(0, ParseSkillData,callBack));
+        StartCoroutine(LoadData(0, ParseSkillData, callBack));
     }
-    private IEnumerator LoadData(int pageIndex, Action<string> dataAction,Action callBack)
+    private IEnumerator LoadData(int pageIndex, Action<string> dataAction, Action callBack = default)
     {
         UnityWebRequest www = UnityWebRequest.Get(GetCSVAddress(SHEET_ID[pageIndex]));
         yield return www.SendWebRequest();
@@ -47,17 +51,19 @@ public class ReadSpreadSheet : MonoBehaviour
 
     public void ParseSkillData(string data)
     {
+        Debug.Log("Read");
+
         var d = DataManager.instance;
         string[] rows = data.Split('\n');
         for (int i = 1; i < rows.Length; i++)
-        {   
+        {
             string[] columns = rows[i].Split(',');
             KeyCode keyCode = columns[1].EnumParse<KeyCode>();
             if (!skillDatas.ContainsKey(keyCode))
                 skillDatas.Add(keyCode, new List<Skill>());
 
             var splitExplain = columns[9].Split('&');
-            string explain = string.Join("\n",splitExplain);
+            string explain = string.Join("\n", splitExplain);
             var newSkill = new Skill()
             {
                 skillName = columns[2],
@@ -81,6 +87,7 @@ public class ReadSpreadSheet : MonoBehaviour
         //controller.inputs = new Dictionary<KeyCode, List<Skill>>(skillDatas);
         //controller.inputLists = new List<Skill>(skillLists);
     }
+
     // public void ParseEnemyData(string data)
     // {
     //     string[] rows = data.Split('\n');
@@ -105,4 +112,64 @@ public class ReadSpreadSheet : MonoBehaviour
     //     player_Input.inputs = new Dictionary<KeyCode, List<Skill>>(skillDatas);
     //     player_Input.InitBtn();
     // }
+
+    public void ParseTextData(string data)
+    {
+        Queue<Queue<Dialogue>> dialogBox = new();
+        Queue<Queue<Dialogue>> hpDialogBox = new();
+
+        Queue<Dialogue> act = new();
+
+        var d = DataManager.instance;
+        string[] rows = data.Split('\n');
+        string nowDialogueType = null;
+        bool isPlayer = false;
+        for (int i = 1; i < rows.Length; i++)
+        {
+            string[] columns = Regex.Split(rows[i], ",(?=(?:[^\"]*\"[^\"]*\")*(?![^\"]*\"))");
+
+            //Only text with the same CurStageID and stageID is imported from the sheet << Papago GO
+            if (columns[0] != curStageID || columns[0] == "") continue;
+
+            if (columns[1] != "" && act.Count != 0)
+            {
+                if (nowDialogueType == "StoryDialogue") dialogBox.Enqueue(new Queue<Dialogue>(act));
+                else hpDialogBox.Enqueue(new Queue<Dialogue>(act));
+
+                act.Clear();
+            }
+
+            if (columns[1] != "") nowDialogueType = columns[1];
+
+            var newText = new Dialogue()
+            {
+                name = columns[2],
+                job = columns[3],
+                namePos = columns[4].EnumParse<DialogueManager.NamePos>(),
+                camPos = columns[5].EnumParse<DialogueManager.CamPos>(),
+                text = columns[6],
+                curEvent = columns[7].EnumParse<DialogueManager.CurEvent>(),
+                eventValue = columns[8] != "" ? int.Parse(columns[8]) : 0,
+            };
+
+            //Debug.Log(newText.text);
+
+            if (nowDialogueType == "HpDialogue" && columns[9] != "")
+            {
+                newText.hpValue = int.Parse(columns[10]);
+                isPlayer = columns[9] == "Player";
+            }
+
+            act.Enqueue(newText);
+
+            // Debug.Log($"ReadData : {id} {name} {job} {text}");
+        }
+
+        if (nowDialogueType == "StoryDialogue") dialogBox.Enqueue(new Queue<Dialogue>(act));
+        else hpDialogBox.Enqueue(new Queue<Dialogue>(act));
+
+        d.curStageDialogBox = new Queue<Queue<Dialogue>>(dialogBox);
+        d.hpDialogBox = new Queue<Queue<Dialogue>>(hpDialogBox);
+        d.isPlayer = isPlayer;
+    }
 }
