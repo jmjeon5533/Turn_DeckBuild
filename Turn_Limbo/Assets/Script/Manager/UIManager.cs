@@ -182,8 +182,8 @@ public class UIManager : MonoBehaviour
         yield return gameEndPanel.DOColor(new Color(0, 0, 0, 0.5f), 0.5f).SetUpdate(true).WaitForCompletion();
         gameEndText.text = text;
         yield return new WaitForSeconds(0.2f);
-        retry.onClick.AddListener(() => SceneManager.LoadScene(1));
-        stageSelect.onClick.AddListener(() => SceneManager.LoadScene(0));
+        retry.onClick.AddListener(() => SceneManager.LoadScene(2));
+        stageSelect.onClick.AddListener(() => SceneManager.LoadScene(1));
 
         retry.transform.DOLocalMoveY(-500,0.2f);
         stageSelect.transform.DOLocalMoveY(-500,0.2f);
