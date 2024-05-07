@@ -12,9 +12,10 @@ public struct RequestSkill
     public int attackCount;
     public Sprite icon;
     public SkillScript effect;
-    public Image insertImage;
+    public Icon insertImage;
     public AnimationClip animation;
     public Unit.ActionType actionType;
+    public string explain;
     public Unit.PropertyType propertyType;
 }
 
@@ -57,7 +58,7 @@ public abstract class Unit : MonoBehaviour
     public List<Buff> battleEnd = new();
     public List<Buff> usedBuff = new();
 
-    public Queue<RequestSkill> attackRequest = new Queue<RequestSkill>();
+    public List<RequestSkill> attackRequest = new List<RequestSkill>();
     public string unitName => gameObject.name;
     public int hp;
     public int maxHP;
@@ -84,6 +85,7 @@ public abstract class Unit : MonoBehaviour
     };
     public ParticleSystem effect;
     public AudioClip hitSound;
+    public Sprite Uniticon;
 
     [HideInInspector] public Animator anim;
     [HideInInspector] public bool isLeft;
@@ -108,6 +110,15 @@ public abstract class Unit : MonoBehaviour
     protected virtual void Start()
     {
         isLeft = target.transform.position.x > transform.position.x;
+        InitUnit();
+    }
+    public virtual void InitUnit()
+    {
+        hpAnimImage = statParent.GetChild(1).GetComponent<Image>();
+        hpImage = hpAnimImage.transform.GetChild(0).GetComponent<Image>();
+
+        shieldAnimImage = statParent.GetChild(3).GetComponent<Image>();
+        shieldImage = shieldAnimImage.transform.GetChild(0).GetComponent<Image>();
     }
     protected virtual void Update()
     {
@@ -271,6 +282,7 @@ public abstract class Unit : MonoBehaviour
         newRequest.actionType = skill.actionType;
         newRequest.attackCount = skill.attackCount;
         newRequest.effect = skill.effect;
+        newRequest.explain = skill.explain;
         newRequest.icon = skill.icon;
         newRequest.skillName = skill.skillName;
         newRequest.propertyType = skill.propertyType;
@@ -279,7 +291,8 @@ public abstract class Unit : MonoBehaviour
 
     public RequestSkill SkillChange()
     {
-        RequestSkill temp = temp = attackRequest.Dequeue();
+        RequestSkill temp = attackRequest[0];
+        attackRequest.RemoveAt(0);
 
         if (nextSkill.skillName != null)
         {
@@ -293,7 +306,7 @@ public abstract class Unit : MonoBehaviour
             temp.actionType = nextSkill.actionType;
             temp.propertyType = nextSkill.propertyType;
 
-            temp.insertImage.sprite = temp.icon;
+            temp.insertImage.iconImage.sprite = temp.icon;
 
             nextSkill = new();
 
@@ -311,6 +324,7 @@ public abstract class Unit : MonoBehaviour
         if (shield <= damage)
         {
             Damage(damage - shield);
+            DamageLogs(damage - shield);
             if (shield > 0) FatalDamage();
             shield = 0;
         }
@@ -319,10 +333,12 @@ public abstract class Unit : MonoBehaviour
             dmgDelayCurTime = dmgDelayTime;
             var totalDmg = damage;
             shield -= totalDmg;
+            DamageLogs(totalDmg);
             u.DamageText(totalDmg, transform.position);
             StartCoroutine(HitAnimation(curDamage));
         }
     }
+    protected abstract void DamageLogs(int damage);
     protected abstract void FatalDamage();
     public void Damage(int damage)
     {
@@ -348,6 +364,7 @@ public abstract class Unit : MonoBehaviour
         //Debug.Log($"{defense_Drainage} {damage} {totalDmg}");
         dmgDelayCurTime = dmgDelayTime;
         if (totalDmg >= 12) FatalDamage();
+        DamageLogs(totalDmg);
         UIManager.instance.DamageText(totalDmg, transform.position);
         StartCoroutine(HitAnimation(curDamage));
     }
