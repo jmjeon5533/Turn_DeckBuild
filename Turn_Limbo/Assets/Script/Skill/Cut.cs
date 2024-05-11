@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FoamTak : SkillScript
+public class Cut : SkillScript
 {
     public override void Setting(Unit unit, Unit target) { }
     public override void End(Unit unit, Unit target)
     {
-        unit.turnStart.Add(new Buff(BuffManager.instance.buffList[0], 10, 10, Unit.PropertyType.Slash));
+        if (unit.isAttack && unit.TryGetComponent<Player>(out var p))
+            p.addCoin++;
     }
 }
