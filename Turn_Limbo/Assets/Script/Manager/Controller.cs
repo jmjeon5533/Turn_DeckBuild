@@ -10,9 +10,12 @@ using UnityEngine.UI;
 [System.Serializable]
 public class Skill
 {
+    public int index;
     public string skillName;
-    public int minDamage;
-    public int maxDamage;
+    public int[] cost;
+    public int[] minDamage;
+    public int[] maxDamage;
+    public int level;
     public int attackCount;
     public int keyIndex;
     public SkillScript effect;
@@ -107,7 +110,7 @@ public class Controller : MonoBehaviour
         var coinCount = Random.Range(enemy.requestMinCount, enemy.requestMaxCount + 1);
         for (int i = 0; i < coinCount; i++)
         {
-            AddRequest(enemy, d.SkillList[d.skillEffects[1].holdIndex[enemy.skillCurCount % d.skillEffects[1].holdIndex.Count]]);
+            AddRequest(enemy, d.SkillList[enemy.skillInfo.SelectIndex[enemy.skillCurCount % enemy.skillInfo.SelectIndex.Count]]);
             enemy.skillCurCount++;
         }
     }
@@ -354,7 +357,9 @@ public class Controller : MonoBehaviour
     {
         var skill = unit.curSkill;
         if (unit.curSkill.actionType == Unit.ActionType.none) { return; }
-        unit.InitCurSkillDamage(skill.minDamage, skill.maxDamage, skill.attackCount);
+        unit.InitCurSkillDamage(skill.minDamage[unit.skillInfo.holdSkills[skill.index].level],
+            skill.maxDamage[skill.minDamage[unit.skillInfo.holdSkills[skill.index].level]], skill.attackCount);
+            
         unit.curSkill.effect?.Setting(unit, unit.target);
         unit.anim.Play(skill.animation.name);
         IconAnim(unit, skill.insertImage);

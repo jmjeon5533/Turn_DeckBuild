@@ -6,9 +6,12 @@ using UnityEngine.UI;
 
 public struct RequestSkill
 {
+    public int index;
     public string skillName;
-    public int minDamage;
-    public int maxDamage;
+    public int[] cost;
+    public int[] minDamage;
+    public int[] maxDamage;
+    public int level;
     public int attackCount;
     public Sprite icon;
     public SkillScript effect;
@@ -86,6 +89,7 @@ public abstract class Unit : MonoBehaviour
     public ParticleSystem effect;
     public AudioClip hitSound;
     public Sprite Uniticon;
+    public SkillEffect skillInfo;
 
     [HideInInspector] public Animator anim;
     [HideInInspector] public bool isLeft;
@@ -277,8 +281,10 @@ public abstract class Unit : MonoBehaviour
     {
         RequestSkill newRequest = new RequestSkill();
         newRequest.animation = Resources.Load<AnimationClip>($"Animation/{unitName.Trim()}/{skill.animationName.Trim()}");
+        newRequest.cost = skill.cost;
         newRequest.minDamage = skill.minDamage;
         newRequest.maxDamage = skill.maxDamage;
+        newRequest.level = skill.level;
         newRequest.actionType = skill.actionType;
         newRequest.attackCount = skill.attackCount;
         newRequest.effect = skill.effect;
