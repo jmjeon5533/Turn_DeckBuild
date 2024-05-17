@@ -7666,6 +7666,8 @@ MonoBehaviour:
   debuffList:
   - {fileID: 3687390406078769358, guid: 5a11c7a01a1fe5b48a64927080e4c16e, type: 3}
   - {fileID: 2989159582895876524, guid: 52428793ef23284469e6e7b4b500085d, type: 3}
+  - {fileID: 7085689147008558117, guid: 30bc1f6707b6e1e4c8261c4bc9581960, type: 3}
+  - {fileID: 8205431347616630339, guid: 35e37f08cada3ae41af1a202b3d4de37, type: 3}
 --- !u!4 &1906651976
 Transform:
   m_ObjectHideFlags: 0

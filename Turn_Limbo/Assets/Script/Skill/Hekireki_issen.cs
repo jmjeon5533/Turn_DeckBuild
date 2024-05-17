@@ -8,14 +8,13 @@ public class Hekireki_issen : SkillScript
     {
         foreach (var n in target.turnStart)
         {
-            if (n.curBuff == BuffManager.instance.debuffList[1])
+            if (n.curBuff == BuffManager.instance.debuffList[3])
             {
-                Debug.Log("innn");
                 unit.nextSkill = unit.curSkill;
                 return;
             }
         }
-        target.turnStart.Add(new Buff(BuffManager.instance.debuffList[1], 1, 1, Unit.PropertyType.AllType));
+        target.turnStart.Add(new Buff(BuffManager.instance.debuffList[3], 1, 1, Unit.PropertyType.AllType));
     }
     public override void End(Unit unit, Unit target) { }
 }

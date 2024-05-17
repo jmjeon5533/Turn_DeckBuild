@@ -67,9 +67,9 @@ public class ReadSpreadSheet : MonoBehaviour
             var newSkill = new Skill()
             {
                 skillName = columns[2],
-                minDamage = int.Parse(columns[6]),
-                maxDamage = int.Parse(columns[7]),
-                attackCount = int.Parse(columns[8]),
+                minDamage = int.Parse(columns[9]),
+                maxDamage = int.Parse(columns[10]),
+                attackCount = int.Parse(columns[5]),
                 effect = skillScripts[int.Parse(columns[0])],
                 keyIndex = int.Parse(columns[1]) - 1,
                 actionType = columns[3].EnumParse<Unit.ActionType>(),

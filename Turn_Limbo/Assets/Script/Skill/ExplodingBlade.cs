@@ -8,9 +8,9 @@ public class ExplodingBlade : SkillScript
     {
         foreach (var n in target.battleEnd)
         {
-            if (n.curBuff == BuffManager.instance.debuffList[0])
+            if (n.curBuff == BuffManager.instance.debuffList[2])
             {
-                //target.turnStart.Add(new Buff(BuffManager.instance.buffList[1], -100, 10, Unit.PropertyType.AllType));
+                target.turnStart.Add(new Buff(BuffManager.instance.buffList[1], 100, 10, Unit.PropertyType.AllType));
                 return;
             }
         }

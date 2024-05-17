@@ -15,6 +15,6 @@ public class BurnAttack : SkillScript
                 return;
             }
         }
-        target.battleEnd.Add(new Buff(BuffManager.instance.debuffList[0], 5, 1));
+        target.battleEnd.Add(new Buff(BuffManager.instance.debuffList[2], 5, 1));
     }
 }
