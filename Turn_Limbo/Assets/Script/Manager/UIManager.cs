@@ -40,6 +40,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] Image gameEndPanel;
     [SerializeField] TMP_Text gameEndText;
     [SerializeField] Button retry, stageSelect;
+    bool EndMove;
 
     [Header("ExplainText")]
     [SerializeField] Image skillExplainPanel;
@@ -183,11 +184,13 @@ public class UIManager : MonoBehaviour
         yield return gameEndPanel.DOColor(new Color(0, 0, 0, 0.5f), 0.5f).SetUpdate(true).WaitForCompletion();
         gameEndText.text = text;
         yield return new WaitForSeconds(0.2f);
-        retry.onClick.AddListener(() => SceneManager.LoadScene(2));
-        stageSelect.onClick.AddListener(() => SceneManager.LoadScene(1));
+        EndMove = false;
+        retry.onClick.AddListener(() => { if(EndMove) SceneManager.LoadScene(2);});
+        stageSelect.onClick.AddListener(() => { if(EndMove) SceneManager.LoadScene(1);});
 
         retry.transform.DOLocalMoveY(-500,0.2f);
-        stageSelect.transform.DOLocalMoveY(-500,0.2f);
+        yield return stageSelect.transform.DOLocalMoveY(-500,0.2f);
+        EndMove = true;
     }
     public void DamageText(int damage, Vector3 pos)
     {
