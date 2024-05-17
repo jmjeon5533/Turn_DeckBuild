@@ -7,10 +7,12 @@ public class SkillExplain : MonoBehaviour
 {
     [SerializeField] Image skillIcon;
     [SerializeField] Text skillName, skillExplain;
-    public void ExplainSet(Sprite icon, string name, string explain)
+    [SerializeField] Text dmgText;
+    public void ExplainSet(Sprite icon, string name, string explain, int minDmg, int maxDmg)
     {
         skillIcon.sprite = icon;
         skillName.text = name;
         skillExplain.text = explain;
+        dmgText.text = $"{minDmg} ~ {maxDmg}";
     }
 }

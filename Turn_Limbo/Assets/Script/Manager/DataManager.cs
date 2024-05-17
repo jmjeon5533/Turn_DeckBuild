@@ -11,7 +11,6 @@ public class DataManager : MonoBehaviour
         else instance = this;
         DontDestroyOnLoad(gameObject);
     }
-    public SkillEffect[] skillEffects = new SkillEffect[2];
     public Dictionary<KeyCode, List<Skill>> skillData = new();
     public List<Skill> SkillList = new();
 

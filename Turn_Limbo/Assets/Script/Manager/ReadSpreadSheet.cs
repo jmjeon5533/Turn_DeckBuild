@@ -26,8 +26,6 @@ public class ReadSpreadSheet : MonoBehaviour
     }
     private void Start()
     {
-        StartCoroutine(LoadData(0, ParseSkillData));
-        StartCoroutine(LoadData(1, ParseTextData));
         // StartCoroutine(LoadData(0, ParseEnemyData));
     }
     public void Load(Action callBack = default)
@@ -62,22 +60,28 @@ public class ReadSpreadSheet : MonoBehaviour
             if (!skillDatas.ContainsKey(keyCode))
                 skillDatas.Add(keyCode, new List<Skill>());
 
-            var splitExplain = columns[9].Split('&');
+            var splitExplain = columns[6].Split('&');
             string explain = string.Join("\n", splitExplain);
-            var newSkill = new Skill()
+            var newSkill = new Skill();
+            newSkill.index = i;
+            newSkill.skillName = columns[2];
+            newSkill.cost = new int[3];
+            newSkill.minDamage = new int[3];
+            newSkill.maxDamage = new int[3];
+            newSkill.attackCount = int.Parse(columns[5]);
+            newSkill.effect = skillScripts[int.Parse(columns[0])];
+            newSkill.keyIndex = int.Parse(columns[1]) - 1;
+            newSkill.actionType = columns[3].EnumParse<Unit.ActionType>();
+            newSkill.propertyType = columns[4].EnumParse<Unit.PropertyType>();
+            newSkill.animationName = columns[7];
+            newSkill.explain = explain;
+            newSkill.icon = Resources.Load<Sprite>($"Icon/skill{int.Parse(columns[0])}");
+            for (int j = 0; j < 3; j++)
             {
-                skillName = columns[2],
-                minDamage = int.Parse(columns[9]),
-                maxDamage = int.Parse(columns[10]),
-                attackCount = int.Parse(columns[5]),
-                effect = skillScripts[int.Parse(columns[0])],
-                keyIndex = int.Parse(columns[1]) - 1,
-                actionType = columns[3].EnumParse<Unit.ActionType>(),
-                propertyType = columns[4].EnumParse<Unit.PropertyType>(),
-                animationName = columns[10],
-                explain = explain,
-                icon = Resources.Load<Sprite>($"Icon/skill{int.Parse(columns[0])}")
-            };
+                newSkill.cost[j] = int.Parse(columns[8 + (j * 3)]);
+                newSkill.minDamage[j] = int.Parse(columns[9 + (j * 3)]);
+                newSkill.maxDamage[j] = int.Parse(columns[10 + (j * 3)]);
+            }
             skillLists.Add(newSkill);
             skillDatas[keyCode].Add(newSkill);
         }
@@ -87,32 +91,6 @@ public class ReadSpreadSheet : MonoBehaviour
         //controller.inputs = new Dictionary<KeyCode, List<Skill>>(skillDatas);
         //controller.inputLists = new List<Skill>(skillLists);
     }
-
-    // public void ParseEnemyData(string data)
-    // {
-    //     string[] rows = data.Split('\n');
-    //     for (int i = 1; i < rows.Length; i++)
-    //     {
-    //         string[] columns = rows[i].Split(',');
-    //         KeyCode keyCode = columns[1].EnumParse<KeyCode>();
-    //         if (!skillDatas.ContainsKey(keyCode))
-    //             skillDatas.Add(keyCode, new List<Skill>());
-
-    //         var newSkill = new Skill()
-    //         {
-    //             skillName = columns[3],
-    //             minDamage = int.Parse(columns[6]),
-    //             maxDamage = int.Parse(columns[7]),
-    //             animation = Resources.Load<AnimationClip>($"Animation/{columns[10].Trim()}"),
-    //             icon = Resources.Load<Sprite>($"Icon/skill{int.Parse(columns[0]) + 1}")
-    //         };
-    //         print(newSkill.animation == null);
-    //         skillDatas[keyCode].Add(newSkill);
-    //     }
-    //     player_Input.inputs = new Dictionary<KeyCode, List<Skill>>(skillDatas);
-    //     player_Input.InitBtn();
-    // }
-
     public void ParseTextData(string data)
     {
         Queue<Queue<Dialogue>> dialogBox = new();

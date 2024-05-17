@@ -17,6 +17,6 @@ public class StageStartBtn : MonoBehaviour
     }
     public void StageStart(int stageIndex)
     {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(2);
     }
 }
