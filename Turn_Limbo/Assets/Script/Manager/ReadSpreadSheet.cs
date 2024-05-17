@@ -112,7 +112,9 @@ public class ReadSpreadSheet : MonoBehaviour
         Debug.Log($"rows.Length == {rows.Length}");
         for (int i = 1; i < rows.Length; i++)
         {
-            string[] columns = Regex.Split(rows[i], ",(?=(?:[^\"]*\"[^\"]*\")*(?![^\"]*\"))");
+            Debug.Log(rows[i]);
+
+            string[] columns = rows[i].Split(',');
 
             //Only text with the same CurStageID and stageID is imported from the sheet << Papago GO
             if (int.Parse(columns[0]) != curStageID || columns[0] == "") continue;
@@ -127,18 +129,20 @@ public class ReadSpreadSheet : MonoBehaviour
 
             if (columns[1] != "") nowDialogueType = columns[1];
 
+            var splitExplain = columns[6].Split('&');
+            string explain = string.Join(",", splitExplain);
             var newText = new Dialogue()
             {
                 name = columns[2],
                 job = columns[3],
                 namePos = columns[4].EnumParse<DialogueManager.NamePos>(),
                 camPos = columns[5].EnumParse<DialogueManager.CamPos>(),
-                text = columns[6],
+                text = explain,
                 curEvent = columns[7].EnumParse<DialogueManager.CurEvent>(),
                 eventValue = columns[8] != "" ? int.Parse(columns[8]) : 0,
             };
 
-            Debug.Log(newText.text);
+            //Debug.Log(newText.text);
 
             if (nowDialogueType == "HpDialogue" && columns[9] != "")
             {
