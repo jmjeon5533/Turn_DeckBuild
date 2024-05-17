@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8278480b00c18b44cb021db6203935b1, type: 3}
   m_Name: Player
   m_EditorClassIdentifier: 
-  SelectIndex: 
+  SelectIndex: 000000000100000007000000050000000600000008000000
   holdSkills:
   - holdIndex: 0
     level: 0
@@ -24,23 +24,11 @@ MonoBehaviour:
     level: 0
   - holdIndex: 4
     level: 0
-  - holdIndex: 6
-    level: 1
   - holdIndex: 5
-    level: 2
-  - holdIndex: 19
+    level: 0
+  - holdIndex: 6
     level: 0
   - holdIndex: 7
     level: 0
-  - holdIndex: 10
+  - holdIndex: 8
     level: 0
-  - holdIndex: 14
-    level: 0
-  - holdIndex: 12
-    level: 0
-  - holdIndex: 25
-    level: 2
-  - holdIndex: 21
-    level: 2
-  - holdIndex: 24
-    level: 2

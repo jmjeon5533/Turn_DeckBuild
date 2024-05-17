@@ -660,6 +660,7 @@ MonoBehaviour:
   effect: {fileID: 1429954232896169632, guid: 83036083a4ebcd34f98131bd3cf6f4d2, type: 3}
   hitSound: {fileID: 0}
   Uniticon: {fileID: 0}
+  skillInfo: {fileID: 11400000, guid: 84760a5a73f705044aedec432bfb8ec9, type: 2}
   anim: {fileID: 0}
   isLeft: 0
   isDialogue: 0
@@ -1642,6 +1643,12 @@ MonoBehaviour:
   - {fileID: 50940067375563935, guid: 48f41afec84542d47b963f4b332f7064, type: 3}
   - {fileID: 6607895925291553834, guid: 991a835d5fcaa8a46a21dd6ca74fe5c5, type: 3}
   - {fileID: 1019494004003608445, guid: 1a138f0671bda2745942044aaef52a6d, type: 3}
+  - {fileID: 2546068888862172207, guid: f9807fb2fd3f18f4bbf0a6f9ddacb4ea, type: 3}
+  - {fileID: 2546068888862172207, guid: f9807fb2fd3f18f4bbf0a6f9ddacb4ea, type: 3}
+  - {fileID: 2546068888862172207, guid: f9807fb2fd3f18f4bbf0a6f9ddacb4ea, type: 3}
+  - {fileID: 2546068888862172207, guid: f9807fb2fd3f18f4bbf0a6f9ddacb4ea, type: 3}
+  - {fileID: 2546068888862172207, guid: f9807fb2fd3f18f4bbf0a6f9ddacb4ea, type: 3}
+  - {fileID: 2546068888862172207, guid: f9807fb2fd3f18f4bbf0a6f9ddacb4ea, type: 3}
   - {fileID: 2546068888862172207, guid: f9807fb2fd3f18f4bbf0a6f9ddacb4ea, type: 3}
   - {fileID: 2546068888862172207, guid: f9807fb2fd3f18f4bbf0a6f9ddacb4ea, type: 3}
   - {fileID: 2546068888862172207, guid: f9807fb2fd3f18f4bbf0a6f9ddacb4ea, type: 3}
@@ -6795,6 +6802,7 @@ MonoBehaviour:
   effect: {fileID: 1429954232896169632, guid: 83036083a4ebcd34f98131bd3cf6f4d2, type: 3}
   hitSound: {fileID: 0}
   Uniticon: {fileID: 0}
+  skillInfo: {fileID: 11400000, guid: 7dc6ef30da862824fb326d50b28df9b0, type: 2}
   anim: {fileID: 0}
   isLeft: 0
   isDialogue: 0
@@ -7495,9 +7503,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02944ec83ff9dc74ab1fadd4645d6257, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skillEffects:
-  - {fileID: 0}
-  - {fileID: 0}
   SkillList: []
 --- !u!1 &1889515121
 GameObject:
@@ -8277,9 +8282,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d47ba119204facc4389c02b97405140a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skillEffects:
-  - {fileID: 11400000, guid: 7dc6ef30da862824fb326d50b28df9b0, type: 2}
-  - {fileID: 11400000, guid: 84760a5a73f705044aedec432bfb8ec9, type: 2}
   SkillList: []
   isPlayer: 0
 --- !u!1 &2066232508

@@ -357,8 +357,12 @@ public class Controller : MonoBehaviour
     {
         var skill = unit.curSkill;
         if (unit.curSkill.actionType == Unit.ActionType.none) { return; }
+        print(skill.index);
+        print(unit.skillInfo.holdSkills[skill.index].level);
+        print(skill.minDamage[unit.skillInfo.holdSkills[skill.index].level]);
+        print(skill.maxDamage[unit.skillInfo.holdSkills[skill.index].level]);
         unit.InitCurSkillDamage(skill.minDamage[unit.skillInfo.holdSkills[skill.index].level],
-            skill.maxDamage[skill.minDamage[unit.skillInfo.holdSkills[skill.index].level]], skill.attackCount);
+            skill.maxDamage[unit.skillInfo.holdSkills[skill.index].level], skill.attackCount);
             
         unit.curSkill.effect?.Setting(unit, unit.target);
         unit.anim.Play(skill.animation.name);
