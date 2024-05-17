@@ -362,7 +362,7 @@ public abstract class Unit : MonoBehaviour
             hp -= totalDmg;
         }
         
-        if(hp <= hpLimit){
+        if(hpLimit != 0 && hp <= hpLimit){
             isDialogue = true;
             hp = hpLimit;
         }
