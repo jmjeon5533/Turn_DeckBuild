@@ -1629,7 +1629,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 557997653729a964fa66e63e1c147f3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  curStageID: a
+  curStageID: 1
   skillScripts:
   - {fileID: 7554005262253665195, guid: e1cf1323a409caa46b6d03bb638ed33d, type: 3}
   - {fileID: 6723478794319699316, guid: a9591f40345da6d48852e79fff50e852, type: 3}
