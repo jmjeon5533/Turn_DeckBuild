@@ -20,6 +20,7 @@ public class UIManager : MonoBehaviour
     public int enemyCursorIndex = 0;
     public bool isCamRotate;
     public Camera cam;
+    public Vector3 camPivot;
     public Camera bgCam;
     public Camera effectCam;
     [HideInInspector] public Vector3 camPlusPos;
@@ -71,11 +72,11 @@ public class UIManager : MonoBehaviour
         if (!controller.isGame) return;
         if (isCamRotate)
             cam.transform.rotation = Quaternion.Lerp(cam.transform.rotation, Quaternion.Euler(Vector3.forward * camRotZ), 0.05f);
-        Vector3 camPos;
         if (controller.isAttack)
         {
             cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, 3.5f, 0.1f);
-            camPos = new Vector3(0, 0, -10);
+            camPivot = Vector3.Lerp(controller.player.transform.position, controller.enemy.transform.position, 0.5f);
+            camPivot = new Vector3(camPivot.x, camPivot.y, -10);
         }
         else
         {
@@ -84,10 +85,10 @@ public class UIManager : MonoBehaviour
             cam.orthographicSize = Mathf.Lerp(cam.orthographicSize,
             !controller.isTab ? 6 - Mathf.InverseLerp(10, 0, controller.gameCurTimeCount) : 3.5f, 0.1f);
 
-            camPos = new Vector3(0, -1.5f, -10);
+            camPivot = new Vector3(0, -1.5f, -10);
         }
         cam.transform.position = Vector3.Lerp(cam.transform.position,
-        controller.isTab ? controller.enemy.transform.position + new Vector3(0, 2, 0) + camPos : controller.movePos + camPos + camPlusPos, 0.1f);
+        controller.isTab ? controller.enemy.transform.position + new Vector3(0, 2, 0) + camPivot : controller.movePos + camPivot + camPlusPos, 0.1f);
         if (!controller.isAttack)
         {
             if (Input.GetKeyDown(KeyCode.Tab)) SelectEnemyImage(true);
@@ -109,6 +110,12 @@ public class UIManager : MonoBehaviour
 
         bgCam.orthographicSize = cam.orthographicSize;
         effectCam.orthographicSize = cam.orthographicSize;
+    }
+    public IEnumerator TimeSlow()
+    {
+        Time.timeScale = 0.2f;
+        yield return new WaitForSeconds(5);
+        Time.timeScale = 1;
     }
     public void SelectEnemyImage(bool isActive)
     {
@@ -185,11 +192,11 @@ public class UIManager : MonoBehaviour
         gameEndText.text = text;
         yield return new WaitForSeconds(0.2f);
         EndMove = false;
-        retry.onClick.AddListener(() => { if(EndMove) SceneManager.LoadScene(2);});
-        stageSelect.onClick.AddListener(() => { if(EndMove) SceneManager.LoadScene(1);});
+        retry.onClick.AddListener(() => { if (EndMove) SceneManager.LoadScene(2); });
+        stageSelect.onClick.AddListener(() => { if (EndMove) SceneManager.LoadScene(1); });
 
-        retry.transform.DOLocalMoveY(-500,0.2f);
-        yield return stageSelect.transform.DOLocalMoveY(-500,0.2f);
+        retry.transform.DOLocalMoveY(-500, 0.2f);
+        yield return stageSelect.transform.DOLocalMoveY(-500, 0.2f);
         EndMove = true;
     }
     public void DamageText(int damage, Vector3 pos)
@@ -203,13 +210,14 @@ public class UIManager : MonoBehaviour
         text.transform.DOScale(0, 0.8f + (damage * 0.02f));
         text.DOColor(Color.clear, 0.8f + (damage * 0.02f)).OnComplete(() => Destroy(text.gameObject));
     }
-        public IEnumerator CameraShake(){
+    public IEnumerator CameraShake()
+    {
         Vector3 orignalCamPos = camPlusPos;
 
         float ranValueX = Random.Range(0, 2);
         float ranValueY = Random.Range(0, 2);
-        if(ranValueX == 0) ranValueX = -1;
-        if(ranValueY == 0) ranValueY = -1;
+        if (ranValueX == 0) ranValueX = -1;
+        if (ranValueY == 0) ranValueY = -1;
 
         Vector3 shakeValue = new(ranValueX / 2, ranValueY / 2);
 

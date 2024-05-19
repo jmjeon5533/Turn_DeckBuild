@@ -15,19 +15,28 @@ public class SkillDeckBuild : MonoBehaviour
     bool isShow = false;
     private void Start()
     {
-        
+
+    }
+    public Skill IndexToSkill(int index)
+    {
+        for (int i = 0; i < playerSkills.SelectIndex.Count; i++)
+        {
+            if (playerSkills.SelectIndex[i] == index) return DataManager.instance.SkillList[playerSkills.SelectIndex[i]];
+        }
+        print($"skill index {index} is Null");
+        return null;
     }
     public void OnOffPanel()
     {
         isShow = !isShow;
-        for(int i = btnImage.Count - 1; i >= 0; i--)
+        for (int i = btnImage.Count - 1; i >= 0; i--)
         {
             print(i);
             Destroy(btnImage[i].gameObject);
             btnImage.RemoveAt(i);
         }
         panels.gameObject.SetActive(isShow);
-        
+
         AddSkillSelectBtn();
     }
     public void AddSkillSelectBtn()
@@ -59,17 +68,15 @@ public class SkillDeckBuild : MonoBehaviour
         {
             if (playerSkills.SelectIndex[i] == index)
             {
-                explainPanel.ExplainSet(skill.icon, skill.skillName, skill.explain,skill.minDamage[skill.level],
-            skill.maxDamage[skill.level]);
-            
+                explainPanel.ExplainSet(skill);
+
                 playerSkills.SelectIndex.RemoveAt(i);
                 InitSkillSelectState();
 
                 return;
             }
         }
-        explainPanel.ExplainSet(skill.icon, skill.skillName, skill.explain,skill.minDamage[skill.level],
-            skill.maxDamage[skill.level]);
+        explainPanel.ExplainSet(skill);
 
         playerSkills.SelectIndex.Add(index);
         InitSkillSelectState();

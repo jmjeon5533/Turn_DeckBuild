@@ -44,7 +44,7 @@ public class SkillUpgrade : MonoBehaviour
                 selectIndex = num;
 
                 var skill = d.SkillList[selectIndex];
-                explainPanel.ExplainSet(skill.icon, skill.skillName, skill.explain, skill.minDamage[skill.level], skill.maxDamage[skill.level]);
+                explainPanel.ExplainSet(skill);
 
             });
             btn.gameObject.name = d.SkillList[i].skillName;
@@ -78,8 +78,7 @@ public class SkillUpgrade : MonoBehaviour
         {
             if (playerSkills.holdSkills[i].holdIndex == selectIndex)
             {
-                explainPanel.ExplainSet(skill.icon, skill.skillName, skill.explain, skill.minDamage[skill.level],
-            skill.maxDamage[skill.level]);
+                explainPanel.ExplainSet(skill);
 
                 var level = playerSkills.holdSkills[i].level;
                 if (level >= 2) return;
@@ -95,8 +94,7 @@ public class SkillUpgrade : MonoBehaviour
             level = 0
         };
         playerSkills.holdSkills.Add(newSkills);
-        explainPanel.ExplainSet(skill.icon, skill.skillName, skill.explain, skill.minDamage[skill.level],
-            skill.maxDamage[skill.level]);
+        explainPanel.ExplainSet(skill);
         InitSkillSelectState();
         for(int i = skillDeckBuild.btnImage.Count - 1; i >= 0; i--)
         {

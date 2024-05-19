@@ -148,6 +148,7 @@ public class Controller : MonoBehaviour
         bool isSpace = Input.GetKey(KeyCode.Space) && isAttack;
         isTab = Input.GetKey(KeyCode.Tab) && !isAttack;
         float timeScale;
+        
         if (isAttack)
         {
             timeScale = isSpace ? 0.4f : 1;
@@ -156,7 +157,6 @@ public class Controller : MonoBehaviour
         {
             timeScale = isTab ? 0.2f : 1;
         }
-
         Time.timeScale = timeScale;
         Color bgColor = isSpace || isTab ? new Color(0.6f, 0.6f, 0.6f, 1) : Color.white;
         bg.color = bg.color.MoveToward(bgColor, Time.deltaTime * 5f);
@@ -283,7 +283,13 @@ public class Controller : MonoBehaviour
         Unit[] units = { player, enemy };
         for (int i = 0; i < attackCount; i++)
         {
-            // yield return new WaitForSeconds(skill.animation.length + 0.1f);
+            while(Vector3.Distance(player.transform.position,enemy.transform.position) >= 5)
+            {
+                player.transform.position = Vector3.MoveTowards(player.transform.position,enemy.transform.position,Time.deltaTime * 15f);
+                enemy.transform.position = Vector3.MoveTowards(enemy.transform.position,player.transform.position,Time.deltaTime * 15f);
+                yield return null;
+                print(Vector3.Distance(player.transform.position,enemy.transform.position));
+            }
             for (int j = 0; j < units.Length; j++)
             {
                 if (units[j].attackRequest.Count < i + 1)
@@ -357,10 +363,6 @@ public class Controller : MonoBehaviour
     {
         var skill = unit.curSkill;
         if (unit.curSkill.actionType == Unit.ActionType.none) { return; }
-        print(skill.index);
-        print(unit.skillInfo.holdSkills[skill.index].level);
-        print(skill.minDamage[unit.skillInfo.holdSkills[skill.index].level]);
-        print(skill.maxDamage[unit.skillInfo.holdSkills[skill.index].level]);
         unit.InitCurSkillDamage(skill.minDamage[unit.skillInfo.holdSkills[skill.index].level],
             skill.maxDamage[unit.skillInfo.holdSkills[skill.index].level], skill.attackCount);
             

@@ -184,29 +184,30 @@ public abstract class Unit : MonoBehaviour
         //Debug.Log($">{this.name} {curSkill.skillName} {usedSkill.skillName}");
         if (isAttack)
         {
+            Vector3 dmgDir = (target.transform.position - transform.position).normalized;
             switch (target.curSkill.actionType)
             {
 
                 case ActionType.none:
                     {
-                        target.Damage(curDamage);
+                        target.Damage(curDamage, dmgDir);
                     }
                     break;
                 case ActionType.Attack:
                     {
-                        target.ShieldDamage(curDamage);
+                        target.ShieldDamage(curDamage, dmgDir);
                     }
                     break;
                 case ActionType.Defence:
                     {
-                        target.Damage(Mathf.Clamp(curDamage - Mathf.FloorToInt(target.curDamage / curAttackCount), 0, 999));
+                        target.Damage(Mathf.Clamp(curDamage - Mathf.FloorToInt(target.curDamage / curAttackCount), 0, 999), dmgDir);
                     }
                     break;
                 case ActionType.Dodge:
                     {
                         if (target.curDamage < curDamage)
                         {
-                            target.Damage(curDamage);
+                            target.Damage(curDamage, dmgDir);
                         }
                         break;
                     }
@@ -322,14 +323,14 @@ public abstract class Unit : MonoBehaviour
         return temp;
     }
 
-    public void ShieldDamage(int damage)
+    public void ShieldDamage(int damage, Vector3 dir)
     {
         var u = UIManager.instance;
         //Debug.Log($"{defense_Drainage} {damage} {damage * defense_Drainage} {Mathf.RoundToInt(damage * defense_Drainage)}");
         damage = Mathf.RoundToInt(damage * defense_Drainage);
         if (shield <= damage)
         {
-            Damage(damage - shield);
+            Damage(damage - shield, dir);
             DamageLogs(damage - shield);
             if (shield > 0) FatalDamage();
             shield = 0;
@@ -341,12 +342,13 @@ public abstract class Unit : MonoBehaviour
             shield -= totalDmg;
             DamageLogs(totalDmg);
             u.DamageText(totalDmg, transform.position);
-            StartCoroutine(HitAnimation(curDamage));
+            DamagePush(dir, damage);
+            //StartCoroutine(HitAnimation(curDamage));
         }
     }
     protected abstract void DamageLogs(int damage);
     protected abstract void FatalDamage();
-    public void Damage(int damage)
+    public void Damage(int damage, Vector3 dir)
     {
         //Debug.Log(damage);
         int totalDmg = 0;
@@ -361,34 +363,25 @@ public abstract class Unit : MonoBehaviour
             totalDmg = damage;
             hp -= totalDmg;
         }
-        
-        if(hpLimit != 0 && hp <= hpLimit){
+
+        if (hpLimit != 0 && hp <= hpLimit)
+        {
             isDialogue = true;
             hp = hpLimit;
         }
-
         //Debug.Log($"{defense_Drainage} {damage} {totalDmg}");
+        DamagePush(dir, damage);
         dmgDelayCurTime = dmgDelayTime;
         if (totalDmg >= 12) FatalDamage();
         DamageLogs(totalDmg);
         UIManager.instance.DamageText(totalDmg, transform.position);
-        StartCoroutine(HitAnimation(curDamage));
+        //StartCoroutine(HitAnimation(curDamage));
     }
-    IEnumerator HitAnimation(int damage)
+    void DamagePush(Vector3 dir, int damage)
     {
-        var wait = new WaitForSeconds(0.1f);
-        var curPos = transform.position;
-        int[] dir = { -1, 1 };
-
-        var addValue = Mathf.InverseLerp(0, 30, Mathf.Clamp(damage, 0, 30)) + 1;
-        var value = new Vector3(dir[Random.Range(0, 2)] * 0.5f * addValue, 0, 0);
-        //print($"{addValue},{value.magnitude}");
-
-        transform.position += value;
-        yield return wait;
-        transform.position -= value * 1.5f;
-        yield return wait;
-        transform.position = curPos;
+        var addPos = dir * damage * 0.3f;
+        print($"{gameObject.name} {addPos}");
+        transform.DOMove(transform.position + addPos, 0.2f);
     }
     public void HideUI(bool isOn)
     {
