@@ -10,7 +10,7 @@ public class ReadSpreadSheet : MonoBehaviour
     public static ReadSpreadSheet instance;
     public const string ADDRESS = "https://docs.google.com/spreadsheets/d/1ENYCDg5E6WuUwf-NZjCOpJfRufJsxQI8d7qEKh3Kf_I";
     public readonly long[] SHEET_ID = { 1705787959, 930614922 };
-    public string curStageID;
+    public int curStageID;
 
     public Dictionary<KeyCode, List<Skill>> skillDatas = new();
     public List<SkillScript> skillScripts = new();
@@ -29,6 +29,7 @@ public class ReadSpreadSheet : MonoBehaviour
     public void Load(Action callBack = default)
     {
         StartCoroutine(LoadData(0, ParseSkillData, callBack));
+        StartCoroutine(LoadData(1, ParseTextData));
     }
     private IEnumerator LoadData(int pageIndex, Action<string> dataAction, Action callBack = default)
     {
@@ -91,6 +92,12 @@ public class ReadSpreadSheet : MonoBehaviour
     }
     public void ParseTextData(string data)
     {
+        if(curStageID == 0){
+            Debug.Log("Don't ReadDialogue");
+            return;
+        }else Debug.Log("ReadDialogue");
+        
+
         Queue<Queue<Dialogue>> dialogBox = new();
         Queue<Queue<Dialogue>> hpDialogBox = new();
 
@@ -100,12 +107,15 @@ public class ReadSpreadSheet : MonoBehaviour
         string[] rows = data.Split('\n');
         string nowDialogueType = null;
         bool isPlayer = false;
+        Debug.Log($"rows.Length == {rows.Length}");
         for (int i = 1; i < rows.Length; i++)
         {
-            string[] columns = Regex.Split(rows[i], ",(?=(?:[^\"]*\"[^\"]*\")*(?![^\"]*\"))");
+            Debug.Log(rows[i]);
+
+            string[] columns = rows[i].Split(',');
 
             //Only text with the same CurStageID and stageID is imported from the sheet << Papago GO
-            if (columns[0] != curStageID || columns[0] == "") continue;
+            if (int.Parse(columns[0]) != curStageID || columns[0] == "") continue;
 
             if (columns[1] != "" && act.Count != 0)
             {
@@ -117,13 +127,15 @@ public class ReadSpreadSheet : MonoBehaviour
 
             if (columns[1] != "") nowDialogueType = columns[1];
 
+            var splitExplain = columns[6].Split('&');
+            string explain = string.Join(",", splitExplain);
             var newText = new Dialogue()
             {
                 name = columns[2],
                 job = columns[3],
                 namePos = columns[4].EnumParse<DialogueManager.NamePos>(),
                 camPos = columns[5].EnumParse<DialogueManager.CamPos>(),
-                text = columns[6],
+                text = explain,
                 curEvent = columns[7].EnumParse<DialogueManager.CurEvent>(),
                 eventValue = columns[8] != "" ? int.Parse(columns[8]) : 0,
             };

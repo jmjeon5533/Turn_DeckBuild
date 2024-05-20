@@ -158,6 +158,7 @@ public class DialogueManager : MonoBehaviour
 
         tempText = dialogue.text;
         eventValue = dialogue.eventValue;
+        Debug.Log(eventValue);
     }
 
     public IEnumerator TypingText()
@@ -197,7 +198,7 @@ public class DialogueManager : MonoBehaviour
 
     public void OnOffPanel()
     {
-        panel.rectTransform.DOSizeDelta(isPanel ? new(1500, 500) : Vector2.zero, 0.5f);
+        panel.rectTransform.DOSizeDelta(isPanel ? new(1589, 892) : Vector2.zero, 0.5f);
         if (isPanel)
         {
             panel.sprite = panelImage[0];
