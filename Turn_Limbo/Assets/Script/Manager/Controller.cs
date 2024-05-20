@@ -42,10 +42,12 @@ public class Controller : MonoBehaviour
     public float gameCurTimeCount;
     public float keyHoldTime;
     public int useAbleCoin;
+    public int useTurnCount;
 
     public bool isGame;
     public bool isTab;
     public bool isAttack;
+    public bool isTimeSlowEffect;
     public bool isDialogue;
     public bool isSkillExplain;
 
@@ -83,6 +85,8 @@ public class Controller : MonoBehaviour
         depth.focalLength.value = 1;
         color.postExposure.value = 0;
         color.saturation.value = 0;
+
+        useTurnCount = 1;
         if (BGM != null) SoundManager.instance.SetAudio(BGM, true);
     }
     public void TurnReset()
@@ -151,7 +155,7 @@ public class Controller : MonoBehaviour
         
         if (isAttack)
         {
-            timeScale = isSpace ? 0.4f : 1;
+            timeScale = isSpace ? 0.4f : isTimeSlowEffect ? 0.15f : 1;
         }
         else
         {
@@ -344,6 +348,7 @@ public class Controller : MonoBehaviour
         .SetEase(Ease.InOutSine).WaitForCompletion();
         yield return enemy.transform.DOMoveX(-3.5f * (enemy.isLeft ? 1 : -1), 0.5f)
         .SetEase(Ease.InOutSine).WaitForCompletion();
+        useTurnCount++;
         UIManager.instance.inputPanel.rectTransform.sizeDelta = new Vector2(0, 250);
         isAttack = false;
         UIManager.instance.ActiveBtn(true);

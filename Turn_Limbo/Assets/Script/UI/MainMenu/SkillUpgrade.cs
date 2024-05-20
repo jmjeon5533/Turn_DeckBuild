@@ -9,6 +9,7 @@ public class SkillUpgrade : MonoBehaviour
     [SerializeField] private RectTransform skillUpgradeBtnParent;
     [SerializeField] private Button skillUpgradeBaseBtn;
     [SerializeField] SkillExplain explainPanel;
+    [SerializeField] Text MoneyText;
     public SkillEffect playerSkills;
     public List<Button> btnImage;
 
@@ -24,7 +25,9 @@ public class SkillUpgrade : MonoBehaviour
         isShow = !isShow;
 
         panels.gameObject.SetActive(isShow);
+        MoneyText.text = $"보유자원 : {DataManager.instance.saveData.Money}";
     }
+    
     public void AddSkillUpgradeBtn()
     {
         for (int i = skillDeckBuild.btnImage.Count - 1; i >= 0; i--)
@@ -78,11 +81,18 @@ public class SkillUpgrade : MonoBehaviour
             if (playerSkills.holdSkills[j].holdIndex == selectIndex) 
             explainPanel.ExplainSet(DataManager.instance.SkillList[playerSkills.holdSkills[j].holdIndex], playerSkills.holdSkills[j].level);
         }
+        MoneyText.text = $"보유자원 : {DataManager.instance.saveData.Money}";
     }
     public void TriggerBuySkills()
     {
         var d = DataManager.instance;
         var skill = d.SkillList[selectIndex];
+
+        if(d.saveData.Money < 150) 
+        {
+            print("구매 불가 : 돈 부족");
+            return;
+        }
 
         for (int i = 0; i < playerSkills.holdSkills.Count; i++)
         {
@@ -94,8 +104,13 @@ public class SkillUpgrade : MonoBehaviour
                 }
 
                 var level = playerSkills.holdSkills[i].level;
-                if (level >= 2) return;
+                if (level >= 2) 
+                {
+                    print("구매 불가 : 최대치 도달");
+                    return;
+                }
                 playerSkills.holdSkills[i].level++;
+                d.saveData.Money -= 150;
                 InitSkillSelectState();
 
                 return;
@@ -107,6 +122,7 @@ public class SkillUpgrade : MonoBehaviour
             level = 0
         };
         playerSkills.holdSkills.Add(newSkills);
+        d.saveData.Money -= 150;
         for (int j = 0; j < playerSkills.holdSkills.Count; j++)
         {
             if (playerSkills.holdSkills[j].holdIndex == selectIndex) explainPanel.ExplainSet(skill, playerSkills.holdSkills[j].level);

@@ -14,7 +14,7 @@ public class Enemy : Unit
     }
     protected override void FatalDamage()
     {
-        UIManager.instance.FatalDamage();
+        UIManager.instance.EnemyFatalDamage();
     }
 
     protected override void DamageLogs(int damage)

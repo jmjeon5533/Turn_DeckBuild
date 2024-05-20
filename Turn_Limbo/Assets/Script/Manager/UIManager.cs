@@ -41,6 +41,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] Image gameEndPanel;
     [SerializeField] TMP_Text gameEndText;
     [SerializeField] Button retry, stageSelect;
+    [SerializeField] TMP_Text useTurnCountText;
+    [SerializeField] TMP_Text getMoneyText;
     bool EndMove;
 
     [Header("ExplainText")]
@@ -130,11 +132,24 @@ public class UIManager : MonoBehaviour
         request[enemyCursorIndex].insertImage.selected.enabled = isActive;
         enemySkillExplainText.text = request[enemyCursorIndex].explain;
     }
-    public void FatalDamage()
+    public void PlayerFatalDamage()
     {
         controller.glitch.intensity.value = 1;
         controller.color.saturation.value = -80;
         controller.color.postExposure.value = 1;
+    }
+    public void EnemyFatalDamage()
+    {
+        controller.glitch.intensity.value = 1;
+        controller.color.saturation.value = -80;
+        controller.color.postExposure.value = 1;
+        StartCoroutine(FatalDamageTimeSlow());
+    }
+    IEnumerator FatalDamageTimeSlow()
+    {
+        controller.isTimeSlowEffect = true;
+        yield return new WaitForSecondsRealtime(0.75f);
+        controller.isTimeSlowEffect = false;
     }
     public Image AddImage(Sprite sprite, Transform parent)
     {
@@ -197,7 +212,29 @@ public class UIManager : MonoBehaviour
 
         retry.transform.DOLocalMoveY(-500, 0.2f);
         yield return stageSelect.transform.DOLocalMoveY(-500, 0.2f);
+        float time = 0;
+        float moneyTarget = 5000 / controller.useTurnCount;
+        float countTarget = controller.useTurnCount;
+        while (time < 2)
+        {
+            var moneyValue = Mathf.Lerp(0, moneyTarget, time);
+            var countValue = Mathf.Lerp(0, countTarget, time);
+
+            getMoneyText.text = $"얻은 돈 : {Mathf.RoundToInt(moneyValue)}";
+            useTurnCountText.text = $"사용 턴 : {Mathf.RoundToInt(countValue)}";
+
+            time += Time.deltaTime;
+            yield return null;
+        }
+        getMoneyText.text = $"얻은 돈 : {Mathf.RoundToInt(moneyTarget)}";
+        useTurnCountText.text = $"사용 턴 : {Mathf.RoundToInt(countTarget)}";
+
+        DataManager.instance.saveData.Money += Mathf.RoundToInt(moneyTarget);
         EndMove = true;
+    }
+    float EaseOutQuad(float t)
+    {
+        return 1 - (1 - t) * (1 - t);
     }
     public void DamageText(int damage, Vector3 pos)
     {
