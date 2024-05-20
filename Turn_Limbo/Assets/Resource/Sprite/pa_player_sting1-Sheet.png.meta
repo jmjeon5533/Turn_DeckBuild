@@ -121,11 +121,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 80
-        width: 160
+        y: 0
+        width: 144
         height: 80
-      alignment: 9
-      pivot: {x: 0.48, y: 0.45}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -141,12 +141,12 @@ TextureImporter:
       name: pa_player_sting1-Sheet_1
       rect:
         serializedVersion: 2
-        x: 160
-        y: 80
-        width: 160
+        x: 144
+        y: 0
+        width: 144
         height: 80
-      alignment: 9
-      pivot: {x: 0.48, y: 0.45}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -154,48 +154,6 @@ TextureImporter:
       bones: []
       spriteID: 75c654a749572e34bac6365adae730fc
       internalID: -484003371
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: pa_player_sting1-Sheet_2
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 160
-        height: 80
-      alignment: 9
-      pivot: {x: 0.48, y: 0.45}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 87f17d00779b42e4a8fdd30e8e3463e2
-      internalID: 465292029
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: pa_player_sting1-Sheet_3
-      rect:
-        serializedVersion: 2
-        x: 160
-        y: 0
-        width: 160
-        height: 80
-      alignment: 9
-      pivot: {x: 0.48, y: 0.45}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 544f8f14b291aaa48aa5415b6dfc1348
-      internalID: -144041772
       vertices: []
       indices: 
       edges: []
@@ -213,8 +171,6 @@ TextureImporter:
     nameFileIdTable:
       pa_player_sting1-Sheet_0: -1124714851
       pa_player_sting1-Sheet_1: -484003371
-      pa_player_sting1-Sheet_2: 465292029
-      pa_player_sting1-Sheet_3: -144041772
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

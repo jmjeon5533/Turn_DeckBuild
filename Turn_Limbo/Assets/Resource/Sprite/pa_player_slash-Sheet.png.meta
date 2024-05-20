@@ -121,11 +121,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 192
-        width: 192
-        height: 192
-      alignment: 9
-      pivot: {x: 0.48, y: 0.45}
+        y: 0
+        width: 144
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -141,12 +141,12 @@ TextureImporter:
       name: pa_player_slash-Sheet_1
       rect:
         serializedVersion: 2
-        x: 192
-        y: 192
-        width: 192
-        height: 192
-      alignment: 9
-      pivot: {x: 0.48, y: 0.45}
+        x: 144
+        y: 0
+        width: 144
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -154,48 +154,6 @@ TextureImporter:
       bones: []
       spriteID: a878f965553907840bc8690b77547841
       internalID: -565236632
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: pa_player_slash-Sheet_2
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 192
-        height: 192
-      alignment: 9
-      pivot: {x: 0.48, y: 0.45}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 7284d8758f2eaf94881cee5f1113ea48
-      internalID: -316918158
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: pa_player_slash-Sheet_3
-      rect:
-        serializedVersion: 2
-        x: 192
-        y: 0
-        width: 192
-        height: 192
-      alignment: 9
-      pivot: {x: 0.48, y: 0.45}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e5cf79a5e1647ef44b0d48387ccfcea8
-      internalID: 2068591131
       vertices: []
       indices: 
       edges: []
@@ -213,8 +171,6 @@ TextureImporter:
     nameFileIdTable:
       pa_player_slash-Sheet_0: -1689497889
       pa_player_slash-Sheet_1: -565236632
-      pa_player_slash-Sheet_2: -316918158
-      pa_player_slash-Sheet_3: 2068591131
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

@@ -121,11 +121,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 80
-        width: 160
+        y: 0
+        width: 144
         height: 80
-      alignment: 9
-      pivot: {x: 0.65, y: 0.5}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -141,12 +141,12 @@ TextureImporter:
       name: pa_enemy_1_st-Sheet_1
       rect:
         serializedVersion: 2
-        x: 160
-        y: 80
-        width: 160
+        x: 144
+        y: 0
+        width: 144
         height: 80
-      alignment: 9
-      pivot: {x: 0.65, y: 0.5}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -154,48 +154,6 @@ TextureImporter:
       bones: []
       spriteID: 400eda2dc71e4b744bbe2e73338c63e5
       internalID: -1876127649
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: pa_enemy_1_st-Sheet_2
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 160
-        height: 80
-      alignment: 9
-      pivot: {x: 0.65, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: dc7f7c90eeef0984db312f5e464da366
-      internalID: -1718195894
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: pa_enemy_1_st-Sheet_3
-      rect:
-        serializedVersion: 2
-        x: 160
-        y: 0
-        width: 160
-        height: 80
-      alignment: 9
-      pivot: {x: 0.65, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: d9844171ac7290940a8a915e6588db01
-      internalID: -316685795
       vertices: []
       indices: 
       edges: []
@@ -213,8 +171,6 @@ TextureImporter:
     nameFileIdTable:
       pa_enemy_1_st-Sheet_0: -470089504
       pa_enemy_1_st-Sheet_1: -1876127649
-      pa_enemy_1_st-Sheet_2: -1718195894
-      pa_enemy_1_st-Sheet_3: -316685795
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

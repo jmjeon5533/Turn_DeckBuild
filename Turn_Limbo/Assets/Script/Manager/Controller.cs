@@ -405,8 +405,8 @@ public class Controller : MonoBehaviour
     {
         unit.iconAnim = DOTween.Sequence();
 
-        unit.iconAnim.Append(insertImage.transform.DOScale(1.5f, 0.5f).SetEase(Ease.OutQuint));
-        unit.iconAnim.Append(insertImage.transform.DOScale(0, 0.3f).SetEase(Ease.OutQuint));
+        unit.iconAnim.Append(insertImage.transform.DOScale(1.5f, 0.3f).SetEase(Ease.OutQuint));
+        unit.iconAnim.Append(insertImage.transform.DOScale(0, 0.2f).SetEase(Ease.OutQuint));
         unit.iconAnim.AppendCallback(() =>
         {
             Destroy(insertImage.gameObject);

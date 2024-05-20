@@ -141,7 +141,7 @@ public class UIManager : MonoBehaviour
     public void EnemyFatalDamage()
     {
         controller.glitch.intensity.value = 1;
-        controller.color.saturation.value = -80;
+        controller.color.saturation.value = 25;
         controller.color.postExposure.value = 1;
         StartCoroutine(FatalDamageTimeSlow());
     }
@@ -220,14 +220,14 @@ public class UIManager : MonoBehaviour
             var moneyValue = Mathf.Lerp(0, moneyTarget, time);
             var countValue = Mathf.Lerp(0, countTarget, time);
 
-            getMoneyText.text = $"¾òÀº µ· : {Mathf.RoundToInt(moneyValue)}";
-            useTurnCountText.text = $"»ç¿ë ÅÏ : {Mathf.RoundToInt(countValue)}";
+            getMoneyText.text = $"ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ : {Mathf.RoundToInt(moneyValue)}";
+            useTurnCountText.text = $"ï¿½ï¿½ï¿½ ï¿½ï¿½ : {Mathf.RoundToInt(countValue)}";
 
             time += Time.deltaTime;
             yield return null;
         }
-        getMoneyText.text = $"¾òÀº µ· : {Mathf.RoundToInt(moneyTarget)}";
-        useTurnCountText.text = $"»ç¿ë ÅÏ : {Mathf.RoundToInt(countTarget)}";
+        getMoneyText.text = $"ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ : {Mathf.RoundToInt(moneyTarget)}";
+        useTurnCountText.text = $"ï¿½ï¿½ï¿½ ï¿½ï¿½ : {Mathf.RoundToInt(countTarget)}";
 
         DataManager.instance.saveData.Money += Mathf.RoundToInt(moneyTarget);
         EndMove = true;
