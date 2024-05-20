@@ -1,0 +1,24 @@
+fileFormatVersion: 2
+guid: 4bff837653a59234494d5261b89f2de8
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - KOTRA LEAP
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 726be15a93440a44baf1860fe339fe93, type: 3}
+  - {fileID: 12800000, guid: e91b28f4c1cf79b4abf9f58178d9754b, type: 3}
+  - {fileID: 12800000, guid: 4994cd14b70b98040a23006101bcfe79, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
