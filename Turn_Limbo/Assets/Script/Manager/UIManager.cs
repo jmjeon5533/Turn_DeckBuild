@@ -220,14 +220,14 @@ public class UIManager : MonoBehaviour
             var moneyValue = Mathf.Lerp(0, moneyTarget, time);
             var countValue = Mathf.Lerp(0, countTarget, time);
 
-            getMoneyText.text = $"���� �� : {Mathf.RoundToInt(moneyValue)}";
-            useTurnCountText.text = $"��� �� : {Mathf.RoundToInt(countValue)}";
+            getMoneyText.text = $"얻은 돈 : {Mathf.RoundToInt(moneyValue)}";
+            useTurnCountText.text = $"사용 턴 : {Mathf.RoundToInt(countValue)}";
 
             time += Time.deltaTime;
             yield return null;
         }
-        getMoneyText.text = $"���� �� : {Mathf.RoundToInt(moneyTarget)}";
-        useTurnCountText.text = $"��� �� : {Mathf.RoundToInt(countTarget)}";
+        getMoneyText.text = $"얻은 돈 : {Mathf.RoundToInt(moneyTarget)}";
+        useTurnCountText.text = $"사용 턴 : {Mathf.RoundToInt(countTarget)}";
 
         DataManager.instance.saveData.Money += Mathf.RoundToInt(moneyTarget);
         EndMove = true;
