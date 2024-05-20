@@ -68,7 +68,10 @@ public class SkillDeckBuild : MonoBehaviour
         {
             if (playerSkills.SelectIndex[i] == index)
             {
-                explainPanel.ExplainSet(skill);
+                for (int j = 0; j < playerSkill.holdSkills.Count; j++)
+                {
+                    if (playerSkill.holdSkills[j].holdIndex == index) explainPanel.ExplainSet(skill, playerSkill.holdSkills[j].level);
+                }
 
                 playerSkills.SelectIndex.RemoveAt(i);
                 InitSkillSelectState();
@@ -76,8 +79,10 @@ public class SkillDeckBuild : MonoBehaviour
                 return;
             }
         }
-        explainPanel.ExplainSet(skill);
-
+        for (int j = 0; j < playerSkill.holdSkills.Count; j++)
+        {
+            if (playerSkill.holdSkills[j].holdIndex == index) explainPanel.ExplainSet(skill, playerSkill.holdSkills[j].level);
+        }
         playerSkills.SelectIndex.Add(index);
         InitSkillSelectState();
     }

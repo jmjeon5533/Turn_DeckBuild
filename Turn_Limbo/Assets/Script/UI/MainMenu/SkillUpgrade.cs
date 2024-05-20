@@ -22,12 +22,12 @@ public class SkillUpgrade : MonoBehaviour
     public void OnOffPanel()
     {
         isShow = !isShow;
-        
+
         panels.gameObject.SetActive(isShow);
     }
     public void AddSkillUpgradeBtn()
     {
-        for(int i = skillDeckBuild.btnImage.Count - 1; i >= 0; i--)
+        for (int i = skillDeckBuild.btnImage.Count - 1; i >= 0; i--)
         {
             print(i);
             Destroy(skillDeckBuild.btnImage[i].gameObject);
@@ -44,8 +44,13 @@ public class SkillUpgrade : MonoBehaviour
                 selectIndex = num;
 
                 var skill = d.SkillList[selectIndex];
-                explainPanel.ExplainSet(skill);
 
+                int level = 0;
+                for (int j = 0; j < playerSkills.holdSkills.Count; j++)
+                {
+                    if (playerSkills.holdSkills[j].holdIndex == selectIndex) level = playerSkills.holdSkills[j].level;
+                }
+                explainPanel.ExplainSet(skill, level);
             });
             btn.gameObject.name = d.SkillList[i].skillName;
             btnImage.Add(btn);
@@ -68,6 +73,11 @@ public class SkillUpgrade : MonoBehaviour
             }
             btnImage[playerSkills.holdSkills[i].holdIndex].image.color = color;
         }
+        for (int j = 0; j < playerSkills.holdSkills.Count; j++)
+        {
+            if (playerSkills.holdSkills[j].holdIndex == selectIndex) 
+            explainPanel.ExplainSet(DataManager.instance.SkillList[playerSkills.holdSkills[j].holdIndex], playerSkills.holdSkills[j].level);
+        }
     }
     public void TriggerBuySkills()
     {
@@ -78,7 +88,10 @@ public class SkillUpgrade : MonoBehaviour
         {
             if (playerSkills.holdSkills[i].holdIndex == selectIndex)
             {
-                explainPanel.ExplainSet(skill);
+                for (int j = 0; j < playerSkills.holdSkills.Count; j++)
+                {
+                    if (playerSkills.holdSkills[j].holdIndex == selectIndex) explainPanel.ExplainSet(skill, playerSkills.holdSkills[j].level);
+                }
 
                 var level = playerSkills.holdSkills[i].level;
                 if (level >= 2) return;
@@ -94,9 +107,12 @@ public class SkillUpgrade : MonoBehaviour
             level = 0
         };
         playerSkills.holdSkills.Add(newSkills);
-        explainPanel.ExplainSet(skill);
+        for (int j = 0; j < playerSkills.holdSkills.Count; j++)
+        {
+            if (playerSkills.holdSkills[j].holdIndex == selectIndex) explainPanel.ExplainSet(skill, playerSkills.holdSkills[j].level);
+        }
         InitSkillSelectState();
-        for(int i = skillDeckBuild.btnImage.Count - 1; i >= 0; i--)
+        for (int i = skillDeckBuild.btnImage.Count - 1; i >= 0; i--)
         {
             print(i);
             Destroy(skillDeckBuild.btnImage[i].gameObject);
