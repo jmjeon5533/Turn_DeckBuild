@@ -93,7 +93,7 @@ public class DialogueManager : MonoBehaviour
         {
             text.text = null;
             UIManager.instance.camPlusPos = Vector3.zero;
-            UIManager.instance.timerBG.gameObject.SetActive(isOn);
+            UIManager.instance.timerBG.gameObject.SetActive(!isOn);
             nameLeftBar.rectTransform.DOLocalMoveX(-1410, 0.5f);
             nameRightBar.rectTransform.DOLocalMoveX(1410, 0.5f);
             focusUI.SetActive(false);
