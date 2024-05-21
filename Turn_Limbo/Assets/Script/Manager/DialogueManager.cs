@@ -93,7 +93,7 @@ public class DialogueManager : MonoBehaviour
         {
             text.text = null;
             UIManager.instance.camPlusPos = Vector3.zero;
-            UIManager.instance.timerBG.gameObject.SetActive(isOn);
+            UIManager.instance.timerBG.gameObject.SetActive(!isOn);
             nameLeftBar.rectTransform.DOLocalMoveX(-1410, 0.5f);
             nameRightBar.rectTransform.DOLocalMoveX(1410, 0.5f);
             focusUI.SetActive(false);
@@ -158,7 +158,6 @@ public class DialogueManager : MonoBehaviour
 
         tempText = dialogue.text;
         eventValue = dialogue.eventValue;
-        Debug.Log(eventValue);
     }
 
     public IEnumerator TypingText()
@@ -185,6 +184,9 @@ public class DialogueManager : MonoBehaviour
 
     void DialogueEvent()
     {
+        Debug.Log(curEvent);
+
+        if (curEvent != SettingPanel) { Debug.Log("is Not SettingPanel"); OnOffPanel(); }
         if (curEvent == null) return;
 
         curEvent?.Invoke(eventValue);
@@ -194,6 +196,7 @@ public class DialogueManager : MonoBehaviour
     {
         panelState = true;
         isPanel = true;
+        OnOffPanel();
     }
 
     public void OnOffPanel()
@@ -204,9 +207,6 @@ public class DialogueManager : MonoBehaviour
             panel.sprite = panelImage[0];
             panelImage.Remove(panelImage[0]);
             isPanel = !isPanel;
-        }
-        else
-        {
             panelState = false;
         }
     }

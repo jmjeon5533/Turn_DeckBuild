@@ -425,7 +425,6 @@ public class Controller : MonoBehaviour
                 DialogueManager.instance.InputDialogue(dialogueBox.Dequeue());
                 StartCoroutine(DialogueManager.instance.TypingText());
             }
-            else DialogueManager.instance.OnOffPanel();
         }
         else StartCoroutine(DialogueManager.instance.TypingText());
     }

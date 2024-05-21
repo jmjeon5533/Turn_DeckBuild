@@ -112,8 +112,6 @@ public class ReadSpreadSheet : MonoBehaviour
         Debug.Log($"rows.Length == {rows.Length}");
         for (int i = 1; i < rows.Length; i++)
         {
-            Debug.Log(rows[i]);
-
             string[] columns = rows[i].Split(',');
 
             //Only text with the same CurStageID and stageID is imported from the sheet << Papago GO
