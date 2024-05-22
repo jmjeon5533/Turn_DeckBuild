@@ -194,12 +194,11 @@ public class Controller : MonoBehaviour
     }
     public void AddRequest(Unit target, Skill addSkill)
     {
-        if (!isAttack)
-        {
-            var newSkill = target.ConvertRequest(addSkill);
-            newSkill.insertImage = UIManager.instance.AddIcon(newSkill.icon, target.requestUIParent);
-            target.attackRequest.Add(newSkill);
-        }
+        if (isAttack) return;
+        
+        var newSkill = target.ConvertRequest(addSkill);
+        newSkill.insertImage = UIManager.instance.AddIcon(newSkill.icon, target.requestUIParent);
+        target.attackRequest.Add(newSkill);
     }
     private void CheckInput()
     {

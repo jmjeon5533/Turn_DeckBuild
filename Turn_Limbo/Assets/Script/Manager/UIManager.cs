@@ -220,16 +220,16 @@ public class UIManager : MonoBehaviour
             var moneyValue = Mathf.Lerp(0, moneyTarget, time);
             var countValue = Mathf.Lerp(0, countTarget, time);
 
-            getMoneyText.text = $"ì–»ì€ ëˆ : {Mathf.RoundToInt(moneyValue)}";
-            useTurnCountText.text = $"ì‚¬ìš© í„´ : {Mathf.RoundToInt(countValue)}";
+            if(isWin) getMoneyText.text = $"¾òÀº µ· : {Mathf.RoundToInt(moneyValue)}";
+            useTurnCountText.text = $"»ç¿ë ÅÏ : {Mathf.RoundToInt(countValue)}";
 
             time += Time.deltaTime;
             yield return null;
         }
-        getMoneyText.text = $"ì–»ì€ ëˆ : {Mathf.RoundToInt(moneyTarget)}";
-        useTurnCountText.text = $"ì‚¬ìš© í„´ : {Mathf.RoundToInt(countTarget)}";
+        if(isWin) getMoneyText.text = $"¾òÀº µ· : {Mathf.RoundToInt(moneyTarget)}";
+        useTurnCountText.text = $"»ç¿ë ÅÏ : {Mathf.RoundToInt(countTarget)}";
 
-        DataManager.instance.saveData.Money += Mathf.RoundToInt(moneyTarget);
+        if(isWin) DataManager.instance.saveData.Money += Mathf.RoundToInt(moneyTarget);
         EndMove = true;
     }
     float EaseOutQuad(float t)
