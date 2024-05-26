@@ -19,6 +19,7 @@ public class UIManager : MonoBehaviour
     public float camRotZ = 0;
     public int enemyCursorIndex = 0;
     public bool isCamRotate;
+    public bool isFatalEffect;
     public Camera cam;
     public Vector3 camPivot;
     public Camera bgCam;
@@ -76,9 +77,18 @@ public class UIManager : MonoBehaviour
             cam.transform.rotation = Quaternion.Lerp(cam.transform.rotation, Quaternion.Euler(Vector3.forward * camRotZ), 0.05f);
         if (controller.isAttack)
         {
-            cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, 3.5f, 0.1f);
-            camPivot = Vector3.Lerp(controller.player.transform.position, controller.enemy.transform.position, 0.5f);
-            camPivot = new Vector3(camPivot.x, camPivot.y, -10);
+            if (isFatalEffect)
+            {
+                cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, 2.5f, 0.1f);
+                camPivot = Vector3.Lerp(camPivot, controller.enemy.transform.position, 0.9f);
+                camPivot = new Vector3(camPivot.x,camPivot.y, -10);
+            }
+            else
+            {
+                cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, 3.5f, 0.1f);
+                camPivot = Vector3.Lerp(controller.player.transform.position, controller.enemy.transform.position, 0.5f);
+                camPivot = new Vector3(camPivot.x,camPivot.y, -10);
+            }
         }
         else
         {
@@ -148,7 +158,9 @@ public class UIManager : MonoBehaviour
     IEnumerator FatalDamageTimeSlow()
     {
         controller.isTimeSlowEffect = true;
+        isFatalEffect = true;
         yield return new WaitForSecondsRealtime(0.75f);
+        isFatalEffect = false;
         controller.isTimeSlowEffect = false;
     }
     public Image AddImage(Sprite sprite, Transform parent)
@@ -220,16 +232,16 @@ public class UIManager : MonoBehaviour
             var moneyValue = Mathf.Lerp(0, moneyTarget, time);
             var countValue = Mathf.Lerp(0, countTarget, time);
 
-            if(isWin) getMoneyText.text = $"¾òÀº µ· : {Mathf.RoundToInt(moneyValue)}";
+            if (isWin) getMoneyText.text = $"¾òÀº µ· : {Mathf.RoundToInt(moneyValue)}";
             useTurnCountText.text = $"»ç¿ë ÅÏ : {Mathf.RoundToInt(countValue)}";
 
             time += Time.deltaTime;
             yield return null;
         }
-        if(isWin) getMoneyText.text = $"¾òÀº µ· : {Mathf.RoundToInt(moneyTarget)}";
+        if (isWin) getMoneyText.text = $"¾òÀº µ· : {Mathf.RoundToInt(moneyTarget)}";
         useTurnCountText.text = $"»ç¿ë ÅÏ : {Mathf.RoundToInt(countTarget)}";
 
-        if(isWin) DataManager.instance.saveData.Money += Mathf.RoundToInt(moneyTarget);
+        if (isWin) DataManager.instance.saveData.Money += Mathf.RoundToInt(moneyTarget);
         EndMove = true;
     }
     float EaseOutQuad(float t)
