@@ -15,5 +15,4 @@ public class ExplodingBlade : SkillScript
             }
         }
     }
-    public override void End(Unit unit, Unit target) { }
 }

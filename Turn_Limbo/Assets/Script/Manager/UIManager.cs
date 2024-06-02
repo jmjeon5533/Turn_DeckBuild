@@ -185,13 +185,14 @@ public class UIManager : MonoBehaviour
         gameEndText.text = text;
         yield return new WaitForSeconds(0.2f);
         EndMove = false;
-        retry.onClick.AddListener(() => { if(EndMove) SceneManager.LoadScene(2);});
-        stageSelect.onClick.AddListener(() => { if(EndMove) SceneManager.LoadScene(1);});
+        retry.onClick.AddListener(() => { if (EndMove) SceneManager.LoadScene(2); });
+        stageSelect.onClick.AddListener(() => { if (EndMove) SceneManager.LoadScene(1); });
 
-        retry.transform.DOLocalMoveY(-500,0.2f);
-        yield return stageSelect.transform.DOLocalMoveY(-500,0.2f);
+        retry.transform.DOLocalMoveY(-500, 0.2f);
+        yield return stageSelect.transform.DOLocalMoveY(-500, 0.2f);
         EndMove = true;
     }
+
     public void DamageText(int damage, Vector3 pos)
     {
         var text = Instantiate(damageText, dmgTextParent);
@@ -203,13 +204,15 @@ public class UIManager : MonoBehaviour
         text.transform.DOScale(0, 0.8f + (damage * 0.02f));
         text.DOColor(Color.clear, 0.8f + (damage * 0.02f)).OnComplete(() => Destroy(text.gameObject));
     }
-        public IEnumerator CameraShake(){
+    
+    public IEnumerator CameraShake()
+    {
         Vector3 orignalCamPos = camPlusPos;
 
         float ranValueX = Random.Range(0, 2);
         float ranValueY = Random.Range(0, 2);
-        if(ranValueX == 0) ranValueX = -1;
-        if(ranValueY == 0) ranValueY = -1;
+        if (ranValueX == 0) ranValueX = -1;
+        if (ranValueY == 0) ranValueY = -1;
 
         Vector3 shakeValue = new(ranValueX / 2, ranValueY / 2);
 

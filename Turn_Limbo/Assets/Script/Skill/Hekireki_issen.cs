@@ -16,5 +16,4 @@ public class Hekireki_issen : SkillScript
         }
         target.turnStart.Add(new Buff(BuffManager.instance.debuffList[3], 1, 1, Unit.PropertyType.AllType));
     }
-    public override void End(Unit unit, Unit target) { }
 }

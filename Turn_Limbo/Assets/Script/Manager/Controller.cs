@@ -116,7 +116,14 @@ public class Controller : MonoBehaviour
     }
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetMouseButtonDown(0))
+        if (!data.readEnd) return;
+        else if (data.curStageDialogBox != null)
+        {
+            StartCoroutine(StartDialogue(data.curStageDialogBox));
+            data.curStageDialogBox = null;
+        }
+
+        if (isDialogue && Input.GetMouseButtonDown(0))
         {
             Dialogue();
         }
@@ -254,6 +261,7 @@ public class Controller : MonoBehaviour
     public void GameClear()
     {
         UIManager.instance.SetGameEndUI(true);
+        data.readEnd = false;
         print("게임 ?��리어");
     }
 
@@ -317,7 +325,8 @@ public class Controller : MonoBehaviour
             yield return new WaitForSeconds(waitTime + 0.01f);
             LogView.instance.AddLogs(player.Uniticon, enemy.Uniticon);
 
-            if(talkUnit.isDialogue) {
+            if (talkUnit.isDialogue)
+            {
                 StartCoroutine(StartDialogue(data.hpDialogBox.Dequeue()));
                 data.InitUnit(talkUnit);
                 yield break;
@@ -363,7 +372,7 @@ public class Controller : MonoBehaviour
         print(skill.maxDamage[unit.skillInfo.holdSkills[skill.index].level]);
         unit.InitCurSkillDamage(skill.minDamage[unit.skillInfo.holdSkills[skill.index].level],
             skill.maxDamage[unit.skillInfo.holdSkills[skill.index].level], skill.attackCount);
-            
+
         unit.curSkill.effect?.Setting(unit, unit.target);
         unit.anim.Play(skill.animation.name);
         IconAnim(unit, skill.insertImage);
@@ -416,8 +425,7 @@ public class Controller : MonoBehaviour
 
     void Dialogue()
     {
-        if(!isAttack) StartCoroutine(StartDialogue(data.curStageDialogBox.Dequeue()));
-        else if (dialogueBox.Count == 0 && !DialogueManager.instance.isTyping) StartCoroutine(EndDialogue());
+        if (dialogueBox.Count == 0 && !DialogueManager.instance.isTyping || DialogueManager.instance.isEnd) StartCoroutine(EndDialogue());
         else if (!DialogueManager.instance.isTyping)
         {
             if (!DialogueManager.instance.panelState)
@@ -432,6 +440,7 @@ public class Controller : MonoBehaviour
     IEnumerator StartDialogue(Queue<Dialogue> curDialogueBox)
     {
         isAttack = true;
+        isDialogue = true;
         dialogueBox = curDialogueBox;
         DialogueManager.instance.OnOffDialogue(isAttack);
         player.HideUI(false);
@@ -447,20 +456,21 @@ public class Controller : MonoBehaviour
     {
         isAttack = false;
         DialogueManager.instance.OnOffDialogue(isAttack);
+        dialogueBox.Clear();
         player.HideUI(true);
         enemy.HideUI(true);
         StartCoroutine(EndDialogueMove(player));
         yield return EndDialogueMove(enemy);
     }
 
-    //Dialogue position
-    IEnumerator FirstDialogueMove(Unit unit)
-    {
-        movePos = Vector3.Lerp(unit.transform.position, unit.target.transform.position, 0.5f);
+    // //Dialogue position
+    // IEnumerator FirstDialogueMove(Unit unit)
+    // {
+    //     movePos = Vector3.Lerp(unit.transform.position, unit.target.transform.position, 0.5f);
 
-        yield return unit.transform.DOMoveX(movePos.x - (2 * (unit.isLeft ? 1 : -1)), 0.5f)
-        .SetEase(Ease.OutCubic).WaitForCompletion();
-    }
+    //     yield return unit.transform.DOMoveX(movePos.x - (2 * (unit.isLeft ? 1 : -1)), 0.5f)
+    //     .SetEase(Ease.OutCubic).WaitForCompletion();
+    // }
 
     IEnumerator EndDialogueMove(Unit unit)
     {

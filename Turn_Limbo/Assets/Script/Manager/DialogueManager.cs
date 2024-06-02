@@ -73,6 +73,7 @@ public class DialogueManager : MonoBehaviour
     WaitForSeconds waitTime;
     [HideInInspector] public bool isTyping;
     [HideInInspector] public bool panelState;
+    [HideInInspector] public bool isEnd;
     int eventValue;
     bool isSkip;
     bool isPanel;
@@ -209,5 +210,12 @@ public class DialogueManager : MonoBehaviour
             isPanel = !isPanel;
             panelState = false;
         }
+    }
+
+    public void Skip()
+    {
+        isEnd = true;
+        isTyping = true;
+        isSkip = true;
     }
 }
