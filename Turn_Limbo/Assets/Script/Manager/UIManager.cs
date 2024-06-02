@@ -25,6 +25,7 @@ public class UIManager : MonoBehaviour
     public Camera bgCam;
     public Camera effectCam;
     [HideInInspector] public Vector3 camPlusPos;
+    private Transform FatalTarget;
 
     public Image inputPanel;
     public Image[] keys;
@@ -79,8 +80,8 @@ public class UIManager : MonoBehaviour
         {
             if (isFatalEffect)
             {
-                cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, 2.5f, 0.1f);
-                camPivot = Vector3.Lerp(camPivot, controller.enemy.transform.position, 0.9f);
+                cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, 3f, 0.1f);
+                camPivot = Vector3.Lerp(camPivot, FatalTarget.position, 0.8f);
                 camPivot = new Vector3(camPivot.x,camPivot.y, -10);
             }
             else
@@ -147,21 +148,25 @@ public class UIManager : MonoBehaviour
         controller.glitch.intensity.value = 1;
         controller.color.saturation.value = -80;
         controller.color.postExposure.value = 1;
+        StartCoroutine(FatalDamageTimeSlow(controller.player.transform));
     }
     public void EnemyFatalDamage()
     {
         controller.glitch.intensity.value = 1;
         controller.color.saturation.value = 25;
         controller.color.postExposure.value = 1;
-        StartCoroutine(FatalDamageTimeSlow());
+        StartCoroutine(FatalDamageTimeSlow(controller.enemy.transform));
     }
-    IEnumerator FatalDamageTimeSlow()
+    IEnumerator FatalDamageTimeSlow(Transform target)
     {
+        if(isFatalEffect) yield break;
+        FatalTarget = target;
         controller.isTimeSlowEffect = true;
         isFatalEffect = true;
         yield return new WaitForSecondsRealtime(0.75f);
         isFatalEffect = false;
         controller.isTimeSlowEffect = false;
+        FatalTarget = null;
     }
     public Image AddImage(Sprite sprite, Transform parent)
     {
