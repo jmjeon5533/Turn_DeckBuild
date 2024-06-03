@@ -181,6 +181,7 @@ public abstract class Unit : MonoBehaviour
 
     public virtual void Attacking()
     {
+        var ui = UIManager.instance;
         //Debug.Log($">{this.name} {curSkill.skillName} {usedSkill.skillName}");
         if (isAttack)
         {
@@ -214,9 +215,9 @@ public abstract class Unit : MonoBehaviour
             }
         }
         else Debug.Log($"{this.name} Attack Break!!");
-        var cam = UIManager.instance.cam;
+        var cam = ui.cam;
         cam.transform.position = cam.transform.position + ((Vector3)Random.insideUnitCircle.normalized * 1);
-        UIManager.instance.camRotZ -= Random.Range(UIManager.instance.camRotZ / 2, UIManager.instance.camRotZ * 2.5f);
+        if(ui.isCamRotate) ui.camRotZ -= Random.Range(UIManager.instance.camRotZ / 2, UIManager.instance.camRotZ * 2.5f);
         SoundManager.instance.SetAudio(hitSound, false);
         //Instantiate(curSkill.effect.Hitparticles[0],transform.position,Quaternion.identity);
         Instantiate(effect, transform.position + (Vector3.right * (isLeft ? 1 : -1) * 2), Quaternion.identity);

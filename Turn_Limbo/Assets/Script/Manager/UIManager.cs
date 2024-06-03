@@ -74,21 +74,25 @@ public class UIManager : MonoBehaviour
     private void Update()
     {
         if (!controller.isGame) return;
-        if (isCamRotate)
-            cam.transform.rotation = Quaternion.Lerp(cam.transform.rotation, Quaternion.Euler(Vector3.forward * camRotZ), 0.05f);
+
         if (controller.isAttack)
         {
             if (isFatalEffect)
             {
                 cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, 3f, 0.1f);
                 camPivot = Vector3.Lerp(camPivot, FatalTarget.position, 0.8f);
-                camPivot = new Vector3(camPivot.x,camPivot.y, -10);
+                camPivot = new Vector3(camPivot.x, camPivot.y, -10);
+                cam.transform.rotation = Quaternion.Lerp(cam.transform.rotation, Quaternion.Euler(Vector3.forward * camRotZ), 0.2f);
             }
             else
             {
                 cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, 3.5f, 0.1f);
                 camPivot = Vector3.Lerp(controller.player.transform.position, controller.enemy.transform.position, 0.5f);
-                camPivot = new Vector3(camPivot.x,camPivot.y, -10);
+                camPivot = new Vector3(camPivot.x, camPivot.y, -10);
+                if (isCamRotate)
+                    cam.transform.rotation = Quaternion.Lerp(cam.transform.rotation, Quaternion.Euler(Vector3.forward * camRotZ), 0.05f);
+                else
+                    cam.transform.rotation = Quaternion.Lerp(cam.transform.rotation, Quaternion.Euler(Vector3.zero), 0.05f);
             }
         }
         else
@@ -159,8 +163,10 @@ public class UIManager : MonoBehaviour
     }
     IEnumerator FatalDamageTimeSlow(Transform target)
     {
-        if(isFatalEffect) yield break;
+        int[] sign = {-1, 1};
+        if (isFatalEffect) yield break;
         FatalTarget = target;
+        camRotZ = Random.Range(5f,10f) * sign[Random.Range(0,2)];
         controller.isTimeSlowEffect = true;
         isFatalEffect = true;
         yield return new WaitForSecondsRealtime(0.75f);
