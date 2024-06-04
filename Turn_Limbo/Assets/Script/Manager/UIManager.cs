@@ -6,23 +6,19 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-[System.Serializable]
-public class UnitUI
-{
-    public RectTransform requestParent,
-    requestBuffParent,
-    statParent;
-}
 public class UIManager : MonoBehaviour
 {
     public static UIManager instance { get; private set; }
     public float camRotZ = 0;
     public int enemyCursorIndex = 0;
     public bool isCamRotate;
+    public bool isFatalEffect;
     public Camera cam;
+    public Vector3 camPivot;
     public Camera bgCam;
     public Camera effectCam;
     [HideInInspector] public Vector3 camPlusPos;
+    private Transform FatalTarget;
 
     public Image inputPanel;
     public Image[] keys;
@@ -41,6 +37,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] Image gameEndPanel;
     [SerializeField] TMP_Text gameEndText;
     [SerializeField] Button retry, stageSelect;
+    [SerializeField] TMP_Text useTurnCountText;
+    [SerializeField] TMP_Text getMoneyText;
     bool EndMove;
 
     [Header("ExplainText")]
@@ -61,22 +59,29 @@ public class UIManager : MonoBehaviour
     {
         SelectEnemyImage(false);
     }
-    public void InitUnitParent(Unit unit, int index)
-    {
-        unit.requestBuffParent = unitUI[index].requestBuffParent;
-        unit.requestUIParent = unitUI[index].requestParent;
-        unit.statParent = unitUI[index].statParent;
-    }
     private void Update()
     {
         if (!controller.isGame) return;
-        if (isCamRotate)
-            cam.transform.rotation = Quaternion.Lerp(cam.transform.rotation, Quaternion.Euler(Vector3.forward * camRotZ), 0.05f);
-        Vector3 camPos;
+
         if (controller.isAttack)
         {
-            cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, 3.5f, 0.1f);
-            camPos = new Vector3(0, 0, -10);
+            if (isFatalEffect)
+            {
+                cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, 3f, 0.1f);
+                camPivot = Vector3.Lerp(camPivot, FatalTarget.position, 0.8f);
+                camPivot = new Vector3(camPivot.x, camPivot.y, -10);
+                cam.transform.rotation = Quaternion.Lerp(cam.transform.rotation, Quaternion.Euler(Vector3.forward * camRotZ), 0.2f);
+            }
+            else
+            {
+                cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, 3.5f, 0.1f);
+                camPivot = Vector3.Lerp(controller.player.transform.position, controller.enemy.transform.position, 0.5f);
+                camPivot = new Vector3(camPivot.x, camPivot.y, -10);
+                if (isCamRotate)
+                    cam.transform.rotation = Quaternion.Lerp(cam.transform.rotation, Quaternion.Euler(Vector3.forward * camRotZ), 0.05f);
+                else
+                    cam.transform.rotation = Quaternion.Lerp(cam.transform.rotation, Quaternion.Euler(Vector3.zero), 0.05f);
+            }
         }
         else
         {
@@ -85,10 +90,10 @@ public class UIManager : MonoBehaviour
             cam.orthographicSize = Mathf.Lerp(cam.orthographicSize,
             !controller.isTab ? 6 - Mathf.InverseLerp(10, 0, controller.gameCurTimeCount) : 3.5f, 0.1f);
 
-            camPos = new Vector3(0, -1.5f, -10);
+            camPivot = new Vector3(0, -1.5f, -10);
         }
         cam.transform.position = Vector3.Lerp(cam.transform.position,
-        controller.isTab ? controller.enemy.transform.position + new Vector3(0, 2, 0) + camPos : controller.movePos + camPos + camPlusPos, 0.1f);
+        controller.isTab ? controller.enemy.transform.position + new Vector3(0, 2, 0) + camPivot : controller.movePos + camPivot + camPlusPos, 0.1f);
         if (!controller.isAttack)
         {
             if (Input.GetKeyDown(KeyCode.Tab)) SelectEnemyImage(true);
@@ -111,6 +116,12 @@ public class UIManager : MonoBehaviour
         bgCam.orthographicSize = cam.orthographicSize;
         effectCam.orthographicSize = cam.orthographicSize;
     }
+    public IEnumerator TimeSlow()
+    {
+        Time.timeScale = 0.2f;
+        yield return new WaitForSeconds(5);
+        Time.timeScale = 1;
+    }
     public void SelectEnemyImage(bool isActive)
     {
         var request = controller.enemy.attackRequest;
@@ -124,11 +135,32 @@ public class UIManager : MonoBehaviour
         request[enemyCursorIndex].insertImage.selected.enabled = isActive;
         enemySkillExplainText.text = request[enemyCursorIndex].explain;
     }
-    public void FatalDamage()
+    public void PlayerFatalDamage()
     {
         controller.glitch.intensity.value = 1;
         controller.color.saturation.value = -80;
         controller.color.postExposure.value = 1;
+        StartCoroutine(FatalDamageTimeSlow(controller.player.transform));
+    }
+    public void EnemyFatalDamage()
+    {
+        controller.glitch.intensity.value = 1;
+        controller.color.saturation.value = 25;
+        controller.color.postExposure.value = 1;
+        StartCoroutine(FatalDamageTimeSlow(controller.enemy.transform));
+    }
+    IEnumerator FatalDamageTimeSlow(Transform target)
+    {
+        int[] sign = {-1, 1};
+        if (isFatalEffect) yield break;
+        FatalTarget = target;
+        camRotZ = Random.Range(5f,10f) * sign[Random.Range(0,2)];
+        controller.isTimeSlowEffect = true;
+        isFatalEffect = true;
+        yield return new WaitForSecondsRealtime(0.75f);
+        isFatalEffect = false;
+        controller.isTimeSlowEffect = false;
+        FatalTarget = null;
     }
     public Image AddImage(Sprite sprite, Transform parent)
     {
@@ -191,8 +223,31 @@ public class UIManager : MonoBehaviour
 
         retry.transform.DOLocalMoveY(-500, 0.2f);
         yield return stageSelect.transform.DOLocalMoveY(-500, 0.2f);
+        float time = 0;
+        float moneyTarget = 5000 / controller.useTurnCount;
+        float countTarget = controller.useTurnCount;
+        while (time < 2)
+        {
+            var moneyValue = Mathf.Lerp(0, moneyTarget, time);
+            var countValue = Mathf.Lerp(0, countTarget, time);
+
+            if (isWin) getMoneyText.text = $"���� �� : {Mathf.RoundToInt(moneyValue)}";
+            useTurnCountText.text = $"��� �� : {Mathf.RoundToInt(countValue)}";
+
+            time += Time.deltaTime;
+            yield return null;
+        }
+        if (isWin) getMoneyText.text = $"���� �� : {Mathf.RoundToInt(moneyTarget)}";
+        useTurnCountText.text = $"��� �� : {Mathf.RoundToInt(countTarget)}";
+
+        if (isWin) DataManager.instance.saveData.Money += Mathf.RoundToInt(moneyTarget);
         EndMove = true;
     }
+    float EaseOutQuad(float t)
+    {
+        return 1 - (1 - t) * (1 - t);
+    }
+    public void DamageText(int damage, Vector3 pos)
 
     public void DamageText(int damage, Vector3 pos, Unit curUnit)
     {

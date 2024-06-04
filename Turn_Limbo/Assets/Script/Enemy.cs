@@ -7,15 +7,11 @@ public class Enemy : Unit
     public int skillCurCount = 0;
     public int requestMaxCount = 4;
     public int requestMinCount = 1;
-    public override void InitUnit()
-    {
-        UIManager.instance.InitUnitParent(this,1);
-        base.InitUnit();
-    }
     protected override void FatalDamage()
     {
-        
+        UIManager.instance.EnemyFatalDamage();
     }
+
     protected override void DamageLogs(int damage)
     {
         LogView.instance.curDmg[0] = damage;

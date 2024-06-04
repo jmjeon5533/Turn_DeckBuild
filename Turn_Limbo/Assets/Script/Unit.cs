@@ -96,14 +96,7 @@ public abstract class Unit : MonoBehaviour
     [HideInInspector] public bool isDialogue;
     [HideInInspector] public Sequence iconAnim;
 
-    public RectTransform requestUIParent;
-    public RectTransform requestBuffParent;
-    public RectTransform statParent;
-    [SerializeField] protected GameObject status;
-    [SerializeField] protected Image hpImage;
-    [SerializeField] protected Image hpAnimImage;
-    [SerializeField] protected Image shieldImage;
-    [SerializeField] protected Image shieldAnimImage;
+    public UnitUI unitUI;
     [HideInInspector] public float dmgDelayTime;
     [SerializeField] private float dmgDelayCurTime;
 
@@ -114,19 +107,11 @@ public abstract class Unit : MonoBehaviour
     protected virtual void Start()
     {
         isLeft = target.transform.position.x > transform.position.x;
-        InitUnit();
-    }
-    public virtual void InitUnit()
-    {
-        hpAnimImage = statParent.GetChild(1).GetComponent<Image>();
-        hpImage = hpAnimImage.transform.GetChild(0).GetComponent<Image>();
-
-        shieldAnimImage = statParent.GetChild(3).GetComponent<Image>();
-        shieldImage = shieldAnimImage.transform.GetChild(0).GetComponent<Image>();
+        unitUI.InitUnit();
     }
     protected virtual void Update()
     {
-        UIUpdate();
+        unitUI.UIUpdate(transform,hp,maxHP,shield,maxShield,ref dmgDelayCurTime,isLeft);
     }
     public virtual void TurnInit()
     {
@@ -159,8 +144,8 @@ public abstract class Unit : MonoBehaviour
     public void SkillInit(RequestSkill skill)
     {
         isAttack = true;
-        // attack_Drainage = 1;
-        // defense_Drainage = 1;
+        attack_Drainage = 1;
+        defense_Drainage = 1;
 
         usedSkill = curSkill;
         curSkill = skill;
@@ -181,41 +166,43 @@ public abstract class Unit : MonoBehaviour
 
     public virtual void Attacking()
     {
+        var ui = UIManager.instance;
         //Debug.Log($">{this.name} {curSkill.skillName} {usedSkill.skillName}");
         if (isAttack)
         {
+            Vector3 dmgDir = (target.transform.position - transform.position).normalized;
             switch (target.curSkill.actionType)
             {
 
                 case ActionType.none:
                     {
-                        target.Damage(curDamage);
+                        target.Damage(curDamage, dmgDir);
                     }
                     break;
                 case ActionType.Attack:
                     {
-                        target.ShieldDamage(curDamage);
+                        target.ShieldDamage(curDamage, dmgDir);
                     }
                     break;
                 case ActionType.Defence:
                     {
-                        target.Damage(Mathf.Clamp(curDamage - Mathf.FloorToInt(target.curDamage / curAttackCount), 0, 999));
+                        target.Damage(Mathf.Clamp(curDamage - Mathf.FloorToInt(target.curDamage / curAttackCount), 0, 999), dmgDir);
                     }
                     break;
                 case ActionType.Dodge:
                     {
                         if (target.curDamage < curDamage)
                         {
-                            target.Damage(curDamage);
+                            target.Damage(curDamage, dmgDir);
                         }
                         break;
                     }
             }
         }
         else Debug.Log($"{this.name} Attack Break!!");
-        var cam = UIManager.instance.cam;
+        var cam = ui.cam;
         cam.transform.position = cam.transform.position + ((Vector3)Random.insideUnitCircle.normalized * 1);
-        UIManager.instance.camRotZ -= Random.Range(UIManager.instance.camRotZ / 2, UIManager.instance.camRotZ * 2.5f);
+        if(ui.isCamRotate) ui.camRotZ -= Random.Range(UIManager.instance.camRotZ / 2, UIManager.instance.camRotZ * 2.5f);
         SoundManager.instance.SetAudio(hitSound, false);
         //Instantiate(curSkill.effect.Hitparticles[0],transform.position,Quaternion.identity);
         Instantiate(effect, transform.position + (Vector3.right * (isLeft ? 1 : -1) * 2), Quaternion.identity);
@@ -239,7 +226,7 @@ public abstract class Unit : MonoBehaviour
             {
                 if (list[i].insertImage == null)
                 {
-                    list[i].insertImage = UIManager.instance.AddImage(list[i].curBuff.buffIcon, requestBuffParent);
+                    list[i].insertImage = UIManager.instance.AddImage(list[i].curBuff.buffIcon, unitUI.requestBuffParent);
                     //Debug.Log($"AddImage {this.name} {list[i].curBuff} {list[i].insertImage == null}");
                 }
                 //Debug.Log($"AddList {this.name} {list[i].curBuff} {list[i].insertImage == null}");
@@ -253,23 +240,7 @@ public abstract class Unit : MonoBehaviour
         }
         return temp;
     }
-    void UIUpdate()
-    {
-        var ui = UIManager.instance;
-        statParent.anchoredPosition
-        = ui.cam.WorldToScreenPoint(transform.position + (new Vector3(-2f, 0) * (isLeft ? 1 : -1)));
-        hpImage.fillAmount = (float)hp / maxHP;
-        if (dmgDelayCurTime <= 0)
-        {
-            hpAnimImage.fillAmount = Mathf.MoveTowards(hpAnimImage.fillAmount, hpImage.fillAmount, Time.deltaTime);
-            shieldAnimImage.fillAmount = Mathf.MoveTowards(shieldAnimImage.fillAmount, shieldImage.fillAmount, Time.deltaTime);
-        }
-        else dmgDelayCurTime -= Time.deltaTime;
-        shieldImage.fillAmount = (float)shield / maxShield;
-
-        requestUIParent.localScale = Vector3.one * (1 + (5 - ui.cam.orthographicSize) * 0.3f);
-        requestBuffParent.localScale = Vector3.one * (1 + (5 - ui.cam.orthographicSize) * 0.3f);
-    }
+    
     public void InitCurSkillDamage(int min, int max, int count)
     {
         //Debug.Log($"{this.name} Damage : {curDamage} {attack_Drainage}");
@@ -322,14 +293,14 @@ public abstract class Unit : MonoBehaviour
         return temp;
     }
 
-    public void ShieldDamage(int damage)
+    public void ShieldDamage(int damage, Vector3 dir)
     {
         var u = UIManager.instance;
         //Debug.Log($"{defense_Drainage} {damage} {damage * defense_Drainage} {Mathf.RoundToInt(damage * defense_Drainage)}");
         damage = Mathf.RoundToInt(damage * defense_Drainage);
         if (shield <= damage)
         {
-            Damage(damage - shield);
+            Damage(damage - shield, dir);
             DamageLogs(damage - shield);
             if (shield > 0) FatalDamage();
             shield = 0;
@@ -340,13 +311,16 @@ public abstract class Unit : MonoBehaviour
             var totalDmg = damage;
             shield -= totalDmg;
             DamageLogs(totalDmg);
+            u.DamageText(totalDmg, transform.position);
+            DamagePush(dir, damage);
+            //StartCoroutine(HitAnimation(curDamage));
             u.DamageText(totalDmg, transform.position, this);
             StartCoroutine(HitAnimation(curDamage));
         }
     }
     protected abstract void DamageLogs(int damage);
     protected abstract void FatalDamage();
-    public void Damage(int damage)
+    public void Damage(int damage, Vector3 dir)
     {
         //Debug.Log(damage);
         int totalDmg = 0;
@@ -361,39 +335,24 @@ public abstract class Unit : MonoBehaviour
             totalDmg = damage;
             hp -= totalDmg;
         }
-        
-        if(hpLimit != 0 && hp <= hpLimit){
+
+        if (hpLimit != 0 && hp <= hpLimit)
+        {
             isDialogue = true;
             hp = hpLimit;
         }
-
         //Debug.Log($"{defense_Drainage} {damage} {totalDmg}");
+        DamagePush(dir, damage);
         dmgDelayCurTime = dmgDelayTime;
         if (totalDmg >= 12) FatalDamage();
         DamageLogs(totalDmg);
         UIManager.instance.DamageText(totalDmg, transform.position, this);
         StartCoroutine(HitAnimation(curDamage));
     }
-    IEnumerator HitAnimation(int damage)
+    void DamagePush(Vector3 dir, int damage)
     {
-        var wait = new WaitForSeconds(0.1f);
-        var curPos = transform.position;
-        int[] dir = { -1, 1 };
-
-        var addValue = Mathf.InverseLerp(0, 30, Mathf.Clamp(damage, 0, 30)) + 1;
-        var value = new Vector3(dir[Random.Range(0, 2)] * 0.5f * addValue, 0, 0);
-        //print($"{addValue},{value.magnitude}");
-
-        transform.position += value;
-        yield return wait;
-        transform.position -= value * 1.5f;
-        yield return wait;
-        transform.position = curPos;
-    }
-    public void HideUI(bool isOn)
-    {
-        requestUIParent.gameObject.SetActive(isOn);
-        requestBuffParent.gameObject.SetActive(isOn);
-        status.SetActive(isOn);
+        var addPos = dir * damage * 0.3f;
+        print($"{gameObject.name} {addPos}");
+        transform.DOMove(transform.position + addPos, 0.2f);
     }
 }

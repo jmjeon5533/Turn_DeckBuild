@@ -42,14 +42,17 @@ public class Controller : MonoBehaviour
     public float gameCurTimeCount;
     public float keyHoldTime;
     public int useAbleCoin;
+    public int useTurnCount;
 
     public bool isGame;
     public bool isTab;
     public bool isAttack;
+    public bool isTimeSlowEffect;
     public bool isDialogue;
     public bool isSkillExplain;
 
     private int lastSign;
+    private int spawnCount = 0;
 
     public VolumeProfile volume;
     [HideInInspector] public ChromaticAberration glitch;
@@ -83,7 +86,13 @@ public class Controller : MonoBehaviour
         depth.focalLength.value = 1;
         color.postExposure.value = 0;
         color.saturation.value = 0;
+
+        useTurnCount = 1;
         if (BGM != null) SoundManager.instance.SetAudio(BGM, true);
+    }
+    public void SetEnemy()
+    {
+        Instantiate(DataManager.instance.SpawnData[ReadSpreadSheet.instance.curStageID].enemies[spawnCount],new Vector3(5,-0.5f, 0), Quaternion.identity);
     }
     public void TurnReset()
     {
@@ -155,15 +164,15 @@ public class Controller : MonoBehaviour
         bool isSpace = Input.GetKey(KeyCode.Space) && isAttack;
         isTab = Input.GetKey(KeyCode.Tab) && !isAttack;
         float timeScale;
+
         if (isAttack)
         {
-            timeScale = isSpace ? 0.4f : 1;
+            timeScale = isSpace ? 0.4f : isTimeSlowEffect ? 0.15f : 1;
         }
         else
         {
             timeScale = isTab ? 0.2f : 1;
         }
-
         Time.timeScale = timeScale;
         Color bgColor = isSpace || isTab ? new Color(0.6f, 0.6f, 0.6f, 1) : Color.white;
         bg.color = bg.color.MoveToward(bgColor, Time.deltaTime * 5f);
@@ -175,17 +184,17 @@ public class Controller : MonoBehaviour
         + new Vector3((2 - (5 - ui.cam.orthographicSize)) * (character.isLeft ? 1 : -1), 2))
         : new Vector3(ui.cam.WorldToScreenPoint(character.transform.position).x, 900);
 
-        character.requestBuffParent.anchoredPosition
+        character.unitUI.requestBuffParent.anchoredPosition
         = !isAttack ? ui.cam.WorldToScreenPoint(character.transform.position
         + new Vector3((3 - (5 - ui.cam.orthographicSize)) * (character.isLeft ? 1 : -1), 4))
         : new Vector3(ui.cam.WorldToScreenPoint(character.transform.position).x, 1000);
-        character.requestUIParent.anchoredPosition
-        = Vector3.Lerp(character.requestUIParent.anchoredPosition, requestPos, 0.05f);
+        character.unitUI.requestUIParent.anchoredPosition
+        = Vector3.Lerp(character.unitUI.requestUIParent.anchoredPosition, requestPos, 0.05f);
 
         float scale = 0;
         if (isAttack) scale = 1.5f;
         else scale = 1 + (5 - ui.cam.orthographicSize) * 0.2f;
-        character.requestUIParent.localScale = Vector3.one * scale;
+        character.unitUI.requestUIParent.localScale = Vector3.one * scale;
     }
 
     public void InitBtn()
@@ -197,12 +206,11 @@ public class Controller : MonoBehaviour
     }
     public void AddRequest(Unit target, Skill addSkill)
     {
-        if (!isAttack)
-        {
-            var newSkill = target.ConvertRequest(addSkill);
-            newSkill.insertImage = UIManager.instance.AddIcon(newSkill.icon, target.requestUIParent);
-            target.attackRequest.Add(newSkill);
-        }
+        if (isAttack) return;
+
+        var newSkill = target.ConvertRequest(addSkill);
+        newSkill.insertImage = UIManager.instance.AddIcon(newSkill.icon, target.unitUI.requestUIParent);
+        target.attackRequest.Add(newSkill);
     }
     private void CheckInput()
     {
@@ -282,16 +290,23 @@ public class Controller : MonoBehaviour
 
     IEnumerator Attack()
     {
+        var ui = UIManager.instance;
         isAttack = true;
-        UIManager.instance.cam.DOOrthoSize(3.5f, 0.5f).SetEase(Ease.OutCubic);
-        UIManager.instance.inputPanel.rectTransform.DOSizeDelta(Vector2.zero, 0.5f);
+        ui.cam.DOOrthoSize(3.5f, 0.5f).SetEase(Ease.OutCubic);
+        ui.inputPanel.rectTransform.DOSizeDelta(Vector2.zero, 0.5f);
         StartCoroutine(FirstAttackMove(player));
         yield return StartCoroutine(FirstAttackMove(enemy));
         var attackCount = Mathf.Max(player.attackRequest.Count, enemy.attackRequest.Count);
         Unit[] units = { player, enemy };
         for (int i = 0; i < attackCount; i++)
         {
-            // yield return new WaitForSeconds(skill.animation.length + 0.1f);
+            while (Vector3.Distance(player.transform.position, enemy.transform.position) >= 5)
+            {
+                player.transform.position = Vector3.MoveTowards(player.transform.position, enemy.transform.position, Time.deltaTime * 15f);
+                enemy.transform.position = Vector3.MoveTowards(enemy.transform.position, player.transform.position, Time.deltaTime * 15f);
+                yield return null;
+                print(Vector3.Distance(player.transform.position, enemy.transform.position));
+            }
             for (int j = 0; j < units.Length; j++)
             {
                 if (units[j].attackRequest.Count < i + 1)
@@ -301,15 +316,18 @@ public class Controller : MonoBehaviour
                 }
             }
 
-            if (lastSign == 0)
+            if (ui.isCamRotate)
             {
-                UIManager.instance.camRotZ = Random.Range(-20, 20);
-                lastSign = (int)Mathf.Sign(UIManager.instance.camRotZ);
-            }
-            else
-            {
-                UIManager.instance.camRotZ = -lastSign * Random.Range(5, 20);
-                lastSign *= -1;
+                if (lastSign == 0)
+                {
+                    ui.camRotZ = Random.Range(-20, 20);
+                    lastSign = (int)Mathf.Sign(ui.camRotZ);
+                }
+                else
+                {
+                    ui.camRotZ = -lastSign * Random.Range(5, 20);
+                    lastSign *= -1;
+                }
             }
 
             float waitTime = Mathf.Max(AttackInit(player), AttackInit(enemy));
@@ -340,16 +358,17 @@ public class Controller : MonoBehaviour
         }
 
         yield return new WaitForSeconds(0.5f);
-        UIManager.instance.cam.DOOrthoSize(5f, 0.5f).SetEase(Ease.OutCubic);
+        ui.cam.DOOrthoSize(5f, 0.5f).SetEase(Ease.OutCubic);
 
-        UIManager.instance.camRotZ = 0;
+        ui.camRotZ = 0;
         player.transform.DOMoveX(-3.5f * (player.isLeft ? 1 : -1), 0.5f)
         .SetEase(Ease.InOutSine).WaitForCompletion();
         yield return enemy.transform.DOMoveX(-3.5f * (enemy.isLeft ? 1 : -1), 0.5f)
         .SetEase(Ease.InOutSine).WaitForCompletion();
-        UIManager.instance.inputPanel.rectTransform.sizeDelta = new Vector2(0, 250);
+        useTurnCount++;
+        ui.inputPanel.rectTransform.sizeDelta = new Vector2(0, 250);
         isAttack = false;
-        UIManager.instance.ActiveBtn(true);
+        ui.ActiveBtn(true);
         TurnEnd();
     }
 
@@ -366,10 +385,6 @@ public class Controller : MonoBehaviour
     {
         var skill = unit.curSkill;
         if (unit.curSkill.actionType == Unit.ActionType.none) { return; }
-        print(skill.index);
-        print(unit.skillInfo.holdSkills[skill.index].level);
-        print(skill.minDamage[unit.skillInfo.holdSkills[skill.index].level]);
-        print(skill.maxDamage[unit.skillInfo.holdSkills[skill.index].level]);
         unit.InitCurSkillDamage(skill.minDamage[unit.skillInfo.holdSkills[skill.index].level],
             skill.maxDamage[unit.skillInfo.holdSkills[skill.index].level], skill.attackCount);
 
@@ -407,8 +422,8 @@ public class Controller : MonoBehaviour
     {
         unit.iconAnim = DOTween.Sequence();
 
-        unit.iconAnim.Append(insertImage.transform.DOScale(1.5f, 0.5f).SetEase(Ease.OutQuint));
-        unit.iconAnim.Append(insertImage.transform.DOScale(0, 0.3f).SetEase(Ease.OutQuint));
+        unit.iconAnim.Append(insertImage.transform.DOScale(1.5f, 0.3f).SetEase(Ease.OutQuint));
+        unit.iconAnim.Append(insertImage.transform.DOScale(0, 0.2f).SetEase(Ease.OutQuint));
         unit.iconAnim.AppendCallback(() =>
         {
             Destroy(insertImage.gameObject);
@@ -443,8 +458,8 @@ public class Controller : MonoBehaviour
         isDialogue = true;
         dialogueBox = curDialogueBox;
         DialogueManager.instance.OnOffDialogue(isAttack);
-        player.HideUI(false);
-        enemy.HideUI(false);
+        player.unitUI.HideUI(false);
+        enemy.unitUI.HideUI(false);
         // StartCoroutine(FirstDialogueMove(player));
         // yield return StartCoroutine(FirstDialogueMove(enemy));
         yield return null;
@@ -456,9 +471,9 @@ public class Controller : MonoBehaviour
     {
         isAttack = false;
         DialogueManager.instance.OnOffDialogue(isAttack);
+        player.unitUI.HideUI(true);
+        enemy.unitUI.HideUI(true);
         dialogueBox.Clear();
-        player.HideUI(true);
-        enemy.HideUI(true);
         StartCoroutine(EndDialogueMove(player));
         yield return EndDialogueMove(enemy);
     }

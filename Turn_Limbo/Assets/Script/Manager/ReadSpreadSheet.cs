@@ -2,8 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using Mono.Cecil;
-using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -11,7 +9,7 @@ public class ReadSpreadSheet : MonoBehaviour
 {
     public static ReadSpreadSheet instance;
     public const string ADDRESS = "https://docs.google.com/spreadsheets/d/1ENYCDg5E6WuUwf-NZjCOpJfRufJsxQI8d7qEKh3Kf_I";
-    public readonly long[] SHEET_ID = { 1705787959, 930614922 };
+    public readonly long[] SHEET_ID = { 1705787959, 930614922, 520277150};
     public int curStageID;
 
     public Dictionary<KeyCode, List<Skill>> skillDatas = new();
@@ -28,6 +26,7 @@ public class ReadSpreadSheet : MonoBehaviour
     {
         StartCoroutine(LoadData(0, ParseSkillData, callBack));
         StartCoroutine(LoadData(1, ParseTextData));
+        StartCoroutine(LoadData(2, ParseEnemyData));
     }
     private IEnumerator LoadData(int pageIndex, Action<string> dataAction, Action callBack = default)
     {
@@ -157,5 +156,24 @@ public class ReadSpreadSheet : MonoBehaviour
         d.isPlayer = isPlayer;
 
         d.readEnd = true;
+    }
+    public void ParseEnemyData(string data)
+    {
+        var d = DataManager.instance;
+        string[] row = data.Split("\n");
+        for(int i = 1; i < row.Length; i++)
+        {
+            string[] column = row[i].Split(",");
+            UnitData newEnemy = new();
+            newEnemy.index = int.Parse(column[0]);
+            newEnemy.name = column[1];
+            newEnemy.hp = int.Parse(column[2]);
+            newEnemy.shield = int.Parse(column[3]);
+            newEnemy.atk = int.Parse(column[4]);
+            newEnemy.minCount = int.Parse(column[5]);
+            newEnemy.maxCount = int.Parse(column[6]);
+
+            d.enemyData.Add(newEnemy);
+        }
     }
 }

@@ -9,6 +9,7 @@ public class SkillUpgrade : MonoBehaviour
     [SerializeField] private RectTransform skillUpgradeBtnParent;
     [SerializeField] private Button skillUpgradeBaseBtn;
     [SerializeField] SkillExplain explainPanel;
+    [SerializeField] Text MoneyText;
     public SkillEffect playerSkills;
     public List<Button> btnImage;
 
@@ -22,12 +23,14 @@ public class SkillUpgrade : MonoBehaviour
     public void OnOffPanel()
     {
         isShow = !isShow;
-        
+
         panels.gameObject.SetActive(isShow);
+        MoneyText.text = $"보유자원 : {DataManager.instance.saveData.Money}";
     }
+    
     public void AddSkillUpgradeBtn()
     {
-        for(int i = skillDeckBuild.btnImage.Count - 1; i >= 0; i--)
+        for (int i = skillDeckBuild.btnImage.Count - 1; i >= 0; i--)
         {
             print(i);
             Destroy(skillDeckBuild.btnImage[i].gameObject);
@@ -44,8 +47,13 @@ public class SkillUpgrade : MonoBehaviour
                 selectIndex = num;
 
                 var skill = d.SkillList[selectIndex];
-                explainPanel.ExplainSet(skill.icon, skill.skillName, skill.explain, skill.minDamage[skill.level], skill.maxDamage[skill.level]);
 
+                int level = 0;
+                for (int j = 0; j < playerSkills.holdSkills.Count; j++)
+                {
+                    if (playerSkills.holdSkills[j].holdIndex == selectIndex) level = playerSkills.holdSkills[j].level;
+                }
+                explainPanel.ExplainSet(skill, level);
             });
             btn.gameObject.name = d.SkillList[i].skillName;
             btnImage.Add(btn);
@@ -68,22 +76,41 @@ public class SkillUpgrade : MonoBehaviour
             }
             btnImage[playerSkills.holdSkills[i].holdIndex].image.color = color;
         }
+        for (int j = 0; j < playerSkills.holdSkills.Count; j++)
+        {
+            if (playerSkills.holdSkills[j].holdIndex == selectIndex) 
+            explainPanel.ExplainSet(DataManager.instance.SkillList[playerSkills.holdSkills[j].holdIndex], playerSkills.holdSkills[j].level);
+        }
+        MoneyText.text = $"보유자원 : {DataManager.instance.saveData.Money}";
     }
     public void TriggerBuySkills()
     {
         var d = DataManager.instance;
         var skill = d.SkillList[selectIndex];
 
+        if(d.saveData.Money < 150) 
+        {
+            print("구매 불가 : 돈 부족");
+            return;
+        }
+
         for (int i = 0; i < playerSkills.holdSkills.Count; i++)
         {
             if (playerSkills.holdSkills[i].holdIndex == selectIndex)
             {
-                explainPanel.ExplainSet(skill.icon, skill.skillName, skill.explain, skill.minDamage[skill.level],
-            skill.maxDamage[skill.level]);
+                for (int j = 0; j < playerSkills.holdSkills.Count; j++)
+                {
+                    if (playerSkills.holdSkills[j].holdIndex == selectIndex) explainPanel.ExplainSet(skill, playerSkills.holdSkills[j].level);
+                }
 
                 var level = playerSkills.holdSkills[i].level;
-                if (level >= 2) return;
+                if (level >= 2) 
+                {
+                    print("구매 불가 : 최대치 도달");
+                    return;
+                }
                 playerSkills.holdSkills[i].level++;
+                d.saveData.Money -= 150;
                 InitSkillSelectState();
 
                 return;
@@ -95,10 +122,13 @@ public class SkillUpgrade : MonoBehaviour
             level = 0
         };
         playerSkills.holdSkills.Add(newSkills);
-        explainPanel.ExplainSet(skill.icon, skill.skillName, skill.explain, skill.minDamage[skill.level],
-            skill.maxDamage[skill.level]);
+        d.saveData.Money -= 150;
+        for (int j = 0; j < playerSkills.holdSkills.Count; j++)
+        {
+            if (playerSkills.holdSkills[j].holdIndex == selectIndex) explainPanel.ExplainSet(skill, playerSkills.holdSkills[j].level);
+        }
         InitSkillSelectState();
-        for(int i = skillDeckBuild.btnImage.Count - 1; i >= 0; i--)
+        for (int i = skillDeckBuild.btnImage.Count - 1; i >= 0; i--)
         {
             print(i);
             Destroy(skillDeckBuild.btnImage[i].gameObject);

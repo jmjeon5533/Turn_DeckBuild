@@ -54,5 +54,6 @@
     "dotnet.preferCSharpExtension": true,
     "vstuc.refreshOnSave": true,
     "unity-code-snippets.style": "allman",
-    "dotnet.defaultSolution": "Turn_Limbo.sln"
+    "dotnet.defaultSolution": "Turn_Limbo.sln",
+    "files.encoding": "euckr"
 }
