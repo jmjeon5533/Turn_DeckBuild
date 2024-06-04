@@ -311,11 +311,9 @@ public abstract class Unit : MonoBehaviour
             var totalDmg = damage;
             shield -= totalDmg;
             DamageLogs(totalDmg);
-            u.DamageText(totalDmg, transform.position);
             DamagePush(dir, damage);
             //StartCoroutine(HitAnimation(curDamage));
             u.DamageText(totalDmg, transform.position, this);
-            StartCoroutine(HitAnimation(curDamage));
         }
     }
     protected abstract void DamageLogs(int damage);
@@ -347,7 +345,6 @@ public abstract class Unit : MonoBehaviour
         if (totalDmg >= 12) FatalDamage();
         DamageLogs(totalDmg);
         UIManager.instance.DamageText(totalDmg, transform.position, this);
-        StartCoroutine(HitAnimation(curDamage));
     }
     void DamagePush(Vector3 dir, int damage)
     {

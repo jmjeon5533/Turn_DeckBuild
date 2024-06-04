@@ -231,14 +231,14 @@ public class UIManager : MonoBehaviour
             var moneyValue = Mathf.Lerp(0, moneyTarget, time);
             var countValue = Mathf.Lerp(0, countTarget, time);
 
-            if (isWin) getMoneyText.text = $"���� �� : {Mathf.RoundToInt(moneyValue)}";
-            useTurnCountText.text = $"��� �� : {Mathf.RoundToInt(countValue)}";
+            if (isWin) getMoneyText.text = $"얻은 돈 : {Mathf.RoundToInt(moneyValue)}";
+            useTurnCountText.text = $"사용 턴 : {Mathf.RoundToInt(countValue)}";
 
             time += Time.deltaTime;
             yield return null;
         }
-        if (isWin) getMoneyText.text = $"���� �� : {Mathf.RoundToInt(moneyTarget)}";
-        useTurnCountText.text = $"��� �� : {Mathf.RoundToInt(countTarget)}";
+        if (isWin) getMoneyText.text = $"얻은 돈 : {Mathf.RoundToInt(moneyTarget)}";
+        useTurnCountText.text = $"사용 턴 : {Mathf.RoundToInt(countTarget)}";
 
         if (isWin) DataManager.instance.saveData.Money += Mathf.RoundToInt(moneyTarget);
         EndMove = true;
@@ -247,8 +247,6 @@ public class UIManager : MonoBehaviour
     {
         return 1 - (1 - t) * (1 - t);
     }
-    public void DamageText(int damage, Vector3 pos)
-
     public void DamageText(int damage, Vector3 pos, Unit curUnit)
     {
         var text = Instantiate(damageText, dmgTextParent);
@@ -261,10 +259,10 @@ public class UIManager : MonoBehaviour
         percentage.text = ((curUnit != controller.player ?
         controller.player.attack_Drainage * controller.enemy.defense_Drainage :
         controller.enemy.attack_Drainage * controller.player.defense_Drainage) * 100).ToString() + "%";
+
         var position = cam.WorldToScreenPoint(pos + (Vector3)Random.insideUnitCircle * 1.5f);
         text.rectTransform.anchoredPosition = new Vector3(Mathf.Clamp(position.x,-960,960),Mathf.Clamp(position.y, -540, 540));
-
-        text.rectTransform.anchoredPosition = cam.WorldToScreenPoint(pos + (Vector3)Random.insideUnitCircle * 1.5f);
+        
         percentage.rectTransform.anchoredPosition = text.rectTransform.anchoredPosition + new Vector2(0, 170);
 
         percentage.transform.DOScale(0, 0.8f + (damage * 0.02f));
