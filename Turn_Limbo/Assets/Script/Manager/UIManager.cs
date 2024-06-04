@@ -6,13 +6,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-[System.Serializable]
-public class UnitUI
-{
-    public RectTransform requestParent,
-    requestBuffParent,
-    statParent;
-}
 public class UIManager : MonoBehaviour
 {
     public static UIManager instance { get; private set; }
@@ -64,12 +57,6 @@ public class UIManager : MonoBehaviour
     private void Start()
     {
         SelectEnemyImage(false);
-    }
-    public void InitUnitParent(Unit unit, int index)
-    {
-        unit.requestBuffParent = unitUI[index].requestBuffParent;
-        unit.requestUIParent = unitUI[index].requestParent;
-        unit.statParent = unitUI[index].statParent;
     }
     private void Update()
     {

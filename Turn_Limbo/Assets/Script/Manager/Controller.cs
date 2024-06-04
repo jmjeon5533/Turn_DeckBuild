@@ -52,6 +52,7 @@ public class Controller : MonoBehaviour
     public bool isSkillExplain;
 
     private int lastSign;
+    private int spawnCount = 0;
 
     public VolumeProfile volume;
     [HideInInspector] public ChromaticAberration glitch;
@@ -88,6 +89,10 @@ public class Controller : MonoBehaviour
 
         useTurnCount = 1;
         if (BGM != null) SoundManager.instance.SetAudio(BGM, true);
+    }
+    public void SetEnemy()
+    {
+        Instantiate(DataManager.instance.SpawnData[ReadSpreadSheet.instance.curStageID].enemies[spawnCount],new Vector3(5,-0.5f, 0), Quaternion.identity);
     }
     public void TurnReset()
     {
@@ -172,17 +177,17 @@ public class Controller : MonoBehaviour
         + new Vector3((2 - (5 - ui.cam.orthographicSize)) * (character.isLeft ? 1 : -1), 2))
         : new Vector3(ui.cam.WorldToScreenPoint(character.transform.position).x, 900);
 
-        character.requestBuffParent.anchoredPosition
+        character.unitUI.requestBuffParent.anchoredPosition
         = !isAttack ? ui.cam.WorldToScreenPoint(character.transform.position
         + new Vector3((3 - (5 - ui.cam.orthographicSize)) * (character.isLeft ? 1 : -1), 4))
         : new Vector3(ui.cam.WorldToScreenPoint(character.transform.position).x, 1000);
-        character.requestUIParent.anchoredPosition
-        = Vector3.Lerp(character.requestUIParent.anchoredPosition, requestPos, 0.05f);
+        character.unitUI.requestUIParent.anchoredPosition
+        = Vector3.Lerp(character.unitUI.requestUIParent.anchoredPosition, requestPos, 0.05f);
 
         float scale = 0;
         if (isAttack) scale = 1.5f;
         else scale = 1 + (5 - ui.cam.orthographicSize) * 0.2f;
-        character.requestUIParent.localScale = Vector3.one * scale;
+        character.unitUI.requestUIParent.localScale = Vector3.one * scale;
     }
 
     public void InitBtn()
@@ -197,7 +202,7 @@ public class Controller : MonoBehaviour
         if (isAttack) return;
 
         var newSkill = target.ConvertRequest(addSkill);
-        newSkill.insertImage = UIManager.instance.AddIcon(newSkill.icon, target.requestUIParent);
+        newSkill.insertImage = UIManager.instance.AddIcon(newSkill.icon, target.unitUI.requestUIParent);
         target.attackRequest.Add(newSkill);
     }
     private void CheckInput()
@@ -446,8 +451,8 @@ public class Controller : MonoBehaviour
         isAttack = true;
         dialogueBox = curDialogueBox;
         DialogueManager.instance.OnOffDialogue(isAttack);
-        player.HideUI(false);
-        enemy.HideUI(false);
+        player.unitUI.HideUI(false);
+        enemy.unitUI.HideUI(false);
         // StartCoroutine(FirstDialogueMove(player));
         // yield return StartCoroutine(FirstDialogueMove(enemy));
         yield return null;
@@ -459,8 +464,8 @@ public class Controller : MonoBehaviour
     {
         isAttack = false;
         DialogueManager.instance.OnOffDialogue(isAttack);
-        player.HideUI(true);
-        enemy.HideUI(true);
+        player.unitUI.HideUI(true);
+        enemy.unitUI.HideUI(true);
         StartCoroutine(EndDialogueMove(player));
         yield return EndDialogueMove(enemy);
     }

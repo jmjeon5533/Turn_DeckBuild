@@ -6610,6 +6610,8 @@ MonoBehaviour:
   saveData:
     Money: 0
   isPlayer: 0
+  enemyPrefab:
+  - {fileID: 4735246518110724539, guid: 3ace2c79dfe569b4d8e8507e6d094472, type: 3}
 --- !u!4 &1711722512
 Transform:
   m_ObjectHideFlags: 0

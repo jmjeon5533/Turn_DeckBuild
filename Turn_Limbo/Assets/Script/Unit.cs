@@ -96,14 +96,7 @@ public abstract class Unit : MonoBehaviour
     [HideInInspector] public bool isDialogue;
     [HideInInspector] public Sequence iconAnim;
 
-    public RectTransform requestUIParent;
-    public RectTransform requestBuffParent;
-    public RectTransform statParent;
-    [SerializeField] protected GameObject status;
-    [SerializeField] protected Image hpImage;
-    [SerializeField] protected Image hpAnimImage;
-    [SerializeField] protected Image shieldImage;
-    [SerializeField] protected Image shieldAnimImage;
+    public UnitUI unitUI;
     [HideInInspector] public float dmgDelayTime;
     [SerializeField] private float dmgDelayCurTime;
 
@@ -114,19 +107,11 @@ public abstract class Unit : MonoBehaviour
     protected virtual void Start()
     {
         isLeft = target.transform.position.x > transform.position.x;
-        InitUnit();
-    }
-    public virtual void InitUnit()
-    {
-        hpAnimImage = statParent.GetChild(1).GetComponent<Image>();
-        hpImage = hpAnimImage.transform.GetChild(0).GetComponent<Image>();
-
-        shieldAnimImage = statParent.GetChild(3).GetComponent<Image>();
-        shieldImage = shieldAnimImage.transform.GetChild(0).GetComponent<Image>();
+        unitUI.InitUnit();
     }
     protected virtual void Update()
     {
-        UIUpdate();
+        unitUI.UIUpdate(transform,hp,maxHP,shield,maxShield,ref dmgDelayCurTime,isLeft);
     }
     public virtual void TurnInit()
     {
@@ -241,7 +226,7 @@ public abstract class Unit : MonoBehaviour
             {
                 if (list[i].insertImage == null)
                 {
-                    list[i].insertImage = UIManager.instance.AddImage(list[i].curBuff.buffIcon, requestBuffParent);
+                    list[i].insertImage = UIManager.instance.AddImage(list[i].curBuff.buffIcon, unitUI.requestBuffParent);
                     //Debug.Log($"AddImage {this.name} {list[i].curBuff} {list[i].insertImage == null}");
                 }
                 //Debug.Log($"AddList {this.name} {list[i].curBuff} {list[i].insertImage == null}");
@@ -255,23 +240,7 @@ public abstract class Unit : MonoBehaviour
         }
         return temp;
     }
-    void UIUpdate()
-    {
-        var ui = UIManager.instance;
-        statParent.anchoredPosition
-        = ui.cam.WorldToScreenPoint(transform.position + (new Vector3(-2f, 0) * (isLeft ? 1 : -1)));
-        hpImage.fillAmount = (float)hp / maxHP;
-        if (dmgDelayCurTime <= 0)
-        {
-            hpAnimImage.fillAmount = Mathf.MoveTowards(hpAnimImage.fillAmount, hpImage.fillAmount, Time.deltaTime);
-            shieldAnimImage.fillAmount = Mathf.MoveTowards(shieldAnimImage.fillAmount, shieldImage.fillAmount, Time.deltaTime);
-        }
-        else dmgDelayCurTime -= Time.deltaTime;
-        shieldImage.fillAmount = (float)shield / maxShield;
-
-        requestUIParent.localScale = Vector3.one * (1 + (5 - ui.cam.orthographicSize) * 0.3f);
-        requestBuffParent.localScale = Vector3.one * (1 + (5 - ui.cam.orthographicSize) * 0.3f);
-    }
+    
     public void InitCurSkillDamage(int min, int max, int count)
     {
         //Debug.Log($"{this.name} Damage : {curDamage} {attack_Drainage}");
@@ -383,11 +352,5 @@ public abstract class Unit : MonoBehaviour
         var addPos = dir * damage * 0.3f;
         print($"{gameObject.name} {addPos}");
         transform.DOMove(transform.position + addPos, 0.2f);
-    }
-    public void HideUI(bool isOn)
-    {
-        requestUIParent.gameObject.SetActive(isOn);
-        requestBuffParent.gameObject.SetActive(isOn);
-        status.SetActive(isOn);
     }
 }
