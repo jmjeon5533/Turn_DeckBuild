@@ -1889,6 +1889,7 @@ MonoBehaviour:
   timer: {fileID: 837180325}
   timerBG: {fileID: 1737166369}
   damageText: {fileID: 4913488826131424601, guid: 7fd180f15f7b3894287722613e90254e, type: 3}
+  percentageText: {fileID: 4913488826131424601, guid: 5f9a5a38e53510840929aed3bac1838e, type: 3}
   gameEndPanel: {fileID: 334556402}
   gameEndText: {fileID: 1800967359}
   retry: {fileID: 1925919373}
@@ -8930,6 +8931,10 @@ PrefabInstance:
     - target: {fileID: 4913488826131424600, guid: 7fd180f15f7b3894287722613e90254e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4913488826131424601, guid: 7fd180f15f7b3894287722613e90254e, type: 3}
+      propertyPath: m_fontColor.b
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4913488826131424607, guid: 7fd180f15f7b3894287722613e90254e, type: 3}
       propertyPath: m_Name

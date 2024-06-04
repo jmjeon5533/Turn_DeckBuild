@@ -35,6 +35,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] Image timer;
     public Image timerBG;
     public TMP_Text damageText;
+    public TMP_Text percentageText;
 
     [Header("GameEnd")]
     [SerializeField] Image gameEndPanel;
@@ -193,18 +194,28 @@ public class UIManager : MonoBehaviour
         EndMove = true;
     }
 
-    public void DamageText(int damage, Vector3 pos)
+    public void DamageText(int damage, Vector3 pos, Unit curUnit)
     {
         var text = Instantiate(damageText, dmgTextParent);
+        var percentage = Instantiate(percentageText, dmgTextParent);
+
         text.transform.localScale = Vector3.one * Mathf.Clamp(0.5f + (damage * 0.03f), 0.5f, 3f);
+        percentage.transform.localScale = Vector3.one * Mathf.Clamp(0.5f + (damage * 0.03f), 0.5f, 3f) * 0.2f;
         text.text = damage.ToString();
 
-        text.rectTransform.anchoredPosition = cam.WorldToScreenPoint(pos + (Vector3)Random.insideUnitCircle * 1.5f);
+        percentage.text = ((curUnit != controller.player ?
+        controller.player.attack_Drainage * controller.enemy.defense_Drainage :
+        controller.enemy.attack_Drainage * controller.player.defense_Drainage) * 100).ToString() + "%";
 
+        text.rectTransform.anchoredPosition = cam.WorldToScreenPoint(pos + (Vector3)Random.insideUnitCircle * 1.5f);
+        percentage.rectTransform.anchoredPosition = text.rectTransform.anchoredPosition + new Vector2(0, 170);
+
+        percentage.transform.DOScale(0, 0.8f + (damage * 0.02f));
+        percentage.DOColor(Color.clear, 0.8f + (damage * 0.02f));
         text.transform.DOScale(0, 0.8f + (damage * 0.02f));
-        text.DOColor(Color.clear, 0.8f + (damage * 0.02f)).OnComplete(() => Destroy(text.gameObject));
+        text.DOColor(Color.clear, 0.8f + (damage * 0.02f)).OnComplete(() => { Destroy(text.gameObject); Destroy(percentage.gameObject); });
     }
-    
+
     public IEnumerator CameraShake()
     {
         Vector3 orignalCamPos = camPlusPos;

@@ -159,8 +159,8 @@ public abstract class Unit : MonoBehaviour
     public void SkillInit(RequestSkill skill)
     {
         isAttack = true;
-        attack_Drainage = 1;
-        defense_Drainage = 1;
+        // attack_Drainage = 1;
+        // defense_Drainage = 1;
 
         usedSkill = curSkill;
         curSkill = skill;
@@ -340,7 +340,7 @@ public abstract class Unit : MonoBehaviour
             var totalDmg = damage;
             shield -= totalDmg;
             DamageLogs(totalDmg);
-            u.DamageText(totalDmg, transform.position);
+            u.DamageText(totalDmg, transform.position, this);
             StartCoroutine(HitAnimation(curDamage));
         }
     }
@@ -371,7 +371,7 @@ public abstract class Unit : MonoBehaviour
         dmgDelayCurTime = dmgDelayTime;
         if (totalDmg >= 12) FatalDamage();
         DamageLogs(totalDmg);
-        UIManager.instance.DamageText(totalDmg, transform.position);
+        UIManager.instance.DamageText(totalDmg, transform.position, this);
         StartCoroutine(HitAnimation(curDamage));
     }
     IEnumerator HitAnimation(int damage)
