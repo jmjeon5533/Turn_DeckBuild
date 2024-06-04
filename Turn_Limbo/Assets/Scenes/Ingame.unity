@@ -1273,6 +1273,7 @@ MonoBehaviour:
   typingTime: 0.1
   isTyping: 0
   panelState: 0
+  isEnd: 0
 --- !u!224 &207089128
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8667,6 +8668,7 @@ MonoBehaviour:
     Money: 0
   SpawnData: []
   isPlayer: 0
+  readEnd: 0
 --- !u!1 &2066232508
 GameObject:
   m_ObjectHideFlags: 0
