@@ -67,7 +67,8 @@ public class ReadSpreadSheet : MonoBehaviour
             newSkill.keyIndex = int.Parse(columns[1]) - 1;
             newSkill.actionType = columns[3].EnumParse<Unit.ActionType>();
             newSkill.propertyType = columns[4].EnumParse<Unit.PropertyType>();
-            newSkill.animationName = columns[8];
+            //newSkill.animationName = columns[8];
+            newSkill.animationName = columns[8] == "Guard" ? "Attack" : columns[8];
             newSkill.explain = explain;
             newSkill.icon = Resources.Load<Sprite>($"Icon/skill{int.Parse(columns[0])}");
 
