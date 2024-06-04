@@ -31,6 +31,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] Image timer;
     public Image timerBG;
     public TMP_Text damageText;
+    public TMP_Text percentageText;
 
     [Header("GameEnd")]
     [SerializeField] Image gameEndPanel;
@@ -230,14 +231,14 @@ public class UIManager : MonoBehaviour
             var moneyValue = Mathf.Lerp(0, moneyTarget, time);
             var countValue = Mathf.Lerp(0, countTarget, time);
 
-            if (isWin) getMoneyText.text = $"¾òÀº µ· : {Mathf.RoundToInt(moneyValue)}";
-            useTurnCountText.text = $"»ç¿ë ÅÏ : {Mathf.RoundToInt(countValue)}";
+            if (isWin) getMoneyText.text = $"ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ : {Mathf.RoundToInt(moneyValue)}";
+            useTurnCountText.text = $"ï¿½ï¿½ï¿½ ï¿½ï¿½ : {Mathf.RoundToInt(countValue)}";
 
             time += Time.deltaTime;
             yield return null;
         }
-        if (isWin) getMoneyText.text = $"¾òÀº µ· : {Mathf.RoundToInt(moneyTarget)}";
-        useTurnCountText.text = $"»ç¿ë ÅÏ : {Mathf.RoundToInt(countTarget)}";
+        if (isWin) getMoneyText.text = $"ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ : {Mathf.RoundToInt(moneyTarget)}";
+        useTurnCountText.text = $"ï¿½ï¿½ï¿½ ï¿½ï¿½ : {Mathf.RoundToInt(countTarget)}";
 
         if (isWin) DataManager.instance.saveData.Money += Mathf.RoundToInt(moneyTarget);
         EndMove = true;
@@ -247,18 +248,31 @@ public class UIManager : MonoBehaviour
         return 1 - (1 - t) * (1 - t);
     }
     public void DamageText(int damage, Vector3 pos)
+
+    public void DamageText(int damage, Vector3 pos, Unit curUnit)
     {
         var text = Instantiate(damageText, dmgTextParent);
+        var percentage = Instantiate(percentageText, dmgTextParent);
+
         text.transform.localScale = Vector3.one * Mathf.Clamp(0.5f + (damage * 0.03f), 0.5f, 3f);
+        percentage.transform.localScale = Vector3.one * Mathf.Clamp(0.5f + (damage * 0.03f), 0.5f, 3f) * 0.2f;
         text.text = damage.ToString();
 
+        percentage.text = ((curUnit != controller.player ?
+        controller.player.attack_Drainage * controller.enemy.defense_Drainage :
+        controller.enemy.attack_Drainage * controller.player.defense_Drainage) * 100).ToString() + "%";
         var position = cam.WorldToScreenPoint(pos + (Vector3)Random.insideUnitCircle * 1.5f);
         text.rectTransform.anchoredPosition = new Vector3(Mathf.Clamp(position.x,-960,960),Mathf.Clamp(position.y, -540, 540));
 
+        text.rectTransform.anchoredPosition = cam.WorldToScreenPoint(pos + (Vector3)Random.insideUnitCircle * 1.5f);
+        percentage.rectTransform.anchoredPosition = text.rectTransform.anchoredPosition + new Vector2(0, 170);
+
+        percentage.transform.DOScale(0, 0.8f + (damage * 0.02f));
+        percentage.DOColor(Color.clear, 0.8f + (damage * 0.02f));
         text.transform.DOScale(0, 0.8f + (damage * 0.02f));
-        text.DOColor(Color.clear, 0.8f + (damage * 0.02f)).OnComplete(() => Destroy(text.gameObject));
+        text.DOColor(Color.clear, 0.8f + (damage * 0.02f)).OnComplete(() => { Destroy(text.gameObject); Destroy(percentage.gameObject); });
     }
-    
+
     public IEnumerator CameraShake()
     {
         Vector3 orignalCamPos = camPlusPos;

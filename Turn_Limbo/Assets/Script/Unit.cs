@@ -314,6 +314,8 @@ public abstract class Unit : MonoBehaviour
             u.DamageText(totalDmg, transform.position);
             DamagePush(dir, damage);
             //StartCoroutine(HitAnimation(curDamage));
+            u.DamageText(totalDmg, transform.position, this);
+            StartCoroutine(HitAnimation(curDamage));
         }
     }
     protected abstract void DamageLogs(int damage);
@@ -344,8 +346,8 @@ public abstract class Unit : MonoBehaviour
         dmgDelayCurTime = dmgDelayTime;
         if (totalDmg >= 12) FatalDamage();
         DamageLogs(totalDmg);
-        UIManager.instance.DamageText(totalDmg, transform.position);
-        //StartCoroutine(HitAnimation(curDamage));
+        UIManager.instance.DamageText(totalDmg, transform.position, this);
+        StartCoroutine(HitAnimation(curDamage));
     }
     void DamagePush(Vector3 dir, int damage)
     {

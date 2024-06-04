@@ -63,7 +63,7 @@ public class DataManager : MonoBehaviour
         Debug.Log($"{hpDialogBox.Count} {(hpDialogBox.Count != 0 ? hpDialogBox.Peek().Count : -1)}");
         if (hpDialogBox.Count == 0) return;
 
-        Debug.Log("test");
+        Debug.Log("InitUnit");
         unit.hpLimit = hpDialogBox.Peek().Peek().hpValue;
         unit.isDialogue = false;
     }
