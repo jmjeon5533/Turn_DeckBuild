@@ -92,7 +92,9 @@ public class Controller : MonoBehaviour
     }
     public void SetEnemy()
     {
-        Instantiate(DataManager.instance.SpawnData[ReadSpreadSheet.instance.curStageID].enemies[spawnCount],new Vector3(5,-0.5f, 0), Quaternion.identity);
+        var enemy = Instantiate(DataManager.instance.SpawnData[ReadSpreadSheet.instance.curStageID].enemies[spawnCount],new Vector3(5,-0.5f, 0), Quaternion.identity);
+        enemy.target = player;
+        enemy.unitUI = UIManager.instance.unitUI[1];
     }
     public void TurnReset()
     {

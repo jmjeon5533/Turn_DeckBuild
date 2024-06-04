@@ -49,7 +49,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] TMP_Text enemySkillExplainText;
 
     [Header("Unit")]
-    [SerializeField] UnitUI[] unitUI;
+    public UnitUI[] unitUI;
 
     private void Awake()
     {
