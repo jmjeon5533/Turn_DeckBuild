@@ -53,9 +53,10 @@ public class DataManager : MonoBehaviour
     public List<UnitData> enemyData = new();
     public List<SpawnData> SpawnData = new();
 
-    public Queue<Queue<Dialogue>> curStageDialogBox = new();
+    public Queue<Dialogue> curStageDialogBox = new();
     public Queue<Queue<Dialogue>> hpDialogBox = new();
     public bool isPlayer;
+    public bool readEnd;
 
     public void InitUnit(Unit unit)
     {

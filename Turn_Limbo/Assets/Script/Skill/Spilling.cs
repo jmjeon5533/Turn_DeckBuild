@@ -8,5 +8,4 @@ public class Spilling : SkillScript
     {
         unit.turnStart.Add(new Buff(BuffManager.instance.buffList[1], 30, 10, Unit.PropertyType.AllType));
     }
-    public override void End(Unit unit, Unit target) { }
 }

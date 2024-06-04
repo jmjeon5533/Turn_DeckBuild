@@ -8,5 +8,4 @@ public class Eisenport : SkillScript
     {
         BuffManager.instance.buffList[1].Use(unit, 70, Unit.PropertyType.AllType);
     }
-    public override void End(Unit unit, Unit target) { }
 }

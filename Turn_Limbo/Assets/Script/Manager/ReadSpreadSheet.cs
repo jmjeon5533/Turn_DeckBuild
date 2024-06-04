@@ -22,10 +22,6 @@ public class ReadSpreadSheet : MonoBehaviour
         else instance = this;
         DontDestroyOnLoad(gameObject);
     }
-    private void Start()
-    {
-        // StartCoroutine(LoadData(0, ParseEnemyData));
-    }
     public void Load(Action callBack = default)
     {
         StartCoroutine(LoadData(0, ParseSkillData, callBack));
@@ -99,7 +95,7 @@ public class ReadSpreadSheet : MonoBehaviour
         }else Debug.Log("ReadDialogue");
         
 
-        Queue<Queue<Dialogue>> dialogBox = new();
+        Queue<Dialogue> dialogBox = new();
         Queue<Queue<Dialogue>> hpDialogBox = new();
 
         Queue<Dialogue> act = new();
@@ -111,8 +107,6 @@ public class ReadSpreadSheet : MonoBehaviour
         Debug.Log($"rows.Length == {rows.Length}");
         for (int i = 1; i < rows.Length; i++)
         {
-            Debug.Log(rows[i]);
-
             string[] columns = rows[i].Split(',');
 
             //Only text with the same CurStageID and stageID is imported from the sheet << Papago GO
@@ -120,7 +114,7 @@ public class ReadSpreadSheet : MonoBehaviour
 
             if (columns[1] != "" && act.Count != 0)
             {
-                if (nowDialogueType == "StoryDialogue") dialogBox.Enqueue(new Queue<Dialogue>(act));
+                if (nowDialogueType == "StoryDialogue") dialogBox = act;
                 else hpDialogBox.Enqueue(new Queue<Dialogue>(act));
 
                 act.Clear();
@@ -154,12 +148,14 @@ public class ReadSpreadSheet : MonoBehaviour
             // Debug.Log($"ReadData : {id} {name} {job} {text}");
         }
 
-        if (nowDialogueType == "StoryDialogue") dialogBox.Enqueue(new Queue<Dialogue>(act));
+        if (nowDialogueType == "StoryDialogue") dialogBox = act;
         else hpDialogBox.Enqueue(new Queue<Dialogue>(act));
 
-        d.curStageDialogBox = new Queue<Queue<Dialogue>>(dialogBox);
+        d.curStageDialogBox = dialogBox;
         d.hpDialogBox = new Queue<Queue<Dialogue>>(hpDialogBox);
         d.isPlayer = isPlayer;
+
+        d.readEnd = true;
     }
     public void ParseEnemyData(string data)
     {

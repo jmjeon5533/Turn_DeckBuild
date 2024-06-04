@@ -9,5 +9,4 @@ public class Smashing : SkillScript
         if (target.curSkill.propertyType == Unit.PropertyType.Defense)
             target.isAttack = false; 
     }
-    public override void End(Unit unit, Unit target) { }
 }

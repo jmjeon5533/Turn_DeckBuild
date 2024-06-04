@@ -9,5 +9,4 @@ public class Kronhowe : SkillScript
         if (unit.usedSkill.propertyType == Unit.PropertyType.Defense && TryGetComponent<Player>(out var p))
             p.addCoin += 2;
     }
-    public override void End(Unit unit, Unit target) { }
 }

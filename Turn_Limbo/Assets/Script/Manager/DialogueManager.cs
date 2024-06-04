@@ -73,6 +73,7 @@ public class DialogueManager : MonoBehaviour
     WaitForSeconds waitTime;
     [HideInInspector] public bool isTyping;
     [HideInInspector] public bool panelState;
+    [HideInInspector] public bool isEnd;
     int eventValue;
     bool isSkip;
     bool isPanel;
@@ -158,7 +159,6 @@ public class DialogueManager : MonoBehaviour
 
         tempText = dialogue.text;
         eventValue = dialogue.eventValue;
-        Debug.Log(eventValue);
     }
 
     public IEnumerator TypingText()
@@ -185,6 +185,9 @@ public class DialogueManager : MonoBehaviour
 
     void DialogueEvent()
     {
+        Debug.Log(curEvent);
+
+        if (curEvent != SettingPanel) { Debug.Log("is Not SettingPanel"); OnOffPanel(); }
         if (curEvent == null) return;
 
         curEvent?.Invoke(eventValue);
@@ -194,6 +197,7 @@ public class DialogueManager : MonoBehaviour
     {
         panelState = true;
         isPanel = true;
+        OnOffPanel();
     }
 
     public void OnOffPanel()
@@ -204,10 +208,14 @@ public class DialogueManager : MonoBehaviour
             panel.sprite = panelImage[0];
             panelImage.Remove(panelImage[0]);
             isPanel = !isPanel;
-        }
-        else
-        {
             panelState = false;
         }
+    }
+
+    public void Skip()
+    {
+        isEnd = true;
+        isTyping = true;
+        isSkip = true;
     }
 }
