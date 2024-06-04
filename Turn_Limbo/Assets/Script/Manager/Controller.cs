@@ -98,9 +98,9 @@ public class Controller : MonoBehaviour
     {
         gameCurTimeCount = 10;
 
+        useAbleCoin += player.addCoin;
         player.TurnInit();
         enemy.TurnInit();
-        useAbleCoin += player.addCoin;
         UIManager.instance.ChangeCoinSkillImg();
 
         foreach (var n in player.usedBuff) ImageAnim(player, n.insertImage);
@@ -305,7 +305,7 @@ public class Controller : MonoBehaviour
                 player.transform.position = Vector3.MoveTowards(player.transform.position, enemy.transform.position, Time.deltaTime * 15f);
                 enemy.transform.position = Vector3.MoveTowards(enemy.transform.position, player.transform.position, Time.deltaTime * 15f);
                 yield return null;
-                print(Vector3.Distance(player.transform.position, enemy.transform.position));
+                //print(Vector3.Distance(player.transform.position, enemy.transform.position));
             }
             for (int j = 0; j < units.Length; j++)
             {
@@ -378,6 +378,7 @@ public class Controller : MonoBehaviour
         var skill = unit.SkillChange();
         unit.SkillInit(skill);
 
+        if(skill.animation == null) Debug.Log($"!!!!!!!!!!!! {skill.skillName}");
         return skill.animation.length;
     }
 
@@ -399,7 +400,7 @@ public class Controller : MonoBehaviour
 
         foreach (var n in unit.usedBuff)
         {
-            Debug.Log($"{unit.name} {n.curBuff} {n.insertImage == null}");
+            //Debug.Log($"{unit.name} {n.curBuff} {n.insertImage == null}");
             ImageAnim(unit, n.insertImage);
         }
 

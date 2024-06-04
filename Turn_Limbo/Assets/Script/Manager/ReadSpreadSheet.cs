@@ -13,7 +13,6 @@ public class ReadSpreadSheet : MonoBehaviour
     public int curStageID;
 
     public Dictionary<KeyCode, List<Skill>> skillDatas = new();
-    public List<SkillScript> skillScripts = new();
     private List<Skill> skillLists = new();
 
     private void Awake()
@@ -56,7 +55,7 @@ public class ReadSpreadSheet : MonoBehaviour
             if (!skillDatas.ContainsKey(keyCode))
                 skillDatas.Add(keyCode, new List<Skill>());
 
-            var splitExplain = columns[6].Split('&');
+            var splitExplain = columns[7].Split('&');
             string explain = string.Join("\n", splitExplain);
             var newSkill = new Skill();
             newSkill.index = i;
@@ -65,18 +64,22 @@ public class ReadSpreadSheet : MonoBehaviour
             newSkill.minDamage = new int[3];
             newSkill.maxDamage = new int[3];
             newSkill.attackCount = int.Parse(columns[5]);
-            newSkill.effect = skillScripts[int.Parse(columns[0])];
             newSkill.keyIndex = int.Parse(columns[1]) - 1;
             newSkill.actionType = columns[3].EnumParse<Unit.ActionType>();
             newSkill.propertyType = columns[4].EnumParse<Unit.PropertyType>();
-            newSkill.animationName = columns[7];
+            newSkill.animationName = columns[8] == "Guard" ? "Attack" : columns[8];
             newSkill.explain = explain;
             newSkill.icon = Resources.Load<Sprite>($"Icon/skill{int.Parse(columns[0])}");
+
+            string className = "Skill_" + columns[6];
+            newSkill.effect = Activator.CreateInstance(Type.GetType(className)) as SkillScript;
+            
+
             for (int j = 0; j < 3; j++)
             {
-                newSkill.cost[j] = int.Parse(columns[8 + (j * 3)]);
-                newSkill.minDamage[j] = int.Parse(columns[9 + (j * 3)]);
-                newSkill.maxDamage[j] = int.Parse(columns[10 + (j * 3)]);
+                newSkill.cost[j] = int.Parse(columns[9 + (j * 3)]);
+                newSkill.minDamage[j] = int.Parse(columns[10 + (j * 3)]);
+                newSkill.maxDamage[j] = int.Parse(columns[11 + (j * 3)]);
             }
             skillLists.Add(newSkill);
             skillDatas[keyCode].Add(newSkill);
@@ -104,7 +107,7 @@ public class ReadSpreadSheet : MonoBehaviour
         string[] rows = data.Split('\n');
         string nowDialogueType = null;
         bool isPlayer = false;
-        Debug.Log($"rows.Length == {rows.Length}");
+        //Debug.Log($"rows.Length == {rows.Length}");
         for (int i = 1; i < rows.Length; i++)
         {
             string[] columns = rows[i].Split(',');

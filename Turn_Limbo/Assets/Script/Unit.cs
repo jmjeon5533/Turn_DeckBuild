@@ -349,7 +349,7 @@ public abstract class Unit : MonoBehaviour
     void DamagePush(Vector3 dir, int damage)
     {
         var addPos = dir * damage * 0.3f;
-        print($"{gameObject.name} {addPos}");
+        //print($"{gameObject.name} {addPos}");
         transform.DOMove(transform.position + addPos, 0.2f);
     }
 }
