@@ -474,8 +474,6 @@ public class Controller : MonoBehaviour
         player.unitUI.HideUI(true);
         enemy.unitUI.HideUI(true);
         dialogueBox.Clear();
-        player.HideUI(true);
-        enemy.HideUI(true);
         StartCoroutine(EndDialogueMove(player));
         yield return EndDialogueMove(enemy);
     }
