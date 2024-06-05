@@ -18,12 +18,12 @@ public class Skill
     public int level;
     public int attackCount;
     public int keyIndex;
-    public SkillScript effect;
+    public Skill_Base effect;
     public Sprite icon;
     public string animationName;
     public Unit.ActionType actionType;
     public string explain;
-    public Unit.PropertyType propertyType;
+    public PropertyType propertyType;
 }
 
 public class Controller : MonoBehaviour
@@ -33,7 +33,7 @@ public class Controller : MonoBehaviour
     public Vector3 movePos;
     public SpriteRenderer bg;
     public Image keyHoldImage;
-    public List<SkillScript> skills = new();
+    public List<Skill_Base> skills = new();
     public List<Skill> inputLists = new();
     Queue<Dialogue> dialogueBox = new();
     DataManager data;
@@ -333,7 +333,7 @@ public class Controller : MonoBehaviour
             }
 
             float waitTime = Mathf.Max(AttackInit(player), AttackInit(enemy));
-            player.BuffSetting(); enemy.BuffSetting();
+            player.UseBuff(BuffTiming.turnStart); enemy.UseBuff(BuffTiming.turnStart);
             AttackStart(player); AttackStart(enemy);
             for (int j = 0; j < units.Length; j++)
             {
@@ -398,7 +398,7 @@ public class Controller : MonoBehaviour
 
     void BuffClear(Unit unit)
     {
-        unit.ClaerBuff();
+        unit.curBuff = unit.ClearBuffList(unit.curBuff);
 
         foreach (var n in unit.usedBuff)
         {

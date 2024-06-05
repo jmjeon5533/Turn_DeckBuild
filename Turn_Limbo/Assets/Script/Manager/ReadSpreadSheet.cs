@@ -9,7 +9,7 @@ public class ReadSpreadSheet : MonoBehaviour
 {
     public static ReadSpreadSheet instance;
     public const string ADDRESS = "https://docs.google.com/spreadsheets/d/1ENYCDg5E6WuUwf-NZjCOpJfRufJsxQI8d7qEKh3Kf_I";
-    public readonly long[] SHEET_ID = { 1705787959, 930614922, 520277150};
+    public readonly long[] SHEET_ID = { 1705787959, 930614922, 520277150, 232901544 };
     public int curStageID;
 
     public Dictionary<KeyCode, List<Skill>> skillDatas = new();
@@ -26,6 +26,7 @@ public class ReadSpreadSheet : MonoBehaviour
         StartCoroutine(LoadData(0, ParseSkillData, callBack));
         StartCoroutine(LoadData(1, ParseTextData));
         StartCoroutine(LoadData(2, ParseEnemyData));
+        StartCoroutine(LoadData(3, PasreBuffData));
     }
     private IEnumerator LoadData(int pageIndex, Action<string> dataAction, Action callBack = default)
     {
@@ -66,15 +67,15 @@ public class ReadSpreadSheet : MonoBehaviour
             newSkill.attackCount = int.Parse(columns[5]);
             newSkill.keyIndex = int.Parse(columns[1]) - 1;
             newSkill.actionType = columns[3].EnumParse<Unit.ActionType>();
-            newSkill.propertyType = columns[4].EnumParse<Unit.PropertyType>();
+            newSkill.propertyType = columns[4].EnumParse<PropertyType>();
             //newSkill.animationName = columns[8];
             newSkill.animationName = columns[8] == "Guard" ? "Attack" : columns[8];
             newSkill.explain = explain;
             newSkill.icon = Resources.Load<Sprite>($"Icon/skill{int.Parse(columns[0])}");
 
             string className = "Skill_" + columns[6];
-            newSkill.effect = Activator.CreateInstance(Type.GetType(className)) as SkillScript;
-            
+            newSkill.effect = Activator.CreateInstance(Type.GetType(className)) as Skill_Base;
+
 
             for (int j = 0; j < 3; j++)
             {
@@ -91,13 +92,41 @@ public class ReadSpreadSheet : MonoBehaviour
         //controller.inputs = new Dictionary<KeyCode, List<Skill>>(skillDatas);
         //controller.inputLists = new List<Skill>(skillLists);
     }
-    public void ParseTextData(string data)
+
+    void PasreBuffData(string data)
     {
-        if(curStageID == 0){
+        List<Buff_Base> buff = new();
+        List<Buff_Base> debuff = new();        
+
+        var d = DataManager.instance;
+        string[] rows = data.Split('\n');
+        for (int i = 1; i < rows.Length; i++)
+        {
+            string[] columns = rows[i].Split(',');
+
+            string className = "Buff_" + columns[2];
+            var temp = Activator.CreateInstance(Type.GetType(className)) as Buff_Base;
+            temp.timing = columns[3].EnumParse<BuffTiming>();
+            temp.buffIcon = Resources.Load<Sprite>($"BuffIcon/{columns[2]}");
+            Debug.Log($"Icon/BuffIcon/{columns[2]}");
+
+            if (columns[4] == "buff" && columns[4] != "") buff.Add(temp);
+            else debuff.Add(temp);
+        }
+
+        d.buffList = buff;
+        d.debuffList = debuff;
+    }
+
+    void ParseTextData(string data)
+    {
+        if (curStageID == 0)
+        {
             Debug.Log("Don't ReadDialogue");
             return;
-        }else Debug.Log("ReadDialogue");
-        
+        }
+        else Debug.Log("ReadDialogue");
+
 
         Queue<Dialogue> dialogBox = new();
         Queue<Queue<Dialogue>> hpDialogBox = new();
@@ -165,7 +194,7 @@ public class ReadSpreadSheet : MonoBehaviour
     {
         var d = DataManager.instance;
         string[] row = data.Split("\n");
-        for(int i = 1; i < row.Length; i++)
+        for (int i = 1; i < row.Length; i++)
         {
             string[] column = row[i].Split(",");
             UnitData newEnemy = new();
