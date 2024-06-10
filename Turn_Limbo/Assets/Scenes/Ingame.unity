@@ -1491,33 +1491,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   curStageID: 2
-  skillScripts:
-  - {fileID: 7554005262253665195, guid: e1cf1323a409caa46b6d03bb638ed33d, type: 3}
-  - {fileID: 6723478794319699316, guid: a9591f40345da6d48852e79fff50e852, type: 3}
-  - {fileID: 4379374596702009568, guid: 5318c430bf3b314469baaa0b653754ed, type: 3}
-  - {fileID: 6261768977732146492, guid: 1e62bd7a91b40454cb19accf9c22d70a, type: 3}
-  - {fileID: 2546068888862172207, guid: f9807fb2fd3f18f4bbf0a6f9ddacb4ea, type: 3}
-  - {fileID: 889304274190611089, guid: c7f82c4e86086d74095022ee0db28279, type: 3}
-  - {fileID: 2725466540630877052, guid: f44ef47eae2ff8b4f8af4b03ed1afe4b, type: 3}
-  - {fileID: 8821608416463737886, guid: 1a73999ab1ec97940aa0cea919b74ab8, type: 3}
-  - {fileID: 8837853584634692564, guid: 065a9b89651284e4fa0d760681ec471a, type: 3}
-  - {fileID: 50940067375563935, guid: 48f41afec84542d47b963f4b332f7064, type: 3}
-  - {fileID: 6607895925291553834, guid: 991a835d5fcaa8a46a21dd6ca74fe5c5, type: 3}
-  - {fileID: 1019494004003608445, guid: 1a138f0671bda2745942044aaef52a6d, type: 3}
-  - {fileID: 2546068888862172207, guid: f9807fb2fd3f18f4bbf0a6f9ddacb4ea, type: 3}
-  - {fileID: 2546068888862172207, guid: f9807fb2fd3f18f4bbf0a6f9ddacb4ea, type: 3}
-  - {fileID: 2546068888862172207, guid: f9807fb2fd3f18f4bbf0a6f9ddacb4ea, type: 3}
-  - {fileID: 2546068888862172207, guid: f9807fb2fd3f18f4bbf0a6f9ddacb4ea, type: 3}
-  - {fileID: 2546068888862172207, guid: f9807fb2fd3f18f4bbf0a6f9ddacb4ea, type: 3}
-  - {fileID: 2546068888862172207, guid: f9807fb2fd3f18f4bbf0a6f9ddacb4ea, type: 3}
-  - {fileID: 2546068888862172207, guid: f9807fb2fd3f18f4bbf0a6f9ddacb4ea, type: 3}
-  - {fileID: 2546068888862172207, guid: f9807fb2fd3f18f4bbf0a6f9ddacb4ea, type: 3}
-  - {fileID: 2546068888862172207, guid: f9807fb2fd3f18f4bbf0a6f9ddacb4ea, type: 3}
-  - {fileID: 2546068888862172207, guid: f9807fb2fd3f18f4bbf0a6f9ddacb4ea, type: 3}
-  - {fileID: 2546068888862172207, guid: f9807fb2fd3f18f4bbf0a6f9ddacb4ea, type: 3}
-  - {fileID: 2546068888862172207, guid: f9807fb2fd3f18f4bbf0a6f9ddacb4ea, type: 3}
-  - {fileID: 2546068888862172207, guid: f9807fb2fd3f18f4bbf0a6f9ddacb4ea, type: 3}
-  - {fileID: 2546068888862172207, guid: f9807fb2fd3f18f4bbf0a6f9ddacb4ea, type: 3}
+  loadDatas: {fileID: 11400000, guid: e093191d2a19c1240889f9025695b893, type: 2}
 --- !u!4 &322587328
 Transform:
   m_ObjectHideFlags: 0
@@ -8449,9 +8423,7 @@ MonoBehaviour:
   saveData:
     Money: 0
   SpawnData:
-  - enemies:
-    - {fileID: 0}
-    - {fileID: 4735246518110724539, guid: 3ace2c79dfe569b4d8e8507e6d094472, type: 3}
+  - enemies: []
   - enemies: []
   isPlayer: 0
   readEnd: 0

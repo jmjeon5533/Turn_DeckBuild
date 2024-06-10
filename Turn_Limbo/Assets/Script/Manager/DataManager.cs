@@ -51,6 +51,7 @@ public class DataManager : MonoBehaviour
     public SaveData saveData;
 
     public List<UnitData> enemyData = new();
+    [HideInInspector] 
     public List<SpawnData> SpawnData = new();
 
     public Queue<Dialogue> curStageDialogBox = new();
