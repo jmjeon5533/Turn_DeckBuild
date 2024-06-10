@@ -18,12 +18,12 @@ public class Skill
     public int level;
     public int attackCount;
     public int keyIndex;
-    public SkillScript effect;
+    public Skill_Base effect;
     public Sprite icon;
     public string animationName;
     public Unit.ActionType actionType;
     public string explain;
-    public Unit.PropertyType propertyType;
+    public PropertyType propertyType;
 }
 
 public class Controller : MonoBehaviour
@@ -33,7 +33,7 @@ public class Controller : MonoBehaviour
     public Vector3 movePos;
     public SpriteRenderer bg;
     public Image keyHoldImage;
-    public List<SkillScript> skills = new();
+    public List<Skill_Base> skills = new();
     public List<Skill> inputLists = new();
     Queue<Dialogue> dialogueBox = new();
     DataManager data;
@@ -100,9 +100,9 @@ public class Controller : MonoBehaviour
     {
         gameCurTimeCount = 10;
 
+        useAbleCoin += player.addCoin;
         player.TurnInit();
         enemy.TurnInit();
-        useAbleCoin += player.addCoin;
         UIManager.instance.ChangeCoinSkillImg();
 
         foreach (var n in player.usedBuff) ImageAnim(player, n.insertImage);
@@ -307,7 +307,7 @@ public class Controller : MonoBehaviour
                 player.transform.position = Vector3.MoveTowards(player.transform.position, enemy.transform.position, Time.deltaTime * 15f);
                 enemy.transform.position = Vector3.MoveTowards(enemy.transform.position, player.transform.position, Time.deltaTime * 15f);
                 yield return null;
-                print(Vector3.Distance(player.transform.position, enemy.transform.position));
+                //print(Vector3.Distance(player.transform.position, enemy.transform.position));
             }
             for (int j = 0; j < units.Length; j++)
             {
@@ -333,7 +333,7 @@ public class Controller : MonoBehaviour
             }
 
             float waitTime = Mathf.Max(AttackInit(player), AttackInit(enemy));
-            player.BuffSetting(); enemy.BuffSetting();
+            player.UseBuff(BuffTiming.turnStart); enemy.UseBuff(BuffTiming.turnStart);
             AttackStart(player); AttackStart(enemy);
             for (int j = 0; j < units.Length; j++)
             {
@@ -380,6 +380,7 @@ public class Controller : MonoBehaviour
         var skill = unit.SkillChange();
         unit.SkillInit(skill);
 
+        if(skill.animation == null) Debug.Log($"!!!!!!!!!!!! {skill.skillName}");
         return skill.animation.length;
     }
 
@@ -397,11 +398,11 @@ public class Controller : MonoBehaviour
 
     void BuffClear(Unit unit)
     {
-        unit.ClaerBuff();
+        unit.curBuff = unit.ClearBuffList(unit.curBuff);
 
         foreach (var n in unit.usedBuff)
         {
-            Debug.Log($"{unit.name} {n.curBuff} {n.insertImage == null}");
+            //Debug.Log($"{unit.name} {n.curBuff} {n.insertImage == null}");
             ImageAnim(unit, n.insertImage);
         }
 

@@ -185,9 +185,9 @@ public class DialogueManager : MonoBehaviour
 
     void DialogueEvent()
     {
-        Debug.Log(curEvent);
+        //Debug.Log(curEvent);
 
-        if (curEvent != SettingPanel) { Debug.Log("is Not SettingPanel"); OnOffPanel(); }
+        if (curEvent != SettingPanel) { /*Debug.Log("is Not SettingPanel");*/ OnOffPanel(); }
         if (curEvent == null) return;
 
         curEvent?.Invoke(eventValue);

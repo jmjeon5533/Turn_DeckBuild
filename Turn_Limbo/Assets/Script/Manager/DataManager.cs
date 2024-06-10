@@ -54,6 +54,9 @@ public class DataManager : MonoBehaviour
     [HideInInspector] 
     public List<SpawnData> SpawnData = new();
 
+    public List<Buff_Base> buffList;
+    public List<Buff_Base> debuffList;
+
     public Queue<Dialogue> curStageDialogBox = new();
     public Queue<Queue<Dialogue>> hpDialogBox = new();
     public bool isPlayer;
@@ -61,7 +64,7 @@ public class DataManager : MonoBehaviour
 
     public void InitUnit(Unit unit)
     {
-        Debug.Log($"{hpDialogBox.Count} {(hpDialogBox.Count != 0 ? hpDialogBox.Peek().Count : -1)}");
+        //Debug.Log($"{hpDialogBox.Count} {(hpDialogBox.Count != 0 ? hpDialogBox.Peek().Count : -1)}");
         if (hpDialogBox.Count == 0) return;
 
         Debug.Log("InitUnit");

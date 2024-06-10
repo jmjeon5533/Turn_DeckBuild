@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UI;
+using UnityEditor.Experimental.GraphView;
 
 public struct RequestSkill
 {
@@ -14,29 +15,45 @@ public struct RequestSkill
     public int level;
     public int attackCount;
     public Sprite icon;
-    public SkillScript effect;
+    public Skill_Base effect;
     public Icon insertImage;
     public AnimationClip animation;
     public Unit.ActionType actionType;
     public string explain;
-    public Unit.PropertyType propertyType;
+    public PropertyType propertyType;
 }
 
 public class Buff
 {
-    public Buff_Base curBuff;
-    public Unit.PropertyType type;
+    public Buff_Base buff;
+    public PropertyType type;
     public Image insertImage;
     public int stack;
     public int count;
 
-    public Buff(Buff_Base _curBuff, int _stack, int _count, Unit.PropertyType _type = Unit.PropertyType.AllType)
+    public Buff(Buff_Base _curBuff, int _stack, int _count, PropertyType _type = PropertyType.AllType)
     {
-        curBuff = _curBuff;
+        buff = _curBuff;
         type = _type;
         stack = _stack;
         count = _count;
     }
+}
+
+public enum BuffTiming
+{
+    turnStart,
+    turnEnd,
+    battleEnd,
+}
+
+public enum PropertyType
+{
+    AllType,
+    Slash,
+    Hit,
+    Penetrate,
+    Defense
 }
 
 public abstract class Unit : MonoBehaviour
@@ -48,17 +65,8 @@ public abstract class Unit : MonoBehaviour
         Defence,
         Dodge
     }
-    public enum PropertyType
-    {
-        AllType,
-        Slash,
-        Hit,
-        Penetrate,
-        Defense
-    }
-    public List<Buff> turnStart = new();
-    public List<Buff> turnEnd = new();
-    public List<Buff> battleEnd = new();
+
+    public List<Buff> curBuff = new();
     public List<Buff> usedBuff = new();
 
     public List<RequestSkill> attackRequest = new List<RequestSkill>();
@@ -111,20 +119,12 @@ public abstract class Unit : MonoBehaviour
     }
     protected virtual void Update()
     {
-        unitUI.UIUpdate(transform,hp,maxHP,shield,maxShield,ref dmgDelayCurTime,isLeft);
+        unitUI.UIUpdate(transform, hp, maxHP, shield, maxShield, ref dmgDelayCurTime, isLeft);
     }
     public virtual void TurnInit()
     {
-        for (int i = 0; i < battleEnd.Count; i++)
-        {
-            var curBuff = battleEnd[i];
-
-            curBuff.curBuff.Use(this, curBuff.stack, curBuff.type);
-            curBuff.count--;
-        }
-        turnStart = ClearBuffList(turnStart, true);
-        turnEnd = ClearBuffList(turnEnd, true);
-        battleEnd = ClearBuffList(battleEnd, true);
+        UseBuff(BuffTiming.battleEnd);
+        curBuff = ClearBuffList(curBuff);
 
         isAttack = true;
         nextSkill = nullSkill;
@@ -152,15 +152,15 @@ public abstract class Unit : MonoBehaviour
         //Debug.Log($"{this.name} >>> {usedSkill.skillName}_ _{curSkill.skillName} / usedBuffList : {usedBuff.Count}");
     }
 
-    public virtual void BuffSetting()
+    public virtual void UseBuff(BuffTiming timing)
     {
-        for (int i = 0; i < turnStart.Count; i++)
+        for (int i = 0; i < curBuff.Count; i++)
         {
-            var curBuff = turnStart[i];
+            if(curBuff[i].buff.timing != timing) return;
 
-            curBuff.curBuff.Use(this, curBuff.stack, curBuff.type);
+            curBuff[i].buff.Use(this, curBuff[i].stack, curBuff[i].type);
 
-            curBuff.count--;
+            curBuff[i].count--;
         }
     }
 
@@ -209,14 +209,7 @@ public abstract class Unit : MonoBehaviour
         cam.orthographicSize = 2;
     }
 
-    public virtual void ClaerBuff()
-    {
-        turnStart = ClearBuffList(turnStart);
-        turnEnd = ClearBuffList(turnEnd);
-        battleEnd = ClearBuffList(battleEnd);
-    }
-
-    List<Buff> ClearBuffList(List<Buff> list, bool allClaer = false)
+    public List<Buff> ClearBuffList(List<Buff> list, bool allClaer = false)
     {
         List<Buff> temp = new();
 
@@ -226,7 +219,7 @@ public abstract class Unit : MonoBehaviour
             {
                 if (list[i].insertImage == null)
                 {
-                    list[i].insertImage = UIManager.instance.AddImage(list[i].curBuff.buffIcon, unitUI.requestBuffParent);
+                    list[i].insertImage = UIManager.instance.AddImage(list[i].buff.buffIcon, unitUI.requestBuffParent);
                     //Debug.Log($"AddImage {this.name} {list[i].curBuff} {list[i].insertImage == null}");
                 }
                 //Debug.Log($"AddList {this.name} {list[i].curBuff} {list[i].insertImage == null}");
@@ -240,7 +233,7 @@ public abstract class Unit : MonoBehaviour
         }
         return temp;
     }
-    
+
     public void InitCurSkillDamage(int min, int max, int count)
     {
         //Debug.Log($"{this.name} Damage : {curDamage} {attack_Drainage}");
@@ -349,7 +342,7 @@ public abstract class Unit : MonoBehaviour
     void DamagePush(Vector3 dir, int damage)
     {
         var addPos = dir * damage * 0.3f;
-        print($"{gameObject.name} {addPos}");
+        //print($"{gameObject.name} {addPos}");
         transform.DOMove(transform.position + addPos, 0.2f);
     }
 }
