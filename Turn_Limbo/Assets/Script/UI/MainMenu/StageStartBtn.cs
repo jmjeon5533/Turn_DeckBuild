@@ -19,7 +19,7 @@ public class StageStartBtn : MonoBehaviour
     public void StageStart(int stageIndex)
     {
         //Temporary index
-        ReadSpreadSheet.instance.curStageID = stageIndex + 1;
+        ReadSpreadSheet.instance.curStageID = stageIndex;
         SceneManager.LoadScene(2);
     }
 }
