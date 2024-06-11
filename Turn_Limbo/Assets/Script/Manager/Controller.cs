@@ -134,10 +134,9 @@ public class Controller : MonoBehaviour
     void Update()
     {
         if (!data.readEnd) return;
-        else if (data.curStageDialogBox.Count != 0)
+        else if (data.curStageDialogBox.Count != 0 && !isDialogue)
         {
             StartCoroutine(StartDialogue(data.curStageDialogBox));
-            data.curStageDialogBox = null;
         }
 
         if (isDialogue && Input.GetMouseButtonDown(0))
@@ -398,6 +397,7 @@ public class Controller : MonoBehaviour
             skill.maxDamage[unit.skillInfo.holdSkills[skill.index].level], skill.attackCount);
 
         unit.curSkill.effect?.Setting(unit, unit.target);
+        Debug.Log(skill.animation.name);
         unit.anim.Play(skill.animation.name);
         IconAnim(unit, skill.insertImage);
     }

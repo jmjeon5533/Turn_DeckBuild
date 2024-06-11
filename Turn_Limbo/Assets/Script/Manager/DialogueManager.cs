@@ -16,7 +16,7 @@ public class Dialogue
     public DialogueManager.NamePos namePos;
     public DialogueManager.CamPos camPos;
     public DialogueManager.CurEvent curEvent;
-    public int eventValue;
+    public string eventValue;
     public int hpValue;
     //public Sprite icon;
     //effect
@@ -58,7 +58,6 @@ public class DialogueManager : MonoBehaviour
     }
 
     [SerializeField] Image panel;
-    [SerializeField] List<Sprite> panelImage = new();
 
     [Header("Dialogue")]
     [SerializeField] Image barSize;
@@ -74,11 +73,11 @@ public class DialogueManager : MonoBehaviour
     [HideInInspector] public bool isTyping;
     [HideInInspector] public bool panelState;
     [HideInInspector] public bool isEnd;
-    int eventValue;
+    string eventValue;
     bool isSkip;
     bool isPanel;
     bool isNameHide;
-    Action<int> curEvent;
+    Action<string> curEvent;
 
     public void OnOffDialogue(bool isOn)
     {
@@ -187,26 +186,25 @@ public class DialogueManager : MonoBehaviour
     {
         //Debug.Log(curEvent);
 
-        if (curEvent != SettingPanel) { /*Debug.Log("is Not SettingPanel");*/ OnOffPanel(); }
+        if (curEvent != SettingPanel) { /*Debug.Log("is Not SettingPanel");*/ OnOffPanel(eventValue); }
         if (curEvent == null) return;
 
         curEvent?.Invoke(eventValue);
     }
 
-    public void SettingPanel(int isOn)
+    public void SettingPanel(string value)
     {
         panelState = true;
         isPanel = true;
-        OnOffPanel();
+        OnOffPanel(value);
     }
 
-    public void OnOffPanel()
+    public void OnOffPanel(string value)
     {
         panel.rectTransform.DOSizeDelta(isPanel ? new(1589, 892) : Vector2.zero, 0.5f);
         if (isPanel)
         {
-            panel.sprite = panelImage[0];
-            panelImage.Remove(panelImage[0]);
+            panel.sprite = Resources.Load<Sprite>($"Panel/{value}");;
             isPanel = !isPanel;
             panelState = false;
         }
