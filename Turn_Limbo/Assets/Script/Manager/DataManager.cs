@@ -54,8 +54,11 @@ public class DataManager : MonoBehaviour
     public List<UnitData> enemyData = new();
     public List<SpawnData> SpawnData = new();
 
-    public List<Buff_Base> buffList;
-    public List<Buff_Base> debuffList;
+    // public List<Buff_Base> buffList;
+    // public List<Buff_Base> debuffList;
+
+    public Dictionary<string, Buff_Base> buffList;
+    public Dictionary<string, Buff_Base> debuffList;
 
     public Queue<Dialogue> curStageDialogBox = new();
     public Queue<Queue<Dialogue>> hpDialogBox = new();
