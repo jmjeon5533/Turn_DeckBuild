@@ -6,7 +6,6 @@ using System.Linq;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
-using Unity.VisualScripting;
 
 [System.Serializable]
 public class Skill
@@ -134,9 +133,9 @@ public class Controller : MonoBehaviour
     void Update()
     {
         if (!data.readEnd) return;
-        else if (data.curStageDialogBox.Count != 0 && !isDialogue)
+        else if (data.loadData.curStageDialogBox.Count != 0 && !isDialogue)
         {
-            StartCoroutine(StartDialogue(data.curStageDialogBox));
+            StartCoroutine(StartDialogue(data.loadData.curStageDialogBox));
         }
 
         if (isDialogue && Input.GetMouseButtonDown(0))
