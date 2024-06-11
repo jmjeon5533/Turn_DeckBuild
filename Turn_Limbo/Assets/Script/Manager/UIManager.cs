@@ -151,10 +151,10 @@ public class UIManager : MonoBehaviour
     }
     IEnumerator FatalDamageTimeSlow(Transform target)
     {
-        int[] sign = {-1, 1};
+        int[] sign = { -1, 1 };
         if (isFatalEffect) yield break;
         FatalTarget = target;
-        camRotZ = Random.Range(5f,10f) * sign[Random.Range(0,2)];
+        camRotZ = Random.Range(5f, 10f) * sign[Random.Range(0, 2)];
         controller.isTimeSlowEffect = true;
         isFatalEffect = true;
         yield return new WaitForSecondsRealtime(0.75f);
@@ -216,13 +216,27 @@ public class UIManager : MonoBehaviour
         string text = isWin ? "Victory" : "Defeat";
         yield return gameEndPanel.DOColor(new Color(0, 0, 0, 0.5f), 0.5f).SetUpdate(true).WaitForCompletion();
         gameEndText.text = text;
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSecondsRealtime(0.2f);
         EndMove = false;
-        retry.onClick.AddListener(() => { if (EndMove) SceneManager.LoadScene(2); });
-        stageSelect.onClick.AddListener(() => { if (EndMove) SceneManager.LoadScene(1); });
+        retry.onClick.AddListener(() =>
+        {
+            if (EndMove)
+            {
+                SceneManager.LoadScene(2);
+                Time.timeScale = 1;
+            }
+        });
+        stageSelect.onClick.AddListener(() =>
+        {
+            if (EndMove)
+            {
+                SceneManager.LoadScene(1);
+                Time.timeScale = 1;
+            }
+        });
 
-        retry.transform.DOLocalMoveY(-500, 0.2f);
-        yield return stageSelect.transform.DOLocalMoveY(-500, 0.2f);
+        retry.transform.DOLocalMoveY(-500, 0.2f).SetUpdate(true);
+        yield return stageSelect.transform.DOLocalMoveY(-500, 0.2f).SetUpdate(true).WaitForCompletion(); ;
         float time = 0;
         float moneyTarget = 5000 / controller.useTurnCount;
         float countTarget = controller.useTurnCount;
@@ -231,14 +245,14 @@ public class UIManager : MonoBehaviour
             var moneyValue = Mathf.Lerp(0, moneyTarget, time);
             var countValue = Mathf.Lerp(0, countTarget, time);
 
-            if (isWin) getMoneyText.text = $"ÏñªÏùÄ Îèà : {Mathf.RoundToInt(moneyValue)}";
-            useTurnCountText.text = $"ÏÇ¨Ïö© ÌÑ¥ : {Mathf.RoundToInt(countValue)}";
+            if (isWin) getMoneyText.text = $"æÚ¿∫ µ∑ : {Mathf.RoundToInt(moneyValue)}";
+            useTurnCountText.text = $"ªÁøÎ ≈œ : {Mathf.RoundToInt(countValue)}";
 
-            time += Time.deltaTime;
+            time += Time.unscaledDeltaTime;
             yield return null;
         }
-        if (isWin) getMoneyText.text = $"ÏñªÏùÄ Îèà : {Mathf.RoundToInt(moneyTarget)}";
-        useTurnCountText.text = $"ÏÇ¨Ïö© ÌÑ¥ : {Mathf.RoundToInt(countTarget)}";
+        if (isWin) getMoneyText.text = $"æÚ¿∫ µ∑ : {Mathf.RoundToInt(moneyTarget)}";
+        useTurnCountText.text = $"ªÁøÎ ≈œ : {Mathf.RoundToInt(countTarget)}";
 
         if (isWin) DataManager.instance.saveData.Money += Mathf.RoundToInt(moneyTarget);
         EndMove = true;
@@ -261,8 +275,8 @@ public class UIManager : MonoBehaviour
         controller.enemy.attack_Drainage * controller.player.defense_Drainage) * 100).ToString() + "%";
 
         var position = cam.WorldToScreenPoint(pos + (Vector3)Random.insideUnitCircle * 1.5f);
-        text.rectTransform.anchoredPosition = new Vector3(Mathf.Clamp(position.x,-960,960),Mathf.Clamp(position.y, -540, 540));
-        
+        text.rectTransform.anchoredPosition = new Vector3(Mathf.Clamp(position.x, -960, 960), Mathf.Clamp(position.y, -540, 540));
+
         percentage.rectTransform.anchoredPosition = text.rectTransform.anchoredPosition + new Vector2(0, 170);
 
         percentage.transform.DOScale(0, 0.8f + (damage * 0.02f));
