@@ -58,6 +58,8 @@ public class Buff_Paralysis : Buff_Base
 {
     public override void Use(Unit target, int stack, PropertyType type)
     {
+        if(target.curSkill.skillName == null) return;
+
         target.InitCurSkillDamage(target.curSkill.minDamage[target.skillInfo.holdSkills[target.curSkill.index].level],
             target.curSkill.minDamage[target.skillInfo.holdSkills[target.curSkill.index].level], target.curSkill.attackCount);
     }

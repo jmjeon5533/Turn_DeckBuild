@@ -128,7 +128,7 @@ public class Controller : MonoBehaviour
     void Update()
     {
         if (!data.readEnd) return;
-        else if (data.curStageDialogBox != null)
+        else if (data.curStageDialogBox.Count != 0)
         {
             StartCoroutine(StartDialogue(data.curStageDialogBox));
             data.curStageDialogBox = null;

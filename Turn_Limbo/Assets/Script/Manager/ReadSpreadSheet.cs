@@ -95,8 +95,11 @@ public class ReadSpreadSheet : MonoBehaviour
 
     void PasreBuffData(string data)
     {
-        List<Buff_Base> buff = new();
-        List<Buff_Base> debuff = new();        
+        // List<Buff_Base> buff = new();
+        // List<Buff_Base> debuff = new();        
+
+        Dictionary<string, Buff_Base> buff = new();
+        Dictionary<string, Buff_Base> debuff = new();
 
         var d = DataManager.instance;
         string[] rows = data.Split('\n');
@@ -108,10 +111,10 @@ public class ReadSpreadSheet : MonoBehaviour
             var temp = Activator.CreateInstance(Type.GetType(className)) as Buff_Base;
             temp.timing = columns[3].EnumParse<BuffTiming>();
             temp.buffIcon = Resources.Load<Sprite>($"BuffIcon/{columns[2]}");
-            Debug.Log($"Icon/BuffIcon/{columns[2]}");
+            //Debug.Log($"Icon/BuffIcon/{columns[2]}");
 
-            if (columns[4] == "buff" && columns[4] != "") buff.Add(temp);
-            else debuff.Add(temp);
+            if (columns[4] == "buff" && columns[4] != "") buff.Add(columns[2], temp);
+            else debuff.Add(columns[2], temp);
         }
 
         d.buffList = buff;
@@ -120,9 +123,11 @@ public class ReadSpreadSheet : MonoBehaviour
 
     void ParseTextData(string data)
     {
+        var d = DataManager.instance;
         if (curStageID == 0)
         {
             Debug.Log("Don't ReadDialogue");
+            d.readEnd = true;
             return;
         }
         else Debug.Log("ReadDialogue");
@@ -133,7 +138,6 @@ public class ReadSpreadSheet : MonoBehaviour
 
         Queue<Dialogue> act = new();
 
-        var d = DataManager.instance;
         string[] rows = data.Split('\n');
         string nowDialogueType = null;
         bool isPlayer = false;
