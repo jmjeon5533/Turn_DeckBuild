@@ -202,8 +202,8 @@ public abstract class Unit : MonoBehaviour
         else Debug.Log($"{this.name} Attack Break!!");
         var cam = ui.cam;
         cam.transform.position = cam.transform.position + ((Vector3)Random.insideUnitCircle.normalized * 1);
-        if (ui.isCamRotate) ui.camRotZ -= Random.Range(UIManager.instance.camRotZ / 2, UIManager.instance.camRotZ * 2.5f);
-        SoundManager.instance.SetAudio(hitSound, false);
+        if(ui.isCamRotate) ui.camRotZ -= Random.Range(UIManager.instance.camRotZ / 2, UIManager.instance.camRotZ * 2.5f);
+        SoundManager.instance.SetAudio(hitSound, false,Random.Range(0.5f,1.5f));
         //Instantiate(curSkill.effect.Hitparticles[0],transform.position,Quaternion.identity);
         Instantiate(effect, transform.position + (Vector3.right * (isLeft ? 1 : -1) * 2), Quaternion.identity);
         cam.orthographicSize = 2;

@@ -16,11 +16,12 @@ public class SoundManager : MonoBehaviour
         instance = this;
     }
 
-    public void SetAudio(AudioClip clip, bool looping)
+    public void SetAudio(AudioClip clip, bool looping, float pitch = 1)
     {
         var sound = Instantiate(soundObj,Vector3.zero,Quaternion.identity);
         sound.clip = clip;
         sound.loop = looping;
+        sound.pitch = pitch;
         sound.Play();
         if(!looping) Destroy(sound.gameObject,sound.clip.length);
     }
