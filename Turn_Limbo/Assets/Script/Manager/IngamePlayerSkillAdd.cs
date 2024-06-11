@@ -8,7 +8,7 @@ public class IngamePlayerSkillAdd : MonoBehaviour
     private void Start()
     {
         controller = GetComponent<Controller>();
-        ReadSpreadSheet.instance.Load(GivePlayerSkill);
+        GivePlayerSkill();
     }
     public Dictionary<KeyCode, List<Skill>> skillData = new();
     public List<Skill> SkillList = new();
@@ -18,7 +18,7 @@ public class IngamePlayerSkillAdd : MonoBehaviour
         var d = DataManager.instance;
         for (int i = 0; i < controller.player.skillInfo.SelectIndex.Count; i++)
         {
-            var skill = d.SkillList[controller.player.skillInfo.SelectIndex[i]];
+            var skill = d.loadData.SkillList[controller.player.skillInfo.SelectIndex[i]];
             controller.inputLists.Add(skill);
             int keyCode = skill.keyIndex;
             if (!controller.inputs.ContainsKey(keyCode))

@@ -38,7 +38,7 @@ public class SkillUpgrade : MonoBehaviour
         }
         skillDeckBuild.AddSkillSelectBtn();
         var d = DataManager.instance;
-        for (int i = 0; i < d.SkillList.Count; i++)
+        for (int i = 0; i < d.loadData.SkillList.Count; i++)
         {
             var btn = Instantiate(skillUpgradeBaseBtn, skillUpgradeBtnParent);
             var num = i;
@@ -46,7 +46,7 @@ public class SkillUpgrade : MonoBehaviour
             {
                 selectIndex = num;
 
-                var skill = d.SkillList[selectIndex];
+                var skill = d.loadData.SkillList[selectIndex];
 
                 int level = 0;
                 for (int j = 0; j < playerSkills.holdSkills.Count; j++)
@@ -55,9 +55,9 @@ public class SkillUpgrade : MonoBehaviour
                 }
                 explainPanel.ExplainSet(skill, level);
             });
-            btn.gameObject.name = d.SkillList[i].skillName;
+            btn.gameObject.name = d.loadData.SkillList[i].skillName;
             btnImage.Add(btn);
-            btn.transform.GetChild(0).GetComponent<Image>().sprite = d.SkillList[i].icon;
+            btn.transform.GetChild(0).GetComponent<Image>().sprite = d.loadData.SkillList[i].icon;
         }
         InitSkillSelectState();
         skillDeckBuild.playerSkills = playerSkills;
@@ -79,14 +79,14 @@ public class SkillUpgrade : MonoBehaviour
         for (int j = 0; j < playerSkills.holdSkills.Count; j++)
         {
             if (playerSkills.holdSkills[j].holdIndex == selectIndex) 
-            explainPanel.ExplainSet(DataManager.instance.SkillList[playerSkills.holdSkills[j].holdIndex], playerSkills.holdSkills[j].level);
+            explainPanel.ExplainSet(DataManager.instance.loadData.SkillList[playerSkills.holdSkills[j].holdIndex], playerSkills.holdSkills[j].level);
         }
         MoneyText.text = $"보유자원 : {DataManager.instance.saveData.Money}";
     }
     public void TriggerBuySkills()
     {
         var d = DataManager.instance;
-        var skill = d.SkillList[selectIndex];
+        var skill = d.loadData.SkillList[selectIndex];
 
         if(d.saveData.Money < 150) 
         {

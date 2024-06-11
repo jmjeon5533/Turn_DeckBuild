@@ -23,10 +23,13 @@ public class ReadSpreadSheet : MonoBehaviour
     }
     public void Load(Action callBack = default)
     {
-        StartCoroutine(LoadData(0, ParseSkillData, callBack));
-        StartCoroutine(LoadData(1, ParseTextData));
-        StartCoroutine(LoadData(2, ParseEnemyData));
-        StartCoroutine(LoadData(3, PasreBuffData));
+        if(Application.internetReachability != NetworkReachability.NotReachable)
+        {   
+            StartCoroutine(LoadData(0, ParseSkillData, callBack));
+            StartCoroutine(LoadData(1, ParseTextData));
+            StartCoroutine(LoadData(2, ParseEnemyData));
+            StartCoroutine(LoadData(3, PasreBuffData));
+        }
     }
     private IEnumerator LoadData(int pageIndex, Action<string> dataAction, Action callBack = default)
     {
@@ -86,8 +89,8 @@ public class ReadSpreadSheet : MonoBehaviour
             skillLists.Add(newSkill);
             skillDatas[keyCode].Add(newSkill);
         }
-        d.skillData = new Dictionary<KeyCode, List<Skill>>(skillDatas);
-        d.SkillList = new List<Skill>(skillLists);
+        d.loadData.skillData = new Dictionary<KeyCode, List<Skill>>(skillDatas);
+        d.loadData.SkillList = new List<Skill>(skillLists);
         Debug.Log("ReadEnd");
         //controller.inputs = new Dictionary<KeyCode, List<Skill>>(skillDatas);
         //controller.inputLists = new List<Skill>(skillLists);
@@ -117,8 +120,8 @@ public class ReadSpreadSheet : MonoBehaviour
             else debuff.Add(columns[2], temp);
         }
 
-        d.buffList = buff;
-        d.debuffList = debuff;
+        d.loadData.buffList = buff;
+        d.loadData.debuffList = debuff;
     }
 
     void ParseTextData(string data)
@@ -188,8 +191,8 @@ public class ReadSpreadSheet : MonoBehaviour
         if (nowDialogueType == "StoryDialogue") dialogBox = act;
         else hpDialogBox.Enqueue(new Queue<Dialogue>(act));
 
-        d.curStageDialogBox = dialogBox;
-        d.hpDialogBox = new Queue<Queue<Dialogue>>(hpDialogBox);
+        d.loadData.curStageDialogBox = dialogBox;
+        d.loadData.hpDialogBox = new Queue<Queue<Dialogue>>(hpDialogBox);
         d.isPlayer = isPlayer;
 
         d.readEnd = true;
@@ -198,6 +201,7 @@ public class ReadSpreadSheet : MonoBehaviour
     {
         var d = DataManager.instance;
         string[] row = data.Split("\n");
+        d.loadData.enemyData.Clear();
         for (int i = 1; i < row.Length; i++)
         {
             string[] column = row[i].Split(",");
@@ -210,7 +214,7 @@ public class ReadSpreadSheet : MonoBehaviour
             newEnemy.minCount = int.Parse(column[5]);
             newEnemy.maxCount = int.Parse(column[6]);
 
-            d.enemyData.Add(newEnemy);
+            d.loadData.enemyData.Add(newEnemy);
         }
     }
 }

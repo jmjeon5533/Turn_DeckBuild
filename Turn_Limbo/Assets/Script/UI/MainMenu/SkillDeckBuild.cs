@@ -21,7 +21,7 @@ public class SkillDeckBuild : MonoBehaviour
     {
         for (int i = 0; i < playerSkills.SelectIndex.Count; i++)
         {
-            if (playerSkills.SelectIndex[i] == index) return DataManager.instance.SkillList[playerSkills.SelectIndex[i]];
+            if (playerSkills.SelectIndex[i] == index) return DataManager.instance.loadData.SkillList[playerSkills.SelectIndex[i]];
         }
         print($"skill index {index} is Null");
         return null;
@@ -44,11 +44,11 @@ public class SkillDeckBuild : MonoBehaviour
         var d = DataManager.instance;
         for (int i = 0; i < playerSkill.holdSkills.Count; i++)
         {
-            var btn = Instantiate(skillSelectBaseBtn, skillSelectBtnParent[d.SkillList[playerSkill.holdSkills[i].holdIndex].keyIndex]);
+            var btn = Instantiate(skillSelectBaseBtn, skillSelectBtnParent[d.loadData.SkillList[playerSkill.holdSkills[i].holdIndex].keyIndex]);
             var num = i;
             btn.onClick.AddListener(() => TriggerAddSkills(num));
             btnImage.Add(btn);
-            btn.transform.GetChild(0).GetComponent<Image>().sprite = d.SkillList[playerSkill.holdSkills[i].holdIndex].icon;
+            btn.transform.GetChild(0).GetComponent<Image>().sprite = d.loadData.SkillList[playerSkill.holdSkills[i].holdIndex].icon;
         }
         InitSkillSelectState();
     }
@@ -63,7 +63,7 @@ public class SkillDeckBuild : MonoBehaviour
     public void TriggerAddSkills(int index)
     {
         var d = DataManager.instance;
-        var skill = d.SkillList[index];
+        var skill = d.loadData.SkillList[index];
         for (int i = 0; i < playerSkills.SelectIndex.Count; i++)
         {
             if (playerSkills.SelectIndex[i] == index)

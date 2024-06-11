@@ -127,17 +127,17 @@ public class Controller : MonoBehaviour
         var coinCount = Random.Range(enemy.requestMinCount, enemy.requestMaxCount + 1);
         for (int i = 0; i < coinCount; i++)
         {
-            AddRequest(enemy, d.SkillList[enemy.skillInfo.SelectIndex[enemy.skillCurCount % enemy.skillInfo.SelectIndex.Count]]);
+            AddRequest(enemy, d.loadData.SkillList[enemy.skillInfo.SelectIndex[enemy.skillCurCount % enemy.skillInfo.SelectIndex.Count]]);
             enemy.skillCurCount++;
         }
     }
     void Update()
     {
         if (!data.readEnd) return;
-        else if (data.curStageDialogBox.Count != 0)
+        else if (data.loadData.curStageDialogBox.Count != 0)
         {
-            StartCoroutine(StartDialogue(data.curStageDialogBox));
-            data.curStageDialogBox = null;
+            StartCoroutine(StartDialogue(data.loadData.curStageDialogBox));
+            data.loadData.curStageDialogBox = null;
         }
 
         if (isDialogue && Input.GetMouseButtonDown(0))
@@ -353,7 +353,7 @@ public class Controller : MonoBehaviour
 
             if (talkUnit.isDialogue)
             {
-                StartCoroutine(StartDialogue(data.hpDialogBox.Dequeue()));
+                StartCoroutine(StartDialogue(data.loadData.hpDialogBox.Dequeue()));
                 data.InitUnit(talkUnit);
                 yield break;
             }

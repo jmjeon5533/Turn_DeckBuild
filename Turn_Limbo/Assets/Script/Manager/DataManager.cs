@@ -7,6 +7,7 @@ public class SaveData
 {
     public int Money;
 }
+[System.Serializable]
 public struct UnitData
 {
     public int index;
@@ -47,31 +48,22 @@ public class DataManager : MonoBehaviour
         var data = JsonUtility.ToJson(saveData);
         PlayerPrefs.SetString("SaveData", data);
     }
-    public Dictionary<KeyCode, List<Skill>> skillData = new();
-    public List<Skill> SkillList = new();
     public SaveData saveData;
-
-    public List<UnitData> enemyData = new();
     public LoadData loadData;
 
     // public List<Buff_Base> buffList;
     // public List<Buff_Base> debuffList;
 
-    public Dictionary<string, Buff_Base> buffList;
-    public Dictionary<string, Buff_Base> debuffList;
-
-    public Queue<Dialogue> curStageDialogBox = new();
-    public Queue<Queue<Dialogue>> hpDialogBox = new();
     public bool isPlayer;
     public bool readEnd;
 
     public void InitUnit(Unit unit)
     {
         //Debug.Log($"{hpDialogBox.Count} {(hpDialogBox.Count != 0 ? hpDialogBox.Peek().Count : -1)}");
-        if (hpDialogBox.Count == 0) return;
+        if (loadData.hpDialogBox.Count == 0) return;
 
         Debug.Log("InitUnit");
-        unit.hpLimit = hpDialogBox.Peek().Peek().hpValue;
+        unit.hpLimit = loadData.hpDialogBox.Peek().Peek().hpValue;
         unit.isDialogue = false;
     }
 }
