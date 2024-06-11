@@ -12,5 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2574f65585ac96c4aaaadcddfc62510b, type: 3}
   m_Name: Loads
   m_EditorClassIdentifier: 
-  skillScripts: []
-  skillLists: []
+  SpawnData:
+  - maps: {fileID: 513236402157948046, guid: 32cd0f522adbe984faf58457b098cad3, type: 3}
+    enemies:
+    - {fileID: 8111559515902139154, guid: 5e255b8bf0b17e0448842383ab69a4ec, type: 3}
+  - maps: {fileID: 513236402157948046, guid: 135c97d9b1a1d8342a68c46ae1d2c2f6, type: 3}
+    enemies:
+    - {fileID: 8111559515902139154, guid: ba7c4d240de3b63468f0c572baeb53cb, type: 3}

@@ -95,12 +95,12 @@ public class Controller : MonoBehaviour
     }
     public void SetStage()
     {
-        var enemy = Instantiate(DataManager.instance.SpawnData[ReadSpreadSheet.instance.curStageID - 2].enemies[spawnCount],new Vector3(5,-0.5f, 0), Quaternion.identity);
-        var map = Instantiate(DataManager.instance.SpawnData[ReadSpreadSheet.instance.curStageID - 2].maps);
-        enemy.target = player;
-        enemy.unitUI = UIManager.instance.unitUI[1];
+        // var enemy = Instantiate(DataManager.instance.SpawnData[ReadSpreadSheet.instance.curStageID - 2].enemies[spawnCount],new Vector3(5,-0.5f, 0), Quaternion.identity);
+        // enemy.target = player;
+        // enemy.unitUI = UIManager.instance.unitUI[1];
+        // spawnCount++;
+        var map = Instantiate(DataManager.instance.loadData.SpawnData[ReadSpreadSheet.instance.curStageID].maps);
         bg = map;
-        spawnCount++;
     }
     public void TurnReset()
     {

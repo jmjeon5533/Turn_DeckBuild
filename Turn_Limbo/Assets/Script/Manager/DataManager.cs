@@ -52,7 +52,7 @@ public class DataManager : MonoBehaviour
     public SaveData saveData;
 
     public List<UnitData> enemyData = new();
-    public List<SpawnData> SpawnData = new();
+    public LoadData loadData;
 
     // public List<Buff_Base> buffList;
     // public List<Buff_Base> debuffList;

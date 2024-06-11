@@ -1411,7 +1411,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 557997653729a964fa66e63e1c147f3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  curStageID: 3
+  curStageID: 0
 --- !u!4 &322587328
 Transform:
   m_ObjectHideFlags: 0
@@ -8599,13 +8599,7 @@ MonoBehaviour:
   SkillList: []
   saveData:
     Money: 0
-  SpawnData:
-  - maps: {fileID: 513236402157948046, guid: 32cd0f522adbe984faf58457b098cad3, type: 3}
-    enemies:
-    - {fileID: 8111559515902139154, guid: 5e255b8bf0b17e0448842383ab69a4ec, type: 3}
-  - maps: {fileID: 513236402157948046, guid: 135c97d9b1a1d8342a68c46ae1d2c2f6, type: 3}
-    enemies:
-    - {fileID: 8111559515902139154, guid: ba7c4d240de3b63468f0c572baeb53cb, type: 3}
+  loadData: {fileID: 11400000, guid: e093191d2a19c1240889f9025695b893, type: 2}
   isPlayer: 0
   readEnd: 0
 --- !u!1 &2066232508
@@ -9120,7 +9114,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8111559515902139156, guid: 5e255b8bf0b17e0448842383ab69a4ec, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5e255b8bf0b17e0448842383ab69a4ec, type: 3}

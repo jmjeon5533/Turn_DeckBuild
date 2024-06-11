@@ -5,6 +5,5 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Loads", menuName = "Loads", order = 1)]
 public class LoadData : ScriptableObject
 {
-    public Dictionary<KeyCode, List<Skill>> skillDatas = new();
-    public List<Skill> skillLists = new();
+    public List<SpawnData> SpawnData = new();
 }

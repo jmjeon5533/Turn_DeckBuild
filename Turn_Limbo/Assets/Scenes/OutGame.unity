@@ -2358,7 +2358,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   curStageID: 0
-  loadDatas: {fileID: 11400000, guid: e093191d2a19c1240889f9025695b893, type: 2}
 --- !u!4 &489823634
 Transform:
   m_ObjectHideFlags: 0
@@ -6583,7 +6582,7 @@ MonoBehaviour:
   SkillList: []
   saveData:
     Money: 0
-  SpawnData: []
+  loadData: {fileID: 11400000, guid: e093191d2a19c1240889f9025695b893, type: 2}
   isPlayer: 0
   readEnd: 0
 --- !u!4 &1711722512
