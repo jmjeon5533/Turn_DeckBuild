@@ -20,7 +20,7 @@ public struct UnitData
 [System.Serializable]
 public class SpawnData
 {
-    public Sprite maps;
+    public SpriteRenderer maps;
     public List<Enemy> enemies = new();
 }
 public class DataManager : MonoBehaviour

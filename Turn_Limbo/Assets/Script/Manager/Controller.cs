@@ -99,8 +99,7 @@ public class Controller : MonoBehaviour
         var map = Instantiate(DataManager.instance.SpawnData[ReadSpreadSheet.instance.curStageID - 2].maps);
         enemy.target = player;
         enemy.unitUI = UIManager.instance.unitUI[1];
-        bg = map.GetComponent<SpriteRenderer>();
-        if(spawnCount <= DataManager.instance.SpawnData[ReadSpreadSheet.instance.curStageID].enemies.Count)
+        bg = map;
         spawnCount++;
     }
     public void TurnReset()
