@@ -12,17 +12,17 @@ public class Skill_Zornhauw : Skill_Base
 {
     public override void Setting(Unit unit, Unit target)
     {
-        //unit.curBuff.Add(new Buff(DataManager.instance.buffList["AttackUp"], 50, 1, PropertyType.Slash));
+        unit.curBuff.Add(new Buff(DataManager.instance.buffList["AttackUp"], 50, 1, PropertyType.Slash));
         
-        foreach (var n in target.curBuff)
-        {
-            if (n.buff == DataManager.instance.loadData.debuffList["Paralysis"])
-            {
-                unit.nextSkill = unit.curSkill;
-                return;
-            }
-        }
-        target.curBuff.Add(new Buff(DataManager.instance.loadData.debuffList["Paralysis"], 1, 1, PropertyType.AllType));
+        // foreach (var n in target.curBuff)
+        // {
+        //     if (n.buff == DataManager.instance.debuffList["Paralysis"])
+        //     {
+        //         unit.nextSkill = unit.curSkill;
+        //         return;
+        //     }
+        // }
+        // target.curBuff.Add(new Buff(DataManager.instance.debuffList["Paralysis"], 1, 1, PropertyType.AllType));
     }
 }
 

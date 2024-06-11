@@ -127,73 +127,77 @@ public class ReadSpreadSheet : MonoBehaviour
     void ParseTextData(string data)
     {
         var d = DataManager.instance;
-        if (curStageID == 0)
-        {
-            Debug.Log("Don't ReadDialogue");
-            d.readEnd = true;
-            return;
-        }
-        else Debug.Log("ReadDialogue");
-
 
         Queue<Dialogue> dialogBox = new();
         Queue<Queue<Dialogue>> hpDialogBox = new();
 
         Queue<Dialogue> act = new();
 
-        string[] rows = data.Split('\n');
-        string nowDialogueType = null;
-        bool isPlayer = false;
-        //Debug.Log($"rows.Length == {rows.Length}");
-        for (int i = 1; i < rows.Length; i++)
+        if (curStageID != 0)
         {
-            string[] columns = rows[i].Split(',');
+            Debug.Log("ReadDialogue");
 
-            //Only text with the same CurStageID and stageID is imported from the sheet << Papago GO
-            if (int.Parse(columns[0]) != curStageID || columns[0] == "") continue;
-
-            if (columns[1] != "" && act.Count != 0)
+            string[] rows = data.Split('\n');
+            string nowDialogueType = null;
+            bool isPlayer = false;
+            //Debug.Log($"rows.Length == {rows.Length}");
+            for (int i = 1; i < rows.Length; i++)
             {
-                if (nowDialogueType == "StoryDialogue") dialogBox = act;
-                else hpDialogBox.Enqueue(new Queue<Dialogue>(act));
+                string[] columns = rows[i].Split(',');
 
-                act.Clear();
+                //Only text with the same CurStageID and stageID is imported from the sheet << Papago GO
+                if (int.Parse(columns[0]) != curStageID || columns[0] == "") continue;
+
+                if (columns[1] != "" && act.Count != 0)
+                {
+                    if (nowDialogueType == "StoryDialogue") dialogBox = act;
+                    else hpDialogBox.Enqueue(new Queue<Dialogue>(act));
+
+                    act.Clear();
+                }
+
+                if (columns[1] != "") nowDialogueType = columns[1];
+
+                var splitExplain = columns[6].Split('&');
+                string explain = string.Join(",", splitExplain);
+                var newText = new Dialogue()
+                {
+                    name = columns[2],
+                    job = columns[3],
+                    namePos = columns[4].EnumParse<DialogueManager.NamePos>(),
+                    camPos = columns[5].EnumParse<DialogueManager.CamPos>(),
+                    text = explain,
+                    curEvent = columns[7].EnumParse<DialogueManager.CurEvent>(),
+                    eventValue = columns[8] != "" ? columns[8] : "",
+                };
+
+                //Debug.Log(newText.text);
+
+                if (nowDialogueType == "HpDialogue" && columns[9] != "")
+                {
+                    newText.hpValue = int.Parse(columns[10]);
+                    isPlayer = columns[9] == "Player";
+                }
+
+                act.Enqueue(newText);
+
+                // Debug.Log($"ReadData : {id} {name} {job} {text}");
             }
 
-            if (columns[1] != "") nowDialogueType = columns[1];
+            if (nowDialogueType == "StoryDialogue") dialogBox = act;
+            else hpDialogBox.Enqueue(new Queue<Dialogue>(act));
 
-            var splitExplain = columns[6].Split('&');
-            string explain = string.Join(",", splitExplain);
-            var newText = new Dialogue()
-            {
-                name = columns[2],
-                job = columns[3],
-                namePos = columns[4].EnumParse<DialogueManager.NamePos>(),
-                camPos = columns[5].EnumParse<DialogueManager.CamPos>(),
-                text = explain,
-                curEvent = columns[7].EnumParse<DialogueManager.CurEvent>(),
-                eventValue = columns[8] != "" ? int.Parse(columns[8]) : 0,
-            };
-
-            //Debug.Log(newText.text);
-
-            if (nowDialogueType == "HpDialogue" && columns[9] != "")
-            {
-                newText.hpValue = int.Parse(columns[10]);
-                isPlayer = columns[9] == "Player";
-            }
-
-            act.Enqueue(newText);
-
-            // Debug.Log($"ReadData : {id} {name} {job} {text}");
+            d.isPlayer = isPlayer;
         }
+        else Debug.Log("Don't ReadDialogue");
 
-        if (nowDialogueType == "StoryDialogue") dialogBox = act;
-        else hpDialogBox.Enqueue(new Queue<Dialogue>(act));
 
-        d.loadData.curStageDialogBox = dialogBox;
-        d.loadData.hpDialogBox = new Queue<Queue<Dialogue>>(hpDialogBox);
-        d.isPlayer = isPlayer;
+
+
+
+        d.curStageDialogBox = dialogBox;
+        d.hpDialogBox = new Queue<Queue<Dialogue>>(hpDialogBox);
+
 
         d.readEnd = true;
     }
