@@ -20,6 +20,7 @@ public struct UnitData
 [System.Serializable]
 public class SpawnData
 {
+    public Sprite maps;
     public List<Enemy> enemies = new();
 }
 public class DataManager : MonoBehaviour
@@ -51,7 +52,6 @@ public class DataManager : MonoBehaviour
     public SaveData saveData;
 
     public List<UnitData> enemyData = new();
-    [HideInInspector] 
     public List<SpawnData> SpawnData = new();
 
     public List<Buff_Base> buffList;

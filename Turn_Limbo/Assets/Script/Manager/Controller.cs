@@ -6,6 +6,7 @@ using System.Linq;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
+using Unity.VisualScripting;
 
 [System.Serializable]
 public class Skill
@@ -75,6 +76,7 @@ public class Controller : MonoBehaviour
     }
     void Start()
     {
+        SetStage();
         TurnReset();
         data = DataManager.instance;
         UIManager.instance.SetExplain(false);
@@ -89,12 +91,17 @@ public class Controller : MonoBehaviour
 
         useTurnCount = 1;
         if (BGM != null) SoundManager.instance.SetAudio(BGM, true);
+
     }
-    public void SetEnemy()
+    public void SetStage()
     {
-        var enemy = Instantiate(DataManager.instance.SpawnData[ReadSpreadSheet.instance.curStageID].enemies[spawnCount],new Vector3(5,-0.5f, 0), Quaternion.identity);
+        var enemy = Instantiate(DataManager.instance.SpawnData[ReadSpreadSheet.instance.curStageID - 2].enemies[spawnCount],new Vector3(5,-0.5f, 0), Quaternion.identity);
+        var map = Instantiate(DataManager.instance.SpawnData[ReadSpreadSheet.instance.curStageID - 2].maps);
         enemy.target = player;
         enemy.unitUI = UIManager.instance.unitUI[1];
+        bg = map.GetComponent<SpriteRenderer>();
+        if(spawnCount <= DataManager.instance.SpawnData[ReadSpreadSheet.instance.curStageID].enemies.Count)
+        spawnCount++;
     }
     public void TurnReset()
     {
@@ -128,7 +135,7 @@ public class Controller : MonoBehaviour
     void Update()
     {
         if (!data.readEnd) return;
-        else if (data.curStageDialogBox != null)
+        else if (data.curStageDialogBox.Count != 0)
         {
             StartCoroutine(StartDialogue(data.curStageDialogBox));
             data.curStageDialogBox = null;

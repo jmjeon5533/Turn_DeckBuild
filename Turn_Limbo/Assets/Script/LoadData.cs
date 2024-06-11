@@ -6,6 +6,5 @@ using UnityEngine;
 public class LoadData : ScriptableObject
 {
     public Dictionary<KeyCode, List<Skill>> skillDatas = new();
-    public List<SkillScript> skillScripts = new();
     public List<Skill> skillLists = new();
 }

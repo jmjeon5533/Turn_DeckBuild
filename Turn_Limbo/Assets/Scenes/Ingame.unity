@@ -1491,7 +1491,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   curStageID: 2
-  loadDatas: {fileID: 11400000, guid: e093191d2a19c1240889f9025695b893, type: 2}
 --- !u!4 &322587328
 Transform:
   m_ObjectHideFlags: 0
@@ -7717,11 +7716,6 @@ MonoBehaviour:
   movePos: {x: 0, y: 0, z: 0}
   bg: {fileID: 171763944}
   keyHoldImage: {fileID: 472618415}
-  skills:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   inputLists: []
   talkUnit: {fileID: 0}
   gameCurTimeCount: 0
@@ -7935,14 +7929,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d82417a13bf05645b5d08e467686398, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buffList:
-  - {fileID: 5203793184288221250, guid: ebf2ce8797515c849bc7a0d793fddc25, type: 3}
-  - {fileID: 5632709484723455211, guid: 919fddc57fb0f044f9290c5359027c6d, type: 3}
-  debuffList:
-  - {fileID: 3687390406078769358, guid: 5a11c7a01a1fe5b48a64927080e4c16e, type: 3}
-  - {fileID: 2989159582895876524, guid: 52428793ef23284469e6e7b4b500085d, type: 3}
-  - {fileID: 7085689147008558117, guid: 30bc1f6707b6e1e4c8261c4bc9581960, type: 3}
-  - {fileID: 8205431347616630339, guid: 35e37f08cada3ae41af1a202b3d4de37, type: 3}
 --- !u!4 &1906651976
 Transform:
   m_ObjectHideFlags: 0
@@ -8693,8 +8679,10 @@ MonoBehaviour:
   saveData:
     Money: 0
   SpawnData:
-  - enemies: []
-  - enemies: []
+  - enemies:
+    - {fileID: 8111559515902139154, guid: 5e255b8bf0b17e0448842383ab69a4ec, type: 3}
+  - enemies:
+    - {fileID: 4735246518110724539, guid: 3ace2c79dfe569b4d8e8507e6d094472, type: 3}
   isPlayer: 0
   readEnd: 0
 --- !u!1 &2066232508
@@ -9145,6 +9133,10 @@ PrefabInstance:
     - target: {fileID: 8111559515902139156, guid: 5e255b8bf0b17e0448842383ab69a4ec, type: 3}
       propertyPath: m_Name
       value: Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 8111559515902139156, guid: 5e255b8bf0b17e0448842383ab69a4ec, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5e255b8bf0b17e0448842383ab69a4ec, type: 3}
