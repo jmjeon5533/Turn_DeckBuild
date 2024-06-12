@@ -12,9 +12,9 @@ public class LoadData : ScriptableObject
     public Dictionary<string, Buff_Base> buffList;
     public Dictionary<string, Buff_Base> debuffList;
 
-    public Queue<Dialogue> curStageDialogBox = new();
-    public Queue<Queue<Dialogue>> hpDialogBox = new();
-
     public List<UnitData> enemyData = new();
+
+    public Dictionary<int, Queue<Dialogue>> stageDialogBox = new();
+    public Dictionary<int, Queue<Queue<Dialogue>>> hpDialogBox = new();
 
 }

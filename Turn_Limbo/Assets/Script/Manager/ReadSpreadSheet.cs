@@ -10,7 +10,6 @@ public class ReadSpreadSheet : MonoBehaviour
     public static ReadSpreadSheet instance;
     public const string ADDRESS = "https://docs.google.com/spreadsheets/d/1ENYCDg5E6WuUwf-NZjCOpJfRufJsxQI8d7qEKh3Kf_I";
     public readonly long[] SHEET_ID = { 1705787959, 930614922, 520277150, 232901544 };
-    public int curStageID;
 
     public Dictionary<KeyCode, List<Skill>> skillDatas = new();
     private List<Skill> skillLists = new();
@@ -98,9 +97,6 @@ public class ReadSpreadSheet : MonoBehaviour
 
     void PasreBuffData(string data)
     {
-        // List<Buff_Base> buff = new();
-        // List<Buff_Base> debuff = new();        
-
         Dictionary<string, Buff_Base> buff = new();
         Dictionary<string, Buff_Base> debuff = new();
 
@@ -138,21 +134,14 @@ public class ReadSpreadSheet : MonoBehaviour
 
         string[] rows = data.Split('\n');
         string nowDialogueType = null;
-        //Debug.Log($"rows.Length == {rows.Length}");
+        int stageIndex = 1;
+
+        d.loadData.stageDialogBox.Clear();
+        d.loadData.hpDialogBox.Clear();
+
         for (int i = 1; i < rows.Length; i++)
         {
             string[] columns = rows[i].Split(',');
-
-            //Only text with the same CurStageID and stageID is imported from the sheet << Papago GO
-            if (int.Parse(columns[0]) != curStageID || columns[0] == "") continue;
-
-            if (columns[1] != "" && act.Count != 0)
-            {
-                if (nowDialogueType == "StoryDialogue") dialogBox = act;
-                else hpDialogBox.Enqueue(new Queue<Dialogue>(act));
-
-                act.Clear();
-            }
 
             if (columns[1] != "") nowDialogueType = columns[1];
 
@@ -179,17 +168,39 @@ public class ReadSpreadSheet : MonoBehaviour
 
             act.Enqueue(newText);
 
-            // Debug.Log($"ReadData : {id} {name} {job} {text}");
+            if (i == rows.Length - 1)
+            {
+                if (nowDialogueType == "StoryDialogue") dialogBox = act;
+                else hpDialogBox.Enqueue(new Queue<Dialogue>(act));
+
+                d.loadData.stageDialogBox.Add(stageIndex, dialogBox);
+                d.loadData.hpDialogBox.Add(stageIndex, hpDialogBox);
+
+                continue;
+            }
+
+            string[] nextColumns = rows[i + 1].Split(',');
+
+            if (nextColumns[1] != "" && act.Count != 0)
+            {
+                if (nowDialogueType == "StoryDialogue") dialogBox = new Queue<Dialogue>(act);
+                else hpDialogBox.Enqueue(new Queue<Dialogue>(act));
+
+                act.Clear();
+            }
+            if (stageIndex != int.Parse(nextColumns[0]) && nextColumns[0] != "")
+            {
+                d.loadData.stageDialogBox.Add(stageIndex, new Queue<Dialogue>(dialogBox));
+                d.loadData.hpDialogBox.Add(stageIndex, new Queue<Queue<Dialogue>>(hpDialogBox));
+
+                stageIndex = int.Parse(nextColumns[0]);
+            }
         }
 
-        if (nowDialogueType == "StoryDialogue") dialogBox = act;
-        else hpDialogBox.Enqueue(new Queue<Dialogue>(act));
-
-        d.loadData.curStageDialogBox = dialogBox;
-        d.loadData.hpDialogBox = new Queue<Queue<Dialogue>>(hpDialogBox);
         d.readEnd = true;
-        d.isPlayer = isPlayer;
+        d.hpUnitIsPlayer = isPlayer;
     }
+
     public void ParseEnemyData(string data)
     {
         var d = DataManager.instance;

@@ -50,20 +50,38 @@ public class DataManager : MonoBehaviour
     }
     public SaveData saveData;
     public LoadData loadData;
+    public int curStageID;
 
-    // public List<Buff_Base> buffList;
-    // public List<Buff_Base> debuffList;
+    public Queue<Dialogue> stageDialogBox = new();
+    public Queue<Queue<Dialogue>> hpDialogBox = new();
 
-    public bool isPlayer;
+    public bool hpUnitIsPlayer;
     public bool readEnd;
+
+    // private void Update()
+    // {
+    //     if(Input.GetKeyDown(KeyCode.F1)){
+    //         Debug.Log(loadData.stageDialogBox[1].Peek().text);
+    //     }else if(Input.GetKeyDown(KeyCode.F2)){
+    //         Debug.Log(loadData.stageDialogBox[2].Peek().text);
+    //     }
+    // }
+
+    public void InitDialog()
+    {
+        if(curStageID == 0) return;
+
+        stageDialogBox = loadData.stageDialogBox[curStageID];
+        hpDialogBox = loadData.hpDialogBox[curStageID];
+    }
 
     public void InitUnit(Unit unit)
     {
         //Debug.Log($"{hpDialogBox.Count} {(hpDialogBox.Count != 0 ? hpDialogBox.Peek().Count : -1)}");
-        if (loadData.hpDialogBox.Count == 0) return;
+        if (hpDialogBox.Count == 0) return;
 
         Debug.Log("InitUnit");
-        unit.hpLimit = loadData.hpDialogBox.Peek().Peek().hpValue;
+        unit.hpLimit = hpDialogBox.Peek().Peek().hpValue;
         unit.isDialogue = false;
     }
 }

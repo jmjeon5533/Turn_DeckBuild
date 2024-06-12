@@ -98,7 +98,7 @@ public class Controller : MonoBehaviour
         // enemy.target = player;
         // enemy.unitUI = UIManager.instance.unitUI[1];
         // spawnCount++;
-        var map = Instantiate(DataManager.instance.loadData.SpawnData[ReadSpreadSheet.instance.curStageID].maps);
+        var map = Instantiate(DataManager.instance.loadData.SpawnData[DataManager.instance.curStageID].maps);
         bg = map;
     }
     public void TurnReset()
@@ -133,9 +133,10 @@ public class Controller : MonoBehaviour
     void Update()
     {
         if (!data.readEnd) return;
-        else if (data.loadData.curStageDialogBox.Count != 0 && !isDialogue)
+        else if (data.stageDialogBox.Count != 0 && !isDialogue)
         {
-            StartCoroutine(StartDialogue(data.loadData.curStageDialogBox));
+            Debug.Log($"stage : {data.loadData.stageDialogBox.Count} / hp : {data.loadData.hpDialogBox.Count} / id : {data.curStageID} / data_stage : {data.stageDialogBox.Count} / data_hp : {data.hpDialogBox.Count}");
+            StartCoroutine(StartDialogue(data.stageDialogBox));
         }
 
         if (isDialogue && Input.GetMouseButtonDown(0))
@@ -351,7 +352,7 @@ public class Controller : MonoBehaviour
 
             if (talkUnit.isDialogue)
             {
-                StartCoroutine(StartDialogue(data.loadData.hpDialogBox.Dequeue()));
+                StartCoroutine(StartDialogue(data.hpDialogBox.Dequeue()));
                 data.InitUnit(talkUnit);
                 yield break;
             }

@@ -28,7 +28,8 @@ public class IngamePlayerSkillAdd : MonoBehaviour
         }
         controller.InitEnemy();
         controller.InitBtn();
-        controller.talkUnit = DataManager.instance.isPlayer ? controller.player : controller.enemy;
+        controller.talkUnit = DataManager.instance.hpUnitIsPlayer ? controller.player : controller.enemy;
+        DataManager.instance.InitDialog();
         DataManager.instance.InitUnit(controller.talkUnit);
 
         controller.isGame = true;
