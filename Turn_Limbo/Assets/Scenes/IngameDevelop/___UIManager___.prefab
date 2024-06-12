@@ -1,0 +1,85 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1718499151790417056
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1718499151790417246}
+  - component: {fileID: 1718499151790417057}
+  m_Layer: 0
+  m_Name: ___UIManager___
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1718499151790417246
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1718499151790417056}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 960, y: 540, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1718499151790417057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1718499151790417056}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34228ffd130dc2244a6550d0bb7c0bd7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  camRotZ: 0
+  enemyCursorIndex: 0
+  isCamRotate: 0
+  isFatalEffect: 0
+  cam: {fileID: 0}
+  camPivot: {x: 0, y: 0, z: 0}
+  bgCam: {fileID: 0}
+  effectCam: {fileID: 0}
+  camPlusPos: {x: 0, y: 0, z: 0}
+  inputPanel: {fileID: 0}
+  keys:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  nextKeys:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  controller: {fileID: 0}
+  coinGauge: {fileID: 0}
+  dmgTextParent: {fileID: 0}
+  baseIcon: {fileID: 4486723386172999502, guid: fb06cbf7021818c45942f28e5676db67, type: 3}
+  timer: {fileID: 0}
+  timerBG: {fileID: 0}
+  damageText: {fileID: 4913488826131424601, guid: 7fd180f15f7b3894287722613e90254e, type: 3}
+  percentageText: {fileID: 4913488826131424601, guid: 5f9a5a38e53510840929aed3bac1838e, type: 3}
+  gameEndPanel: {fileID: 0}
+  gameEndText: {fileID: 0}
+  retry: {fileID: 0}
+  stageSelect: {fileID: 0}
+  useTurnCountText: {fileID: 0}
+  getMoneyText: {fileID: 0}
+  skillExplainPanel: {fileID: 0}
+  skillExplainText: {fileID: 0}
+  enemySkillExplainPanel: {fileID: 0}
+  enemySkillExplainText: {fileID: 0}
+  unitUI:
+  - {fileID: 0}
+  - {fileID: 0}
