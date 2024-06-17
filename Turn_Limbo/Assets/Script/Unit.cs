@@ -19,7 +19,8 @@ public struct RequestSkill
     public Icon insertImage;
     public AnimationClip animation;
     public Unit.ActionType actionType;
-    public string explain;
+    public string effect_desc;
+    public string skill_desc;
     public PropertyType propertyType;
 }
 
@@ -156,7 +157,7 @@ public abstract class Unit : MonoBehaviour
     {
         for (int i = 0; i < curBuff.Count; i++)
         {
-            if(curBuff[i].buff.timing != timing) return;
+            if (curBuff[i].buff.timing != timing) return;
 
             curBuff[i].buff.Use(this, curBuff[i].stack, curBuff[i].type);
 
@@ -202,8 +203,8 @@ public abstract class Unit : MonoBehaviour
         else Debug.Log($"{this.name} Attack Break!!");
         var cam = ui.cam;
         cam.transform.position = cam.transform.position + ((Vector3)Random.insideUnitCircle.normalized * 1);
-        if(ui.isCamRotate) ui.camRotZ -= Random.Range(UIManager.instance.camRotZ / 2, UIManager.instance.camRotZ * 2.5f);
-        SoundManager.instance.SetAudio(hitSound, false,Random.Range(0.5f,1.5f));
+        if (ui.isCamRotate) ui.camRotZ -= Random.Range(UIManager.instance.camRotZ / 2, UIManager.instance.camRotZ * 2.5f);
+        SoundManager.instance.SetAudio(hitSound, false, Random.Range(0.75f, 1.25f));
         //Instantiate(curSkill.effect.Hitparticles[0],transform.position,Quaternion.identity);
         Instantiate(effect, transform.position + (Vector3.right * (isLeft ? 1 : -1) * 2), Quaternion.identity);
         cam.orthographicSize = 2;
@@ -252,7 +253,7 @@ public abstract class Unit : MonoBehaviour
         newRequest.actionType = skill.actionType;
         newRequest.attackCount = skill.attackCount;
         newRequest.effect = skill.effect;
-        newRequest.explain = skill.explain;
+        newRequest.effect_desc = skill.effect_desc;
         newRequest.icon = skill.icon;
         newRequest.skillName = skill.skillName;
         newRequest.propertyType = skill.propertyType;

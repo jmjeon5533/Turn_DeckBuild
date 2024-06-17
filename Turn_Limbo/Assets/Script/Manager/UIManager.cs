@@ -43,10 +43,12 @@ public class UIManager : MonoBehaviour
 
     [Header("ExplainText")]
     [SerializeField] Image skillExplainPanel;
-    [SerializeField] TMP_Text skillExplainText;
+    [SerializeField] TMP_Text skill_Desc_Text;
+    [SerializeField] TMP_Text skill_Effect_Text;
+    [SerializeField] TMP_Text skill_Damage_Text;
     [Space(5)]
     [SerializeField] Image enemySkillExplainPanel;
-    [SerializeField] TMP_Text enemySkillExplainText;
+    [SerializeField] TMP_Text enemySkill_Desc_Text;
 
     [Header("Unit")]
     public UnitUI[] unitUI;
@@ -133,7 +135,7 @@ public class UIManager : MonoBehaviour
         if (!isActive) return;
         enemyCursorIndex = Mathf.Clamp(enemyCursorIndex, 0, controller.enemy.attackRequest.Count - 1);
         request[enemyCursorIndex].insertImage.selected.enabled = isActive;
-        enemySkillExplainText.text = request[enemyCursorIndex].explain;
+        enemySkill_Desc_Text.text = request[enemyCursorIndex].effect_desc;
     }
     public void PlayerFatalDamage()
     {
@@ -205,7 +207,12 @@ public class UIManager : MonoBehaviour
     {
         skillExplainPanel.gameObject.SetActive(isActive);
         skillExplainPanel.rectTransform.anchoredPosition = pos + new Vector3(350f, 300);
-        if (skill != null) skillExplainText.text = skill.explain;
+        if (skill != null) 
+        {
+            skill_Desc_Text.text = skill.skill_desc;
+            skill_Effect_Text.text = skill.effect_desc;
+            skill_Damage_Text.text = $"{skill.minDamage[skill.level]} ~ {skill.maxDamage[skill.level]}";
+        }
     }
     public void SetGameEndUI(bool isWin)
     {

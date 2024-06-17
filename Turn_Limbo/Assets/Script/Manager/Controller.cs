@@ -22,7 +22,8 @@ public class Skill
     public Sprite icon;
     public string animationName;
     public Unit.ActionType actionType;
-    public string explain;
+    public string effect_desc;
+    public string skill_desc;
     public PropertyType propertyType;
 }
 
@@ -35,6 +36,7 @@ public class Controller : MonoBehaviour
     public Image keyHoldImage;
     public List<Skill_Base> skills = new();
     public List<Skill> inputLists = new();
+    [Header("dialog")]
     Queue<Dialogue> dialogueBox = new();
     DataManager data;
     public Unit talkUnit;
@@ -67,6 +69,9 @@ public class Controller : MonoBehaviour
 
     public Dictionary<int, List<Skill>> inputs = new();
     private readonly KeyCode[] KEY_CODE = { KeyCode.Q, KeyCode.W, KeyCode.E };
+
+    [Header("option")]
+    [SerializeField] IngamePause pause;
     private void Awake()
     {
         volume.TryGet(out glitch);
@@ -336,10 +341,11 @@ public class Controller : MonoBehaviour
                     lastSign *= -1;
                 }
             }
+            float waitTime = Mathf.Max(AttackInit(player) * player.curSkill.attackCount, AttackInit(enemy) * enemy.curSkill.attackCount);
 
-            float waitTime = Mathf.Max(AttackInit(player), AttackInit(enemy));
             player.UseBuff(BuffTiming.turnStart); enemy.UseBuff(BuffTiming.turnStart);
-            AttackStart(player); AttackStart(enemy);
+            StartCoroutine(AttackStart(player)); StartCoroutine(AttackStart(enemy));
+
             for (int j = 0; j < units.Length; j++)
             {
                 LogView.instance.curSkills[j] = units[j].curSkill;
@@ -366,6 +372,7 @@ public class Controller : MonoBehaviour
 
         yield return new WaitForSeconds(0.5f);
         ui.cam.DOOrthoSize(5f, 0.5f).SetEase(Ease.OutCubic);
+        player.anim.Play("Idle"); enemy.anim.Play("Idle"); 
 
         ui.camRotZ = 0;
         player.transform.DOMoveX(-3.5f * (player.isLeft ? 1 : -1), 0.5f)
@@ -389,17 +396,21 @@ public class Controller : MonoBehaviour
         return skill.animation.length;
     }
 
-    void AttackStart(Unit unit)
+    IEnumerator AttackStart(Unit unit)
     {
         var skill = unit.curSkill;
-        if (unit.curSkill.actionType == Unit.ActionType.none) { return; }
+        print($"{unit.name} : {unit.curAttackCount}");
+        if (unit.curSkill.actionType == Unit.ActionType.none) yield break;
         unit.InitCurSkillDamage(skill.minDamage[unit.skillInfo.holdSkills[skill.index].level],
             skill.maxDamage[unit.skillInfo.holdSkills[skill.index].level], skill.attackCount);
 
         unit.curSkill.effect?.Setting(unit, unit.target);
-        Debug.Log(skill.animation.name);
-        unit.anim.Play(skill.animation.name);
-        IconAnim(unit, skill.insertImage);
+        StartCoroutine(IconAnim(skill.insertImage,skill.animation.length * skill.attackCount));
+        for(int i = 0; i < skill.attackCount; i++)
+        {
+            unit.anim.Play(skill.propertyType.ToString());
+            yield return new WaitForSeconds(skill.animation.length);
+        }
     }
 
     void BuffClear(Unit unit)
@@ -427,17 +438,12 @@ public class Controller : MonoBehaviour
         });
         unit.iconAnim.Play();
     }
-    void IconAnim(Unit unit, Icon insertImage)
+    IEnumerator IconAnim(Icon insertImage, float waitTime)
     {
-        unit.iconAnim = DOTween.Sequence();
-
-        unit.iconAnim.Append(insertImage.transform.DOScale(1.5f, 0.3f).SetEase(Ease.OutQuint));
-        unit.iconAnim.Append(insertImage.transform.DOScale(0, 0.2f).SetEase(Ease.OutQuint));
-        unit.iconAnim.AppendCallback(() =>
-        {
-            Destroy(insertImage.gameObject);
-        });
-        unit.iconAnim.Play();
+        yield return insertImage.transform.DOScale(1.5f, 0.2f).SetEase(Ease.OutQuint).WaitForCompletion();
+        yield return new WaitForSeconds(Mathf.Clamp(waitTime - 0.4f,0,5));
+        yield return insertImage.transform.DOScale(0, 0.2f).SetEase(Ease.OutQuint).WaitForCompletion();
+        Destroy(insertImage.gameObject);
     }
 
     public void SwapSkills(List<Skill> key)
