@@ -235,8 +235,8 @@ public class Controller : MonoBehaviour
                 {
                     var input = inputs[i];
                     AddRequest(player, input[0]);
-                    SwapSkills(input);
                     useAbleCoin -= input[0].cost[input[0].level];
+                    SwapSkills(input);
                     ui.ChangeCoinSkillImg();
                     ui.NextImage(i, input[0].icon, input[1].icon);
                     SoundManager.instance.SetAudio(addSkillSound[Random.Range(0, addSkillSound.Length)], false);

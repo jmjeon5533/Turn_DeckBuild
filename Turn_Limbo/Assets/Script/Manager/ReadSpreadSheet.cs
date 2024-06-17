@@ -79,7 +79,6 @@ public class ReadSpreadSheet : MonoBehaviour
             string className = "Skill_" + columns[6];
             newSkill.effect = Activator.CreateInstance(Type.GetType(className)) as Skill_Base;
 
-
             for (int j = 0; j < 3; j++)
             {
                 newSkill.cost[j] = int.Parse(columns[10 + (j * 3)]);

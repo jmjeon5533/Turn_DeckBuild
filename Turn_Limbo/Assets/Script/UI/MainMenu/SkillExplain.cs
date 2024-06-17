@@ -22,6 +22,6 @@ public class SkillExplain : MonoBehaviour
         skill_Desc.text = skill.skill_desc;
         skill_Effect.text = skill.effect_desc;
         dmgText.text = $"{skill.minDamage[level]} ~ {skill.maxDamage[level]}";
-        skill_Cost.text = skill.cost.ToString();
+        skill_Cost.text = skill.cost[skill.level].ToString();
     }
 }

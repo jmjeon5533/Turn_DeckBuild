@@ -13,16 +13,4 @@ MonoBehaviour:
   m_Name: Player
   m_EditorClassIdentifier: 
   SelectIndex: 
-  holdSkills:
-  - holdIndex: 10
-    level: 0
-  - holdIndex: 11
-    level: 0
-  - holdIndex: 12
-    level: 0
-  - holdIndex: 1
-    level: 0
-  - holdIndex: 3
-    level: 0
-  - holdIndex: 5
-    level: 0
+  holdSkills: []
