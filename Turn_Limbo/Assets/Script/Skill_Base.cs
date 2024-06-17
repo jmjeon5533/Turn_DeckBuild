@@ -149,7 +149,7 @@ public class Skill_Stab : Skill_Base
 {
     public override void End(Unit unit, Unit target)
     {
-        unit.curBuff.Add(new Buff(DataManager.instance.loadData.buffList["AttackUp"], 10, 1, PropertyType.AllType));
+        unit.curBuff.Add(new Buff(DataManager.instance.loadData.buffList["AttackUp"], 10, 3, PropertyType.AllType));
     }
 }
 
@@ -166,7 +166,8 @@ public class Skill_Defence : Skill_Base
 {
     public override void End(Unit unit, Unit target)
     {
-        if(unit.TryGetComponent<Player>(out var p)) p.addCoin += 2;
+        if (target.curSkill.propertyType == PropertyType.Hit && unit.TryGetComponent<Player>(out var p)) 
+            p.addCoin += 2;
     }
 }
 
@@ -184,6 +185,55 @@ public class Skill_Blocking : Skill_Base
     {
         unit.curBuff.Add(new Buff(DataManager.instance.loadData.buffList["AttackUp"], 5, 1, PropertyType.AllType));
     }
+}
+
+public class Skill_Ready : Skill_Base
+{
+    public override void Setting(Unit unit, Unit target)
+    {
+        unit.curBuff.Add(new Buff(DataManager.instance.loadData.buffList["AttackUp"], 50, 1));
+    }
+}
+
+
+public class Skill_Onguard : Skill_Base
+{
+    public override void Setting(Unit unit, Unit target)
+    {
+        if (target.curSkill.propertyType == PropertyType.Slash)
+            target.curBuff.Add(new Buff(DataManager.instance.loadData.debuffList["AttackDown"], 20, 1));
+    }
+}
+
+public class Skill_Forward : Skill_Base
+{
+    public override void End(Unit unit, Unit target)
+    {
+        unit.curBuff.Add(new Buff(DataManager.instance.loadData.debuffList["DefenseDown"], 50, 1));
+        if (unit.TryGetComponent<Player>(out var p))
+            p.addCoin += 3;
+    }
+}
+
+public class Skill_LengthCut : Skill_Base
+{
+    public override void End(Unit unit, Unit target)
+    {
+        if (unit.isAttack) unit.curBuff.Add(new Buff(DataManager.instance.loadData.buffList["AttackUp"], 30, 10, PropertyType.AllType));       
+    }
+}
+
+public class Skill_WidthCut : Skill_Base
+{
+    public override void Setting(Unit unit, Unit target)
+    {
+        if(unit.usedSkill.index == 14) unit.curBuff.Add(new Buff(DataManager.instance.loadData.buffList["AttackUp"], 100, 1, PropertyType.AllType));     
+    }
+}
+
+public class Skill_CrossCut : Skill_Base
+{
+
 }
 
 public class Skill_ : Skill_Base
