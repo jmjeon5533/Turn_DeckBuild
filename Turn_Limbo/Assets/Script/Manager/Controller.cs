@@ -63,7 +63,8 @@ public class Controller : MonoBehaviour
 
     [SerializeField] protected float AnimTime;
 
-    public AudioClip hitSound;
+    public AudioClip[] hitSound;
+    public AudioClip CritSound;
     public AudioClip BGM;
     public AudioClip[] addSkillSound;
 

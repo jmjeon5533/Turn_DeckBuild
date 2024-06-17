@@ -1278,7 +1278,8 @@ MonoBehaviour:
   isAttack: 0
   target: {fileID: 98593525}
   effect: {fileID: 1429954232896169632, guid: 83036083a4ebcd34f98131bd3cf6f4d2, type: 3}
-  hitSound: {fileID: 0}
+  hitSound:
+  - {fileID: 0}
   Uniticon: {fileID: 0}
   skillInfo: {fileID: 11400000, guid: 7dc6ef30da862824fb326d50b28df9b0, type: 2}
   anim: {fileID: 0}
@@ -1677,9 +1678,25 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1715296847}
     - target: {fileID: 739189877109174758, guid: 9ed9a4d049d9a2e4a8f645ad0d571ffa, type: 3}
+      propertyPath: CritSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 526ff741ef93246498c157bfa6052fe2, type: 3}
+    - target: {fileID: 739189877109174758, guid: 9ed9a4d049d9a2e4a8f645ad0d571ffa, type: 3}
       propertyPath: keyHoldImage
       value: 
       objectReference: {fileID: 472618415}
+    - target: {fileID: 739189877109174758, guid: 9ed9a4d049d9a2e4a8f645ad0d571ffa, type: 3}
+      propertyPath: hitSound.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 739189877109174758, guid: 9ed9a4d049d9a2e4a8f645ad0d571ffa, type: 3}
+      propertyPath: hitSound.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 05cf5a07bba0fbf4387de4f2e7601745, type: 3}
+    - target: {fileID: 739189877109174758, guid: 9ed9a4d049d9a2e4a8f645ad0d571ffa, type: 3}
+      propertyPath: hitSound.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: d557c9cf493683e4bae7626a7dcb93c0, type: 3}
     - target: {fileID: 739189877109174759, guid: 9ed9a4d049d9a2e4a8f645ad0d571ffa, type: 3}
       propertyPath: m_RootOrder
       value: 3

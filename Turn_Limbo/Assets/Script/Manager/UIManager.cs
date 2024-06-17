@@ -143,6 +143,7 @@ public class UIManager : MonoBehaviour
         controller.color.saturation.value = -80;
         controller.color.postExposure.value = 1;
         StartCoroutine(FatalDamageTimeSlow(controller.player.transform));
+        SoundManager.instance.SetAudio(controller.CritSound,false);
     }
     public void EnemyFatalDamage()
     {
@@ -150,6 +151,7 @@ public class UIManager : MonoBehaviour
         controller.color.saturation.value = 25;
         controller.color.postExposure.value = 1;
         StartCoroutine(FatalDamageTimeSlow(controller.enemy.transform));
+        SoundManager.instance.SetAudio(controller.CritSound,false);
     }
     IEnumerator FatalDamageTimeSlow(Transform target)
     {

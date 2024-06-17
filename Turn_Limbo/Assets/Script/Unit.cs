@@ -96,7 +96,7 @@ public abstract class Unit : MonoBehaviour
         actionType = ActionType.none
     };
     public ParticleSystem effect;
-    public AudioClip hitSound;
+    public AudioClip[] hitSound;
     public Sprite Uniticon;
     public SkillEffect skillInfo;
 
@@ -204,7 +204,7 @@ public abstract class Unit : MonoBehaviour
         var cam = ui.cam;
         cam.transform.position = cam.transform.position + ((Vector3)Random.insideUnitCircle.normalized * 1);
         if (ui.isCamRotate) ui.camRotZ -= Random.Range(UIManager.instance.camRotZ / 2, UIManager.instance.camRotZ * 2.5f);
-        SoundManager.instance.SetAudio(hitSound, false, Random.Range(0.75f, 1.25f));
+        SoundManager.instance.SetAudio(hitSound[Random.Range(0,hitSound.Length)], false, Random.Range(0.75f, 1.25f));
         //Instantiate(curSkill.effect.Hitparticles[0],transform.position,Quaternion.identity);
         Instantiate(effect, transform.position + (Vector3.right * (isLeft ? 1 : -1) * 2), Quaternion.identity);
         cam.orthographicSize = 2;
