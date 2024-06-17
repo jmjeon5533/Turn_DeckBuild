@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class SkillExplain : MonoBehaviour
 {
     [SerializeField] Image skillIcon;
-    [SerializeField] Text skillName, skill_Desc, skill_Effect;
+    [SerializeField] Text skillName, skill_Desc, skill_Effect, skill_Cost;
     [SerializeField] Text dmgText;
     public void ExplainSet(Skill skill,int level)
     {
@@ -22,5 +22,6 @@ public class SkillExplain : MonoBehaviour
         skill_Desc.text = skill.skill_desc;
         skill_Effect.text = skill.effect_desc;
         dmgText.text = $"{skill.minDamage[level]} ~ {skill.maxDamage[level]}";
+        skill_Cost.text = skill.cost.ToString();
     }
 }

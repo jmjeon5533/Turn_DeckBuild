@@ -25,6 +25,14 @@ public class PanelMovement : MonoBehaviour
     {
         var value = 0.8f;
         warningImage.color = new Color(1,1,1,value);
+        warningText.text = "스킬이 부족한 것 같아...";
+        warningText.color = new Color(0,0,0,value);
+    }
+    public void WarningContinue()
+    {
+        var value = 0.8f;
+        warningImage.color = new Color(1,1,1,value);
+        warningText.text = "개발 중인 기능입니다...";
         warningText.color = new Color(0,0,0,value);
     }
     public void PanelMove()

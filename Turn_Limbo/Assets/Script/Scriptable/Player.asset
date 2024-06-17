@@ -12,23 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8278480b00c18b44cb021db6203935b1, type: 3}
   m_Name: Player
   m_EditorClassIdentifier: 
-  SelectIndex: 000000000100000007000000050000000600000008000000
+  SelectIndex: 
   holdSkills:
-  - holdIndex: 0
+  - holdIndex: 10
+    level: 0
+  - holdIndex: 11
+    level: 0
+  - holdIndex: 12
     level: 0
   - holdIndex: 1
     level: 0
-  - holdIndex: 2
-    level: 0
   - holdIndex: 3
     level: 0
-  - holdIndex: 4
-    level: 0
   - holdIndex: 5
-    level: 0
-  - holdIndex: 6
-    level: 0
-  - holdIndex: 7
-    level: 0
-  - holdIndex: 8
     level: 0

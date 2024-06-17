@@ -90,6 +90,7 @@ public class ReadSpreadSheet : MonoBehaviour
             skillDatas[keyCode].Add(newSkill);
         }
         d.loadData.skillData = new Dictionary<KeyCode, List<Skill>>(skillDatas);
+        d.loadData.SkillList.Clear();
         d.loadData.SkillList = new List<Skill>(skillLists);
         Debug.Log("ReadEnd");
         //controller.inputs = new Dictionary<KeyCode, List<Skill>>(skillDatas);

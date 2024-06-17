@@ -46,6 +46,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] TMP_Text skill_Desc_Text;
     [SerializeField] TMP_Text skill_Effect_Text;
     [SerializeField] TMP_Text skill_Damage_Text;
+    [SerializeField] TMP_Text skill_Cost_Text;
     [Space(5)]
     [SerializeField] Image enemySkillExplainPanel;
     [SerializeField] TMP_Text enemySkill_Desc_Text;
@@ -214,6 +215,7 @@ public class UIManager : MonoBehaviour
             skill_Desc_Text.text = skill.skill_desc;
             skill_Effect_Text.text = skill.effect_desc;
             skill_Damage_Text.text = $"{skill.minDamage[skill.level]} ~ {skill.maxDamage[skill.level]}";
+            skill_Cost_Text.text = skill.cost.ToString();
         }
     }
     public void SetGameEndUI(bool isWin)

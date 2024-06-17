@@ -65,7 +65,6 @@ public class Controller : MonoBehaviour
 
     public AudioClip[] hitSound;
     public AudioClip CritSound;
-    public AudioClip BGM;
     public AudioClip[] addSkillSound;
 
     public Dictionary<int, List<Skill>> inputs = new();
@@ -95,8 +94,6 @@ public class Controller : MonoBehaviour
         color.saturation.value = 0;
 
         useTurnCount = 1;
-        if (BGM != null) SoundManager.instance.SetAudio(BGM, true);
-
     }
     public void SetStage()
     {
@@ -239,7 +236,7 @@ public class Controller : MonoBehaviour
                     var input = inputs[i];
                     AddRequest(player, input[0]);
                     SwapSkills(input);
-                    useAbleCoin--;
+                    useAbleCoin -= input[0].cost[input[0].level];
                     ui.ChangeCoinSkillImg();
                     ui.NextImage(i, input[0].icon, input[1].icon);
                     SoundManager.instance.SetAudio(addSkillSound[Random.Range(0, addSkillSound.Length)], false);
