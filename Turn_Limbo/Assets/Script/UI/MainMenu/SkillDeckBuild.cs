@@ -3,6 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+[System.Serializable]
+public class DeckBuildBtns
+{
+    public int skillIndex;
+    public Button btn;
+}
 public class SkillDeckBuild : MonoBehaviour
 {
     [SerializeField] Transform panels;
@@ -10,7 +16,7 @@ public class SkillDeckBuild : MonoBehaviour
     [SerializeField] private RectTransform[] skillSelectBtnParent;
     [SerializeField] private Button skillSelectBaseBtn;
     [SerializeField] SkillExplain explainPanel;
-    public List<Button> btnImage;
+    public List<DeckBuildBtns> btnImage;
     public SkillEffect playerSkills;
     bool isShow = false;
     private void Start()
@@ -32,7 +38,7 @@ public class SkillDeckBuild : MonoBehaviour
         for (int i = btnImage.Count - 1; i >= 0; i--)
         {
             print(i);
-            Destroy(btnImage[i].gameObject);
+            Destroy(btnImage[i].btn.gameObject);
             btnImage.RemoveAt(i);
         }
         panels.gameObject.SetActive(isShow);
@@ -47,30 +53,34 @@ public class SkillDeckBuild : MonoBehaviour
             var btn = Instantiate(skillSelectBaseBtn, skillSelectBtnParent[d.loadData.SkillList[playerSkill.holdSkills[i].holdIndex].keyIndex]);
             var num = i;
             btn.onClick.AddListener(() => TriggerAddSkills(num));
-            btnImage.Add(btn);
+            DeckBuildBtns newBtn = new DeckBuildBtns();
+            newBtn.skillIndex = playerSkill.holdSkills[i].holdIndex;
+            newBtn.btn = btn;
+            btnImage.Add(newBtn);
             btn.transform.GetChild(0).GetComponent<Image>().sprite = d.loadData.SkillList[playerSkill.holdSkills[i].holdIndex].icon;
         }
         InitSkillSelectState();
     }
     private void InitSkillSelectState()
     {
-        for (int i = 0; i < btnImage.Count; i++) btnImage[i].image.color = Color.gray;
-        for (int i = 0; i < playerSkills.SelectIndex.Count; i++)
+        for (int i = 0; i < btnImage.Count; i++) btnImage[i].btn.image.color = Color.gray;
+        for (int i = 0; i < btnImage.Count; i++)
         {
-            btnImage[playerSkills.SelectIndex[i]].image.color = Color.yellow;
+            if(playerSkills.SelectIndex.Contains(btnImage[i].skillIndex))
+            btnImage[i].btn.image.color = Color.yellow;
         }
     }
     public void TriggerAddSkills(int index)
     {
         var d = DataManager.instance;
-        var skill = d.loadData.SkillList[index];
+        var skill = d.loadData.SkillList[btnImage[index].skillIndex];
         for (int i = 0; i < playerSkills.SelectIndex.Count; i++)
         {
-            if (playerSkills.SelectIndex[i] == index)
+            if (playerSkills.SelectIndex[i] == btnImage[index].skillIndex)
             {
                 for (int j = 0; j < playerSkill.holdSkills.Count; j++)
                 {
-                    if (playerSkill.holdSkills[j].holdIndex == index) explainPanel.ExplainSet(skill, playerSkill.holdSkills[j].level);
+                    if (playerSkill.holdSkills[j].holdIndex == btnImage[index].skillIndex) explainPanel.ExplainSet(skill, playerSkill.holdSkills[j].level);
                 }
 
                 playerSkills.SelectIndex.RemoveAt(i);
@@ -81,9 +91,9 @@ public class SkillDeckBuild : MonoBehaviour
         }
         for (int j = 0; j < playerSkill.holdSkills.Count; j++)
         {
-            if (playerSkill.holdSkills[j].holdIndex == index) explainPanel.ExplainSet(skill, playerSkill.holdSkills[j].level);
+            if (playerSkill.holdSkills[j].holdIndex == btnImage[index].skillIndex) explainPanel.ExplainSet(skill, playerSkill.holdSkills[j].level);
         }
-        playerSkills.SelectIndex.Add(index);
+        playerSkills.SelectIndex.Add(playerSkill.holdSkills[index].holdIndex);
         InitSkillSelectState();
     }
 }

@@ -33,7 +33,7 @@ public class SkillUpgrade : MonoBehaviour
         for (int i = skillDeckBuild.btnImage.Count - 1; i >= 0; i--)
         {
             print(i);
-            Destroy(skillDeckBuild.btnImage[i].gameObject);
+            Destroy(skillDeckBuild.btnImage[i].btn.gameObject);
             skillDeckBuild.btnImage.RemoveAt(i);
         }
         skillDeckBuild.AddSkillSelectBtn();
@@ -131,7 +131,7 @@ public class SkillUpgrade : MonoBehaviour
         for (int i = skillDeckBuild.btnImage.Count - 1; i >= 0; i--)
         {
             print(i);
-            Destroy(skillDeckBuild.btnImage[i].gameObject);
+            Destroy(skillDeckBuild.btnImage[i].btn.gameObject);
             skillDeckBuild.btnImage.RemoveAt(i);
         }
         skillDeckBuild.AddSkillSelectBtn();
