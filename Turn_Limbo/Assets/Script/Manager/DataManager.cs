@@ -58,15 +58,6 @@ public class DataManager : MonoBehaviour
     public bool hpUnitIsPlayer;
     public bool readEnd;
 
-    // private void Update()
-    // {
-    //     if(Input.GetKeyDown(KeyCode.F1)){
-    //         Debug.Log(loadData.stageDialogBox[1].Peek().text);
-    //     }else if(Input.GetKeyDown(KeyCode.F2)){
-    //         Debug.Log(loadData.stageDialogBox[2].Peek().text);
-    //     }
-    // }
-
     public void InitDialog()
     {
         if(curStageID == 0) return;

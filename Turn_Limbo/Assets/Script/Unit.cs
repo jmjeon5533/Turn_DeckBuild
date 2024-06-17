@@ -125,7 +125,9 @@ public abstract class Unit : MonoBehaviour
     public virtual void TurnInit()
     {
         UseBuff(BuffTiming.battleEnd);
-        curBuff = ClearBuffList(curBuff);
+        curBuff = ClearBuffList(curBuff, true);
+
+        Debug.Log($"{this} : {curBuff.Count} / {usedBuff.Count}");
 
         isAttack = true;
         nextSkill = nullSkill;
