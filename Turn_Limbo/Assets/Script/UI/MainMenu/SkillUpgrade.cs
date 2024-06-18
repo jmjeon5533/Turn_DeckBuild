@@ -73,6 +73,7 @@ public class SkillUpgrade : MonoBehaviour
                 case 0: color = Color.yellow; break;
                 case 1: color = new Color(1, 0.5f, 1, 1); break;
                 case 2: color = Color.red; break;
+                case 3: color = new Color(0.3f, 0, 1, 1); break;
             }
             btnImage[playerSkills.holdSkills[i].holdIndex].image.color = color;
         }
@@ -82,6 +83,7 @@ public class SkillUpgrade : MonoBehaviour
             explainPanel.ExplainSet(DataManager.instance.loadData.SkillList[playerSkills.holdSkills[j].holdIndex], playerSkills.holdSkills[j].level);
         }
         MoneyText.text = $"보유자원 : {DataManager.instance.saveData.Money}";
+        DataManager.instance.JsonSave();
     }
     public void TriggerBuySkills()
     {
@@ -104,13 +106,13 @@ public class SkillUpgrade : MonoBehaviour
                 }
 
                 var level = playerSkills.holdSkills[i].level;
-                if (level >= 2) 
+                if (level >= 3) 
                 {
                     print("구매 불가 : 최대치 도달");
                     return;
                 }
                 playerSkills.holdSkills[i].level++;
-                d.saveData.Money -= 150 * (level + 1);
+                d.saveData.Money -= 150;
                 InitSkillSelectState();
 
                 return;

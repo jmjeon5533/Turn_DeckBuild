@@ -65,9 +65,9 @@ public class ReadSpreadSheet : MonoBehaviour
             var newSkill = new Skill();
             newSkill.index = i;
             newSkill.skillName = columns[2];
-            newSkill.cost = new int[3];
-            newSkill.minDamage = new int[3];
-            newSkill.maxDamage = new int[3];
+            newSkill.cost = new int[4];
+            newSkill.minDamage = new int[4];
+            newSkill.maxDamage = new int[4];
             newSkill.attackCount = int.Parse(columns[5]);
             newSkill.keyIndex = int.Parse(columns[1]) - 1;
             newSkill.actionType = columns[3].EnumParse<Unit.ActionType>();
@@ -75,13 +75,14 @@ public class ReadSpreadSheet : MonoBehaviour
             //newSkill.animationName = columns[8];
             newSkill.animationName = columns[4];
             newSkill.effect_desc = explain;
+            newSkill.sale = int.Parse(columns[22]);
             newSkill.skill_desc = columns[7];
             newSkill.icon = Resources.Load<Sprite>($"Icon/skill{int.Parse(columns[0])}");
 
             string className = "Skill_" + columns[6];
             newSkill.effect = Activator.CreateInstance(Type.GetType(className)) as Skill_Base;
 
-            for (int j = 0; j < 3; j++)
+            for (int j = 0; j < 4; j++)
             {
                 newSkill.cost[j] = int.Parse(columns[10 + (j * 3)]);
                 newSkill.minDamage[j] = int.Parse(columns[11 + (j * 3)]);

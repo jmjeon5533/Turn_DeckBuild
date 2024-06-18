@@ -23,6 +23,6 @@ public class SkillExplain : MonoBehaviour
         skill_Effect.text = skill.effect_desc;
         dmgText.text = $"{skill.minDamage[level]} ~ {skill.maxDamage[level]}";
         skill_Cost.text = skill.cost[skill.level].ToString();
-        if(skill_BuyMoney != null) skill_BuyMoney.text = $"가격 : {((level + 1) * 150).ToString()}";
+        if(skill_BuyMoney != null) skill_BuyMoney.text = $"가격 : {((level + 1) * skill.sale).ToString()}";
     }
 }

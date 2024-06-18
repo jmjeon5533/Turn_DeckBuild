@@ -19,6 +19,8 @@ public class IngamePlayerSkillAdd : MonoBehaviour
         for (int i = 0; i < controller.player.skillInfo.SelectIndex.Count; i++)
         {
             var skill = d.loadData.SkillList[controller.player.skillInfo.SelectIndex[i]];
+            // skill.level = controller.player.skillInfo.holdSkills
+            //     [controller.player.skillInfo.holdSkills.FindIndex(x => x.holdIndex == skill.index)].level;
             controller.inputLists.Add(skill);
             int keyCode = skill.keyIndex;
             if (!controller.inputs.ContainsKey(keyCode))

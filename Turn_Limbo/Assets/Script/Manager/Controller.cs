@@ -18,6 +18,7 @@ public class Skill
     public int level;
     public int attackCount;
     public int keyIndex;
+    public int sale;
     public Skill_Base effect;
     public Sprite icon;
     public string animationName;
@@ -77,12 +78,12 @@ public class Controller : MonoBehaviour
         volume.TryGet(out glitch);
         volume.TryGet(out depth);
         volume.TryGet(out color);
+        data = DataManager.instance;
     }
     void Start()
     {
         SetStage();
         TurnReset();
-        data = DataManager.instance;
         UIManager.instance.SetExplain(false);
         player.hitSound = hitSound;
         enemy.hitSound = hitSound;
@@ -109,6 +110,7 @@ public class Controller : MonoBehaviour
         gameCurTimeCount = 10;
 
         useAbleCoin += player.addCoin;
+        useAbleCoin = Mathf.Clamp(useAbleCoin, 0, 10);
         player.TurnInit();
         enemy.TurnInit();
         UIManager.instance.ChangeCoinSkillImg();
