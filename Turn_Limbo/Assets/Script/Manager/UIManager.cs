@@ -13,6 +13,7 @@ public class UIManager : MonoBehaviour
     public int enemyCursorIndex = 0;
     public bool isCamRotate;
     public bool isFatalEffect;
+    public bool isPause;
     public Camera cam;
     public Vector3 camPivot;
     public Camera bgCam;
@@ -32,6 +33,7 @@ public class UIManager : MonoBehaviour
     public Image timerBG;
     public TMP_Text damageText;
     public TMP_Text percentageText;
+    public RectTransform pauseTab;
 
     [Header("GameEnd")]
     [SerializeField] Image gameEndPanel;
@@ -65,6 +67,11 @@ public class UIManager : MonoBehaviour
     private void Update()
     {
         if (!controller.isGame) return;
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Pause();
+        }
 
         if (controller.isAttack)
         {
@@ -119,6 +126,12 @@ public class UIManager : MonoBehaviour
         bgCam.orthographicSize = cam.orthographicSize;
         effectCam.orthographicSize = cam.orthographicSize;
     }
+    public void Pause()
+    {
+        isPause = !isPause;
+        Time.timeScale = isPause ? 0 : 1;
+        pauseTab.DOAnchorPosY(isPause ? 0 : 1000, 0.5f).SetUpdate(true).SetEase(Ease.OutQuad);
+    }
     public IEnumerator TimeSlow()
     {
         Time.timeScale = 0.2f;
@@ -144,7 +157,7 @@ public class UIManager : MonoBehaviour
         controller.color.saturation.value = -80;
         controller.color.postExposure.value = 1;
         StartCoroutine(FatalDamageTimeSlow(controller.player.transform));
-        SoundManager.instance.SetAudio(controller.CritSound,false);
+        SoundManager.instance.SetAudio(controller.CritSound, false);
     }
     public void EnemyFatalDamage()
     {
@@ -152,7 +165,7 @@ public class UIManager : MonoBehaviour
         controller.color.saturation.value = 25;
         controller.color.postExposure.value = 1;
         StartCoroutine(FatalDamageTimeSlow(controller.enemy.transform));
-        SoundManager.instance.SetAudio(controller.CritSound,false);
+        SoundManager.instance.SetAudio(controller.CritSound, false);
     }
     IEnumerator FatalDamageTimeSlow(Transform target)
     {
@@ -183,9 +196,10 @@ public class UIManager : MonoBehaviour
     }
     public void ChangeCoinSkillImg()
     {
-        bool isActiveBtn = controller.useAbleCoin > 0;
         for (int i = 0; i < keys.Length; i++)
         {
+            var skill = controller.inputs[i][0];
+            bool isActiveBtn = controller.useAbleCoin >= skill.cost[skill.level];
             keys[i].color = isActiveBtn ? Color.white : Color.grey;
         }
         coinGauge.fillAmount = (float)controller.useAbleCoin / 10;
@@ -210,17 +224,21 @@ public class UIManager : MonoBehaviour
     {
         skillExplainPanel.gameObject.SetActive(isActive);
         skillExplainPanel.rectTransform.anchoredPosition = pos + new Vector3(350f, 300);
-        if (skill != null) 
+        if (skill != null)
         {
             skill_Desc_Text.text = skill.skill_desc;
             skill_Effect_Text.text = skill.effect_desc;
             skill_Damage_Text.text = $"{skill.minDamage[skill.level]} ~ {skill.maxDamage[skill.level]}";
-            skill_Cost_Text.text = skill.cost.ToString();
+            skill_Cost_Text.text = skill.cost[skill.level].ToString();
         }
     }
     public void SetGameEndUI(bool isWin)
     {
         StartCoroutine(SetGameEnd(isWin));
+    }
+    public void LoadScene(int index)
+    {
+        SceneManager.LoadScene(index);
     }
     IEnumerator SetGameEnd(bool isWin)
     {

@@ -110,7 +110,7 @@ public class SkillUpgrade : MonoBehaviour
                     return;
                 }
                 playerSkills.holdSkills[i].level++;
-                d.saveData.Money -= 150;
+                d.saveData.Money -= 150 * (level + 1);
                 InitSkillSelectState();
 
                 return;

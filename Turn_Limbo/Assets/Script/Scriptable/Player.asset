@@ -14,11 +14,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SelectIndex: 
   holdSkills:
+  - holdIndex: 0
+    level: 0
+  - holdIndex: 1
+    level: 0
+  - holdIndex: 2
+    level: 0
+  - holdIndex: 3
+    level: 0
+  - holdIndex: 4
+    level: 0
+  - holdIndex: 5
+    level: 0
   - holdIndex: 6
-    level: 0
-  - holdIndex: 7
-    level: 1
-  - holdIndex: 9
-    level: 0
-  - holdIndex: 10
     level: 0

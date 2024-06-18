@@ -51,6 +51,8 @@ public class ReadSpreadSheet : MonoBehaviour
 
         var d = DataManager.instance;
         string[] rows = data.Split('\n');
+
+        skillLists.Clear();
         for (int i = 1; i < rows.Length; i++)
         {
             string[] columns = rows[i].Split(',');

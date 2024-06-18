@@ -97,7 +97,7 @@ public class Controller : MonoBehaviour
     }
     public void SetStage()
     {
-        // var enemy = Instantiate(DataManager.instance.SpawnData[ReadSpreadSheet.instance.curStageID - 2].enemies[spawnCount],new Vector3(5,-0.5f, 0), Quaternion.identity);
+        // var enemy = Instantiate(DataManager.instance.loadData.SpawnData[DataManager.instance.curStageID].enemies[spawnCount],new Vector3(5,-0.5f, 0), Quaternion.identity);
         // enemy.target = player;
         // enemy.unitUI = UIManager.instance.unitUI[1];
         // spawnCount++;
@@ -135,6 +135,7 @@ public class Controller : MonoBehaviour
     }
     void Update()
     {
+        if(UIManager.instance.isPause) return;
         if (!data.readEnd) return;
         else if (data.stageDialogBox.Count != 0 && !isDialogue)
         {
