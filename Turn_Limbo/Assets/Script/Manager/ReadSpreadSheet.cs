@@ -135,7 +135,7 @@ public class ReadSpreadSheet : MonoBehaviour
 
         string[] rows = data.Split('\n');
         string nowDialogueType = null;
-        int stageIndex = 1;
+        int stageIndex = 0;
 
         d.loadData.stageDialogBox.Clear();
         d.loadData.hpDialogBox.Clear();

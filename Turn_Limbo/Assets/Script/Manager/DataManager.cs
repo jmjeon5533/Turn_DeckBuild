@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 [System.Serializable]
 public class SaveData
@@ -60,10 +61,9 @@ public class DataManager : MonoBehaviour
 
     public void InitDialog()
     {
-        if(curStageID == 0) return;
-
-        stageDialogBox = loadData.stageDialogBox[curStageID];
-        hpDialogBox = loadData.hpDialogBox[curStageID];
+        if(loadData.stageDialogBox.TryGetValue(curStageID, out Queue<Dialogue> stage)) stageDialogBox = stage;
+        
+        if(loadData.hpDialogBox.TryGetValue(curStageID, out Queue<Queue<Dialogue>> hp)) hpDialogBox = hp;
     }
 
     public void InitUnit(Unit unit)
