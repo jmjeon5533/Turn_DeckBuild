@@ -243,7 +243,7 @@ public abstract class Unit : MonoBehaviour
         curDamage = Mathf.FloorToInt(damage * attack_Drainage / count);
         curAttackCount = count;
     }
-    public RequestSkill ConvertRequest(Skill skill)
+    public RequestSkill ConvertRequest(SkillInfomation skill)
     {
         RequestSkill newRequest = new RequestSkill();
         newRequest.animation = Resources.Load<AnimationClip>($"Animation/{unitName.Trim()}/{skill.animationName.Trim()}");
@@ -253,7 +253,7 @@ public abstract class Unit : MonoBehaviour
         newRequest.level = skill.level;
         newRequest.actionType = skill.actionType;
         newRequest.attackCount = skill.attackCount;
-        newRequest.effect = skill.effect;
+        newRequest.effect = skill.skillInst;
         newRequest.effect_desc = skill.effect_desc;
         newRequest.icon = skill.icon;
         newRequest.skillName = skill.skillName;

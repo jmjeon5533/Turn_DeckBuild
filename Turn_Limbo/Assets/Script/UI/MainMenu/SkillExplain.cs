@@ -9,7 +9,7 @@ public class SkillExplain : MonoBehaviour
     [SerializeField] Image skillIcon;
     [SerializeField] Text skillName, skill_Desc, skill_Effect, skill_Cost, skill_BuyMoney;
     [SerializeField] Text dmgText;
-    public void ExplainSet(Skill skill,int level)
+    public void ExplainSet(SkillInfomation skill,int level)
     {
         skillIcon.sprite = skill.icon;
         StringBuilder sb = new StringBuilder();
@@ -22,7 +22,7 @@ public class SkillExplain : MonoBehaviour
         skill_Desc.text = skill.skill_desc;
         skill_Effect.text = skill.effect_desc;
         dmgText.text = $"{skill.minDamage[level]} ~ {skill.maxDamage[level]}";
-        skill_Cost.text = skill.cost[skill.level].ToString();
-        if(skill_BuyMoney != null) skill_BuyMoney.text = $"가격 : {((level + 1) * 150).ToString()}";
+        skill_Cost.text = skill.cost[level].ToString();
+        if(skill_BuyMoney != null) skill_BuyMoney.text = $"가격 : {((level + 1) * skill.sale).ToString()}";
     }
 }

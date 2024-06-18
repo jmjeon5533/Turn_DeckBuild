@@ -2,11 +2,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public class SkillInfomation
+{
+    public string skillName;
+    public int sale;
+    public int[] cost;
+    public int[] minDamage;
+    public int[] maxDamage;
+    public int attackCount;
+    public KeyCode performKey;
+    public Skill_Base skillInst;
+    public Sprite icon;
+    public Unit.ActionType actionType;
+    public string effect_desc;
+    public string skill_desc;
+    public PropertyType propertyType;
+}
+
 [CreateAssetMenu(fileName = "Loads", menuName = "Loads", order = 1)]
 public class LoadData : ScriptableObject
 {
-    public Dictionary<KeyCode, List<Skill>> skillData = new();
-    public List<Skill> SkillList = new();
+    public Dictionary<KeyCode, List<SkillInfomation>> skillData = new();
+    public List<SkillInfomation> SkillList = new();
     public List<SpawnData> SpawnData = new();
 
     public Dictionary<string, Buff_Base> buffList;

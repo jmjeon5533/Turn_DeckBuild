@@ -11,8 +11,8 @@ public class ReadSpreadSheet : MonoBehaviour
     public const string ADDRESS = "https://docs.google.com/spreadsheets/d/1ENYCDg5E6WuUwf-NZjCOpJfRufJsxQI8d7qEKh3Kf_I";
     public readonly long[] SHEET_ID = { 1705787959, 930614922, 520277150, 232901544 };
 
-    public Dictionary<KeyCode, List<Skill>> skillDatas = new();
-    private List<Skill> skillLists = new();
+    public Dictionary<KeyCode, List<SkillInfomation>> skillDatas = new();
+    private List<SkillInfomation> skillLists = new();
 
     private void Awake()
     {
@@ -58,18 +58,18 @@ public class ReadSpreadSheet : MonoBehaviour
             string[] columns = rows[i].Split(',');
             KeyCode keyCode = columns[1].EnumParse<KeyCode>();
             if (!skillDatas.ContainsKey(keyCode))
-                skillDatas.Add(keyCode, new List<Skill>());
+                skillDatas.Add(keyCode, new List<SkillInfomation>());
 
             var splitExplain = columns[8].Split('&');
             string explain = string.Join("\n", splitExplain);
-            var newSkill = new Skill();
+            var newSkill = new SkillInfomation();
             newSkill.index = i;
             newSkill.skillName = columns[2];
-            newSkill.cost = new int[3];
-            newSkill.minDamage = new int[3];
-            newSkill.maxDamage = new int[3];
+            newSkill.cost = new int[4];
+            newSkill.minDamage = new int[4];
+            newSkill.maxDamage = new int[4];
             newSkill.attackCount = int.Parse(columns[5]);
-            newSkill.keyIndex = int.Parse(columns[1]) - 1;
+            newSkill.performKey = int.Parse(columns[1]) - 1;
             newSkill.actionType = columns[3].EnumParse<Unit.ActionType>();
             newSkill.propertyType = columns[4].EnumParse<PropertyType>();
             //newSkill.animationName = columns[8];
@@ -79,9 +79,9 @@ public class ReadSpreadSheet : MonoBehaviour
             newSkill.icon = Resources.Load<Sprite>($"Icon/skill{int.Parse(columns[0])}");
 
             string className = "Skill_" + columns[6];
-            newSkill.effect = Activator.CreateInstance(Type.GetType(className)) as Skill_Base;
+            newSkill.skillInst = Activator.CreateInstance(Type.GetType(className)) as Skill_Base;
 
-            for (int j = 0; j < 3; j++)
+            for (int j = 0; j < 4; j++)
             {
                 newSkill.cost[j] = int.Parse(columns[10 + (j * 3)]);
                 newSkill.minDamage[j] = int.Parse(columns[11 + (j * 3)]);
@@ -90,9 +90,9 @@ public class ReadSpreadSheet : MonoBehaviour
             skillLists.Add(newSkill);
             skillDatas[keyCode].Add(newSkill);
         }
-        d.loadData.skillData = new Dictionary<KeyCode, List<Skill>>(skillDatas);
+        d.loadData.skillData = new Dictionary<KeyCode, List<SkillInfomation>>(skillDatas);
         d.loadData.SkillList.Clear();
-        d.loadData.SkillList = new List<Skill>(skillLists);
+        d.loadData.SkillList = new List<SkillInfomation>(skillLists);
         Debug.Log("ReadEnd");
         //controller.inputs = new Dictionary<KeyCode, List<Skill>>(skillDatas);
         //controller.inputLists = new List<Skill>(skillLists);

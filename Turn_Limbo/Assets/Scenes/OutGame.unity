@@ -7394,7 +7394,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   saveData:
     Money: 5000
+    SelectIndex: 
+    holdSkills: []
   loadData: {fileID: 11400000, guid: e093191d2a19c1240889f9025695b893, type: 2}
+  player: {fileID: 11400000, guid: 7dc6ef30da862824fb326d50b28df9b0, type: 2}
+  enemy: {fileID: 11400000, guid: 84760a5a73f705044aedec432bfb8ec9, type: 2}
   curStageID: 0
   hpUnitIsPlayer: 0
   readEnd: 0

@@ -14,6 +14,7 @@ public class UIManager : MonoBehaviour
     public bool isCamRotate;
     public bool isFatalEffect;
     public bool isPause;
+    private bool isPauseMove;
     public Camera cam;
     public Vector3 camPivot;
     public Camera bgCam;
@@ -34,6 +35,7 @@ public class UIManager : MonoBehaviour
     public TMP_Text damageText;
     public TMP_Text percentageText;
     public RectTransform pauseTab;
+    [SerializeField] Button pauseReturn, pauseStageSelect;
 
     [Header("GameEnd")]
     [SerializeField] Image gameEndPanel;
@@ -63,6 +65,21 @@ public class UIManager : MonoBehaviour
     private void Start()
     {
         SelectEnemyImage(false);
+        pauseReturn.onClick.AddListener(() =>
+        {
+            if (!isPauseMove)
+            {
+                Pause();
+            }
+        });
+        pauseStageSelect.onClick.AddListener(() =>
+        {
+            if (!isPauseMove)
+            {
+                SceneManager.LoadScene(1);
+                Time.timeScale = 1;
+            }
+        });
     }
     private void Update()
     {
@@ -128,9 +145,12 @@ public class UIManager : MonoBehaviour
     }
     public void Pause()
     {
+        if(isPauseMove) return;
+        isPauseMove = true;
         isPause = !isPause;
         Time.timeScale = isPause ? 0 : 1;
-        pauseTab.DOAnchorPosY(isPause ? 0 : 1000, 0.5f).SetUpdate(true).SetEase(Ease.OutQuad);
+        pauseTab.DOAnchorPosY(isPause ? 0 : 1000, 0.5f).SetUpdate(true).SetEase(Ease.OutQuad)
+        .OnComplete(() => isPauseMove = false);
     }
     public IEnumerator TimeSlow()
     {
@@ -220,7 +240,7 @@ public class UIManager : MonoBehaviour
         keys[index].sprite = sprite;
         nextKeys[index].sprite = nextSprite;
     }
-    public void SetExplain(bool isActive, Skill skill = null, Vector3 pos = default)
+    public void SetExplain(bool isActive, SkillInfomation skill = null, Vector3 pos = default, int level = 0)
     {
         skillExplainPanel.gameObject.SetActive(isActive);
         skillExplainPanel.rectTransform.anchoredPosition = pos + new Vector3(350f, 300);
@@ -228,8 +248,8 @@ public class UIManager : MonoBehaviour
         {
             skill_Desc_Text.text = skill.skill_desc;
             skill_Effect_Text.text = skill.effect_desc;
-            skill_Damage_Text.text = $"{skill.minDamage[skill.level]} ~ {skill.maxDamage[skill.level]}";
-            skill_Cost_Text.text = skill.cost[skill.level].ToString();
+            skill_Damage_Text.text = $"{skill.minDamage[level]} ~ {skill.maxDamage[level]}";
+            skill_Cost_Text.text = skill.cost[level].ToString();
         }
     }
     public void SetGameEndUI(bool isWin)

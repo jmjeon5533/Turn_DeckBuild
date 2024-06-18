@@ -7,26 +7,6 @@ using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
 
-[System.Serializable]
-public class Skill
-{
-    public int index;
-    public string skillName;
-    public int[] cost;
-    public int[] minDamage;
-    public int[] maxDamage;
-    public int level;
-    public int attackCount;
-    public int keyIndex;
-    public Skill_Base effect;
-    public Sprite icon;
-    public string animationName;
-    public Unit.ActionType actionType;
-    public string effect_desc;
-    public string skill_desc;
-    public PropertyType propertyType;
-}
-
 public class Controller : MonoBehaviour
 {
     public Player player;
@@ -35,7 +15,7 @@ public class Controller : MonoBehaviour
     public SpriteRenderer bg;
     public Image keyHoldImage;
     public List<Skill_Base> skills = new();
-    public List<Skill> inputLists = new();
+    public List<SkillInfomation> inputLists = new();
     [Header("dialog")]
     Queue<Dialogue> dialogueBox = new();
     DataManager data;
@@ -67,7 +47,7 @@ public class Controller : MonoBehaviour
     public AudioClip CritSound;
     public AudioClip[] addSkillSound;
 
-    public Dictionary<int, List<Skill>> inputs = new();
+    public Dictionary<int, List<SkillInfomation>> inputs = new();
     private readonly KeyCode[] KEY_CODE = { KeyCode.Q, KeyCode.W, KeyCode.E };
 
     [Header("option")]
@@ -77,13 +57,13 @@ public class Controller : MonoBehaviour
         volume.TryGet(out glitch);
         volume.TryGet(out depth);
         volume.TryGet(out color);
+        data = DataManager.instance;
     }
     void Start()
     {
-        SetStage();
-        TurnReset();
-        data = DataManager.instance;
-        UIManager.instance.SetExplain(false);
+        // SetStage();
+        // TurnReset();
+        // UIManager.instance.SetExplain(false);
         player.hitSound = hitSound;
         enemy.hitSound = hitSound;
         player.dmgDelayTime = AnimTime;
@@ -109,6 +89,7 @@ public class Controller : MonoBehaviour
         gameCurTimeCount = 10;
 
         useAbleCoin += player.addCoin;
+        useAbleCoin = Mathf.Clamp(useAbleCoin, 0, 10);
         player.TurnInit();
         enemy.TurnInit();
         UIManager.instance.ChangeCoinSkillImg();
@@ -215,7 +196,7 @@ public class Controller : MonoBehaviour
             UIManager.instance.NextImage(i, inputs[i][0].icon, inputs[i][1].icon);
         }
     }
-    public void AddRequest(Unit target, Skill addSkill)
+    public void AddRequest(Unit target, SkillInfomation addSkill)
     {
         if (isAttack) return;
 
@@ -232,7 +213,7 @@ public class Controller : MonoBehaviour
         {
             if (Input.GetKeyUp(KEY_CODE[i]))
             {
-                if (keyHoldTime <= 0.3f && !isSkillExplain)
+                if (keyHoldTime <= 0.3f && !isSkillExplain && inputs[i][0].cost[inputs[i][0].level] <= useAbleCoin)
                 {
                     var input = inputs[i];
                     AddRequest(player, input[0]);
@@ -261,7 +242,7 @@ public class Controller : MonoBehaviour
                 {
                     isSkillExplain = true;
                     keyHoldTime = 0;
-                    ui.SetExplain(true, inputs[i][0], ui.keys[i].rectTransform.anchoredPosition);
+                    ui.SetExplain(true, inputs[i][0], ui.keys[i].rectTransform.anchoredPosition,inputs[i][0].level);
                 }
                 keyHoldImage.fillAmount = Mathf.Clamp(keyHoldTime - 0.3f, 0, 10) / 0.5f;
             }
@@ -445,7 +426,7 @@ public class Controller : MonoBehaviour
         Destroy(insertImage.gameObject);
     }
 
-    public void SwapSkills(List<Skill> key)
+    public void SwapSkills(List<SkillInfomation> key)
     {
         var useSkills = key[0];
         key.RemoveAt(0);

@@ -21,9 +21,9 @@ public class SkillDeckBuild : MonoBehaviour
     bool isShow = false;
     private void Start()
     {
-
+        
     }
-    public Skill IndexToSkill(int index)
+    public SkillInfomation IndexToSkill(int index)
     {
         for (int i = 0; i < playerSkills.SelectIndex.Count; i++)
         {
@@ -44,13 +44,14 @@ public class SkillDeckBuild : MonoBehaviour
         panels.gameObject.SetActive(isShow);
 
         AddSkillSelectBtn();
+        DataManager.instance.JsonSave();
     }
     public void AddSkillSelectBtn()
     {
         var d = DataManager.instance;
         for (int i = 0; i < playerSkill.holdSkills.Count; i++)
         {
-            var btn = Instantiate(skillSelectBaseBtn, skillSelectBtnParent[d.loadData.SkillList[playerSkill.holdSkills[i].holdIndex].keyIndex]);
+            var btn = Instantiate(skillSelectBaseBtn, skillSelectBtnParent[d.loadData.SkillList[playerSkill.holdSkills[i].holdIndex].performKey]);
             var num = i;
             btn.onClick.AddListener(() => TriggerAddSkills(num));
             DeckBuildBtns newBtn = new DeckBuildBtns();

@@ -7,6 +7,8 @@ using UnityEngine.UIElements;
 public class SaveData
 {
     public int Money;
+    public List<int> SelectIndex = new List<int>();
+    public List<holdSkills> holdSkills = new List<holdSkills>();
 }
 [System.Serializable]
 public struct UnitData
@@ -43,6 +45,7 @@ public class DataManager : MonoBehaviour
         var data = PlayerPrefs.GetString("SaveData");
         if (data != string.Empty || data != "") saveData = JsonUtility.FromJson<SaveData>(data);
         else saveData = new SaveData();
+
     }
     public void JsonSave()
     {
@@ -51,6 +54,8 @@ public class DataManager : MonoBehaviour
     }
     public SaveData saveData;
     public LoadData loadData;
+    public SkillEffect player;
+    public SkillEffect enemy;
     public int curStageID;
 
     public Queue<Dialogue> stageDialogBox = new();
