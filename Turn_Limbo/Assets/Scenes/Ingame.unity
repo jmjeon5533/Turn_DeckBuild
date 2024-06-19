@@ -194,24 +194,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2239289799826347438, guid: 81ba74c15afd25641a61eca563a16a50, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1885881912}
     - target: {fileID: 5066380162491336781, guid: 81ba74c15afd25641a61eca563a16a50, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5066380162491336781, guid: 81ba74c15afd25641a61eca563a16a50, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237507453533627651, guid: 81ba74c15afd25641a61eca563a16a50, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237507453533627651, guid: 81ba74c15afd25641a61eca563a16a50, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237507453533627651, guid: 81ba74c15afd25641a61eca563a16a50, type: 3}
-      propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -1292,7 +1284,7 @@ MonoBehaviour:
   unitUI: {fileID: 37891361}
   dmgDelayTime: 0
   dmgDelayCurTime: 0
-  addCoin: 3
+  addCoin: 4
 --- !u!95 &1715296848
 Animator:
   serializedVersion: 5
@@ -1618,29 +1610,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 37891363}
     - target: {fileID: 739189877109174758, guid: 9ed9a4d049d9a2e4a8f645ad0d571ffa, type: 3}
+      propertyPath: isGame
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 739189877109174758, guid: 9ed9a4d049d9a2e4a8f645ad0d571ffa, type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 1715296847}
     - target: {fileID: 739189877109174758, guid: 9ed9a4d049d9a2e4a8f645ad0d571ffa, type: 3}
-      propertyPath: CritSound
-      value: 
-      objectReference: {fileID: 8300000, guid: 526ff741ef93246498c157bfa6052fe2, type: 3}
+      propertyPath: isDialogue
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 739189877109174758, guid: 9ed9a4d049d9a2e4a8f645ad0d571ffa, type: 3}
       propertyPath: keyHoldImage
       value: 
       objectReference: {fileID: 37891362}
-    - target: {fileID: 739189877109174758, guid: 9ed9a4d049d9a2e4a8f645ad0d571ffa, type: 3}
-      propertyPath: hitSound.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 739189877109174758, guid: 9ed9a4d049d9a2e4a8f645ad0d571ffa, type: 3}
-      propertyPath: hitSound.Array.data[0]
-      value: 
-      objectReference: {fileID: 8300000, guid: 05cf5a07bba0fbf4387de4f2e7601745, type: 3}
-    - target: {fileID: 739189877109174758, guid: 9ed9a4d049d9a2e4a8f645ad0d571ffa, type: 3}
-      propertyPath: hitSound.Array.data[1]
-      value: 
-      objectReference: {fileID: 8300000, guid: d557c9cf493683e4bae7626a7dcb93c0, type: 3}
     - target: {fileID: 739189877109174759, guid: 9ed9a4d049d9a2e4a8f645ad0d571ffa, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -1938,6 +1922,38 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 8489565575103604751, guid: 2aac129dd9a357448a9b5e7270653bc9, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: d475884fee44dba4cbd736b4ed960320, type: 2}
+    - target: {fileID: 8489565575103604751, guid: 2aac129dd9a357448a9b5e7270653bc9, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 3108706995508791633, guid: d475884fee44dba4cbd736b4ed960320, type: 2}
+    - target: {fileID: 8489565575234103169, guid: 2aac129dd9a357448a9b5e7270653bc9, type: 3}
+      propertyPath: m_text
+      value: Skip
+      objectReference: {fileID: 0}
+    - target: {fileID: 8489565575234103169, guid: 2aac129dd9a357448a9b5e7270653bc9, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: d475884fee44dba4cbd736b4ed960320, type: 2}
+    - target: {fileID: 8489565575234103169, guid: 2aac129dd9a357448a9b5e7270653bc9, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8489565575675564712, guid: 2aac129dd9a357448a9b5e7270653bc9, type: 3}
+      propertyPath: m_fontSize
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 8489565575675564712, guid: 2aac129dd9a357448a9b5e7270653bc9, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: d475884fee44dba4cbd736b4ed960320, type: 2}
+    - target: {fileID: 8489565575675564712, guid: 2aac129dd9a357448a9b5e7270653bc9, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 3108706995508791633, guid: d475884fee44dba4cbd736b4ed960320, type: 2}
     - target: {fileID: 8489565576007437568, guid: 2aac129dd9a357448a9b5e7270653bc9, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -2026,5 +2042,13 @@ PrefabInstance:
       propertyPath: m_Name
       value: <<<DialogueManager>>>
       objectReference: {fileID: 0}
+    - target: {fileID: 8489565576285704829, guid: 2aac129dd9a357448a9b5e7270653bc9, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: d475884fee44dba4cbd736b4ed960320, type: 2}
+    - target: {fileID: 8489565576285704829, guid: 2aac129dd9a357448a9b5e7270653bc9, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 3108706995508791633, guid: d475884fee44dba4cbd736b4ed960320, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2aac129dd9a357448a9b5e7270653bc9, type: 3}

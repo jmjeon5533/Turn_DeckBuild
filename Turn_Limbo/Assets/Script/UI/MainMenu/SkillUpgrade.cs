@@ -90,7 +90,7 @@ public class SkillUpgrade : MonoBehaviour
         var d = DataManager.instance;
         var skill = d.loadData.SkillList[selectIndex];
 
-        if(d.saveData.Money < 150) 
+        if(d.saveData.Money < 125) 
         {
             print("구매 불가 : 돈 부족");
             return;
@@ -112,7 +112,7 @@ public class SkillUpgrade : MonoBehaviour
                     return;
                 }
                 playerSkills.holdSkills[i].level++;
-                d.saveData.Money -= 150;
+                d.saveData.Money -= 125;
                 InitSkillSelectState();
 
                 return;

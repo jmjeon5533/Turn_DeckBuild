@@ -1,0 +1,7 @@
+idx,name,script,timing,type,,loss_count
+0,화상,Burn,battleEnd,debuff,,99
+1,마비,Paralysis,turnStart,debuff,,1
+2,공격력 감소,AttackDown,turnStart,debuff,,
+3,방어력 감소,DefenseDown,turnStart,debuff,,
+4,공격력 증가,AttackUp,turnStart,buff,,
+5,방어력 증가,DefenseUp,turnStart,buff,,

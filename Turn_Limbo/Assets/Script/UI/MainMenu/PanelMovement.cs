@@ -25,7 +25,7 @@ public class PanelMovement : MonoBehaviour
     {
         var value = 0.8f;
         warningImage.color = new Color(1,1,1,value);
-        warningText.text = "스킬이 부족한 것 같아...";
+        warningText.text = "스킬이 더 필요해...\n(키 당 최소 2개)";
         warningText.color = new Color(0,0,0,value);
     }
     public void WarningContinue()

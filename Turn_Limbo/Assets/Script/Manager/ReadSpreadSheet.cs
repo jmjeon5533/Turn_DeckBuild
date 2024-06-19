@@ -11,6 +11,10 @@ public class ReadSpreadSheet : MonoBehaviour
     public const string ADDRESS = "https://docs.google.com/spreadsheets/d/1ENYCDg5E6WuUwf-NZjCOpJfRufJsxQI8d7qEKh3Kf_I";
     public readonly long[] SHEET_ID = { 1705787959, 930614922, 520277150, 232901544 };
 
+    [SerializeField] private TextAsset skill;
+    [SerializeField] private TextAsset scenario;
+    [SerializeField] private TextAsset buff;
+
     public Dictionary<KeyCode, List<Skill>> skillDatas = new();
     private List<Skill> skillLists = new();
 
@@ -22,14 +26,26 @@ public class ReadSpreadSheet : MonoBehaviour
     }
     public void Load(Action callBack = default)
     {
-        if (Application.internetReachability != NetworkReachability.NotReachable)
+        // if (Application.internetReachability != NetworkReachability.NotReachable)
         {
-            StartCoroutine(LoadData(0, ParseSkillData, callBack));
-            StartCoroutine(LoadData(1, ParseTextData));
-            StartCoroutine(LoadData(2, ParseEnemyData));
-            StartCoroutine(LoadData(3, PasreBuffData));
+            // StartCoroutine(LoadData(0, ParseSkillData, callBack));
+            // StartCoroutine(LoadData(1, ParseTextData));
+            // StartCoroutine(LoadData(2, ParseEnemyData));
+            // StartCoroutine(LoadData(3, PasreBuffData));
+
+            LoadData(skill.text, ParseSkillData);
+            LoadData(buff.text, PasreBuffData);
+            LoadData(scenario.text, ParseTextData);
+            DataManager.instance.readEnd = true;
+            callBack?.Invoke();
         }
     }
+
+    private void LoadData(string tsv, Action<string> action)
+    {
+        action?.Invoke(tsv);
+    }
+
     private IEnumerator LoadData(int pageIndex, Action<string> dataAction, Action callBack = default)
     {
         UnityWebRequest www = UnityWebRequest.Get(GetCSVAddress(SHEET_ID[pageIndex]));
@@ -72,7 +88,6 @@ public class ReadSpreadSheet : MonoBehaviour
             newSkill.keyIndex = int.Parse(columns[1]) - 1;
             newSkill.actionType = columns[3].EnumParse<Unit.ActionType>();
             newSkill.propertyType = columns[4].EnumParse<PropertyType>();
-            //newSkill.animationName = columns[8];
             newSkill.animationName = columns[4];
             newSkill.effect_desc = explain;
             newSkill.sale = int.Parse(columns[22]);

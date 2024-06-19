@@ -56,24 +56,27 @@ MonoBehaviour:
   keyHoldTime: 0
   useAbleCoin: 0
   useTurnCount: 0
-  isGame: 0
+  isGame: 1
   isTab: 0
   isAttack: 0
   isTimeSlowEffect: 0
-  isDialogue: 0
+  isDialogue: 1
   isSkillExplain: 0
   volume: {fileID: 11400000, guid: 72a2e1dd5db4404458eb0cd8ea9798eb, type: 2}
   glitch: {fileID: 0}
   depth: {fileID: 0}
   color: {fileID: 0}
   AnimTime: 0.65
-  hitSound: {fileID: 8300000, guid: ca1b554fb27e3ee47b09922655e3d343, type: 3}
-  BGM: {fileID: 0}
+  hitSound:
+  - {fileID: 8300000, guid: 05cf5a07bba0fbf4387de4f2e7601745, type: 3}
+  - {fileID: 8300000, guid: d557c9cf493683e4bae7626a7dcb93c0, type: 3}
+  CritSound: {fileID: 8300000, guid: 526ff741ef93246498c157bfa6052fe2, type: 3}
   addSkillSound:
   - {fileID: 8300000, guid: 6759391d4661bb646a2a29c3a2be39ea, type: 3}
   - {fileID: 8300000, guid: bd04fe43581106b41ada208634f3aa82, type: 3}
   - {fileID: 8300000, guid: e76d480738bc1484b9bc222e015aeebb, type: 3}
   - {fileID: 8300000, guid: 819c83192fcf260459901587ae14f41c, type: 3}
+  pause: {fileID: 0}
 --- !u!114 &739189877109174756
 MonoBehaviour:
   m_ObjectHideFlags: 0

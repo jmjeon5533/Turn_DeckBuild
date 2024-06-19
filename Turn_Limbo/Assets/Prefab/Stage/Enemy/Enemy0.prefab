@@ -47,11 +47,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab8adb398d1e33b44aee2ccf34feed86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 70
-  maxHP: 70
+  hp: 80
+  maxHP: 80
   hpLimit: 0
-  shield: 20
-  maxShield: 20
+  shield: 15
+  maxShield: 15
   shieldBreak: 0
   curDamage: 0
   curAttackCount: 0

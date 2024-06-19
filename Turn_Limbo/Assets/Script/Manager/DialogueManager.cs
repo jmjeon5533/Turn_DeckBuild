@@ -104,6 +104,7 @@ public class DialogueManager : MonoBehaviour
 
     public void InputDialogue(Dialogue dialogue)
     {
+        Debug.Log("Input Dialogue");
         switch (dialogue.namePos)
         {
             case NamePos.Left:

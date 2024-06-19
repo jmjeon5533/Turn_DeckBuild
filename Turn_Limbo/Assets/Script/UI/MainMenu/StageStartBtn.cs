@@ -11,7 +11,7 @@ public class StageStartBtn : MonoBehaviour
     {
         for(int i = 0; i < transform.childCount; i++)
         {
-            var num = i;
+            var num = 0;
             var btn = transform.GetChild(num).GetComponent<Button>();
             btn.onClick.AddListener(() => StageStart(num));
         }   

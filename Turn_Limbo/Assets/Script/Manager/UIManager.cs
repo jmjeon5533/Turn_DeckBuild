@@ -54,6 +54,9 @@ public class UIManager : MonoBehaviour
     [Space(5)]
     [SerializeField] Image enemySkillExplainPanel;
     [SerializeField] TMP_Text enemySkill_Desc_Text;
+    [SerializeField] TMP_Text enemySkill_Name_Text;
+    [SerializeField] TMP_Text enemySkill_Damage_Text;
+    [SerializeField] TMP_Text enemySkill_Property_Text;
 
     [Header("Unit")]
     public UnitUI[] unitUI;
@@ -76,8 +79,8 @@ public class UIManager : MonoBehaviour
         {
             if (!isPauseMove)
             {
-                SceneManager.LoadScene(1);
                 Time.timeScale = 1;
+                SceneManager.LoadScene(1);
             }
         });
     }
@@ -160,6 +163,7 @@ public class UIManager : MonoBehaviour
     }
     public void SelectEnemyImage(bool isActive)
     {
+        string[] property = { "모든", "참격", "타격", "관통", "방어"};
         var request = controller.enemy.attackRequest;
         enemySkillExplainPanel.gameObject.SetActive(isActive);
         for (int i = 0; i < request.Count; i++)
@@ -169,7 +173,10 @@ public class UIManager : MonoBehaviour
         if (!isActive) return;
         enemyCursorIndex = Mathf.Clamp(enemyCursorIndex, 0, controller.enemy.attackRequest.Count - 1);
         request[enemyCursorIndex].insertImage.selected.enabled = isActive;
+        enemySkill_Name_Text.text = request[enemyCursorIndex].skillName;
         enemySkill_Desc_Text.text = request[enemyCursorIndex].effect_desc;
+        enemySkill_Damage_Text.text = $"{request[enemyCursorIndex].minDamage[0]} ~ {request[enemyCursorIndex].maxDamage[0]}";
+        enemySkill_Property_Text.text = property[(int)request[enemyCursorIndex].propertyType];
     }
     public void PlayerFatalDamage()
     {

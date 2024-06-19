@@ -42,6 +42,7 @@ public class SkillDeckBuild : MonoBehaviour
             btnImage.RemoveAt(i);
         }
         panels.gameObject.SetActive(isShow);
+        DataManager.instance.JsonSave();
 
         AddSkillSelectBtn();
     }

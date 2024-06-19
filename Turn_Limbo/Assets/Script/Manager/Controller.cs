@@ -82,9 +82,7 @@ public class Controller : MonoBehaviour
     }
     void Start()
     {
-        SetStage();
-        TurnReset();
-        UIManager.instance.SetExplain(false);
+        
         player.hitSound = hitSound;
         enemy.hitSound = hitSound;
         player.dmgDelayTime = AnimTime;
@@ -234,7 +232,7 @@ public class Controller : MonoBehaviour
         {
             if (Input.GetKeyUp(KEY_CODE[i]))
             {
-                if (keyHoldTime <= 0.3f && !isSkillExplain)
+                if (keyHoldTime <= 0.3f && !isSkillExplain && inputs[i][0].cost[0] <= useAbleCoin)
                 {
                     var input = inputs[i];
                     AddRequest(player, input[0]);
@@ -282,7 +280,6 @@ public class Controller : MonoBehaviour
     public void GameClear()
     {
         UIManager.instance.SetGameEndUI(true);
-        data.readEnd = false;
         print("게임 ?��리어");
     }
 
@@ -393,6 +390,7 @@ public class Controller : MonoBehaviour
         var skill = unit.SkillChange();
         unit.SkillInit(skill);
 
+        Debug.Log(skill);
         if(skill.animation == null) Debug.Log($"!!!!!!!!!!!! {skill.skillName}");
         return skill.animation.length;
     }

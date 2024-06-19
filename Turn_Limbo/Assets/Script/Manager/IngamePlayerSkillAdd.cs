@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,12 +9,17 @@ public class IngamePlayerSkillAdd : MonoBehaviour
     private void Start()
     {
         controller = GetComponent<Controller>();
-        GivePlayerSkill();
+        GivePlayerSkill(() =>
+        {
+            controller.SetStage();
+            controller.TurnReset();
+            UIManager.instance.SetExplain(false);
+        });
     }
     public Dictionary<KeyCode, List<Skill>> skillData = new();
     public List<Skill> SkillList = new();
 
-    public void GivePlayerSkill()
+    public void GivePlayerSkill(Action action)
     {
         var d = DataManager.instance;
         for (int i = 0; i < controller.player.skillInfo.SelectIndex.Count; i++)
@@ -34,6 +40,7 @@ public class IngamePlayerSkillAdd : MonoBehaviour
         DataManager.instance.InitDialog();
         DataManager.instance.InitUnit(controller.talkUnit);
 
+        action?.Invoke();
         controller.isGame = true;
     }
 }
