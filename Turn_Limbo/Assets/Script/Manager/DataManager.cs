@@ -1,14 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 [System.Serializable]
 public class SaveData
 {
-    public int Money;
-    public List<int> SelectIndex = new List<int>();
-    public List<holdSkills> holdSkills = new List<holdSkills>();
+    public bool isInitialize;
+    public int money;
+    public List<int> selectIndex = new List<int>();
+    public List<HoldSkills> holdSkills = new List<HoldSkills>();
 }
 [System.Serializable]
 public struct UnitData
@@ -32,32 +34,49 @@ public class DataManager : MonoBehaviour
     public static DataManager instance { get; private set; }
     private void Awake()
     {
-        if (instance != null) Destroy(gameObject);
-        else instance = this;
+        if (instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        else
+        {
+            instance = this;
+        }
         DontDestroyOnLoad(gameObject);
-    }
-    private void Start()
-    {
         JsonLoad();
     }
     public void JsonLoad()
     {
+        Debug.LogError("Load!");
         var data = PlayerPrefs.GetString("SaveData");
-        if (data != string.Empty || data != "") saveData = JsonUtility.FromJson<SaveData>(data);
-        else saveData = new SaveData();
-        playerHoldData.SelectIndex = saveData.SelectIndex;
-        playerHoldData.holdSkills = saveData.holdSkills;
+        
+        saveData = JsonUtility.FromJson<SaveData>(data) ?? new SaveData();
+        if(!saveData.isInitialize)
+        {
+            saveData.isInitialize = true;
+            for(int i = 0; i < 6; i++)
+                saveData.holdSkills.Add(new() { holdIndex = i, level = 0 });
+        }
+        player.holdSkills = saveData.holdSkills;
+        player.selectIndex = saveData.selectIndex;
+        Debug.LogError(string.Join(',', saveData.selectIndex));
+        Debug.LogError(string.Join(',', saveData.holdSkills.Select(x => x.holdIndex)));
     }
     public void JsonSave()
     {
-        saveData.SelectIndex = playerHoldData.SelectIndex;
-        saveData.holdSkills = playerHoldData.holdSkills;
+        Debug.LogError("Save!");
+        // Debug.LogError(saveData.isInitialize);
+        saveData.selectIndex = player.selectIndex;
+        saveData.holdSkills = player.holdSkills;
         var data = JsonUtility.ToJson(saveData);
         PlayerPrefs.SetString("SaveData", data);
+        PlayerPrefs.Save();
     }
     public SaveData saveData;
-    public SkillEffect playerHoldData;
     public LoadData loadData;
+    public SkillEffect player;
+    public SkillEffect enemy;
     public int curStageID;
 
     public Queue<Dialogue> stageDialogBox = new();

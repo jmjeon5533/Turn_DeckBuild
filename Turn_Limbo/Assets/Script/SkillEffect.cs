@@ -5,14 +5,14 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "SkillEffect", menuName = "Skills", order = 0)]
 public class SkillEffect : ScriptableObject
 {
-    [Tooltip("ì„ íƒí•œ ìŠ¤í‚¬")]
-    public List<int> SelectIndex = new List<int>();
-    public List<holdSkills> holdSkills = new List<holdSkills>();
+    [Tooltip("?„ ?ƒ?•œ ?Š¤?‚¬")]
+    public List<int> selectIndex = new List<int>();
+    public List<HoldSkills> holdSkills = new List<HoldSkills>();
 }
 [System.Serializable]
-public class holdSkills
+public class HoldSkills
 {
-    [Tooltip("ë³´ìœ í•œ ìŠ¤í‚¬")]
+    [Tooltip("ë³´ìœ ?•œ ?Š¤?‚¬")]
     public int holdIndex;
     public int level;
 }

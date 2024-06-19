@@ -310,7 +310,7 @@ public class UIManager : MonoBehaviour
         if (isWin) getMoneyText.text = $"얻은 돈 : {Mathf.RoundToInt(moneyTarget)}";
         useTurnCountText.text = $"사용 턴 : {Mathf.RoundToInt(countTarget)}";
 
-        if (isWin) DataManager.instance.saveData.Money += Mathf.RoundToInt(moneyTarget);
+        if (isWin) DataManager.instance.saveData.money += Mathf.RoundToInt(moneyTarget);
         EndMove = true;
     }
     float EaseOutQuad(float t)

@@ -25,9 +25,9 @@ public class SkillDeckBuild : MonoBehaviour
     }
     public Skill IndexToSkill(int index)
     {
-        for (int i = 0; i < playerSkills.SelectIndex.Count; i++)
+        for (int i = 0; i < playerSkills.selectIndex.Count; i++)
         {
-            if (playerSkills.SelectIndex[i] == index) return DataManager.instance.loadData.SkillList[playerSkills.SelectIndex[i]];
+            if (playerSkills.selectIndex[i] == index) return DataManager.instance.loadData.SkillList[playerSkills.selectIndex[i]];
         }
         print($"skill index {index} is Null");
         return null;
@@ -67,7 +67,7 @@ public class SkillDeckBuild : MonoBehaviour
         for (int i = 0; i < btnImage.Count; i++) btnImage[i].btn.image.color = Color.gray;
         for (int i = 0; i < btnImage.Count; i++)
         {
-            if(playerSkills.SelectIndex.Contains(btnImage[i].skillIndex))
+            if(playerSkills.selectIndex.Contains(btnImage[i].skillIndex))
             btnImage[i].btn.image.color = Color.yellow;
         }
     }
@@ -75,16 +75,16 @@ public class SkillDeckBuild : MonoBehaviour
     {
         var d = DataManager.instance;
         var skill = d.loadData.SkillList[btnImage[index].skillIndex];
-        for (int i = 0; i < playerSkills.SelectIndex.Count; i++)
+        for (int i = 0; i < playerSkills.selectIndex.Count; i++)
         {
-            if (playerSkills.SelectIndex[i] == btnImage[index].skillIndex)
+            if (playerSkills.selectIndex[i] == btnImage[index].skillIndex)
             {
                 for (int j = 0; j < playerSkill.holdSkills.Count; j++)
                 {
                     if (playerSkill.holdSkills[j].holdIndex == btnImage[index].skillIndex) explainPanel.ExplainSet(skill, playerSkill.holdSkills[j].level);
                 }
 
-                playerSkills.SelectIndex.RemoveAt(i);
+                playerSkills.selectIndex.RemoveAt(i);
                 InitSkillSelectState();
 
                 return;
@@ -94,7 +94,7 @@ public class SkillDeckBuild : MonoBehaviour
         {
             if (playerSkill.holdSkills[j].holdIndex == btnImage[index].skillIndex) explainPanel.ExplainSet(skill, playerSkill.holdSkills[j].level);
         }
-        playerSkills.SelectIndex.Add(playerSkill.holdSkills[index].holdIndex);
+        playerSkills.selectIndex.Add(playerSkill.holdSkills[index].holdIndex);
         InitSkillSelectState();
     }
 }

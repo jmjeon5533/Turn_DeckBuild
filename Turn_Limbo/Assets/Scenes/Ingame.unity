@@ -206,6 +206,18 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5237507453533627651, guid: 81ba74c15afd25641a61eca563a16a50, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5237507453533627651, guid: 81ba74c15afd25641a61eca563a16a50, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5237507453533627651, guid: 81ba74c15afd25641a61eca563a16a50, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 81ba74c15afd25641a61eca563a16a50, type: 3}
 --- !u!114 &37891360 stripped
@@ -1278,6 +1290,9 @@ MonoBehaviour:
   - {fileID: 0}
   Uniticon: {fileID: 0}
   skillInfo: {fileID: 11400000, guid: 7dc6ef30da862824fb326d50b28df9b0, type: 2}
+  maxColorTime: 0.25
+  colorTime: 0
+  color: {r: 0, g: 0, b: 0, a: 0}
   anim: {fileID: 0}
   isLeft: 0
   isDialogue: 0
@@ -1853,6 +1868,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 8111559515902139152, guid: 5e255b8bf0b17e0448842383ab69a4ec, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8111559515902139152, guid: 5e255b8bf0b17e0448842383ab69a4ec, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8111559515902139152, guid: 5e255b8bf0b17e0448842383ab69a4ec, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8111559515902139154, guid: 5e255b8bf0b17e0448842383ab69a4ec, type: 3}
       propertyPath: target
       value: 

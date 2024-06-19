@@ -22,9 +22,9 @@ public class IngamePlayerSkillAdd : MonoBehaviour
     public void GivePlayerSkill(Action action)
     {
         var d = DataManager.instance;
-        for (int i = 0; i < controller.player.skillInfo.SelectIndex.Count; i++)
+        for (int i = 0; i < controller.player.skillInfo.selectIndex.Count; i++)
         {
-            var skill = d.loadData.SkillList[controller.player.skillInfo.SelectIndex[i]];
+            var skill = d.loadData.SkillList[controller.player.skillInfo.selectIndex[i]];
             // skill.level = controller.player.skillInfo.holdSkills
             //     [controller.player.skillInfo.holdSkills.FindIndex(x => x.holdIndex == skill.index)].level;
             controller.inputLists.Add(skill);

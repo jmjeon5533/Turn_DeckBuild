@@ -98,6 +98,10 @@ public abstract class Unit : MonoBehaviour
     public AudioClip[] hitSound;
     public Sprite Uniticon;
     public SkillEffect skillInfo;
+    public float maxColorTime;
+    public float colorTime;
+    public Color color;
+    private SpriteRenderer spriteRenderer;
 
     [HideInInspector] public Animator anim;
     [HideInInspector] public bool isLeft;
@@ -110,6 +114,8 @@ public abstract class Unit : MonoBehaviour
 
     private void Awake()
     {
+        maxColorTime = 0.25f;
+        spriteRenderer = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
     }
     protected virtual void Start()
@@ -119,6 +125,11 @@ public abstract class Unit : MonoBehaviour
     }
     protected virtual void Update()
     {
+        if (colorTime > 0)
+        {
+            spriteRenderer.color = Color.Lerp(Color.white, color, colorTime / maxColorTime);
+            colorTime -= Time.deltaTime;
+        }
         unitUI.UIUpdate(transform, hp, maxHP, shield, maxShield, ref dmgDelayCurTime, isLeft);
     }
     public virtual void TurnInit()
@@ -189,6 +200,8 @@ public abstract class Unit : MonoBehaviour
                 case ActionType.Defence:
                     {
                         target.Damage(Mathf.Clamp(curDamage - Mathf.FloorToInt(target.curDamage / curAttackCount), 0, 999), dmgDir);
+                        target.color = Color.cyan;
+                        target.colorTime = target.maxColorTime;
                     }
                     break;
                 case ActionType.Dodge:
@@ -205,7 +218,7 @@ public abstract class Unit : MonoBehaviour
         var cam = ui.cam;
         cam.transform.position = cam.transform.position + ((Vector3)Random.insideUnitCircle.normalized * 1);
         if (ui.isCamRotate) ui.camRotZ -= Random.Range(UIManager.instance.camRotZ / 2, UIManager.instance.camRotZ * 2.5f);
-        SoundManager.instance.SetAudio(hitSound[Random.Range(0,hitSound.Length)], false, Random.Range(0.75f, 1.25f));
+        SoundManager.instance.SetAudio(hitSound[Random.Range(0, hitSound.Length)], false, Random.Range(0.75f, 1.25f));
         //Instantiate(curSkill.effect.Hitparticles[0],transform.position,Quaternion.identity);
         Instantiate(effect, transform.position + (Vector3.right * (isLeft ? 1 : -1) * 2), Quaternion.identity);
         cam.orthographicSize = 2;
@@ -290,6 +303,8 @@ public abstract class Unit : MonoBehaviour
 
     public void ShieldDamage(int damage, Vector3 dir)
     {
+        colorTime = maxColorTime;
+        color = Color.yellow;
         var u = UIManager.instance;
         //Debug.Log($"{defense_Drainage} {damage} {damage * defense_Drainage} {Mathf.RoundToInt(damage * defense_Drainage)}");
         damage = Mathf.RoundToInt(damage * defense_Drainage);
@@ -315,6 +330,8 @@ public abstract class Unit : MonoBehaviour
     protected abstract void FatalDamage();
     public void Damage(int damage, Vector3 dir)
     {
+        colorTime = maxColorTime;
+        color = Color.red;
         //Debug.Log(damage);
         int totalDmg = 0;
         damage = Mathf.RoundToInt(damage * defense_Drainage);

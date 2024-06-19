@@ -25,7 +25,7 @@ public class SkillUpgrade : MonoBehaviour
         isShow = !isShow;
 
         panels.gameObject.SetActive(isShow);
-        MoneyText.text = $"보유자원 : {DataManager.instance.saveData.Money}";
+        MoneyText.text = $"보유자원 : {DataManager.instance.saveData.money}";
     }
     
     public void AddSkillUpgradeBtn()
@@ -82,7 +82,7 @@ public class SkillUpgrade : MonoBehaviour
             if (playerSkills.holdSkills[j].holdIndex == selectIndex) 
             explainPanel.ExplainSet(DataManager.instance.loadData.SkillList[playerSkills.holdSkills[j].holdIndex], playerSkills.holdSkills[j].level);
         }
-        MoneyText.text = $"보유자원 : {DataManager.instance.saveData.Money}";
+        MoneyText.text = $"보유자원 : {DataManager.instance.saveData.money}";
         DataManager.instance.JsonSave();
     }
     public void TriggerBuySkills()
@@ -90,7 +90,7 @@ public class SkillUpgrade : MonoBehaviour
         var d = DataManager.instance;
         var skill = d.loadData.SkillList[selectIndex];
 
-        if(d.saveData.Money < 125) 
+        if(d.saveData.money < 125) 
         {
             print("구매 불가 : 돈 부족");
             return;
@@ -112,19 +112,19 @@ public class SkillUpgrade : MonoBehaviour
                     return;
                 }
                 playerSkills.holdSkills[i].level++;
-                d.saveData.Money -= 125;
+                d.saveData.money -= 125;
                 InitSkillSelectState();
 
                 return;
             }
         }
-        holdSkills newSkills = new holdSkills()
+        HoldSkills newSkills = new HoldSkills()
         {
             holdIndex = selectIndex,
             level = 0
         };
         playerSkills.holdSkills.Add(newSkills);
-        d.saveData.Money -= 150;
+        d.saveData.money -= 125;
         for (int j = 0; j < playerSkills.holdSkills.Count; j++)
         {
             if (playerSkills.holdSkills[j].holdIndex == selectIndex) explainPanel.ExplainSet(skill, playerSkills.holdSkills[j].level);

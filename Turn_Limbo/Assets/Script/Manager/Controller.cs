@@ -129,7 +129,7 @@ public class Controller : MonoBehaviour
         var coinCount = Random.Range(enemy.requestMinCount, enemy.requestMaxCount + 1);
         for (int i = 0; i < coinCount; i++)
         {
-            AddRequest(enemy, d.loadData.SkillList[enemy.skillInfo.SelectIndex[enemy.skillCurCount % enemy.skillInfo.SelectIndex.Count]]);
+            AddRequest(enemy, d.loadData.SkillList[enemy.skillInfo.selectIndex[enemy.skillCurCount % enemy.skillInfo.selectIndex.Count]]);
             enemy.skillCurCount++;
         }
     }
