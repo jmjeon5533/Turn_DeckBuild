@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UniRx;
+using UnityEngine;
 
 public partial class Buffs
 {
@@ -47,63 +48,60 @@ public partial class Buffs
         {
             this.key = key;
             this.timing = timing;
-            ratioStack.ratio = ratio;
+            ratioStack.power = ratio;
             ratioStack.stack = stack;
         }
     }
     
     public class RatioStack
     {
-        public float ratio;
+        public float power;
         public int stack;
         
         public static RatioStack operator- (RatioStack lhs, RatioStack rhs)
         {
-            lhs.ratio -= rhs.ratio;
+            lhs.power -= rhs.power;
             lhs.stack -= rhs.stack;
             return lhs;
         }
     }
 
-    //ratio, stack
     private Queue<Value>[] grantQueue = new Queue<Value>[(int)GrantOption.enumend];
     private ReactiveCollection<Value> buffs = new();
     private ReactiveCollection<RatioStack> allBuffRatioStack = new();
 
-    //event
-    /// <summary>
-    /// key, changed
-    /// </summary>
     public event Action<Key, RatioStack> OnBuffValueChanged;
 
     //method
     public Buffs()
     {
+        if(!Application.isPlaying) return;
+
         buffs
             .ObserveAdd()
             .Buffer(Observable.EveryUpdate())
-            .Select(b => (b[0].Value.key, ratio: b.Sum(v => v.Value.ratioStack.ratio), stack: b.Sum(v => v.Value.ratioStack.stack)))
+            .Select(b => (b[0].Value.key, ratio: b.Sum(v => v.Value.ratioStack.power), stack: b.Sum(v => v.Value.ratioStack.stack)))
             .Subscribe(e =>
             {
-                allBuffRatioStack[(int)e.key].ratio += e.ratio;
+                allBuffRatioStack[(int)e.key].power += e.ratio;
                 allBuffRatioStack[(int)e.key].stack += e.stack;
             });
         buffs
             .ObserveReplace()
             .Buffer(Observable.EveryUpdate())
-            .Select(b => (b[0].NewValue.key, ratio: b.Sum(v => v.NewValue.ratioStack.ratio - v.OldValue.ratioStack.ratio), stack: b.Sum(v => v.NewValue.ratioStack.stack - v.OldValue.ratioStack.stack)))
+            .Select(b => (b[0].NewValue.key, ratio: b.Sum(v => v.NewValue.ratioStack.power - v.OldValue.ratioStack.power), stack: b.Sum(v => v.NewValue.ratioStack.stack - v.OldValue.ratioStack.stack)))
             .Subscribe(e =>
             {
-                allBuffRatioStack[(int)e.key].ratio += e.ratio;
+                allBuffRatioStack[(int)e.key].power += e.ratio;
                 allBuffRatioStack[(int)e.key].stack += e.stack;
             });
         buffs
             .ObserveRemove()
             .Buffer(Observable.EveryUpdate())
-            .Select(b => (b[0].Value.key, ratio: b.Sum(v => v.Value.ratioStack.ratio), stack: b.Sum(v => v.Value.ratioStack.stack)))
+            .Select(b => (b[0].Value.key, ratio: b.Sum(v => v.Value.ratioStack.power), stack: b.Sum(v => v.Value.ratioStack.stack)))
             .Subscribe(e =>
             {
-                allBuffRatioStack[(int)e.key].ratio -= e.ratio;
+                allBuffRatioStack[(int)e.key].power -= e.ratio;
                 allBuffRatioStack[(int)e.key].stack -= e.stack;
             });
         
@@ -146,7 +144,7 @@ public partial class Buffs
 
             buff.ratioStack.stack--;
             if(buff.ratioStack.stack <= 0)
-                buff.ratioStack.ratio = 0;
+                buff.ratioStack.power = 0;
         }
     }
 

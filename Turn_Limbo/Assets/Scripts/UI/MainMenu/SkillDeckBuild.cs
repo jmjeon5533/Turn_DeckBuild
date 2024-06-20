@@ -23,11 +23,11 @@ public class SkillDeckBuild : MonoBehaviour
     {
         
     }
-    public SkillInfo IndexToSkill(int index)
+    public ActionInfo IndexToSkill(int index)
     {
         for (int i = 0; i < playerSkills.SelectIndex.Count; i++)
         {
-            if (playerSkills.SelectIndex[i] == index) return DataManager.instance.loadData.skillInfos[playerSkills.SelectIndex[i]];
+            if (playerSkills.SelectIndex[i] == index) return DataManager.instance.loadData.actionInfos[playerSkills.SelectIndex[i]];
         }
         print($"skill index {index} is Null");
         return null;
@@ -51,14 +51,14 @@ public class SkillDeckBuild : MonoBehaviour
         var d = DataManager.instance;
         for (int i = 0; i < playerSkill.holdSkills.Count; i++)
         {
-            var btn = Instantiate(skillSelectBaseBtn, skillSelectBtnParent[d.loadData.skillInfos[playerSkill.holdSkills[i].holdIndex].keyIndex]);
+            var btn = Instantiate(skillSelectBaseBtn, skillSelectBtnParent[d.loadData.actionInfos[playerSkill.holdSkills[i].holdIndex].inputKeyIndex]);
             var num = i;
             btn.onClick.AddListener(() => TriggerAddSkills(num));
             DeckBuildBtns newBtn = new DeckBuildBtns();
             newBtn.skillIndex = playerSkill.holdSkills[i].holdIndex;
             newBtn.btn = btn;
             btnImage.Add(newBtn);
-            btn.transform.GetChild(0).GetComponent<Image>().sprite = d.loadData.skillInfos[playerSkill.holdSkills[i].holdIndex].icon;
+            btn.transform.GetChild(0).GetComponent<Image>().sprite = d.loadData.actionInfos[playerSkill.holdSkills[i].holdIndex].icon;
         }
         InitSkillSelectState();
     }
@@ -74,7 +74,7 @@ public class SkillDeckBuild : MonoBehaviour
     public void TriggerAddSkills(int index)
     {
         var d = DataManager.instance;
-        var skill = d.loadData.skillInfos[btnImage[index].skillIndex];
+        var skill = d.loadData.actionInfos[btnImage[index].skillIndex];
         for (int i = 0; i < playerSkills.SelectIndex.Count; i++)
         {
             if (playerSkills.SelectIndex[i] == btnImage[index].skillIndex)

@@ -10,14 +10,12 @@ using UnityEditor;
 #endif
 
 [System.Serializable]
-public class SkillInfo
+public class ActionInfo
 {
-    public int index;
-    public int keyIndex;
-    public string skillName;
-    public Unit.ActionType actionType;
-    public PropertyType propertyType;
-    public int attackCount;
+    public string key;
+    public string actionName;
+    public int inputKeyIndex;
+    public ActionType actionType;
     public string script;
     public string skill_desc;
     public string effect_desc;
@@ -29,21 +27,21 @@ public class SkillInfo
     public int[] minDamage;
     public int[] maxDamage;
 
-    public static SkillInfo Parse(string row)
+    public static ActionInfo Parse(string row)
     {
         string[] elements = row.Split('\t');
-        var newSkill = new SkillInfo();
-        newSkill.index = int.Parse(elements[0]);
-        newSkill.keyIndex = int.Parse(elements[1]) - 1;
-        newSkill.skillName = elements[2];
-        newSkill.actionType = elements[3].EnumParse<Unit.ActionType>();
-        newSkill.propertyType = elements[4].EnumParse<PropertyType>();
-        newSkill.attackCount = int.Parse(elements[5]);
+        var newSkill = new ActionInfo();
+        newSkill.key = elements[0];
+        newSkill.inputKeyIndex = int.Parse(elements[1]) - 1;
+        newSkill.actionName = elements[2];
+        // newSkill.actionType = elements[3].EnumParse<Unit.ActionType>();
+        newSkill.actionType = elements[4].EnumParse<ActionType>();
+        // newSkill.attackCount = int.Parse(elements[5]);
         newSkill.script = elements[6];
         newSkill.skill_desc = elements[7];
         newSkill.effect_desc = elements[8];
         newSkill.animationName = elements[9];
-        newSkill.icon = Resources.Load<Sprite>($"Icon/skill{newSkill.index}");
+        newSkill.icon = Resources.Load<Sprite>($"Icon/skill{newSkill.key}");
 
         newSkill.act = new int[4];
         newSkill.minDamage = new int[4];
@@ -144,7 +142,7 @@ public class EnemyInfo
 [System.Serializable]
 public class BuffInfo
 {
-    public int index;
+    public string key;
     public string name;
     public string script;
     public string type;
@@ -154,7 +152,7 @@ public class BuffInfo
         var split = row.Split('\t');
         var count = 0;
         var infos = new BuffInfo();
-        infos.index = int.Parse(split[count++]);
+        infos.key = split[count++];
         infos.name = split[count++];
         infos.script = split[count++];
         // infos.timing = Enum.Parse<BuffReduceTiming>(split[count++]);
@@ -177,10 +175,21 @@ public class BuffInfo
 [CreateAssetMenu(fileName = "Loads", menuName = "Loads", order = 1)]
 public class SOLoadData : ScriptableObject
 {
-    public List<SkillInfo> skillInfos = new();
-    public List<ScenarioInfo> scenarioInfos = new();
-    public List<EnemyInfo> enemyInfos = new();
-    public List<BuffInfo> buffInfos = new();
+    private List<ActionInfo> actionInfos = new();
+    private List<ScenarioInfo> scenarioInfos = new();
+    private List<EnemyInfo> enemyInfos = new();
+    private List<BuffInfo> buffInfos = new();
+
+    public IReadOnlyDictionary<string, ActionInfo> ActionInfos { get; private set; }
+    public IReadOnlyList<ScenarioInfo> ScenarioInfos => scenarioInfos;
+
+    public void RuntimeInitialize()
+    {
+        var dict = new Dictionary<string, ActionInfo>();
+        foreach(var info in actionInfos)
+            dict.Add(info.key, info);
+        ActionInfos = dict;
+    }
 
 #if UNITY_EDITOR
     public async UniTaskVoid Load()
@@ -189,12 +198,12 @@ public class SOLoadData : ScriptableObject
         //skill data
         await LoadData(1705787959, tsv =>
         {
-            skillInfos.Clear();
+            actionInfos.Clear();
             var cols = tsv.Split('\n');
             for (int i = 1; i < cols.Length; i++)
             {
-                var newSkill = SkillInfo.Parse(cols[i]);
-                skillInfos.Add(newSkill);
+                var newSkill = ActionInfo.Parse(cols[i]);
+                actionInfos.Add(newSkill);
                 // skillDatas[keyCode].Add(newSkill);
             }
         });

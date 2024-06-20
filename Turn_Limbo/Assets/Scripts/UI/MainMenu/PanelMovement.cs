@@ -47,7 +47,7 @@ public class PanelMovement : MonoBehaviour
             int[] keys = new int[3];
             for (int i = 0; i < playerSkill.SelectIndex.Count; i++)
             {
-                keys[d.loadData.skillInfos[playerSkill.SelectIndex[i]].keyIndex]++;
+                keys[d.loadData.actionInfos[playerSkill.SelectIndex[i]].inputKeyIndex]++;
             }
 
             if (keys.Any(n => n <= 1))

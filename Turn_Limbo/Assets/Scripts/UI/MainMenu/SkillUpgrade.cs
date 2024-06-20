@@ -34,7 +34,7 @@ public class SkillUpgrade : MonoBehaviour
         }
         skillDeckBuild.AddSkillSelectBtn();
         var d = DataManager.instance;
-        for (int i = 0; i < d.loadData.skillInfos.Count; i++)
+        for (int i = 0; i < d.loadData.actionInfos.Count; i++)
         {
             var btn = Instantiate(skillUpgradeBaseBtn, skillUpgradeBtnParent);
             var num = i;
@@ -42,7 +42,7 @@ public class SkillUpgrade : MonoBehaviour
             {
                 selectIndex = num;
 
-                var skill = d.loadData.skillInfos[selectIndex];
+                var skill = d.loadData.actionInfos[selectIndex];
 
                 int level = 0;
                 for (int j = 0; j < playerSkills.holdSkills.Count; j++)
@@ -51,9 +51,9 @@ public class SkillUpgrade : MonoBehaviour
                 }
                 explainPanel.ExplainSet(skill, level);
             });
-            btn.gameObject.name = d.loadData.skillInfos[i].skillName;
+            btn.gameObject.name = d.loadData.actionInfos[i].actionName;
             btnImage.Add(btn);
-            btn.transform.GetChild(0).GetComponent<Image>().sprite = d.loadData.skillInfos[i].icon;
+            btn.transform.GetChild(0).GetComponent<Image>().sprite = d.loadData.actionInfos[i].icon;
         }
         InitSkillSelectState();
         skillDeckBuild.playerSkills = playerSkills;
@@ -77,7 +77,7 @@ public class SkillUpgrade : MonoBehaviour
         for (int j = 0; j < playerSkills.holdSkills.Count; j++)
         {
             if (playerSkills.holdSkills[j].holdIndex == selectIndex) 
-            explainPanel.ExplainSet(DataManager.instance.loadData.skillInfos[playerSkills.holdSkills[j].holdIndex], playerSkills.holdSkills[j].level);
+            explainPanel.ExplainSet(DataManager.instance.loadData.actionInfos[playerSkills.holdSkills[j].holdIndex], playerSkills.holdSkills[j].level);
         }
         MoneyText.text = $"보유자원 : {DataManager.instance.saveData.money}";
         // DataManager.instance.JsonSave();
@@ -85,7 +85,7 @@ public class SkillUpgrade : MonoBehaviour
     public void TriggerBuySkills()
     {
         var d = DataManager.instance;
-        var skill = d.loadData.skillInfos[selectIndex];
+        var skill = d.loadData.actionInfos[selectIndex];
 
         if(d.saveData.money < 150) 
         {

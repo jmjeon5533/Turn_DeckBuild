@@ -2,19 +2,56 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum PropertyType
+public enum ActionType
 {
-    AllType,
+    None,
     Slash,
     Hit,
     Penetrate,
     Defense
 }
 
-public abstract class Skill_Base
+public class Action_Base
 {
-    public virtual void Setting(Unit unit, Unit target) { }
-    public virtual void End(Unit unit, Unit target) { }
+    protected ActionInfo skillInfo;
+    protected Unit caster;
+    protected int skillLv;
+    protected Unit target;
+
+    public void Initialize(Unit caster, int skillLv, Unit target)
+    {
+        this.caster = caster;
+        this.skillLv = skillLv;
+        this.target = target;
+    }
+
+    public virtual void OnAttackStart()
+    {
+
+    }
+
+    public virtual int GetSkillValue()
+    {
+        return Random.Range(skillInfo.minDamage[skillLv], skillInfo.minDamage[skillLv]);
+    }
+
+    public virtual ActionPerformInfo GetPerfomInfo(int skillValue)
+    {
+        var infomation = new ActionPerformInfo()
+        {
+            damage = skillValue,
+            skillName = skillInfo.actionName,
+            attackType = skillInfo.actionType
+        };
+
+        return infomation;
+    }
+
+    public virtual ActionPerformResult GetPerformResult(int skillValue, ActionPerformInfo info)
+    {
+        var result = new ActionPerformResult() { takenDamange = info.damage };
+        return result;
+    }
 }
 
 // public class Skill_Zornhauw : Skill_Base

@@ -251,17 +251,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60e199e086940ff458321d960821f8b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &37891361 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 900222011, guid: 81ba74c15afd25641a61eca563a16a50, type: 3}
-  m_PrefabInstance: {fileID: 37891359}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 60e199e086940ff458321d960821f8b1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &37891362 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 472618415, guid: 81ba74c15afd25641a61eca563a16a50, type: 3}
@@ -4436,6 +4425,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60e199e086940ff458321d960821f8b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  target: 0
   skillSpriteUIParent: {fileID: 121481827}
   skillSpriteBuffParent: {fileID: 1446280438}
   statParent: {fileID: 124145439}
@@ -6477,7 +6467,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1540798317
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6983,20 +6973,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9b743fca04bfec4bb013cefa46ddcf9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  curBuff: []
-  usedBuff: []
   hp: 100
   maxHP: 100
   hpLimit: 0
   shield: 50
   maxShield: 50
   shieldBreak: 0
-  curDamage: 0
-  curAttackCount: 0
-  attack_Drainage: 0
-  defense_Drainage: 0
-  isAttack: 0
-  target: {fileID: 98593525}
   effect: {fileID: 1429954232896169632, guid: 83036083a4ebcd34f98131bd3cf6f4d2, type: 3}
   hitSound:
   - {fileID: 0}
@@ -7004,8 +6986,6 @@ MonoBehaviour:
   skillInfo: {fileID: 11400000, guid: 7dc6ef30da862824fb326d50b28df9b0, type: 2}
   anim: {fileID: 0}
   isLeft: 0
-  isDialogue: 0
-  unitUI: {fileID: 37891361}
   dmgDelayTime: 0
   dmgDelayCurTime: 0
   addCoin: 3
@@ -8617,6 +8597,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60e199e086940ff458321d960821f8b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  target: 0
   skillSpriteUIParent: {fileID: 879389290}
   skillSpriteBuffParent: {fileID: 471383252}
   statParent: {fileID: 110020636}

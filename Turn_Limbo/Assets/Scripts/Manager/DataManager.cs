@@ -6,17 +6,29 @@ using UnityEngine.UIElements;
 [System.Serializable]
 public class SaveData
 {
+    [System.Serializable]
+    public class ActionLevelData
+    {
+        public string key;
+        public int lv;
+    }
+
+    [System.Serializable]
+    public class DeckList
+    {
+        public List<string> actionList = new();
+    }
+
     public int money;
     public int[] skillLv;
-    public List<int> deckSkills = new List<int>();
-    public List<int> skillLevels = new List<int>();
+    public List<DeckList> decks = new(); 
+    public List<ActionLevelData> actionLevels = new List<ActionLevelData>();
 }
 
 [System.Serializable]
 public class SpawnData
 {
     public SpriteRenderer maps;
-    public List<Enemy> enemies = new();
 }
 
 public class DataManager : MonoBehaviour
@@ -33,6 +45,11 @@ public class DataManager : MonoBehaviour
     public SOLoadData loadData;
     public SOInspectorData inspectorData;
 
-    public int curStage;
+    //save
     public SaveData saveData;
+
+    //runtime
+    public int curStage;
+    public List<string>[] deck = new List<string>[3];
+    public Dictionary<string, int> actionLevels = new();
 }

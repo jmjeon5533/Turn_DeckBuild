@@ -9,11 +9,11 @@ public class SkillExplain : MonoBehaviour
     [SerializeField] Image skillIcon;
     [SerializeField] Text skillName, skill_Desc, skill_Effect, skill_Cost, skill_BuyMoney;
     [SerializeField] Text dmgText;
-    public void ExplainSet(SkillInfo skill,int level)
+    public void ExplainSet(ActionInfo skill,int level)
     {
         skillIcon.sprite = skill.icon;
         StringBuilder sb = new StringBuilder();
-        sb.Append(skill.skillName);
+        sb.Append(skill.actionName);
         for(int i = 0; i < level; i++)
         {
             sb.Append("+");
