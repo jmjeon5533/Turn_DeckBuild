@@ -5,10 +5,12 @@ using UnityEngine.UI;
 
 public class TimerUI : MonoBehaviour
 {
+    private GameManager actionManager => GameManager.instance;
+
     [SerializeField] private Image bar;
 
     private void Update()
     {
-        // bar.fillAmount = controller.gameCurTimeCount / 10f;
+        bar.fillAmount = actionManager.AttackRemainTime / 10f;
     }
 }

@@ -13,12 +13,17 @@ public enum ActionType
 
 public class Action_Base
 {
-    protected ActionInfo skillInfo;
+    protected ActionInfo actionInfo;
     protected Unit caster;
     protected int actionLv;
     protected Unit target;
 
-    public void Initialize(Unit caster, int actionLv, Unit target)
+    public void Initialize(ActionInfo actionInfo)
+    {
+        this.actionInfo = actionInfo;
+    }
+
+    public void Use(Unit caster, int actionLv, Unit target)
     {
         this.caster = caster;
         this.actionLv = actionLv;
@@ -32,7 +37,7 @@ public class Action_Base
 
     public virtual int GetActionValue()
     {
-        return Random.Range(skillInfo.minDamage[actionLv], skillInfo.minDamage[actionLv]);
+        return Random.Range(actionInfo.minDamage[actionLv], actionInfo.minDamage[actionLv]);
     }
 
     public virtual void OnIncreaseDamage(ref ActionPerformInfo info)
@@ -46,7 +51,6 @@ public class Action_Base
     }
 }
 
-public class Action_ : Action_Base { }
 public class Action_Cut : Action_Base { }
 public class Action_EnhanceCut : Action_Base { }
 public class Action_Stab : Action_Base { }

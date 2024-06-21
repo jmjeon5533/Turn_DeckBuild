@@ -19,12 +19,11 @@ public class ActionInfo
     public string script;
     public string actionDesc;
     public string effectDesc;
-
     public int sale;
-    public Sprite icon;
     public int[] requireAct;
     public int[] minDamage;
     public int[] maxDamage;
+    public Sprite icon;
 
     public static ActionInfo Parse(string row)
     {
@@ -35,7 +34,7 @@ public class ActionInfo
         newSkill.inputKeyIndex = int.Parse(elements[count++]) - 1;
         newSkill.actionName = elements[count++];
         newSkill.actionType = elements[count++].EnumParse<ActionType>();
-        newSkill.script = elements[count++];
+        newSkill.script = string.IsNullOrEmpty(elements[count]) ? "Base" : elements[count++];
         newSkill.actionDesc = elements[count++];
         newSkill.effectDesc = elements[count++];
         newSkill.sale = int.Parse(elements[19]);
@@ -50,6 +49,8 @@ public class ActionInfo
             newSkill.minDamage[i] = int.Parse(elements[8 + (i * 3)]);
             newSkill.maxDamage[i] = int.Parse(elements[9 + (i * 3)]);
         }
+
+        newSkill.icon = Resources.Load<Sprite>($"Icon/{newSkill.key}");
 
         return newSkill;
     }

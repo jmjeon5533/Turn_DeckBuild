@@ -50,7 +50,10 @@ public class DataManager : MonoBehaviour
             {
                 deck[i] = new();
                 foreach(var action in saveData.decks[i].actionList)
+                {
+                    Debug.Log(action);
                     deck[i].Add(action);
+                }
             }
 
             foreach(var info in saveData.actionLevels)

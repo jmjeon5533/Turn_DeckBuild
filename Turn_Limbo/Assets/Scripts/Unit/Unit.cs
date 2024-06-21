@@ -30,7 +30,7 @@ public struct ActionPerformResult
 public class Unit : MonoBehaviour
 {
     //singleton
-    private ActionManager attackManager => ActionManager.instance;
+    private GameManager attackManager => GameManager.instance;
     private DataManager dataManager => DataManager.instance;
 
     //inspector
@@ -43,6 +43,7 @@ public class Unit : MonoBehaviour
     protected bool isEndAnimation;
     protected int hp;
     protected int shield;
+    protected float onWayAttackSpeedStack = 1;
     protected Buffs buffs;
     protected Animator anim;
     protected SpriteRenderer sr;
@@ -52,7 +53,7 @@ public class Unit : MonoBehaviour
     protected ActionPerformResult actionPerformResult;
 
     //property
-    protected Action_Base CurAction => attackManager.ActionTable[curUseAction];
+    protected Action_Base CurAction => attackManager.ActionTable[CurActionInfo.script];
     protected ActionInfo CurActionInfo => dataManager.loadData.ActionInfos[curUseAction];
     
     public int MaxHp => maxHP;
@@ -65,7 +66,7 @@ public class Unit : MonoBehaviour
     public IReadOnlyList<string> ActionQueue => actionQueue;
     public bool IsEndAnimation => isEndAnimation;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         buffs = new(this);
         anim = GetComponent<Animator>();
@@ -74,6 +75,8 @@ public class Unit : MonoBehaviour
 
     protected virtual void Start()
     {
+        hp = maxHP;
+        shield = maxShield;
         // isLeft = transform.position.x < 0;
     }
 
@@ -94,17 +97,24 @@ public class Unit : MonoBehaviour
         }
     }
 
+    public void PrepareAction()
+    {
+        if(actionQueue.Count == 0) return;
+        
+        curUseAction = actionQueue[0];
+        actionQueue.RemoveAt(0);
+    }
+
     public void PerformAction(Unit target, bool isOneWay = false)
     {
         Debug.Log("Perform");
+        isEndAnimation = false;
         StartCoroutine(Routine(target, isOneWay));
+        
         IEnumerator Routine(Unit target, bool isOneWay)
         {
             //initialize
-            curUseAction = actionQueue[0];
-            actionQueue.RemoveAt(0);
-
-            CurAction.Initialize(this, dataManager.actionLevels[curUseAction], target);
+            CurAction.Use(this, dataManager.actionLevels[curUseAction], target);
             CurAction.OnAttackStart();
 
             //info
@@ -119,15 +129,23 @@ public class Unit : MonoBehaviour
             actionPerformInfo = info;
 
             //sprite
+            anim.enabled = false;
             sr.sprite = actionSprites[((int)CurActionInfo.actionType - 1) * 2];
-            yield return new WaitForSeconds(0.75f);
+            yield return new WaitForSeconds(0.3f / onWayAttackSpeedStack);
             sr.sprite = actionSprites[((int)CurActionInfo.actionType - 1) * 2 + 1];
+
+            if(isOneWay) onWayAttackSpeedStack += 0.5f;
+            else onWayAttackSpeedStack = 1;
+
+            if(onWayAttackSpeedStack > 2.5f)
+                onWayAttackSpeedStack = 2.5f;
 
             //damage
             actionPerformResult = target.React(info);
             CurAction.OnPerformAction();
 
-            yield return new WaitForSeconds(0.33f);
+            yield return new WaitForSeconds(0.15f / onWayAttackSpeedStack);
+            isEndAnimation = true;
         }
     }
 
