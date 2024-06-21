@@ -53,7 +53,7 @@ public class LogView : MonoBehaviour
         {
             var ui = Instantiate(BaseObjs[i], Panels[i]);
             ui.DamageText.text = curDmg[i].ToString();
-            ui.SkillText.text = curSkills[i].skillName;
+            ui.SkillText.text = curSkills[i].actionName;
             ui.Icon.sprite = imgs[i];
         }
         ContentPanel.sizeDelta = new Vector2(0, Mathf.Clamp(Panels[0].transform.childCount * 220, 1000, 100000));

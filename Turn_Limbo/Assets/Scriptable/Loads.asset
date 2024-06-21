@@ -12,246 +12,214 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2574f65585ac96c4aaaadcddfc62510b, type: 3}
   m_Name: Loads
   m_EditorClassIdentifier: 
-  skillInfos:
-  - index: 1
-    keyIndex: 0
-    skillName: "\uBCA0\uAE30"
+  actionInfos:
+  - key: Cut
+    inputKeyIndex: 0
+    actionName: "\uBCA0\uAE30"
     actionType: 1
-    propertyType: 1
-    attackCount: 1
-    skill_desc: "\uCE7C\uC744 \uD718\uB458\uB7EC \uC0C1\uB300\uB97C \uBCA0\uC5B4\uB0C5\uB2C8\uB2E4"
-    effect_desc: "[\uC801\uC911\uC2DC] act 2\uB97C \uD68D\uB4DD"
-    animationName: atk_1
-    sale: 0
-    icon: {fileID: 21300000, guid: 373d69e886bd46a4f8c9ebe389fe0e84, type: 3}
-    cost: 01000000010000000100000001000000
+    script: Cut
+    actionDesc: "\uCE7C\uC744 \uD718\uB458\uB7EC \uC0C1\uB300\uB97C \uBCA0\uC5B4\uB0C5\uB2C8\uB2E4"
+    effectDesc: "[\uC801\uC911\uC2DC] act 2\uB97C \uD68D\uB4DD"
+    sale: 50
+    icon: {fileID: 0}
+    requireAct: 01000000010000000100000001000000
     minDamage: 02000000040000000400000005000000
     maxDamage: 03000000040000000500000007000000
-  - index: 2
-    keyIndex: 0
-    skillName: "\uC608\uB9AC\uD55C \uBCA0\uAE30"
+  - key: EnhanceCut
+    inputKeyIndex: 0
+    actionName: "\uC608\uB9AC\uD55C \uBCA0\uAE30"
     actionType: 1
-    propertyType: 1
-    attackCount: 2
-    skill_desc: "\uCE7C\uC744 \uD718\uB458\uB7EC \uC0C1\uB300\uC758 \uC57D\uC810\uC744
+    script: 
+    actionDesc: "\uCE7C\uC744 \uD718\uB458\uB7EC \uC0C1\uB300\uC758 \uC57D\uC810\uC744
       \uBCA0\uC5B4\uB0C5\uB2C8\uB2E4."
-    effect_desc: 
-    animationName: atk_2
-    sale: 0
-    icon: {fileID: 21300000, guid: 4f7eae31e9b2fb448b4ac2fcce69e0ba, type: 3}
-    cost: 02000000020000000100000001000000
+    effectDesc: 
+    sale: 125
+    icon: {fileID: 0}
+    requireAct: 02000000020000000100000001000000
     minDamage: 06000000080000000800000009000000
     maxDamage: 0a0000000a0000000b0000000d000000
-  - index: 3
-    keyIndex: 1
-    skillName: "\uCC0C\uB974\uAE30"
-    actionType: 1
-    propertyType: 3
-    attackCount: 3
-    skill_desc: "\uCE7C\uB85C \uC0C1\uB300\uC758 \uC2E0\uCCB4\uB97C \uAFF0\uB6AB\uC2B5\uB2C8\uB2E4."
-    effect_desc: "\uB2E4\uC74C\uC5D0 \uC0AC\uC6A9\uD558\uB294 \uC2A4\uD0AC 3\uAC1C\uC758
+  - key: Stab
+    inputKeyIndex: 1
+    actionName: "\uCC0C\uB974\uAE30"
+    actionType: 3
+    script: Stab
+    actionDesc: "\uCE7C\uB85C \uC0C1\uB300\uC758 \uC2E0\uCCB4\uB97C \uAFF0\uB6AB\uC2B5\uB2C8\uB2E4."
+    effectDesc: "\uB2E4\uC74C\uC5D0 \uC0AC\uC6A9\uD558\uB294 \uC2A4\uD0AC 3\uAC1C\uC758
       \uD53C\uD574\uB7C9 10% \uC99D\uAC00"
-    animationName: atk_3
-    sale: 0
-    icon: {fileID: 21300000, guid: c9616b36d42b94c4ea1fc5110e43d5ff, type: 3}
-    cost: 01000000000000000100000000000000
+    sale: 50
+    icon: {fileID: 0}
+    requireAct: 01000000000000000100000000000000
     minDamage: 03000000030000000400000005000000
     maxDamage: 03000000030000000500000007000000
-  - index: 4
-    keyIndex: 1
-    skillName: "\uC815\uAD50\uD55C \uCC0C\uB974\uAE30"
-    actionType: 1
-    propertyType: 3
-    attackCount: 1
-    skill_desc: "\uCE7C\uB85C \uC0C1\uB300\uC758 \uC57D\uD55C \uBD80\uC704\uB97C
+  - key: EnhanceStab
+    inputKeyIndex: 1
+    actionName: "\uC815\uAD50\uD55C \uCC0C\uB974\uAE30"
+    actionType: 3
+    script: 
+    actionDesc: "\uCE7C\uB85C \uC0C1\uB300\uC758 \uC57D\uD55C \uBD80\uC704\uB97C
       \uAFF0\uB6AB\uC2B5\uB2C8\uB2E4."
-    effect_desc: 
-    animationName: atk_1
-    sale: 0
-    icon: {fileID: 21300000, guid: c50ed2fa14dd00347900aad9ce3c48b6, type: 3}
-    cost: 02000000020000000100000001000000
+    effectDesc: 
+    sale: 125
+    icon: {fileID: 0}
+    requireAct: 02000000020000000100000001000000
     minDamage: 06000000080000000800000009000000
     maxDamage: 0a0000000a0000000b0000000d000000
-  - index: 5
-    keyIndex: 2
-    skillName: "\uBD80\uC218\uAE30"
-    actionType: 1
-    propertyType: 2
-    attackCount: 2
-    skill_desc: "\uC0C1\uB300\uB97C \uB0B4\uB9AC\uCCD0 \uC790\uC138\uB97C \uD750\uD2B8\uB7EC\uB728\uB9BD\uB2C8\uB2E4."
-    effect_desc: "[[\uB300\uC0C1] \uBC29\uC5B4 \uC0AC\uC6A9] \uD574\uB2F9 \uC2A4\uD0AC\uC744
+  - key: Smashing
+    inputKeyIndex: 2
+    actionName: "\uBD80\uC218\uAE30"
+    actionType: 2
+    script: Smashing
+    actionDesc: "\uC0C1\uB300\uB97C \uB0B4\uB9AC\uCCD0 \uC790\uC138\uB97C \uD750\uD2B8\uB7EC\uB728\uB9BD\uB2C8\uB2E4."
+    effectDesc: "[[\uB300\uC0C1] \uBC29\uC5B4 \uC0AC\uC6A9] \uD574\uB2F9 \uC2A4\uD0AC\uC744
       \uD30C\uAD34"
-    animationName: atk_2
-    sale: 0
-    icon: {fileID: 21300000, guid: 1552e3c95ad59834681e769d0f884003, type: 3}
-    cost: 01000000010000000100000001000000
+    sale: 50
+    icon: {fileID: 0}
+    requireAct: 01000000010000000100000001000000
     minDamage: 04000000060000000600000007000000
     maxDamage: 0700000007000000080000000a000000
-  - index: 6
-    keyIndex: 2
-    skillName: "\uAC15\uB825\uD55C \uBD80\uC218\uAE30"
-    actionType: 1
-    propertyType: 2
-    attackCount: 3
-    skill_desc: "\uC0C1\uB300\uB97C \uB0B4\uB824\uCCD0 \uD070 \uD53C\uD574\uB97C
+  - key: EnhanceSmashing
+    inputKeyIndex: 2
+    actionName: "\uAC15\uB825\uD55C \uBD80\uC218\uAE30"
+    actionType: 2
+    script: 
+    actionDesc: "\uC0C1\uB300\uB97C \uB0B4\uB824\uCCD0 \uD070 \uD53C\uD574\uB97C
       \uC90D\uB2C8\uB2E4."
-    effect_desc: 
-    animationName: atk_3
-    sale: 0
-    icon: {fileID: 21300000, guid: 84a33276bb305304f90a665d01c66a97, type: 3}
-    cost: 03000000030000000300000003000000
+    effectDesc: 
+    sale: 125
+    icon: {fileID: 0}
+    requireAct: 03000000030000000300000003000000
     minDamage: 0a0000000c0000000c0000000d000000
     maxDamage: 0e0000000e0000000f00000011000000
-  - index: 7
-    keyIndex: 0
-    skillName: "\uB9C9\uAE30"
-    actionType: 2
-    propertyType: 4
-    attackCount: 1
-    skill_desc: "\uAC00\uBCCD\uAC8C \uC790\uC138\uB97C \uACE0\uCCD0\uC7A1\uC2B5\uB2C8\uB2E4."
-    effect_desc: "[[\uB300\uC0C1] \uD0C0\uACA9 \uC0AC\uC6A9] act 2\uB97C \uD68D\uB4DD"
-    animationName: Guard
-    sale: 0
-    icon: {fileID: 21300000, guid: c02d00e047d073c4ab7a7a06c6596a50, type: 3}
-    cost: 00000000000000000000000000000000
+  - key: Defence
+    inputKeyIndex: 0
+    actionName: "\uB9C9\uAE30"
+    actionType: 4
+    script: Defence
+    actionDesc: "\uAC00\uBCCD\uAC8C \uC790\uC138\uB97C \uACE0\uCCD0\uC7A1\uC2B5\uB2C8\uB2E4."
+    effectDesc: "[[\uB300\uC0C1] \uD0C0\uACA9 \uC0AC\uC6A9] act 2\uB97C \uD68D\uB4DD"
+    sale: 75
+    icon: {fileID: 0}
+    requireAct: 00000000000000000000000000000000
     minDamage: 03000000050000000500000006000000
     maxDamage: 06000000060000000700000009000000
-  - index: 8
-    keyIndex: 1
-    skillName: "\uD758\uB9AC\uAE30"
-    actionType: 2
-    propertyType: 4
-    attackCount: 1
-    skill_desc: "\uC0C1\uB300\uBC29\uC758 \uAC80\uC744 \uD758\uB824\uB0C5\uB2C8\uB2E4."
-    effect_desc: "\uC774\uBC88 \uC804\uD22C \uD398\uC774\uC988\uC5D0\uC11C \uBC1B\uB294
+  - key: Spilling
+    inputKeyIndex: 1
+    actionName: "\uD758\uB9AC\uAE30"
+    actionType: 4
+    script: Spilling
+    actionDesc: "\uC0C1\uB300\uBC29\uC758 \uAC80\uC744 \uD758\uB824\uB0C5\uB2C8\uB2E4."
+    effectDesc: "\uC774\uBC88 \uC804\uD22C \uD398\uC774\uC988\uC5D0\uC11C \uBC1B\uB294
       \uD53C\uD574\uB7C9 30% \uAC10\uC18C"
-    animationName: Guard
-    sale: 0
-    icon: {fileID: 21300000, guid: 9f9338f42f3b10e4087f42401f71af11, type: 3}
-    cost: 00000000000000000000000000000000
+    sale: 75
+    icon: {fileID: 0}
+    requireAct: 00000000000000000000000000000000
     minDamage: 05000000070000000700000008000000
     maxDamage: 09000000090000000a0000000c000000
-  - index: 9
-    keyIndex: 2
-    skillName: "\uCCD0\uB0B4\uAE30"
-    actionType: 2
-    propertyType: 4
-    attackCount: 1
-    skill_desc: "\uC0C1\uB300\uBC29\uC758 \uCE7C\uB0A0\uC744 \uB9DE\uBC1B\uC544\uCE69\uB2C8\uB2E4."
-    effect_desc: "\uB2E4\uC74C \uD134\uC5D0 \uC0AC\uC6A9\uD558\uB294 \uBAA8\uB4E0
+  - key: Blocking
+    inputKeyIndex: 2
+    actionName: "\uCCD0\uB0B4\uAE30"
+    actionType: 4
+    script: Blocking
+    actionDesc: "\uC0C1\uB300\uBC29\uC758 \uCE7C\uB0A0\uC744 \uB9DE\uBC1B\uC544\uCE69\uB2C8\uB2E4."
+    effectDesc: "\uB2E4\uC74C \uD134\uC5D0 \uC0AC\uC6A9\uD558\uB294 \uBAA8\uB4E0
       \uC2A4\uD0AC\uC758 \uD53C\uD574\uB7C9 5% \uC99D\uAC00"
-    animationName: Guard
-    sale: 0
-    icon: {fileID: 21300000, guid: dc0576a6a03431140ace9835f280b19f, type: 3}
-    cost: 00000000000000000000000000000000
+    sale: 75
+    icon: {fileID: 0}
+    requireAct: 00000000000000000000000000000000
     minDamage: 02000000030000000300000004000000
     maxDamage: 04000000040000000600000008000000
-  - index: 10
-    keyIndex: 0
-    skillName: "\uC900\uBE44"
-    actionType: 1
-    propertyType: 2
-    attackCount: 1
-    skill_desc: "\uB2E4\uC74C \uACF5\uACA9\uC744 \uC900\uBE44\uD569\uB2C8\uB2E4."
-    effect_desc: "\uB2E4\uC74C\uC5D0 \uC0AC\uC6A9\uD558\uB294 \uC2A4\uD0AC 1\uAC1C\uC758
+  - key: Ready
+    inputKeyIndex: 0
+    actionName: "\uC900\uBE44"
+    actionType: 2
+    script: Ready
+    actionDesc: "\uB2E4\uC74C \uACF5\uACA9\uC744 \uC900\uBE44\uD569\uB2C8\uB2E4."
+    effectDesc: "\uB2E4\uC74C\uC5D0 \uC0AC\uC6A9\uD558\uB294 \uC2A4\uD0AC 1\uAC1C\uC758
       \uD53C\uD574\uB7C9 40% \uC99D\uAC00"
-    animationName: atk_1
-    sale: 0
-    icon: {fileID: 21300000, guid: 2ef426812862db04ab60029e16a6abc1, type: 3}
-    cost: 01000000010000000100000001000000
+    sale: 200
+    icon: {fileID: 0}
+    requireAct: 01000000010000000100000001000000
     minDamage: 02000000040000000400000005000000
     maxDamage: 03000000040000000500000007000000
-  - index: 11
-    keyIndex: 1
-    skillName: "\uACBD\uACC4"
-    actionType: 1
-    propertyType: 2
-    attackCount: 4
-    skill_desc: "\uC0C1\uB300\uC5D0\uAC8C\uC11C \uB5A8\uC5B4\uC838 \uAC00\uBCCD\uAC8C
+  - key: Onguard
+    inputKeyIndex: 1
+    actionName: "\uACBD\uACC4"
+    actionType: 2
+    script: Onguard
+    actionDesc: "\uC0C1\uB300\uC5D0\uAC8C\uC11C \uB5A8\uC5B4\uC838 \uAC00\uBCCD\uAC8C
       \uACF5\uACA9\uC744 \uC8FC\uACE0\uBC1B\uC2B5\uB2C8\uB2E4."
-    effect_desc: "[[\uB300\uC0C1] \uCC38\uACA9 \uC0AC\uC6A9] \uD574\uB2F9 \uC2A4\uD0AC\uC758
+    effectDesc: "[[\uB300\uC0C1] \uCC38\uACA9 \uC0AC\uC6A9] \uD574\uB2F9 \uC2A4\uD0AC\uC758
       \uD53C\uD574\uB7C9 20% \uAC10\uC18C"
-    animationName: atk_4
-    sale: 0
-    icon: {fileID: 21300000, guid: e707ef4f32c320240adf90284eaca123, type: 3}
-    cost: 02000000020000000200000001000000
+    sale: 200
+    icon: {fileID: 0}
+    requireAct: 02000000020000000200000001000000
     minDamage: 04000000060000000600000008000000
     maxDamage: 08000000080000000c0000000e000000
-  - index: 12
-    keyIndex: 2
-    skillName: "\uC804\uC9C4"
-    actionType: 1
-    propertyType: 3
-    attackCount: 2
-    skill_desc: "\uD55C \uBC1C\uC790\uAD6D \uC55E\uC73C\uB85C \uB098\uC544\uAC11\uB2C8\uB2E4."
-    effect_desc: "\uB2E4\uC74C \uD134\uC5D0 \uBC1B\uB294 \uD53C\uD574\uB7C9 50% \uC99D\uAC00
+  - key: Forward
+    inputKeyIndex: 2
+    actionName: "\uC804\uC9C4"
+    actionType: 3
+    script: Forward
+    actionDesc: "\uD55C \uBC1C\uC790\uAD6D \uC55E\uC73C\uB85C \uB098\uC544\uAC11\uB2C8\uB2E4."
+    effectDesc: "\uB2E4\uC74C \uD134\uC5D0 \uBC1B\uB294 \uD53C\uD574\uB7C9 50% \uC99D\uAC00
       act 5 \uD68C\uBCF5"
-    animationName: atk_2
-    sale: 0
-    icon: {fileID: 21300000, guid: ff1449356078ad84394fabcca77cd5b7, type: 3}
-    cost: 01000000010000000100000001000000
+    sale: 450
+    icon: {fileID: 0}
+    requireAct: 01000000010000000100000001000000
     minDamage: 0600000008000000080000000a000000
     maxDamage: 0a000000080000000c0000000e000000
-  - index: 13
-    keyIndex: 0
-    skillName: "\uC138\uB85C\uBCA0\uAE30"
+  - key: LengthCut
+    inputKeyIndex: 0
+    actionName: "\uC138\uB85C\uBCA0\uAE30"
     actionType: 1
-    propertyType: 1
-    attackCount: 1
-    skill_desc: "\uC0C1\uB300\uB97C \uC138\uB85C\uB85C \uD06C\uAC8C \uD55C \uBC88
+    script: LengthCut
+    actionDesc: "\uC0C1\uB300\uB97C \uC138\uB85C\uB85C \uD06C\uAC8C \uD55C \uBC88
       \uBCA0\uC5B4\uB0C5\uB2C8\uB2E4."
-    effect_desc: "[\uC801\uC911\uC2DC] \uC774\uBC88 \uC804\uD22C \uD398\uC774\uC988\uC5D0\uC11C
+    effectDesc: "[\uC801\uC911\uC2DC] \uC774\uBC88 \uC804\uD22C \uD398\uC774\uC988\uC5D0\uC11C
       \uC8FC\uB294 \uD53C\uD574\uB7C9 30% \uC99D\uAC00"
-    animationName: atk_1
-    sale: 0
-    icon: {fileID: 21300000, guid: e2e5b36165d313a4db4ee1a597e96f9c, type: 3}
-    cost: 01000000010000000100000000000000
+    sale: 100
+    icon: {fileID: 0}
+    requireAct: 01000000010000000100000000000000
     minDamage: 02000000040000000400000005000000
     maxDamage: 03000000040000000500000007000000
-  - index: 14
-    keyIndex: 0
-    skillName: "\uAC00\uB85C\uBCA0\uAE30"
+  - key: WidthCut
+    inputKeyIndex: 0
+    actionName: "\uAC00\uB85C\uBCA0\uAE30"
     actionType: 1
-    propertyType: 1
-    attackCount: 1
-    skill_desc: "\uC0C1\uB300\uB97C \uAC00\uB85C\uB85C \uD06C\uAC8C \uD55C \uBC88
+    script: WidthCut
+    actionDesc: "\uC0C1\uB300\uB97C \uAC00\uB85C\uB85C \uD06C\uAC8C \uD55C \uBC88
       \uBCA0\uC5B4\uB0C5\uB2C8\uB2E4."
-    effect_desc: "\uC9C1\uC804\uC5D0 \uC0AC\uC6A9\uD55C \uC2A4\uD0AC\uC774 '\uC138\uB85C\uBCA0\uAE30'\uC77C
+    effectDesc: "\uC9C1\uC804\uC5D0 \uC0AC\uC6A9\uD55C \uC2A4\uD0AC\uC774 '\uC138\uB85C\uBCA0\uAE30'\uC77C
       \uC2DC \uD53C\uD574\uB7C9 100% \uC99D\uAC00"
-    animationName: atk_1
-    sale: 0
-    icon: {fileID: 21300000, guid: 6d39b6e418abe9a4c8affe5aeca3b863, type: 3}
-    cost: 02000000030000000300000002000000
+    sale: 300
+    icon: {fileID: 0}
+    requireAct: 02000000030000000300000002000000
     minDamage: 04000000050000000500000006000000
     maxDamage: 0600000006000000080000000b000000
-  - index: 15
-    keyIndex: 0
-    skillName: "\uC0AC\uC120\uBCA0\uAE30"
+  - key: CrossCut
+    inputKeyIndex: 0
+    actionName: "\uC0AC\uC120\uBCA0\uAE30"
     actionType: 1
-    propertyType: 1
-    attackCount: 2
-    skill_desc: "\uC0C1\uB300\uB97C \uAD50\uCC28\uB85C \uBE60\uB974\uAC8C \uB450
+    script: 
+    actionDesc: "\uC0C1\uB300\uB97C \uAD50\uCC28\uB85C \uBE60\uB974\uAC8C \uB450
       \uBC88 \uBCA0\uC5B4\uB0C5\uB2C8\uB2E4."
-    effect_desc: "[[\uB300\uC0C1] \uBC29\uC5B4 \uC0AC\uC6A9] \uB2E4\uC74C \uD134\uC5D0
+    effectDesc: "[[\uB300\uC0C1] \uBC29\uC5B4 \uC0AC\uC6A9] \uB2E4\uC74C \uD134\uC5D0
       \uB300\uC0C1\uC758 act 1 \uAC10\uC18C"
-    animationName: atk_2
-    sale: 0
-    icon: {fileID: 21300000, guid: 6dc83f6a6d6ad9e4eb69b3680249b6b7, type: 3}
-    cost: 01000000010000000100000001000000
+    sale: 100
+    icon: {fileID: 0}
+    requireAct: 01000000010000000100000001000000
     minDamage: 02000000020000000400000005000000
     maxDamage: 03000000030000000500000007000000
-  - index: 16
-    keyIndex: 1
-    skillName: "\uC77C\uB3C4\uC591\uB2E8"
+  - key: OneSwordTwoCut
+    inputKeyIndex: 1
+    actionName: "\uC77C\uB3C4\uC591\uB2E8"
     actionType: 1
-    propertyType: 1
-    attackCount: 1
-    skill_desc: "\uC801\uC5D0\uAC8C \uAC15\uB825\uD55C \uC77C\uACA9\uC744 \uB0A0\uB9BD\uB2C8\uB2E4."
-    effect_desc: 
-    animationName: atk_1
-    sale: 0
-    icon: {fileID: 21300000, guid: fcc68315744bc9f42b2435a57bcaaed6, type: 3}
-    cost: 05000000050000000500000006000000
+    script: 
+    actionDesc: "\uC801\uC5D0\uAC8C \uAC15\uB825\uD55C \uC77C\uACA9\uC744 \uB0A0\uB9BD\uB2C8\uB2E4."
+    effectDesc: 
+    sale: 600
+    icon: {fileID: 0}
+    requireAct: 05000000050000000500000006000000
     minDamage: 0300000005000000080000000a000000
     maxDamage: 140000001e0000002300000028000000
   scenarioInfos:
@@ -264,9 +232,7 @@ MonoBehaviour:
       namePos: 2
       camPos: 2
       curEvent: 0
-      eventValue: 
-      playerandenemy: 
-      hpValue: 0
+      eventValue: "\r"
     - stageId: 0
       dialogue: 
       name: ???
@@ -275,9 +241,7 @@ MonoBehaviour:
       namePos: 1
       camPos: 4
       curEvent: 0
-      eventValue: 
-      playerandenemy: 
-      hpValue: 0
+      eventValue: "\r"
     - stageId: 0
       dialogue: 
       name: ???
@@ -286,9 +250,7 @@ MonoBehaviour:
       namePos: 1
       camPos: 4
       curEvent: 0
-      eventValue: 
-      playerandenemy: 
-      hpValue: 0
+      eventValue: "\r"
     - stageId: 0
       dialogue: 
       name: ???
@@ -297,9 +259,7 @@ MonoBehaviour:
       namePos: 1
       camPos: 3
       curEvent: 0
-      eventValue: 
-      playerandenemy: 
-      hpValue: 0
+      eventValue: "\r"
     - stageId: 0
       dialogue: 
       name: 
@@ -308,9 +268,7 @@ MonoBehaviour:
       namePos: 2
       camPos: 0
       curEvent: 0
-      eventValue: 
-      playerandenemy: 
-      hpValue: 0
+      eventValue: "\r"
     - stageId: 0
       dialogue: 
       name: ???
@@ -320,9 +278,7 @@ MonoBehaviour:
       namePos: 1
       camPos: 4
       curEvent: 0
-      eventValue: 
-      playerandenemy: 
-      hpValue: 0
+      eventValue: "\r"
     - stageId: 0
       dialogue: 
       name: "\uB098"
@@ -331,9 +287,7 @@ MonoBehaviour:
       namePos: 0
       camPos: 0
       curEvent: 0
-      eventValue: 
-      playerandenemy: 
-      hpValue: 0
+      eventValue: "\r"
     - stageId: 0
       dialogue: 
       name: ???
@@ -342,9 +296,7 @@ MonoBehaviour:
       namePos: 1
       camPos: 4
       curEvent: 0
-      eventValue: 
-      playerandenemy: 
-      hpValue: 0
+      eventValue: "\r"
     - stageId: 0
       dialogue: 
       name: "\uB098"
@@ -353,9 +305,7 @@ MonoBehaviour:
       namePos: 0
       camPos: 0
       curEvent: 0
-      eventValue: 
-      playerandenemy: 
-      hpValue: 0
+      eventValue: "\r"
     - stageId: 0
       dialogue: 
       name: ???
@@ -364,9 +314,7 @@ MonoBehaviour:
       namePos: 1
       camPos: 4
       curEvent: 0
-      eventValue: 
-      playerandenemy: 
-      hpValue: 0
+      eventValue: "\r"
     - stageId: 0
       dialogue: 
       name: ???
@@ -375,9 +323,7 @@ MonoBehaviour:
       namePos: 1
       camPos: 2
       curEvent: 0
-      eventValue: 
-      playerandenemy: 
-      hpValue: 0
+      eventValue: "\r"
     - stageId: 0
       dialogue: 
       name: 
@@ -386,9 +332,7 @@ MonoBehaviour:
       namePos: 2
       camPos: 2
       curEvent: 1
-      eventValue: Tutorial(1-1)
-      playerandenemy: 
-      hpValue: 0
+      eventValue: "Tutorial(1-1)\r"
     - stageId: 0
       dialogue: 
       name: 
@@ -397,9 +341,7 @@ MonoBehaviour:
       namePos: 2
       camPos: 2
       curEvent: 1
-      eventValue: Tutorial(1-2)
-      playerandenemy: 
-      hpValue: 0
+      eventValue: "Tutorial(1-2)\r"
     - stageId: 0
       dialogue: 
       name: 
@@ -408,9 +350,7 @@ MonoBehaviour:
       namePos: 2
       camPos: 2
       curEvent: 1
-      eventValue: Tutorial(1-3)
-      playerandenemy: 
-      hpValue: 0
+      eventValue: "Tutorial(1-3)\r"
     - stageId: 0
       dialogue: 
       name: 
@@ -419,9 +359,7 @@ MonoBehaviour:
       namePos: 2
       camPos: 2
       curEvent: 0
-      eventValue: 
-      playerandenemy: 
-      hpValue: 0
+      eventValue: "\r"
   - dialogues:
     - stageId: 1
       dialogue: StoryDialogue
@@ -431,9 +369,7 @@ MonoBehaviour:
       namePos: 0
       camPos: 0
       curEvent: 0
-      eventValue: 
-      playerandenemy: 
-      hpValue: 0
+      eventValue: "\r"
     - stageId: 1
       dialogue: 
       name: "\uB098"
@@ -442,9 +378,7 @@ MonoBehaviour:
       namePos: 0
       camPos: 0
       curEvent: 0
-      eventValue: 
-      playerandenemy: 
-      hpValue: 0
+      eventValue: "\r"
     - stageId: 1
       dialogue: 
       name: "\uB098"
@@ -453,9 +387,7 @@ MonoBehaviour:
       namePos: 0
       camPos: 0
       curEvent: 0
-      eventValue: 
-      playerandenemy: 
-      hpValue: 0
+      eventValue: "\r"
     - stageId: 1
       dialogue: 
       name: ???
@@ -465,9 +397,7 @@ MonoBehaviour:
       namePos: 2
       camPos: 2
       curEvent: 0
-      eventValue: 
-      playerandenemy: 
-      hpValue: 0
+      eventValue: "\r"
     - stageId: 1
       dialogue: 
       name: ???
@@ -477,9 +407,7 @@ MonoBehaviour:
       namePos: 2
       camPos: 2
       curEvent: 0
-      eventValue: 
-      playerandenemy: 
-      hpValue: 0
+      eventValue: "\r"
     - stageId: 1
       dialogue: 
       name: "\uB098"
@@ -488,9 +416,7 @@ MonoBehaviour:
       namePos: 0
       camPos: 0
       curEvent: 0
-      eventValue: 
-      playerandenemy: 
-      hpValue: 0
+      eventValue: "\r"
     - stageId: 1
       dialogue: 
       name: "\uB098"
@@ -499,9 +425,7 @@ MonoBehaviour:
       namePos: 0
       camPos: 0
       curEvent: 0
-      eventValue: 
-      playerandenemy: 
-      hpValue: 0
+      eventValue: "\r"
     - stageId: 1
       dialogue: 
       name: "\uB098"
@@ -510,9 +434,7 @@ MonoBehaviour:
       namePos: 0
       camPos: 0
       curEvent: 0
-      eventValue: 
-      playerandenemy: 
-      hpValue: 0
+      eventValue: "\r"
     - stageId: 1
       dialogue: 
       name: ???
@@ -522,9 +444,7 @@ MonoBehaviour:
       namePos: 2
       camPos: 2
       curEvent: 0
-      eventValue: 
-      playerandenemy: 
-      hpValue: 0
+      eventValue: "\r"
     - stageId: 1
       dialogue: 
       name: ???
@@ -533,9 +453,7 @@ MonoBehaviour:
       namePos: 2
       camPos: 2
       curEvent: 0
-      eventValue: 
-      playerandenemy: 
-      hpValue: 0
+      eventValue: "\r"
     - stageId: 1
       dialogue: 
       name: "\uB098"
@@ -544,9 +462,7 @@ MonoBehaviour:
       namePos: 0
       camPos: 0
       curEvent: 0
-      eventValue: 
-      playerandenemy: 
-      hpValue: 0
+      eventValue: "\r"
     - stageId: 1
       dialogue: 
       name: "\uBD88\uD55C\uB2F9"
@@ -555,9 +471,7 @@ MonoBehaviour:
       namePos: 1
       camPos: 4
       curEvent: 0
-      eventValue: 
-      playerandenemy: 
-      hpValue: 0
+      eventValue: "\r"
     - stageId: 1
       dialogue: 
       name: "\uBD88\uD55C\uB2F9"
@@ -567,9 +481,7 @@ MonoBehaviour:
       namePos: 1
       camPos: 4
       curEvent: 0
-      eventValue: 
-      playerandenemy: 
-      hpValue: 0
+      eventValue: "\r"
     - stageId: 1
       dialogue: 
       name: "\uB098"
@@ -578,9 +490,7 @@ MonoBehaviour:
       namePos: 0
       camPos: 0
       curEvent: 0
-      eventValue: 
-      playerandenemy: 
-      hpValue: 0
+      eventValue: "\r"
     - stageId: 1
       dialogue: 
       name: ???
@@ -590,9 +500,7 @@ MonoBehaviour:
       namePos: 2
       camPos: 2
       curEvent: 0
-      eventValue: 
-      playerandenemy: 
-      hpValue: 0
+      eventValue: "\r"
     - stageId: 1
       dialogue: 
       name: ???
@@ -601,9 +509,7 @@ MonoBehaviour:
       namePos: 2
       camPos: 2
       curEvent: 0
-      eventValue: 
-      playerandenemy: 
-      hpValue: 0
+      eventValue: "\r"
   enemyInfos:
   - index: 0
     name: "\uBE44\uCC2C\uD76C"
@@ -619,34 +525,3 @@ MonoBehaviour:
     atk: 0
     minCount: 2
     maxCount: 5
-  buffInfos:
-  - index: 0
-    name: "\uD654\uC0C1"
-    script: Burn
-    timing: 2
-    type: debuff
-  - index: 1
-    name: "\uB9C8\uBE44"
-    script: Paralysis
-    timing: 0
-    type: debuff
-  - index: 2
-    name: "\uACF5\uACA9\uB825 \uAC10\uC18C"
-    script: AttackDown
-    timing: 0
-    type: debuff
-  - index: 3
-    name: "\uBC29\uC5B4\uB825 \uAC10\uC18C"
-    script: DefenseDown
-    timing: 0
-    type: debuff
-  - index: 4
-    name: "\uACF5\uACA9\uB825 \uC99D\uAC00"
-    script: AttackUp
-    timing: 0
-    type: buff
-  - index: 5
-    name: "\uBC29\uC5B4\uB825 \uC99D\uAC00"
-    script: DefenseUp
-    timing: 0
-    type: buff

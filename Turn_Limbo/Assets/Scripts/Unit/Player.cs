@@ -32,7 +32,7 @@ public class Player : Unit
             {
                 var key = keyActionTable[i].Peek();
                 var info = dataManager.loadData.ActionInfos[key];
-                var useAct = info.act[dataManager.actionLevels[key]];
+                var useAct = info.requireAct[dataManager.actionLevels[key]];
 
                 if (act >= useAct)
                 {

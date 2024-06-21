@@ -372,8 +372,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60e199e086940ff458321d960821f8b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  requestUIParent: {fileID: 8957895577234720590}
-  requestBuffParent: {fileID: 381529147874650892}
+  target: {fileID: 0}
+  skillSpriteUIParent: {fileID: 0}
+  skillSpriteBuffParent: {fileID: 0}
   statParent: {fileID: 1592163859594945556}
   status: {fileID: 3711132039098417938}
   hpImage: {fileID: 6072950775488859551}
@@ -1244,7 +1245,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1718499151790417246}
-  - component: {fileID: 1718499151790417057}
   m_Layer: 0
   m_Name: ___UIManager___
   m_TagString: Untagged
@@ -1268,62 +1268,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1718499151790417057
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1718499151790417056}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 34228ffd130dc2244a6550d0bb7c0bd7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  camRotZ: 0
-  enemyCursorIndex: 0
-  isCamRotate: 0
-  isFatalEffect: 0
-  isPause: 0
-  cam: {fileID: 0}
-  camPivot: {x: 0, y: 0, z: 0}
-  bgCam: {fileID: 0}
-  effectCam: {fileID: 0}
-  camPlusPos: {x: 0, y: 0, z: 0}
-  inputPanel: {fileID: 1607977934}
-  keys:
-  - {fileID: 1469693787}
-  - {fileID: 1152606962}
-  - {fileID: 1377501123}
-  nextKeys:
-  - {fileID: 1289766782}
-  - {fileID: 395834479}
-  - {fileID: 1252973702}
-  controller: {fileID: 0}
-  coinGauge: {fileID: 368434018}
-  dmgTextParent: {fileID: 2066232509}
-  baseIcon: {fileID: 4486723386172999502, guid: fb06cbf7021818c45942f28e5676db67, type: 3}
-  timer: {fileID: 837180325}
-  timerBG: {fileID: 1737166369}
-  damageText: {fileID: 4913488826131424601, guid: 7fd180f15f7b3894287722613e90254e, type: 3}
-  percentageText: {fileID: 4913488826131424601, guid: 5f9a5a38e53510840929aed3bac1838e, type: 3}
-  pauseTab: {fileID: 5281408292389865737}
-  gameEndPanel: {fileID: 334556402}
-  gameEndText: {fileID: 1800967359}
-  retry: {fileID: 1925919373}
-  stageSelect: {fileID: 59133012}
-  useTurnCountText: {fileID: 834895758}
-  getMoneyText: {fileID: 1957325096}
-  skillExplainPanel: {fileID: 296627447}
-  skill_Desc_Text: {fileID: 2093505819}
-  skill_Effect_Text: {fileID: 5281408292389865734}
-  skill_Damage_Text: {fileID: 5281408292389865735}
-  skill_Cost_Text: {fileID: 5281408292389865736}
-  enemySkillExplainPanel: {fileID: 1368866346}
-  enemySkill_Desc_Text: {fileID: 26774006}
-  unitUI:
-  - {fileID: 900222011}
-  - {fileID: 462114965}
 --- !u!1 &1938282811769894128
 GameObject:
   m_ObjectHideFlags: 0
@@ -3796,7 +3740,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1718499151790417057}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
         m_MethodName: LoadScene
         m_Mode: 3
@@ -5461,8 +5405,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60e199e086940ff458321d960821f8b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  requestUIParent: {fileID: 5066271286702479259}
-  requestBuffParent: {fileID: 1515352057112196134}
+  target: {fileID: 0}
+  skillSpriteUIParent: {fileID: 0}
+  skillSpriteBuffParent: {fileID: 0}
   statParent: {fileID: 8794699416931569570}
   status: {fileID: 9074647193130785970}
   hpImage: {fileID: 3039959066355288727}
@@ -6545,7 +6490,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1718499151790417057}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
         m_MethodName: Pause
         m_Mode: 1

@@ -14,7 +14,7 @@ public class ScenarioManager : MonoBehaviour
         Right,
         Hide
     }
-    
+
     public enum CamPos
     {
         LeftEnd,
@@ -34,29 +34,26 @@ public class ScenarioManager : MonoBehaviour
 
     public static ScenarioManager instance { get; private set; }
 
-    //singleton
-    private UIManager uiManager => UIManager.instance;
-
     [SerializeField] Image panel;
 
     [Header("Dialogue")]
-    [SerializeField] Image barSize;
-    [SerializeField] Image nameLeftBar;
-    [SerializeField] Image nameRightBar;
-    [SerializeField] TextMeshProUGUI text;
-    [SerializeField] TextMeshProUGUI leftNameText;
-    [SerializeField] TextMeshProUGUI leftJobText;
-    [SerializeField] TextMeshProUGUI rightNameText;
-    [SerializeField] TextMeshProUGUI rightJobText;
-    [SerializeField] GameObject focusUI;
-    [SerializeField] float typingTime;
+    [SerializeField] private GameObject dialogueUI;
+    [SerializeField] private GameObject leftBox;
+    [SerializeField] private GameObject rightBox;
+    [SerializeField] private TextMeshProUGUI text;
+    [SerializeField] private TextMeshProUGUI leftNameText;
+    [SerializeField] private TextMeshProUGUI leftJobText;
+    [SerializeField] private TextMeshProUGUI rightNameText;
+    [SerializeField] private TextMeshProUGUI rightJobText;
+    [SerializeField] private GameObject focusUI;
+    [SerializeField] private float typingTime;
 
-    [HideInInspector] public bool isTyping;
-    [HideInInspector] public bool panelState;
-    [HideInInspector] public bool isEnd;
     bool isSkip;
-    bool isNameHide;
-    // Action<string> curEvent;
+
+    public void Skip()
+    {
+        isSkip = true;
+    }
 
     private void Awake()
     {
@@ -72,12 +69,8 @@ public class ScenarioManager : MonoBehaviour
     private IEnumerator ScenarioRoutine(ScenarioInfo scenario)
     {
         //scenario initialize
-        leftNameText.text = null;
-        text.text = null;
-        uiManager.timerBG.gameObject.SetActive(false);
+        dialogueUI.SetActive(true);
         focusUI.SetActive(true);
-        uiManager.inputPanel.rectTransform.DOSizeDelta(Vector2.zero, 0.5f);
-        barSize.rectTransform.DOSizeDelta(new Vector2(0, 275), 0.5f);
 
         for (int dialogueIndex = 0; dialogueIndex < scenario.dialogues.Length; dialogueIndex++)
         {
@@ -85,16 +78,11 @@ public class ScenarioManager : MonoBehaviour
             panel.gameObject.SetActive(false);
 
             var dialogue = scenario.dialogues[dialogueIndex];
-            SetNameBoxPos(dialogue);
-            SetCamPos(dialogue);
 
-            leftNameText.text = dialogue.name;
-            leftJobText.text = dialogue.job;
-            rightNameText.text = dialogue.job;
-            rightJobText.text = dialogue.job;
+            SetCamPos(dialogue);
+            SetNamePos(dialogue);
 
             //text typing
-            isTyping = true;
             text.text = dialogue.text;
             for (int curTextLength = 0; curTextLength < dialogue.text.Length; curTextLength++)
             {
@@ -108,7 +96,6 @@ public class ScenarioManager : MonoBehaviour
                 }
                 if (isSkip) break;
             }
-            isTyping = false;
             isSkip = false;
 
             ExecuteDialogueEvent(dialogue);
@@ -117,54 +104,46 @@ public class ScenarioManager : MonoBehaviour
         }
 
         //hide
-        text.text = null;
-        uiManager.camPlusPos = Vector3.zero;
-        uiManager.timerBG.gameObject.SetActive(true);
-        nameLeftBar.rectTransform.DOLocalMoveX(-1410, 0.5f);
-        nameRightBar.rectTransform.DOLocalMoveX(1410, 0.5f);
+        dialogueUI.SetActive(false);
         focusUI.SetActive(false);
-        uiManager.inputPanel.rectTransform.DOSizeDelta(new(0, 250), 0.5f);
-        barSize.rectTransform.DOSizeDelta(Vector2.zero, 0.5f);
+        rightBox.SetActive(false);
+        leftBox.SetActive(false);
 
         yield return null;
     }
 
-    private void SetNameBoxPos(DialogueInfo dialogue)
+    private void SetNamePos(DialogueInfo dialogue)
     {
         switch (dialogue.namePos)
         {
             case NamePos.Left:
-                nameLeftBar.rectTransform.DOLocalMoveX(-960, 0.5f);
-                nameRightBar.rectTransform.DOLocalMoveX(1410, 0.5f);
-                isNameHide = false; break;
-
+                leftNameText.text = dialogue.name;
+                leftJobText.text = dialogue.job;
+                leftBox.SetActive(true);
+                rightBox.SetActive(false);
+                break;
             case NamePos.Right:
-                nameLeftBar.rectTransform.DOLocalMoveX(-1410, 0.5f);
-                nameRightBar.rectTransform.DOLocalMoveX(960, 0.5f);
-                isNameHide = false; break;
-
+                rightNameText.text = dialogue.name;
+                rightJobText.text = dialogue.job;
+                rightBox.SetActive(true);
+                leftBox.SetActive(false);
+                break;
             case NamePos.Hide:
-                if (isNameHide) break;
-                else
-                {
-                    nameLeftBar.rectTransform.DOLocalMoveX(-1410, 0.5f);
-                    nameRightBar.rectTransform.DOLocalMoveX(1410, 0.5f);
-                    isNameHide = true;
-                }
+                
                 break;
         }
     }
 
     private void SetCamPos(DialogueInfo dialogue)
     {
-        switch (dialogue.camPos)
-        {
-            case CamPos.LeftEnd: uiManager.camPlusPos = new Vector3(-3, -1); break;
-            case CamPos.Left: uiManager.camPlusPos = new Vector3(-1, -1); break;
-            case CamPos.Middle: uiManager.camPlusPos = new Vector3(0, -1); break;
-            case CamPos.Right: uiManager.camPlusPos = new Vector3(1, -1); break;
-            case CamPos.RightEnd: uiManager.camPlusPos = new Vector3(3, -1); break;
-        }
+        // switch (dialogue.camPos)
+        // {
+        //     case CamPos.LeftEnd: uiManager.camPlusPos = new Vector3(-3, -1); break;
+        //     case CamPos.Left: uiManager.camPlusPos = new Vector3(-1, -1); break;
+        //     case CamPos.Middle: uiManager.camPlusPos = new Vector3(0, -1); break;
+        //     case CamPos.Right: uiManager.camPlusPos = new Vector3(1, -1); break;
+        //     case CamPos.RightEnd: uiManager.camPlusPos = new Vector3(3, -1); break;
+        // }
     }
 
     // public void InputDialogue(DialogueInfo dialogue)
@@ -185,20 +164,20 @@ public class ScenarioManager : MonoBehaviour
         string value = null;
 
         int valueStartIndex = 0;
-        for(int i = 0; i < dialogue.eventValue.Length; i++)
+        for (int i = 0; i < dialogue.eventValue.Length; i++)
         {
-            if(dialogue.eventValue[i] == '(')
+            if (dialogue.eventValue[i] == '(')
             {
                 command = dialogue.eventValue[0..i];
                 i++;
                 valueStartIndex = i;
             }
-            
-            if(dialogue.eventValue[i] == ')')
+
+            if (dialogue.eventValue[i] == ')')
                 value = dialogue.eventValue[valueStartIndex..i];
         }
 
-        switch(command)
+        switch (command)
         {
             case "Tutorial":
                 panel.sprite = Resources.Load<Sprite>($"Panel/{value}");

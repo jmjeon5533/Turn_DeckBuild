@@ -22,10 +22,10 @@ public partial class Buffs
 
     public enum ReduceTiming
     {
-        turnStart,
-        turnEnd,
-        battleEnd,
-        attack,
+        TurnStart,
+        TurnEnd,
+        BattleEnd,
+        Attack,
 
         enumend,
     }
@@ -35,6 +35,7 @@ public partial class Buffs
         Immediately,
         CurrentAttackEnd,
         CurrentTurnEnd,
+
         enumend,
     }
 
@@ -42,7 +43,7 @@ public partial class Buffs
     {
         public Key key;
         public ReduceTiming timing;
-        public RatioStack ratioStack;
+        public PowerStack ratioStack;
 
         public Value(Key key, ReduceTiming timing, float ratio, int stack)
         {
@@ -53,12 +54,12 @@ public partial class Buffs
         }
     }
     
-    public class RatioStack
+    public class PowerStack
     {
         public float power;
         public int stack;
         
-        public static RatioStack operator- (RatioStack lhs, RatioStack rhs)
+        public static PowerStack operator- (PowerStack lhs, PowerStack rhs)
         {
             lhs.power -= rhs.power;
             lhs.stack -= rhs.stack;
@@ -68,18 +69,17 @@ public partial class Buffs
 
     private Queue<Value>[] grantQueue = new Queue<Value>[(int)GrantOption.enumend];
     private ReactiveCollection<Value> buffs = new();
-    private ReactiveCollection<RatioStack> allBuffRatioStack = new();
+    private ReactiveCollection<PowerStack> allBuffRatioStack = new();
 
-    public event Action<Key, RatioStack> OnBuffValueChanged;
+    public event Action<Key, PowerStack> OnBuffValueChanged;
 
     //method
-    public Buffs()
+    public Buffs(Unit unit)
     {
-        if(!Application.isPlaying) return;
-
         buffs
             .ObserveAdd()
             .Buffer(Observable.EveryUpdate())
+            .Where(b => b.Count > 0)
             .Select(b => (b[0].Value.key, ratio: b.Sum(v => v.Value.ratioStack.power), stack: b.Sum(v => v.Value.ratioStack.stack)))
             .Subscribe(e =>
             {
@@ -89,6 +89,7 @@ public partial class Buffs
         buffs
             .ObserveReplace()
             .Buffer(Observable.EveryUpdate())
+            .Where(b => b.Count > 0)
             .Select(b => (b[0].NewValue.key, ratio: b.Sum(v => v.NewValue.ratioStack.power - v.OldValue.ratioStack.power), stack: b.Sum(v => v.NewValue.ratioStack.stack - v.OldValue.ratioStack.stack)))
             .Subscribe(e =>
             {
@@ -98,6 +99,7 @@ public partial class Buffs
         buffs
             .ObserveRemove()
             .Buffer(Observable.EveryUpdate())
+            .Where(b => b.Count > 0)
             .Select(b => (b[0].Value.key, ratio: b.Sum(v => v.Value.ratioStack.power), stack: b.Sum(v => v.Value.ratioStack.stack)))
             .Subscribe(e =>
             {
@@ -113,7 +115,7 @@ public partial class Buffs
         for(int i = 0; i < (int)GrantOption.enumend; i++) grantQueue[i] = new();
     }
 
-    public RatioStack GetBuffValue(Key key)
+    public PowerStack GetBuffValue(Key key)
     {
         return allBuffRatioStack[(int)key];
     }

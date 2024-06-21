@@ -307,7 +307,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -822, y: 439}
+  m_AnchoredPosition: {x: -860, y: 396}
   m_SizeDelta: {x: 150, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8489565574343878498
@@ -436,13 +436,15 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8489565575103604749}
+  - {fileID: 8489565574806739050}
+  - {fileID: 8489565575754428474}
   m_Father: {fileID: 8489565575824734686}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: 0, y: 50}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 250}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &8489565574737949682
 CanvasRenderer:
@@ -529,14 +531,14 @@ RectTransform:
   m_Children:
   - {fileID: 8489565576285704827}
   - {fileID: 8489565575675564714}
-  m_Father: {fileID: 8489565576007437568}
-  m_RootOrder: 2
+  m_Father: {fileID: 8489565574737949680}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.5}
-  m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: -450, y: -130}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 450, y: 170}
-  m_Pivot: {x: 0, y: 0.5}
+  m_Pivot: {x: 0, y: 0}
 --- !u!222 &8489565574806739052
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -790,7 +792,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Button
+  m_text: Skip
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -817,8 +819,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 36
+  m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -871,7 +873,7 @@ GameObject:
   - component: {fileID: 8489565575506319966}
   - component: {fileID: 8489565575506319965}
   m_Layer: 5
-  m_Name: bar (1)
+  m_Name: Down
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1103,14 +1105,14 @@ RectTransform:
   m_Children:
   - {fileID: 3437550952209699352}
   - {fileID: 7557639893209031325}
-  m_Father: {fileID: 8489565576007437568}
-  m_RootOrder: 3
+  m_Father: {fileID: 8489565574737949680}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0.5}
-  m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 450, y: -130}
+  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 450, y: 170}
-  m_Pivot: {x: 1, y: 0.5}
+  m_Pivot: {x: 1, y: 0}
 --- !u!222 &8489565575754428476
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1178,7 +1180,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8489565575824734686
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1213,7 +1215,7 @@ GameObject:
   - component: {fileID: 8489565575894081206}
   - component: {fileID: 8489565575894081205}
   m_Layer: 5
-  m_Name: bar
+  m_Name: Up
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1291,7 +1293,7 @@ GameObject:
   - component: {fileID: 8489565576007437581}
   - component: {fileID: 8489565576007437580}
   m_Layer: 5
-  m_Name: ___DialogueManager___
+  m_Name: ___ScenarioManager___
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1311,8 +1313,6 @@ RectTransform:
   m_Children:
   - {fileID: 8489565575824734686}
   - {fileID: 8489565576186497624}
-  - {fileID: 8489565574806739050}
-  - {fileID: 8489565575754428474}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1334,9 +1334,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   panel: {fileID: 8489565576360831826}
-  barSize: {fileID: 8489565574737949683}
-  nameLeftBar: {fileID: 8489565574806739053}
-  nameRightBar: {fileID: 8489565575754428477}
+  dialogueUI: {fileID: 8489565575824734685}
+  leftBox: {fileID: 8489565574806739049}
+  rightBox: {fileID: 8489565575754428473}
   text: {fileID: 8489565575103604751}
   leftNameText: {fileID: 8489565576285704829}
   leftJobText: {fileID: 8489565575675564712}
@@ -1344,9 +1344,6 @@ MonoBehaviour:
   rightJobText: {fileID: 5602460792133434376}
   focusUI: {fileID: 8489565576186497607}
   typingTime: 0.1
-  isTyping: 0
-  panelState: 0
-  isEnd: 0
 --- !u!223 &8489565576007437582
 Canvas:
   m_ObjectHideFlags: 0

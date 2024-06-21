@@ -7,15 +7,18 @@ using System;
 
 public struct ActionPerformInfo
 {
+    public float gameTime;
     public int actionValue;
-    public int damage;
-    public string skillName;
+    public float damage;
+    public float damageMultiply;
+    public string actionName;
     public bool tryDestorySkill;
-    public ActionType attackType;
+    public ActionType actionType;
 }
 
 public struct ActionPerformResult
 {
+    public float gameTime;
     public int decreasedDamage;
     public int takenDamange;
     public int takenHpDamage;
@@ -24,10 +27,10 @@ public struct ActionPerformResult
     public bool isSkillDestoryed;
 }
 
-public abstract class Unit : MonoBehaviour
+public class Unit : MonoBehaviour
 {
     //singleton
-    private AttackManager attackManager => AttackManager.instance;
+    private ActionManager attackManager => ActionManager.instance;
     private DataManager dataManager => DataManager.instance;
 
     //inspector
@@ -40,16 +43,22 @@ public abstract class Unit : MonoBehaviour
     protected bool isEndAnimation;
     protected int hp;
     protected int shield;
-    protected Buffs buffs = new();
+    protected Buffs buffs;
     protected Animator anim;
     protected SpriteRenderer sr;
     protected List<string> actionQueue = new List<string>();
     protected string curUseAction;
+    protected ActionPerformInfo actionPerformInfo;
+    protected ActionPerformResult actionPerformResult;
 
     //property
     protected Action_Base CurAction => attackManager.ActionTable[curUseAction];
     protected ActionInfo CurActionInfo => dataManager.loadData.ActionInfos[curUseAction];
     
+    public int MaxHp => maxHP;
+    public int MaxShield => maxShield;
+    public int Hp => hp;
+    public int Shield => shield;
     public string unitName => gameObject.name;
     public string CurUseAction => curUseAction;
     public bool HasAction => !string.IsNullOrEmpty(CurUseAction);
@@ -58,6 +67,7 @@ public abstract class Unit : MonoBehaviour
 
     private void Awake()
     {
+        buffs = new(this);
         anim = GetComponent<Animator>();
         sr = GetComponent<SpriteRenderer>();
     }
@@ -84,50 +94,47 @@ public abstract class Unit : MonoBehaviour
         }
     }
 
-    public void Attack()
+    public void PerformAction(Unit target, bool isOneWay = false)
     {
-        // StartCoroutine(Routine());
-        // IEnumerator Routine()
-        // {
-        //     //get skill from queue
-        //     curUseAction = actionQueue[0];
-        //     actionQueue.RemoveAt(0);
+        Debug.Log("Perform");
+        StartCoroutine(Routine(target, isOneWay));
+        IEnumerator Routine(Unit target, bool isOneWay)
+        {
+            //initialize
+            curUseAction = actionQueue[0];
+            actionQueue.RemoveAt(0);
 
-        //     //0, 2, 4, 8
-        //     sr.sprite = actionSprites[((int)CurActionInfo.actionType - 1) * 2];
-        // }
+            CurAction.Initialize(this, dataManager.actionLevels[curUseAction], target);
+            CurAction.OnAttackStart();
+
+            //info
+            var info = new ActionPerformInfo();
+            info.gameTime = Time.time;
+            info.actionValue = CurAction.GetActionValue();
+            
+            CurAction.OnIncreaseDamage(ref info);
+
+            info.damage = info.actionValue * info.damageMultiply;
+
+            actionPerformInfo = info;
+
+            //sprite
+            sr.sprite = actionSprites[((int)CurActionInfo.actionType - 1) * 2];
+            yield return new WaitForSeconds(0.75f);
+            sr.sprite = actionSprites[((int)CurActionInfo.actionType - 1) * 2 + 1];
+
+            //damage
+            actionPerformResult = target.React(info);
+            CurAction.OnPerformAction();
+
+            yield return new WaitForSeconds(0.33f);
+        }
     }
 
-    public void Damage(ActionPerformResult result)
+    public ActionPerformResult React(ActionPerformInfo info)
     {
-
-    }
-
-    public ActionPerformInfo GetPerformInfo()
-    {
-        return new();
-    }
-
-    public ActionPerformResult Simulate(ActionPerformInfo requestSkill)
-    {
-        //Debug.Log(damage);
+        Debug.Log("React");
         var response = new ActionPerformResult();
-        var damage = Mathf.RoundToInt(requestSkill.damage * buffs.GetBuffValue(Buffs.Key.AttackUp).power);
-
-        if (shield <= 0)
-        {
-            response.takenDamange = Mathf.FloorToInt(2f * damage);
-            hp -= response.takenDamange;
-        }
-        else
-        {
-            shield -= damage;
-            if(shield != 0) damage = 0;
-
-            response.takenDamange = damage;
-            hp -= response.takenDamange;
-        }
-
         return response;
     }
 }
