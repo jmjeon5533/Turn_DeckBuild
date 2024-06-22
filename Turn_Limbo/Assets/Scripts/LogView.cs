@@ -10,7 +10,7 @@ public class LogView : MonoBehaviour
     private RectTransform UIPanel;
     private bool isPanelMove;
     public int[] curDmg = new int[2];
-    public ActionPerformInfo[] curSkills = new ActionPerformInfo[2];
+    public ActionPerformData[] curSkills = new ActionPerformData[2];
     [SerializeField] RectTransform ContentPanel;
     [SerializeField] RectTransform[] Panels;
     [SerializeField] LogPanel[] BaseObjs;

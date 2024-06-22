@@ -4,13 +4,15 @@ using UnityEngine;
 using Cysharp.Threading.Tasks;
 using UnityEngine.Networking;
 using System;
+using System.Linq;
+
 
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
 
 [System.Serializable]
-public class ActionInfo
+public class ActionData
 {
     public string key;
     public int inputKeyIndex;
@@ -25,54 +27,54 @@ public class ActionInfo
     public int[] maxDamage;
     public Sprite icon;
 
-    public static ActionInfo Parse(string row)
+    public static ActionData Parse(string row)
     {
         string[] elements = row.Split('\t');
-        var newSkill = new ActionInfo();
+        var info = new ActionData();
         int count = 0;
-        newSkill.key = elements[count++];
-        newSkill.inputKeyIndex = int.Parse(elements[count++]) - 1;
-        newSkill.actionName = elements[count++];
-        newSkill.actionType = elements[count++].EnumParse<ActionType>();
-        newSkill.script = string.IsNullOrEmpty(elements[count]) ? "Base" : elements[count++];
-        newSkill.actionDesc = elements[count++];
-        newSkill.effectDesc = elements[count++];
-        newSkill.sale = int.Parse(elements[19]);
+        info.key = elements[count++];
+        info.inputKeyIndex = int.Parse(elements[count++]) - 1;
+        info.actionName = elements[count++];
+        info.actionType = elements[count++].EnumParse<ActionType>();
+        info.script = string.IsNullOrEmpty(elements[count]) ? "Base" : elements[count++];
+        info.actionDesc = elements[count++];
+        info.effectDesc = elements[count++];
+        info.sale = int.Parse(elements[19]);
 
-        newSkill.requireAct = new int[4];
-        newSkill.minDamage = new int[4];
-        newSkill.maxDamage = new int[4];
+        info.requireAct = new int[4];
+        info.minDamage = new int[4];
+        info.maxDamage = new int[4];
 
         for (int i = 0; i < 4; i++)
         {
-            newSkill.requireAct[i] = int.Parse(elements[7 + (i * 3)]);
-            newSkill.minDamage[i] = int.Parse(elements[8 + (i * 3)]);
-            newSkill.maxDamage[i] = int.Parse(elements[9 + (i * 3)]);
+            info.requireAct[i] = int.Parse(elements[7 + (i * 3)]);
+            info.minDamage[i] = int.Parse(elements[8 + (i * 3)]);
+            info.maxDamage[i] = int.Parse(elements[9 + (i * 3)]);
         }
 
-        newSkill.icon = Resources.Load<Sprite>($"Icon/{newSkill.key}");
+        info.icon = Resources.Load<Sprite>($"Icon/{info.key}");
 
-        return newSkill;
+        return info;
     }
 }
 
 [System.Serializable]
-public class ScenarioInfo
+public class ScenarioData
 {
-    public DialogueInfo[] dialogues;
+    public DialogueData[] dialogues;
 
-    public static ScenarioInfo Parse(string[] rows)
+    public static ScenarioData Parse(string[] rows)
     {
-        var stageTextInfo = new ScenarioInfo() { dialogues = new DialogueInfo[rows.Length] };
+        var stageTextInfo = new ScenarioData() { dialogues = new DialogueData[rows.Length] };
         for (int i = 0; i < rows.Length; i++)
-            stageTextInfo.dialogues[i] = DialogueInfo.Parse(rows[i]);
+            stageTextInfo.dialogues[i] = DialogueData.Parse(rows[i]);
 
         return stageTextInfo;
     }
 }
 
 [System.Serializable]
-public class DialogueInfo
+public class DialogueData
 {
     public int stageId;
     public string dialogue;
@@ -88,67 +90,93 @@ public class DialogueInfo
     //target
     //background
 
-    public static DialogueInfo Parse(string row)
+    public static DialogueData Parse(string row)
     {
-        var split = row.Split('\t');
+        var elements = row.Split('\t');
         var count = 0;
-        var info = new DialogueInfo();
-        info.stageId = int.Parse(split[count++]);
-        info.dialogue = split[count++];
-        info.name = split[count++];
-        info.job = split[count++];
-        info.namePos = Enum.Parse<ScenarioManager.NamePos>(split[count++]);
-        info.camPos = Enum.Parse<ScenarioManager.CamPos>(split[count++]);
-        info.text = split[count++];
-        info.curEvent = Enum.Parse<ScenarioManager.DialogueEvent>(split[count++]);
-        info.eventValue = split[count++];
+        var info = new DialogueData();
+        info.stageId = int.Parse(elements[count++]);
+        info.dialogue = elements[count++];
+        info.name = elements[count++];
+        info.job = elements[count++];
+        info.namePos = Enum.Parse<ScenarioManager.NamePos>(elements[count++]);
+        info.camPos = Enum.Parse<ScenarioManager.CamPos>(elements[count++]);
+        info.text = elements[count++];
+        info.curEvent = Enum.Parse<ScenarioManager.DialogueEvent>(elements[count++]);
+        info.eventValue = elements[count++];
         return info;
     }
 }
 
 [System.Serializable]
-public class EnemyInfo
+public class EnemyData
 {
-    public int index;
+    public string key;
     public string name;
-    public int hp;
-    public int shield;
+    public int maxHp;
+    public int maxShield;
     public int atk;
-    public int minCount;
-    public int maxCount;
+    public int minActionCount;
+    public int maxActionCount;
+    public string[] gainSkills;
+    public int[] gainSkillLvs;
 
-    public static EnemyInfo Parse(string row)
+    public static EnemyData Parse(string row)
     {
-        string[] column = row.Split('\t');
+        var elements = row.Split('\t');
         var count = 0;
-        var newEnemy = new EnemyInfo();
-        newEnemy.index = int.Parse(column[count++]);
-        newEnemy.name = column[count++];
-        newEnemy.hp = int.Parse(column[count++]);
-        newEnemy.shield = int.Parse(column[count++]);
-        newEnemy.atk = int.Parse(column[count++]);
-        newEnemy.minCount = int.Parse(column[count++]);
-        newEnemy.maxCount = int.Parse(column[count++]);
-        return newEnemy;
+        var info = new EnemyData();
+        info.key = elements[count++];
+        info.name = elements[count++];
+        info.maxHp = int.Parse(elements[count++]);
+        info.maxShield = int.Parse(elements[count++]);
+        info.atk = int.Parse(elements[count++]);
+        info.minActionCount = int.Parse(elements[count++]);
+        info.maxActionCount = int.Parse(elements[count++]);
+        info.gainSkills = elements[count++].Split(',').ToArray();
+        info.gainSkillLvs = elements[count++].Split(',').Select(x => int.Parse(x)).ToArray();
+        return info;
+    }
+}
+
+[Serializable]
+public class StageData
+{
+    public string enemy;
+
+    public static StageData Parse(string row)
+    {
+        var elements = row.Split('\t');
+        var info = new StageData();
+        info.enemy = elements[1];
+        return info;
     }
 }
 
 [CreateAssetMenu(fileName = "Loads", menuName = "Loads", order = 1)]
 public class SOLoadData : ScriptableObject
 {
-    [SerializeField] private List<ActionInfo> actionInfos = new();
-    [SerializeField] private List<ScenarioInfo> scenarioInfos = new();
-    [SerializeField] private List<EnemyInfo> enemyInfos = new();
+    [SerializeField] private List<ActionData> actionDatas = new();
+    [SerializeField] private List<ScenarioData> scenarioDatas = new();
+    [SerializeField] private List<EnemyData> enemyDatas = new();
+    [SerializeField] private List<StageData> stageDatas = new();
 
-    public IReadOnlyDictionary<string, ActionInfo> ActionInfos { get; private set; }
-    public IReadOnlyList<ScenarioInfo> ScenarioInfos => scenarioInfos;
+    public IReadOnlyDictionary<string, ActionData> ActionDatas { get; private set; }
+    public IReadOnlyList<ScenarioData> ScenarioDatas => scenarioDatas;
+    public IReadOnlyDictionary<string, EnemyData> EnemyDatas { get; private set; }
+    public IReadOnlyList<StageData> StageDatas => stageDatas;
 
     public void RuntimeInitialize()
     {
-        var dict = new Dictionary<string, ActionInfo>();
-        foreach(var info in actionInfos)
-            dict.Add(info.key, info);
-        ActionInfos = dict;
+        var actionDatas = new Dictionary<string, ActionData>();
+        foreach(var info in this.actionDatas)
+            actionDatas.Add(info.key, info);
+        ActionDatas = actionDatas;
+
+        var enemyDatas = new Dictionary<string, EnemyData>();
+        foreach(var info in this.enemyDatas)
+            enemyDatas.Add(info.key, info);
+        EnemyDatas = enemyDatas;
     }
 
 #if UNITY_EDITOR
@@ -158,12 +186,12 @@ public class SOLoadData : ScriptableObject
         //skill data
         await LoadData(1705787959, tsv =>
         {
-            actionInfos.Clear();
+            actionDatas.Clear();
             var cols = tsv.Split('\n');
             for (int i = 1; i < cols.Length; i++)
             {
-                var newSkill = ActionInfo.Parse(cols[i]);
-                actionInfos.Add(newSkill);
+                var newSkill = ActionData.Parse(cols[i]);
+                actionDatas.Add(newSkill);
                 // skillDatas[keyCode].Add(newSkill);
             }
         });
@@ -172,7 +200,7 @@ public class SOLoadData : ScriptableObject
         //scenario data
         await LoadData(930614922, tsv =>
         {
-            scenarioInfos.Clear();
+            scenarioDatas.Clear();
             var split = tsv.Split('\n');
             var currentStage = '0';
             var start = 1;
@@ -181,7 +209,7 @@ public class SOLoadData : ScriptableObject
                 //check if stage is different
                 if (currentStage != split[i][0])
                 {
-                    scenarioInfos.Add(ScenarioInfo.Parse(split[start..i]));
+                    scenarioDatas.Add(ScenarioData.Parse(split[start..i]));
                     start = i;
                     currentStage = split[i][0];
                 }
@@ -192,12 +220,21 @@ public class SOLoadData : ScriptableObject
         //enemy data
         await LoadData(520277150, tsv =>
         {
-            enemyInfos.Clear();
+            enemyDatas.Clear();
             var split = tsv.Split('\n');
             for (int i = 1; i < split.Length; i++)
-                enemyInfos.Add(EnemyInfo.Parse(split[i]));
+                enemyDatas.Add(EnemyData.Parse(split[i]));
         });
         Debug.Log("Enemy Data Complete");
+
+        //stage data
+        await LoadData(77255081, tsv =>
+        {
+            stageDatas.Clear();
+            var split = tsv.Split('\n');
+            for(int i = 1; i < split.Length; i++)
+                stageDatas.Add(StageData.Parse(split[i]));
+        });
 
         EditorUtility.SetDirty(this);
         AssetDatabase.SaveAssetIfDirty(this);

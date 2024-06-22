@@ -59,7 +59,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -128,10 +128,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   images:
+  - {fileID: 3264052231713875627}
   - {fileID: 3264052232118939862}
   - {fileID: 3264052232941270828}
-  use: {fileID: 3264052231713875627}
   index: 0
+  lerpTargetData:
+  - position: {x: 0, y: -60}
+    size: {x: 120, y: 120}
+    color: {r: 1, g: 1, b: 1, a: 0}
+  - position: {x: 0, y: 0}
+    size: {x: 120, y: 120}
+    color: {r: 1, g: 1, b: 1, a: 1}
+  - position: {x: 0, y: 20}
+    size: {x: 140, y: 140}
+    color: {r: 1, g: 1, b: 1, a: 0.5019608}
+  lerpChangedData:
+  - position: {x: 0, y: 0}
+    size: {x: 120, y: 120}
+    color: {r: 1, g: 1, b: 1, a: 1}
+  - position: {x: 0, y: 20}
+    size: {x: 140, y: 140}
+    color: {r: 1, g: 1, b: 1, a: 0.5019608}
+  - position: {x: 0, y: 40}
+    size: {x: 170, y: 170}
+    color: {r: 1, g: 1, b: 1, a: 0}
 --- !u!1 &3264052232118939848
 GameObject:
   m_ObjectHideFlags: 0

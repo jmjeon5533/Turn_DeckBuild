@@ -61,12 +61,12 @@ public class ScenarioManager : MonoBehaviour
         text.text = null;
     }
 
-    public void StartScenario(ScenarioInfo scenario)
+    public void StartScenario(ScenarioData scenario)
     {
         StartCoroutine(ScenarioRoutine(scenario));
     }
 
-    private IEnumerator ScenarioRoutine(ScenarioInfo scenario)
+    private IEnumerator ScenarioRoutine(ScenarioData scenario)
     {
         //scenario initialize
         dialogueUI.SetActive(true);
@@ -112,7 +112,7 @@ public class ScenarioManager : MonoBehaviour
         yield return null;
     }
 
-    private void SetNamePos(DialogueInfo dialogue)
+    private void SetNamePos(DialogueData dialogue)
     {
         switch (dialogue.namePos)
         {
@@ -134,7 +134,7 @@ public class ScenarioManager : MonoBehaviour
         }
     }
 
-    private void SetCamPos(DialogueInfo dialogue)
+    private void SetCamPos(DialogueData dialogue)
     {
         // switch (dialogue.camPos)
         // {
@@ -158,7 +158,7 @@ public class ScenarioManager : MonoBehaviour
     //     // eventValue = dialogue.eventValue;
     // }
 
-    private void ExecuteDialogueEvent(DialogueInfo dialogue)
+    private void ExecuteDialogueEvent(DialogueData dialogue)
     {
         string command = null;
         string value = null;

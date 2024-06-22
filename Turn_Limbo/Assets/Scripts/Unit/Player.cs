@@ -29,7 +29,7 @@ public class Player : Unit
         foreach (var list in dataManager.deck)
             foreach (var actionKey in list)
             {
-                var info = dataManager.loadData.ActionInfos[actionKey];
+                var info = dataManager.loadData.ActionDatas[actionKey];
                 deckQueues[info.inputKeyIndex].Add(actionKey);
             }
     }
@@ -41,7 +41,7 @@ public class Player : Unit
             if (Input.GetKeyDown(InputKeys[i]))
             {
                 var key = deckQueues[i][0];
-                var info = dataManager.loadData.ActionInfos[key];
+                var info = dataManager.loadData.ActionDatas[key];
                 var useAct = info.requireAct[dataManager.actionLevels[key]];
 
                 if (act >= useAct)

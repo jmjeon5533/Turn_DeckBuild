@@ -5,7 +5,7 @@ using DG.Tweening;
 using UnityEngine.UI;
 using System;
 
-public struct ActionPerformInfo
+public struct ActionPerformData
 {
     public float gameTime;
     public int actionValue;
@@ -30,7 +30,6 @@ public struct ActionPerformResult
 public class Unit : MonoBehaviour
 {
     //singleton
-    private GameManager attackManager => GameManager.instance;
     private DataManager dataManager => DataManager.instance;
 
     //inspector
@@ -49,12 +48,13 @@ public class Unit : MonoBehaviour
     protected SpriteRenderer sr;
     protected List<string> actionQueue = new List<string>();
     protected string curUseAction;
-    protected ActionPerformInfo actionPerformInfo;
+    protected ActionPerformData actionPerformInfo;
     protected ActionPerformResult actionPerformResult;
+    protected Dictionary<string, Action_Base> actionTable = new();
 
     //property
-    protected Action_Base CurAction => attackManager.ActionTable[CurActionInfo.script];
-    protected ActionInfo CurActionInfo => dataManager.loadData.ActionInfos[curUseAction];
+    protected Action_Base CurAction => actionTable[CurActionInfo.script];
+    protected ActionData CurActionInfo => dataManager.loadData.ActionDatas[curUseAction];
     
     public int MaxHp => maxHP;
     public int MaxShield => maxShield;
@@ -73,12 +73,7 @@ public class Unit : MonoBehaviour
         sr = GetComponent<SpriteRenderer>();
     }
 
-    protected virtual void Start()
-    {
-        hp = maxHP;
-        shield = maxShield;
-        // isLeft = transform.position.x < 0;
-    }
+    protected virtual void Start() { }
 
     public virtual void OnTurnStart()
     {
@@ -105,7 +100,11 @@ public class Unit : MonoBehaviour
         actionQueue.RemoveAt(0);
     }
 
-    public void PerformAction(Unit target, bool isOneWay = false)
+    public void PerformAction(
+        Unit target, 
+        ActionPerformData data,
+        ActionPerformResult result,
+        bool isOneWay = false)
     {
         Debug.Log("Perform");
         isEndAnimation = false;
@@ -114,11 +113,11 @@ public class Unit : MonoBehaviour
         IEnumerator Routine(Unit target, bool isOneWay)
         {
             //initialize
-            CurAction.Use(this, dataManager.actionLevels[curUseAction], target);
-            CurAction.OnAttackStart();
+            CurAction.SetTarget(target);
+            CurAction.OnActionStart();
 
             //info
-            var info = new ActionPerformInfo();
+            var info = new ActionPerformData();
             info.gameTime = Time.time;
             info.actionValue = CurAction.GetActionValue();
             
@@ -141,7 +140,7 @@ public class Unit : MonoBehaviour
                 onWayAttackSpeedStack = 2.5f;
 
             //damage
-            actionPerformResult = target.React(info);
+            target.Apply(info);
             CurAction.OnPerformAction();
 
             yield return new WaitForSeconds(0.15f / onWayAttackSpeedStack);
@@ -149,9 +148,19 @@ public class Unit : MonoBehaviour
         }
     }
 
-    public ActionPerformResult React(ActionPerformInfo info)
+    public void Apply(ActionPerformData info)
     {
-        Debug.Log("React");
+        
+    }
+
+    public ActionPerformData CreatePerformData()
+    {
+        var data = new ActionPerformData();
+        return data;
+    }
+
+    public ActionPerformResult Simulate(ActionPerformData data)
+    {
         var response = new ActionPerformResult();
         return response;
     }

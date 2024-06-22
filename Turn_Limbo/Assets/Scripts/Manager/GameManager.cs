@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UniRx;
 using UnityEngine;
 
@@ -10,36 +11,27 @@ public class GameManager : MonoBehaviour
 
     private DataManager dataManager => DataManager.instance;
 
-    [SerializeField] private Unit player;
-    [SerializeField] private Unit enemy;
-
+    private Player player;
+    private Enemy enemy;
     private float attackRemainTime;
     private bool isSimulating;
-    private Dictionary<string, Action_Base> actionTable = new();
 
     public float AttackRemainTime => attackRemainTime;
     public bool IsAttacking => isSimulating;
-    public IReadOnlyDictionary<string, Action_Base> ActionTable => actionTable;
 
     private void Awake()
     {
         instance = this;
+        
+        player = Instantiate(Resources.Load<Player>("Prefabs/Player"), new Vector3(-5, 0, 0), Quaternion.identity);
+
+        var enemyKey = dataManager.loadData.StageDatas[dataManager.curStage].enemy;
+        enemy = Instantiate(Resources.Load<Enemy>($"Prefabs/Enemy/{enemyKey}"), new Vector3(5, 0, 0), Quaternion.identity);
+        enemy.SetEnemyKey(enemyKey);
     }
 
     private void Start()
     {
-        foreach (var list in dataManager.deck)
-            foreach (var actionKey in list)
-            {
-                var info = dataManager.loadData.ActionInfos[actionKey];
-                if (!actionTable.ContainsKey(info.script))
-                {
-                    var instance = Activator.CreateInstance(Type.GetType("Action_" + info.script)) as Action_Base;
-                    instance.Initialize(info);
-                    actionTable.Add(info.script, instance);
-                }
-            }
-
         this
             .ObserveEveryValueChanged(x => x.attackRemainTime)
             .Where(x => x <= 0)
@@ -90,8 +82,8 @@ public class GameManager : MonoBehaviour
             //not one way attack
             if (player.HasAction && enemy.HasAction)
             {
-                player.PerformAction(enemy);
-                enemy.PerformAction(player);
+                // player.PerformAction(enemy, );
+                // enemy.PerformAction(player);
                 yield return new WaitUntil(() => enemy.IsEndAnimation && player.IsEndAnimation);
             }
             else //one way attack
@@ -99,13 +91,13 @@ public class GameManager : MonoBehaviour
                 Debug.Log(player.HasAction);
                 if (player.HasAction)
                 {
-                    player.PerformAction(enemy, true);
+                    // player.PerformAction(enemy, true);
                     yield return new WaitUntil(() => player.IsEndAnimation);
                 }
 
                 if (enemy.HasAction)
                 {
-                    enemy.PerformAction(player, true);
+                    // enemy.PerformAction(player, true);
                     yield return new WaitUntil(() => enemy.IsEndAnimation);
                 }
             }

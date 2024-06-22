@@ -9,11 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8111559515902139155}
-  - component: {fileID: 8111559515902139154}
   - component: {fileID: 8111559515902139152}
   - component: {fileID: 8111559515902139167}
+  - component: {fileID: 8111559515807756777}
   m_Layer: 8
-  m_Name: Enemy1
+  m_Name: Vichanhee
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26,7 +26,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8111559515902139156}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 5, y: -0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -35,43 +35,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8111559515902139154
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8111559515902139156}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab8adb398d1e33b44aee2ccf34feed86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hp: 100
-  maxHP: 100
-  hpLimit: 0
-  shield: 50
-  maxShield: 50
-  shieldBreak: 0
-  curDamage: 0
-  curAttackCount: 0
-  attack_Drainage: 0
-  defense_Drainage: 0
-  isAttack: 0
-  target: {fileID: 0}
-  effect: {fileID: 1429954232896169632, guid: 83036083a4ebcd34f98131bd3cf6f4d2, type: 3}
-  hitSound: {fileID: 0}
-  Uniticon: {fileID: 0}
-  skillInfo: {fileID: 11400000, guid: 84760a5a73f705044aedec432bfb8ec9, type: 2}
-  anim: {fileID: 0}
-  isLeft: 0
-  isDialogue: 0
-  unitUI: {fileID: 0}
-  dmgDelayTime: 0
-  dmgDelayCurTime: 0
-  skillCurCount: 0
-  requestMaxCount: 4
-  requestMinCount: 2
 --- !u!212 &8111559515902139152
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -114,7 +77,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -1755108507, guid: 2a15d9b7d5c1800429bb4d22f457165a, type: 3}
-  m_Color: {r: 1, g: 0.9780377, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -145,6 +108,29 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &8111559515807756777
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8111559515902139156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de0946352bf1c8a4bae6e9fca9fb2332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHP: 100
+  maxShield: 100
+  actionSprites:
+  - {fileID: -1697522423, guid: 34bb21f4512831647ad39e2d7c6f3b33, type: 3}
+  - {fileID: 1849423705, guid: 34bb21f4512831647ad39e2d7c6f3b33, type: 3}
+  - {fileID: 1549559316, guid: 9853c746ae0fabe45989023adecd758a, type: 3}
+  - {fileID: 643312021, guid: 9853c746ae0fabe45989023adecd758a, type: 3}
+  - {fileID: -470089504, guid: b96eee692b47a764396d50b362b572de, type: 3}
+  - {fileID: -1876127649, guid: b96eee692b47a764396d50b362b572de, type: 3}
+  - {fileID: -283447517, guid: c89511ab45dccf6448c3eb2dfd19ec63, type: 3}
+  - {fileID: -1916713348, guid: c89511ab45dccf6448c3eb2dfd19ec63, type: 3}
 --- !u!1 &8111559516275123396
 GameObject:
   m_ObjectHideFlags: 0
@@ -156,7 +142,7 @@ GameObject:
   - component: {fileID: 8111559516275123395}
   - component: {fileID: 8111559516275123394}
   m_Layer: 8
-  m_Name: Circle (1)
+  m_Name: Shadow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -170,7 +156,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8111559516275123396}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -2.23, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 3, y: 0.7, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

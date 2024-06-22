@@ -13,34 +13,38 @@ public enum ActionType
 
 public class Action_Base
 {
-    protected ActionInfo actionInfo;
-    protected Unit caster;
-    protected int actionLv;
+    protected readonly ActionData info;
+    protected readonly Unit caster;
+    protected readonly int lv;
     protected Unit target;
 
-    public void Initialize(ActionInfo actionInfo)
+    /// <summary>
+    /// Do not use this constructor
+    /// </summary>
+    public Action_Base() { }
+    public Action_Base(ActionData info, Unit caster, int lv)
     {
-        this.actionInfo = actionInfo;
+        this.info = info;
+        this.caster = caster;
+        this.lv = lv;
     }
 
-    public void Use(Unit caster, int actionLv, Unit target)
+    public void SetTarget(Unit target)
     {
-        this.caster = caster;
-        this.actionLv = actionLv;
         this.target = target;
     }
 
-    public virtual void OnAttackStart()
+    public virtual void OnActionStart()
     {
 
     }
 
     public virtual int GetActionValue()
     {
-        return Random.Range(actionInfo.minDamage[actionLv], actionInfo.minDamage[actionLv]);
+        return Random.Range(info.minDamage[lv], info.minDamage[lv]);
     }
 
-    public virtual void OnIncreaseDamage(ref ActionPerformInfo info)
+    public virtual void OnIncreaseDamage(ref ActionPerformData info)
     {
         
     }
