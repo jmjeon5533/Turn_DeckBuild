@@ -116,6 +116,8 @@ public class ReadSpreadSheet : MonoBehaviour
 
     void PasreBuffData(string data)
     {
+        Debug.Log("ReadBuff");
+
         Dictionary<string, Buff_Base> buff = new();
         Dictionary<string, Buff_Base> debuff = new();
 

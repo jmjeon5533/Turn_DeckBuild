@@ -82,7 +82,7 @@ public class Controller : MonoBehaviour
     }
     void Start()
     {
-        
+
         player.hitSound = hitSound;
         enemy.hitSound = hitSound;
         player.dmgDelayTime = AnimTime;
@@ -135,7 +135,7 @@ public class Controller : MonoBehaviour
     }
     void Update()
     {
-        if(UIManager.instance.isPause) return;
+        if (UIManager.instance.isPause) return;
         if (!data.readEnd) return;
         else if (data.stageDialogBox.Count != 0 && !isDialogue)
         {
@@ -143,10 +143,7 @@ public class Controller : MonoBehaviour
             StartCoroutine(StartDialogue(data.stageDialogBox));
         }
 
-        if (isDialogue && Input.GetMouseButtonDown(0))
-        {
-            Dialogue();
-        }
+        if (isDialogue && Input.GetMouseButtonDown(0)) Dialogue();
 
         UIUpdate(player);
         UIUpdate(enemy);
@@ -285,6 +282,8 @@ public class Controller : MonoBehaviour
 
     public void UseAttack()
     {
+        if(isDialogue || isAttack) return;
+        isAttack = true;
         UIManager.instance.ActiveBtn(false);
         UIManager.instance.SetExplain(false);
         StartCoroutine(Attack());
@@ -301,7 +300,6 @@ public class Controller : MonoBehaviour
     IEnumerator Attack()
     {
         var ui = UIManager.instance;
-        isAttack = true;
         ui.cam.DOOrthoSize(3.5f, 0.5f).SetEase(Ease.OutCubic);
         ui.inputPanel.rectTransform.DOSizeDelta(Vector2.zero, 0.5f);
         StartCoroutine(FirstAttackMove(player));
@@ -370,7 +368,7 @@ public class Controller : MonoBehaviour
 
         yield return new WaitForSeconds(0.5f);
         ui.cam.DOOrthoSize(5f, 0.5f).SetEase(Ease.OutCubic);
-        player.anim.Play("Idle"); enemy.anim.Play("Idle"); 
+        player.anim.Play("Idle"); enemy.anim.Play("Idle");
 
         ui.camRotZ = 0;
         player.transform.DOMoveX(-3.5f * (player.isLeft ? 1 : -1), 0.5f)
@@ -381,6 +379,7 @@ public class Controller : MonoBehaviour
         ui.inputPanel.rectTransform.sizeDelta = new Vector2(0, 250);
         isAttack = false;
         ui.ActiveBtn(true);
+        player.UseBuff(BuffTiming.battleEnd); enemy.UseBuff(BuffTiming.battleEnd);
         TurnEnd();
     }
 
@@ -391,7 +390,7 @@ public class Controller : MonoBehaviour
         unit.SkillInit(skill);
 
         Debug.Log(skill);
-        if(skill.animation == null) Debug.Log($"!!!!!!!!!!!! {skill.skillName}");
+        if (skill.animation == null) Debug.Log($"!!!!!!!!!!!! {skill.skillName}");
         return skill.animation.length;
     }
 
@@ -404,8 +403,8 @@ public class Controller : MonoBehaviour
             skill.maxDamage[unit.skillInfo.holdSkills[skill.index].level], skill.attackCount);
 
         unit.curSkill.effect?.Setting(unit, unit.target);
-        StartCoroutine(IconAnim(skill.insertImage,skill.animation.length * skill.attackCount));
-        for(int i = 0; i < skill.attackCount; i++)
+        StartCoroutine(IconAnim(skill.insertImage, skill.animation.length * skill.attackCount));
+        for (int i = 0; i < skill.attackCount; i++)
         {
             unit.anim.Play(skill.propertyType.ToString());
             yield return new WaitForSeconds(skill.animation.length);
@@ -440,7 +439,7 @@ public class Controller : MonoBehaviour
     IEnumerator IconAnim(Icon insertImage, float waitTime)
     {
         yield return insertImage.transform.DOScale(1.5f, 0.2f).SetEase(Ease.OutQuint).WaitForCompletion();
-        yield return new WaitForSeconds(Mathf.Clamp(waitTime - 0.4f,0,5));
+        yield return new WaitForSeconds(Mathf.Clamp(waitTime - 0.4f, 0, 5));
         yield return insertImage.transform.DOScale(0, 0.2f).SetEase(Ease.OutQuint).WaitForCompletion();
         Destroy(insertImage.gameObject);
     }
@@ -484,6 +483,7 @@ public class Controller : MonoBehaviour
     IEnumerator EndDialogue()
     {
         isAttack = false;
+        isDialogue = false;
         DialogueManager.instance.OnOffDialogue(isAttack);
         player.unitUI.HideUI(true);
         enemy.unitUI.HideUI(true);

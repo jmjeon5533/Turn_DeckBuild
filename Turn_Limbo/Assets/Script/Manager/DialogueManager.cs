@@ -75,7 +75,7 @@ public class DialogueManager : MonoBehaviour
     [HideInInspector] public bool isEnd;
     string eventValue;
     bool isSkip;
-    bool isPanel;
+    [SerializeField] bool isPanel;
     bool isNameHide;
     Action<string> curEvent;
 
@@ -104,7 +104,7 @@ public class DialogueManager : MonoBehaviour
 
     public void InputDialogue(Dialogue dialogue)
     {
-        Debug.Log("Input Dialogue");
+        //Debug.Log("Input Dialogue");
         switch (dialogue.namePos)
         {
             case NamePos.Left:
@@ -205,8 +205,9 @@ public class DialogueManager : MonoBehaviour
         panel.rectTransform.DOSizeDelta(isPanel ? new(1589, 892) : Vector2.zero, 0.5f);
         if (isPanel)
         {
-            panel.sprite = Resources.Load<Sprite>($"Panel/{value}");;
-            isPanel = !isPanel;
+            Debug.Log("Panel");
+            panel.sprite = Resources.Load<Sprite>($"Panel/{value}");
+            isPanel = false;
             panelState = false;
         }
     }
@@ -216,5 +217,6 @@ public class DialogueManager : MonoBehaviour
         isEnd = true;
         isTyping = true;
         isSkip = true;
+        panel.rectTransform.DOSizeDelta(Vector2.zero, 0.5f);
     }
 }
