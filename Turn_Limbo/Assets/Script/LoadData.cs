@@ -9,6 +9,9 @@ public class LoadData : ScriptableObject
     public List<Skill> SkillList = new();
     public List<SpawnData> SpawnData = new();
 
+    public Dictionary<string, Buff_Base> buffList;
+    public Dictionary<string, Buff_Base> debuffList;
+
     public List<UnitData> enemyData = new();
 
     public Dictionary<int, Queue<Dialogue>> stageDialogBox = new();

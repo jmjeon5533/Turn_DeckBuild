@@ -9,7 +9,7 @@ public class ReadSpreadSheet : MonoBehaviour
 {
     public static ReadSpreadSheet instance;
     public const string ADDRESS = "https://docs.google.com/spreadsheets/d/1ENYCDg5E6WuUwf-NZjCOpJfRufJsxQI8d7qEKh3Kf_I";
-    public readonly long[] SHEET_ID = { 1705787959, 930614922, 520277150 };
+    public readonly long[] SHEET_ID = { 1705787959, 930614922, 520277150, 232901544 };
 
     [SerializeField] private TextAsset skill;
     [SerializeField] private TextAsset scenario;
@@ -34,6 +34,7 @@ public class ReadSpreadSheet : MonoBehaviour
             // StartCoroutine(LoadData(3, PasreBuffData));
 
             LoadData(skill.text, ParseSkillData);
+            LoadData(buff.text, PasreBuffData);
             LoadData(scenario.text, ParseTextData);
             DataManager.instance.readEnd = true;
             callBack?.Invoke();
@@ -111,6 +112,33 @@ public class ReadSpreadSheet : MonoBehaviour
         Debug.Log("ReadEnd");
         //controller.inputs = new Dictionary<KeyCode, List<Skill>>(skillDatas);
         //controller.inputLists = new List<Skill>(skillLists);
+    }
+
+    void PasreBuffData(string data)
+    {
+        Debug.Log("ReadBuff");
+
+        Dictionary<string, Buff_Base> buff = new();
+        Dictionary<string, Buff_Base> debuff = new();
+
+        var d = DataManager.instance;
+        string[] rows = data.Split('\n');
+        for (int i = 1; i < rows.Length; i++)
+        {
+            string[] columns = rows[i].Split(',');
+
+            string className = "Buff_" + columns[2];
+            var temp = Activator.CreateInstance(Type.GetType(className)) as Buff_Base;
+            temp.timing = columns[3].EnumParse<BuffTiming>();
+            temp.buffIcon = Resources.Load<Sprite>($"BuffIcon/{columns[2]}");
+            //Debug.Log($"Icon/BuffIcon/{columns[2]}");
+
+            if (columns[4] == "buff" && columns[4] != "") buff.Add(columns[2], temp);
+            else debuff.Add(columns[2], temp);
+        }
+
+        d.loadData.buffList = buff;
+        d.loadData.debuffList = debuff;
     }
 
     void ParseTextData(string data)
