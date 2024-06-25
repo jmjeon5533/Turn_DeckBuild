@@ -2686,9 +2686,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 557997653729a964fa66e63e1c147f3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skill: {fileID: 4900000, guid: a954136b97a40ce45985a963cda2795a, type: 3}
+  skill: {fileID: 4900000, guid: 0857afaa1e9701e46b2278ae1061c8a9, type: 3}
   scenario: {fileID: 4900000, guid: 00daa3653f166054f8a43f35269e3c9b, type: 3}
-  buff: {fileID: 4900000, guid: 47aa52f54c1839d40aa6e923406ad810, type: 3}
+  buff: {fileID: 4900000, guid: 98c9899219d9d4141aacc9cb2ffe0a34, type: 3}
 --- !u!4 &489823634
 Transform:
   m_ObjectHideFlags: 0

@@ -339,7 +339,7 @@ public class Controller : MonoBehaviour
             }
             float waitTime = Mathf.Max(AttackInit(player) * player.curSkill.attackCount, AttackInit(enemy) * enemy.curSkill.attackCount);
 
-            player.UseBuff(BuffTiming.turnStart); enemy.UseBuff(BuffTiming.turnStart);
+            player.UseBuff(BuffTiming.TurnStart); enemy.UseBuff(BuffTiming.TurnStart);
             StartCoroutine(AttackStart(player)); StartCoroutine(AttackStart(enemy));
 
             for (int j = 0; j < units.Length; j++)
@@ -376,10 +376,10 @@ public class Controller : MonoBehaviour
         yield return enemy.transform.DOMoveX(-3.5f * (enemy.isLeft ? 1 : -1), 0.5f)
         .SetEase(Ease.InOutSine).WaitForCompletion();
         useTurnCount++;
-        ui.inputPanel.rectTransform.sizeDelta = new Vector2(0, 250);
+        ui.inputPanel.rectTransform.sizeDelta = new Vector2(0, 352);
         isAttack = false;
         ui.ActiveBtn(true);
-        player.UseBuff(BuffTiming.battleEnd); enemy.UseBuff(BuffTiming.battleEnd);
+        player.UseBuff(BuffTiming.BattleEnd); enemy.UseBuff(BuffTiming.BattleEnd);
         TurnEnd();
     }
 

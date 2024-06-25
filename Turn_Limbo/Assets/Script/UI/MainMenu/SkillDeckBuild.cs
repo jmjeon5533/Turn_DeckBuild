@@ -37,7 +37,7 @@ public class SkillDeckBuild : MonoBehaviour
         isShow = !isShow;
         for (int i = btnImage.Count - 1; i >= 0; i--)
         {
-            print(i);
+            //print(i);
             Destroy(btnImage[i].btn.gameObject);
             btnImage.RemoveAt(i);
         }
