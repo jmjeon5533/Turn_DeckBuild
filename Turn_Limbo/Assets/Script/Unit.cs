@@ -23,33 +23,9 @@ public struct RequestSkill
     public PropertyType propertyType;
 }
 
-public class Buff
-{
-    public Buff_Base buff;
-    public PropertyType type;
-    public Image insertImage;
-    public int stack;
-    public int count;
-
-    public Buff(Buff_Base _curBuff, int _stack, int _count, PropertyType _type = PropertyType.AllType)
-    {
-        buff = _curBuff;
-        type = _type;
-        stack = _stack;
-        count = _count;
-    }
-}
-
-public enum BuffTiming
-{
-    turnStart,
-    turnEnd,
-    battleEnd,
-}
-
 public enum PropertyType
 {
-    AllType,
+    All,
     Slash,
     Hit,
     Penetrate,
@@ -65,9 +41,7 @@ public abstract class Unit : MonoBehaviour
         Defence,
         Dodge
     }
-
-    public List<Buff> curBuff = new();
-    public List<Buff> usedBuff = new();
+    public Buffs buff = new Buffs();
 
     public List<RequestSkill> attackRequest = new List<RequestSkill>();
     public string unitName => gameObject.name;
@@ -117,6 +91,7 @@ public abstract class Unit : MonoBehaviour
         maxColorTime = 0.25f;
         spriteRenderer = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
+        buff.unit = this;
     }
     protected virtual void Start()
     {
@@ -134,9 +109,8 @@ public abstract class Unit : MonoBehaviour
     }
     public virtual void TurnInit()
     {
-        curBuff = ClearBuffList(curBuff, true);
-
-        Debug.Log($"{this} : {curBuff.Count} / {usedBuff.Count}");
+        //curBuff = ClearBuffList(curBuff, true);
+        buff.buffs.Clear();
 
         isAttack = true;
         nextSkill = nullSkill;
@@ -161,19 +135,6 @@ public abstract class Unit : MonoBehaviour
 
         usedSkill = curSkill;
         curSkill = skill;
-        //Debug.Log($"{this.name} >>> {usedSkill.skillName}_ _{curSkill.skillName} / usedBuffList : {usedBuff.Count}");
-    }
-
-    public virtual void UseBuff(BuffTiming timing)
-    {
-        for (int i = 0; i < curBuff.Count; i++)
-        {
-            if (curBuff[i].buff.timing != timing) return;
-
-            curBuff[i].buff.Use(this, curBuff[i].stack, curBuff[i].type);
-
-            curBuff[i].count--;
-        }
     }
 
     public virtual void Attacking()
@@ -221,31 +182,6 @@ public abstract class Unit : MonoBehaviour
         //Instantiate(curSkill.effect.Hitparticles[0],transform.position,Quaternion.identity);
         Instantiate(effect, transform.position + (Vector3.right * (isLeft ? 1 : -1) * 2), Quaternion.identity);
         cam.orthographicSize = 2;
-    }
-
-    public List<Buff> ClearBuffList(List<Buff> list, bool allClaer = false)
-    {
-        List<Buff> temp = new();
-
-        for (int i = 0; i < list.Count; i++)
-        {
-            if (list[i].count != 0 && !allClaer)
-            {
-                if (list[i].insertImage == null)
-                {
-                    list[i].insertImage = UIManager.instance.AddImage(list[i].buff.buffIcon, unitUI.requestBuffParent);
-                    //Debug.Log($"AddImage {this.name} {list[i].curBuff} {list[i].insertImage == null}");
-                }
-                //Debug.Log($"AddList {this.name} {list[i].curBuff} {list[i].insertImage == null}");
-                temp.Add(list[i]);
-            }
-            else
-            {
-                //Debug.Log($"Die : {this.name} {list[i].curBuff} {list[i].insertImage == null} {allClaer} {list[i].count}");
-                usedBuff.Add(list[i]);
-            }
-        }
-        return temp;
     }
 
     public void InitCurSkillDamage(int min, int max, int count)

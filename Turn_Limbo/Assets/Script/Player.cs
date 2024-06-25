@@ -13,6 +13,7 @@ public class Player : Unit
     {
         base.TurnInit();
         addCoin = 3;
+        coinLimit = false;
     }
     public void PlusCoin(int value){
         if(coinLimit) return;

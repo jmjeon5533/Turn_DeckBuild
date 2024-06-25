@@ -11,19 +11,9 @@ public abstract class Skill_Base
 
 public class Skill_Zornhauw : Skill_Base
 {
-    public override void Setting(Unit unit, Unit target)
+    public override void End(Unit unit, Unit target)
     {
-        unit.curBuff.Add(new Buff(DataManager.instance.loadData.buffList["AttackUp"], 50, 1, PropertyType.Slash));
-        
-        // foreach (var n in target.curBuff)
-        // {
-        //     if (n.buff == DataManager.instance.debuffList["Paralysis"])
-        //     {
-        //         unit.nextSkill = unit.curSkill;
-        //         return;
-        //     }
-        // }
-        // target.curBuff.Add(new Buff(DataManager.instance.debuffList["Paralysis"], 1, 1, PropertyType.AllType));
+        unit.buff.AddBuff(Buffs.Key.SlashAttackUp, Buffs.ReduceTiming.TurnStart, 50, 1);
     }
 }
 
@@ -49,7 +39,7 @@ public class Skill_WarCry : Skill_Base
 {
     public override void End(Unit unit, Unit target)
     {
-        unit.curBuff.Add(new Buff(DataManager.instance.loadData.buffList["AttackUp"], 20, 1, PropertyType.AllType));
+        unit.buff.AddBuff(Buffs.Key.AttackUp, Buffs.ReduceTiming.TurnStart, 20, 1);
     }
 }
 
@@ -57,17 +47,15 @@ public class Skill_BurnAttack : Skill_Base
 {
     public override void End(Unit unit, Unit target)
     {
-        foreach (var n in target.curBuff)
+        foreach (var n in target.buff.buffs)
         {
-            if(n.buff.timing != BuffTiming.battleEnd) continue;
-
-            if (n.buff == DataManager.instance.loadData.debuffList["Burn"])
+            if (n.key == Buffs.Key.Burn)
             {
-                n.stack += 5;
+                n.ratioStack.power += 5;
                 return;
             }
         }
-        target.curBuff.Add(new Buff(DataManager.instance.loadData.debuffList["Burn"], 5, 1));
+        target.buff.AddBuff(Buffs.Key.Burn, Buffs.ReduceTiming.BattleEnd, 5, 1);
     }
 }
 
@@ -75,13 +63,11 @@ public class Skill_ExplodingBlade : Skill_Base
 {
     public override void Setting(Unit unit, Unit target)
     {
-        foreach (var n in target.curBuff)
+        foreach (var n in target.buff.buffs)
         {
-            if(n.buff.timing != BuffTiming.battleEnd) continue;
-
-            if (n.buff == DataManager.instance.loadData.debuffList["Burn"])
+            if (n.key == Buffs.Key.Burn)
             {
-                target.curBuff.Add(new Buff(DataManager.instance.loadData.buffList["DefenseDown"], 100, 10, PropertyType.AllType));
+                target.buff.AddBuff(Buffs.Key.DefenseDown, Buffs.ReduceTiming.Attack, 100, 10);
                 return;
             }
         }
@@ -92,7 +78,7 @@ public class Skill_Ox : Skill_Base
 {
     public override void End(Unit unit, Unit target)
     {
-        unit.curBuff.Add(new Buff(DataManager.instance.loadData.buffList["AttackUp"], 20, 2, PropertyType.AllType));
+        unit.buff.AddBuff(Buffs.Key.AttackUp, Buffs.ReduceTiming.TurnStart, 20, 2);
     }
 }
 
@@ -100,7 +86,7 @@ public class Skill_Eisenport : Skill_Base
 {
     public override void Setting(Unit unit, Unit target)
     {
-        DataManager.instance.loadData.buffList["DefenseUp"].Use(unit, 70, PropertyType.AllType);
+        unit.buff.AddBuff(Buffs.Key.DefenseUp, Buffs.ReduceTiming.Attack, 70, 1);
     }
 }
 
@@ -117,15 +103,15 @@ public class Skill_Hekireki_issen : Skill_Base
 {
     public override void Setting(Unit unit, Unit target)
     {
-        foreach (var n in target.curBuff)
-        {
-            if (n.buff == DataManager.instance.loadData.debuffList["Paralysis"])
-            {
-                unit.nextSkill = unit.curSkill;
-                return;
-            }
-        }
-        target.curBuff.Add(new Buff(DataManager.instance.loadData.debuffList["Paralysis"], 1, 1, PropertyType.AllType));
+        // foreach (var n in target.curBuff)
+        // {
+        //     if (n.buff == DataManager.instance.loadData.debuffList["Paralysis"])
+        //     {
+        //         unit.nextSkill = unit.curSkill;
+        //         return;
+        //     }
+        // }
+        // target.curBuff.Add(new Buff(DataManager.instance.loadData.debuffList["Paralysis"], 1, 1, PropertyType.AllType));
     }
 }
 
@@ -133,7 +119,7 @@ public class Skill_FoamTak : Skill_Base
 {
     public override void End(Unit unit, Unit target)
     {
-        unit.curBuff.Add(new Buff(DataManager.instance.loadData.buffList["AttackUp"], 10, 10, PropertyType.Slash));
+        //unit.curBuff.Add(new Buff(DataManager.instance.loadData.buffList["AttackUp"], 10, 10, PropertyType.Slash));
     }
 }
 
@@ -150,7 +136,7 @@ public class Skill_Stab : Skill_Base
 {
     public override void End(Unit unit, Unit target)
     {
-        unit.curBuff.Add(new Buff(DataManager.instance.loadData.buffList["AttackUp"], 10, 3, PropertyType.AllType));
+        unit.buff.AddBuff(Buffs.Key.AttackUp, Buffs.ReduceTiming.TurnStart, 10, 3);
     }
 }
 
@@ -176,7 +162,7 @@ public class Skill_Spilling : Skill_Base
 {
     public override void Setting(Unit unit, Unit target)
     {
-        unit.curBuff.Add(new Buff(DataManager.instance.loadData.buffList["DefenseUp"], 30, 10, PropertyType.AllType));
+        unit.buff.AddBuff(Buffs.Key.DefenseUp, Buffs.ReduceTiming.TurnStart, 30, 10);
     }
 }
 
@@ -184,7 +170,8 @@ public class Skill_Blocking : Skill_Base
 {
     public override void End(Unit unit, Unit target)
     {
-        unit.curBuff.Add(new Buff(DataManager.instance.loadData.buffList["AttackUp"], 3, 10, PropertyType.AllType));
+        unit.buff.AddBuff(Buffs.Key.AttackUp, Buffs.ReduceTiming.TurnStart, 3, 10);
+        //stack 1?
     }
 }
 
@@ -192,7 +179,7 @@ public class Skill_Ready : Skill_Base
 {
     public override void Setting(Unit unit, Unit target)
     {
-        unit.curBuff.Add(new Buff(DataManager.instance.loadData.buffList["AttackUp"], 30, 1));
+        unit.buff.AddBuff(Buffs.Key.AttackUp, Buffs.ReduceTiming.TurnStart, 30, 1);
     }
 }
 
@@ -202,7 +189,7 @@ public class Skill_Onguard : Skill_Base
     public override void Setting(Unit unit, Unit target)
     {
         if (target.curSkill.propertyType == PropertyType.Slash)
-            target.curBuff.Add(new Buff(DataManager.instance.loadData.debuffList["AttackDown"], 20, 1));
+            unit.buff.AddBuff(Buffs.Key.AttackDown, Buffs.ReduceTiming.TurnStart, 20, 1);
     }
 }
 
@@ -210,9 +197,10 @@ public class Skill_Forward : Skill_Base
 {
     public override void End(Unit unit, Unit target)
     {
-        unit.curBuff.Add(new Buff(DataManager.instance.loadData.debuffList["DefenseDown"], 50, 1));
-        if (unit.TryGetComponent<Player>(out var p))
-            p.PlusCoin(3);
+        if (!unit.TryGetComponent<Player>(out var p)) return;
+        
+        unit.buff.AddBuff(Buffs.Key.DefenseDown, Buffs.ReduceTiming.TurnStart, 50, 1);
+        p.PlusCoin(3);
     }
 }
 
@@ -220,7 +208,7 @@ public class Skill_LengthCut : Skill_Base
 {
     public override void End(Unit unit, Unit target)
     {
-        if (unit.isAttack) unit.curBuff.Add(new Buff(DataManager.instance.loadData.buffList["AttackUp"], 15, 10, PropertyType.AllType));       
+        if (unit.isAttack) unit.buff.AddBuff(Buffs.Key.AttackUp, Buffs.ReduceTiming.TurnStart, 15, 10);    
     }
 }
 
@@ -228,7 +216,7 @@ public class Skill_WidthCut : Skill_Base
 {
     public override void Setting(Unit unit, Unit target)
     {
-        if(unit.usedSkill.index == 14) unit.curBuff.Add(new Buff(DataManager.instance.loadData.buffList["AttackUp"], 100, 1, PropertyType.AllType));     
+        if(unit.usedSkill.index == 14) unit.buff.AddBuff(Buffs.Key.AttackUp, Buffs.ReduceTiming.TurnStart, 100, 1); 
     }
 }
 
@@ -313,7 +301,7 @@ public class Skill_Pressure : Skill_Base
 {
     public override void Setting(Unit unit, Unit target)
     {
-        unit.curBuff.Add(new Buff(DataManager.instance.loadData.debuffList["CoinLimit"], 0, 1));
+        unit.buff.AddBuff(Buffs.Key.ActLimit, Buffs.ReduceTiming.TurnEnd, 15, 10); 
     }
 }
 

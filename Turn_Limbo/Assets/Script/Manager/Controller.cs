@@ -6,6 +6,7 @@ using System.Linq;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
+using System.IO.Compression;
 
 [System.Serializable]
 public class Skill
@@ -113,10 +114,11 @@ public class Controller : MonoBehaviour
         enemy.TurnInit();
         UIManager.instance.ChangeCoinSkillImg();
 
-        foreach (var n in player.usedBuff) ImageAnim(player, n.insertImage);
-        player.usedBuff.Clear();
-        foreach (var n in enemy.usedBuff) ImageAnim(enemy, n.insertImage);
-        enemy.usedBuff.Clear();
+        //TEST
+        // foreach (var n in player.usedBuff) ImageAnim(player, n.insertImage);
+        // player.usedBuff.Clear();
+        // foreach (var n in enemy.usedBuff) ImageAnim(enemy, n.insertImage);
+        // enemy.usedBuff.Clear();
     }
     public void TurnEnd()
     {
@@ -339,7 +341,7 @@ public class Controller : MonoBehaviour
             }
             float waitTime = Mathf.Max(AttackInit(player) * player.curSkill.attackCount, AttackInit(enemy) * enemy.curSkill.attackCount);
 
-            player.UseBuff(BuffTiming.turnStart); enemy.UseBuff(BuffTiming.turnStart);
+            player.buff.UseBuff(Buffs.ReduceTiming.TurnStart); enemy.buff.UseBuff(Buffs.ReduceTiming.TurnStart);
             StartCoroutine(AttackStart(player)); StartCoroutine(AttackStart(enemy));
 
             for (int j = 0; j < units.Length; j++)
@@ -348,7 +350,7 @@ public class Controller : MonoBehaviour
             }
             player.curSkill.effect?.End(player, player.target);
             enemy.curSkill.effect?.End(enemy, enemy.target);
-            BuffClear(player); BuffClear(enemy);
+            //BuffClear(player); BuffClear(enemy);
             yield return new WaitForSeconds(waitTime + 0.01f);
             LogView.instance.AddLogs(player.Uniticon, enemy.Uniticon);
 
@@ -376,10 +378,10 @@ public class Controller : MonoBehaviour
         yield return enemy.transform.DOMoveX(-3.5f * (enemy.isLeft ? 1 : -1), 0.5f)
         .SetEase(Ease.InOutSine).WaitForCompletion();
         useTurnCount++;
-        ui.inputPanel.rectTransform.sizeDelta = new Vector2(0, 250);
+        ui.inputPanel.rectTransform.sizeDelta = new Vector2(0, 352);
         isAttack = false;
         ui.ActiveBtn(true);
-        player.UseBuff(BuffTiming.battleEnd); enemy.UseBuff(BuffTiming.battleEnd);
+        player.buff.UseBuff(Buffs.ReduceTiming.BattleEnd); enemy.buff.UseBuff(Buffs.ReduceTiming.BattleEnd);
         TurnEnd();
     }
 
@@ -389,7 +391,6 @@ public class Controller : MonoBehaviour
         var skill = unit.SkillChange();
         unit.SkillInit(skill);
 
-        Debug.Log(skill);
         if (skill.animation == null) Debug.Log($"!!!!!!!!!!!! {skill.skillName}");
         return skill.animation.length;
     }
@@ -413,15 +414,15 @@ public class Controller : MonoBehaviour
 
     void BuffClear(Unit unit)
     {
-        unit.curBuff = unit.ClearBuffList(unit.curBuff);
+        // unit.curBuff = unit.ClearBuffList(unit.curBuff);
 
-        foreach (var n in unit.usedBuff)
-        {
-            //Debug.Log($"{unit.name} {n.curBuff} {n.insertImage == null}");
-            ImageAnim(unit, n.insertImage);
-        }
+        // foreach (var n in unit.usedBuff)
+        // {
+        //     //Debug.Log($"{unit.name} {n.curBuff} {n.insertImage == null}");
+        //     ImageAnim(unit, n.insertImage);
+        // }
 
-        unit.usedBuff.Clear();
+        // unit.usedBuff.Clear();
     }
 
     void ImageAnim(Unit unit, Image insertImage)

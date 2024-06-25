@@ -19,7 +19,6 @@ public class StageStartBtn : MonoBehaviour
     public void StageStart(int stageIndex)
     {
         //Temporary index
-        Debug.Log(stageIndex);
         DataManager.instance.curStageID = stageIndex;
         SceneManager.LoadScene(2);
     }

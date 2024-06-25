@@ -80,6 +80,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UniRx;
+using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 
 public partial class Buffs
@@ -88,30 +89,25 @@ public partial class Buffs
     public enum Key
     {
         AttackUp,
+        SlashAttackUp,
+        HitAttackUp,
+        PenetrateAttackUp,
         AttackDown,
         DefenseUp,
         DefenseDown,
         Burn,
         Paralysis,
+        ActLimit,
 
         End
-    }
-
-    public enum Type
-    {
-        All,
-        Slash,
-        Hit,
-        Penetrate,
-        Defense
     }
 
     public enum ReduceTiming
     {
         TurnStart,
+        Attack,
         TurnEnd,
         BattleEnd,
-        Attack,
 
         enumend,
     }
@@ -128,14 +124,15 @@ public partial class Buffs
     public class Value
     {
         public Key key;
+        public Sprite buffIcon;
         public ReduceTiming timing;
-        public Type type;
         public PowerStack ratioStack;
 
-        public Value(Key key, ReduceTiming timing, float power, int stack)
+        public Value(Key key, ReduceTiming timing, int power, int stack)
         {
             this.key = key;
             this.timing = timing;
+            ratioStack = new PowerStack();
             ratioStack.power = power;
             ratioStack.stack = stack;
         }
@@ -143,7 +140,7 @@ public partial class Buffs
 
     public class PowerStack
     {
-        public float power;
+        public int power;
         public int stack;
 
         public static PowerStack operator -(PowerStack lhs, PowerStack rhs)
@@ -155,13 +152,15 @@ public partial class Buffs
     }
 
     private Queue<Value>[] grantQueue = new Queue<Value>[(int)GrantOption.enumend];
-    private ReactiveCollection<Value> buffs = new();
+    public ReactiveCollection<Value> buffs = new();
     private ReactiveCollection<PowerStack> allBuffRatioStack = new();
 
     public event Action<Key, PowerStack> OnBuffValueChanged;
 
+    public Unit unit;
+
     //method
-    public Buffs(Unit unit)
+    public Buffs()
     {
         buffs
             .ObserveAdd()
@@ -214,34 +213,65 @@ public partial class Buffs
             buffs.Add(value);
     }
 
-    public void AddBuff(Key key, ReduceTiming timing, float ratio, int stack, Type type = Type.All, GrantOption option = GrantOption.Immediately)
-    {
-        if (stack == 0) return;
-
-        var value = new Value(key, timing, ratio, stack);
-        if (option == GrantOption.Immediately)
-            buffs.Add(value);
-        else
-            grantQueue[(int)option].Enqueue(value);
-    }
-
-    public void ReduceStack(ReduceTiming timing)
-    {
-        foreach (var buff in buffs)
-        {
-            if (buff.timing != timing) continue;
-
-            buff.ratioStack.stack--;
-            if (buff.ratioStack.stack <= 0)                
-                buff.ratioStack.power = 0;
-        }
-    }
-
     public override string ToString()
     {
         var sb = new StringBuilder();
         foreach (var stat in buffs)
             sb.Append(stat.ToString()).Append('\n');
         return sb.ToString();
+    }
+
+    public void AddBuff(Key key, ReduceTiming timing, int power, int stack, GrantOption option = GrantOption.Immediately)
+    {
+        if (stack == 0) return;
+
+        var value = new Value(key, timing, power, stack);
+        if (option == GrantOption.Immediately)
+            buffs.Add(value);
+        else
+            grantQueue[(int)option].Enqueue(value);
+    }
+
+    public void UseBuff(ReduceTiming timing)
+    {
+        foreach (var buff in buffs)
+        {
+            if (buff.timing != timing) continue;
+
+            BuffActivate(buff);
+
+            buff.ratioStack.stack--;
+            if (buff.ratioStack.stack <= 0)
+                buff.ratioStack.power = 0;
+        }
+    }
+
+    void BuffActivate(Value buff)
+    {
+        int power = buff.ratioStack.power;
+
+        switch (buff.key)
+        {
+            case Key.AttackUp: unit.attack_Drainage += (float)power / 100; break;
+            case Key.SlashAttackUp: if (unit.curSkill.propertyType == PropertyType.Slash) unit.attack_Drainage += (float)power / 100; break;
+            case Key.HitAttackUp: if (unit.curSkill.propertyType == PropertyType.Hit) unit.attack_Drainage += (float)power / 100; break;
+            case Key.PenetrateAttackUp: if (unit.curSkill.propertyType == PropertyType.Penetrate) unit.attack_Drainage += (float)power / 100; break;
+            case Key.AttackDown: unit.attack_Drainage -= (float)power / 100; break;
+
+
+            case Key.DefenseUp: unit.defense_Drainage -= (float)power / 100; break;
+            case Key.DefenseDown: unit.defense_Drainage += (float)power / 100; break;
+
+            case Key.Burn: unit.Damage(unit.maxHP * power / 100, Vector3.zero); break;
+            case Key.Paralysis:
+                if (unit.curSkill.skillName == null) return;
+
+                unit.InitCurSkillDamage(unit.curSkill.minDamage[unit.skillInfo.holdSkills[unit.curSkill.index].level],
+                unit.curSkill.minDamage[unit.skillInfo.holdSkills[unit.curSkill.index].level], unit.curSkill.attackCount);
+                break;
+
+            case Key.ActLimit: unit.GetComponent<Player>().coinLimit = true; break;
+        }
+        Debug.Log($"{unit.name} / {unit.curSkill.skillName} / {buff.key} / {unit.attack_Drainage}");
     }
 }
