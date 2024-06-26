@@ -404,8 +404,8 @@ public class Controller : MonoBehaviour, IInitObserver
         //print($"{unit.name} : {unit.curAttackCount}");
         if (unit.curSkill.actionType == Unit.ActionType.none) yield break;
 
-        unit.InitCurSkillDamage(skill.minDamage[unit.skillInfo.holdSkills[skill.index + 1].level],
-            skill.maxDamage[unit.skillInfo.holdSkills[skill.index].level], skill.attackCount);
+        unit.InitCurSkillDamage(skill.minDamage[unit.skillInfo.holdSkills[skill.index - 1].level],
+            skill.maxDamage[unit.skillInfo.holdSkills[skill.index - 1].level], skill.attackCount);
 
         unit.curSkill.effect?.Setting(unit, unit.target);
         StartCoroutine(IconAnim(skill.insertImage, skill.animation.length * skill.attackCount));

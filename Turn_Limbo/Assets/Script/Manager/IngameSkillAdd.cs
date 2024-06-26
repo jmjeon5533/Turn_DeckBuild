@@ -52,7 +52,7 @@ public class IngameSkillAdd : MonoBehaviour, IInitObserver
                 holdIndex = i,
                 level = 0
             };
-            skillList.holdSkills.Add(skillList.selectIndex[i], newSkill);
+            skillList.holdSkills.TryAdd(skillList.selectIndex[i], newSkill);
         }
     }
 }

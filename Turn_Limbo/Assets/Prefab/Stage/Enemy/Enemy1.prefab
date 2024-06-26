@@ -48,14 +48,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitName: Enemy1
-  hp: 100
-  maxHP: 100
+  hp: 120
+  maxHP: 120
   hpLimit: 0
-  shield: 50
-  maxShield: 50
+  shield: 100
+  maxShield: 100
   shieldBreak: 0
   curDamage: 0
   curAttackCount: 0
+  plusAttackValue: 0
+  plusDefenseValue: 0
   attack_Drainage: 0
   defense_Drainage: 0
   isAttack: 0
@@ -64,7 +66,7 @@ MonoBehaviour:
   hitSound:
   - {fileID: 0}
   Uniticon: {fileID: 0}
-  skillInfo: {fileID: 11400000, guid: 84760a5a73f705044aedec432bfb8ec9, type: 2}
+  skillInfo: {fileID: 11400000, guid: d136a463b27f0bd40b006d6b384a7f57, type: 2}
   maxColorTime: 0
   colorTime: 0
   color: {r: 0, g: 0, b: 0, a: 0}
