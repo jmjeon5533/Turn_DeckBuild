@@ -6,9 +6,10 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class UIManager : MonoBehaviour
+public class UIManager : MonoBehaviour, IInitObserver
 {
     public static UIManager instance { get; private set; }
+
     public float camRotZ = 0;
     public int enemyCursorIndex = 0;
     public bool isCamRotate;
@@ -61,12 +62,14 @@ public class UIManager : MonoBehaviour
     [Header("Unit")]
     public UnitUI[] unitUI;
 
+    public int Priority => 3;
+
     private void Awake()
     {
         instance = this;
     }
-    private void Start()
-    {
+    public void Init()
+    {        
         SelectEnemyImage(false);
         pauseReturn.onClick.AddListener(() =>
         {

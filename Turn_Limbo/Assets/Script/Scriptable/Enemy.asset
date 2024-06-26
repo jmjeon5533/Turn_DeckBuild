@@ -12,21 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8278480b00c18b44cb021db6203935b1, type: 3}
   m_Name: Enemy
   m_EditorClassIdentifier: 
-  selectIndex: 00000000010000000600000003000000020000000a0000000400000008000000
-  holdSkills:
-  - holdIndex: 0
-    level: 0
-  - holdIndex: 1
-    level: 1
-  - holdIndex: 6
-    level: 2
-  - holdIndex: 3
-    level: 0
-  - holdIndex: 2
-    level: 0
-  - holdIndex: 10
-    level: 1
-  - holdIndex: 4
-    level: 0
-  - holdIndex: 8
-    level: 0
+  selectIndex: 000000000100000002000000030000000400000005000000

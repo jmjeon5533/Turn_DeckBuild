@@ -14,6 +14,8 @@ public class ReadSpreadSheet : MonoBehaviour
     [SerializeField] private TextAsset skill;
     [SerializeField] private TextAsset scenario;
     [SerializeField] private TextAsset buff;
+    [SerializeField] private TextAsset EnemyData;
+    [SerializeField] private TextAsset EnemySkill;
 
     public Dictionary<KeyCode, List<Skill>> skillDatas = new();
     private List<Skill> skillLists = new();
@@ -36,14 +38,16 @@ public class ReadSpreadSheet : MonoBehaviour
             LoadData(skill.text, ParseSkillData);
             LoadData(buff.text, PasreBuffData);
             LoadData(scenario.text, ParseTextData);
+            LoadData(EnemyData.text, ParseEnemyData);
+            LoadData(EnemySkill.text, ParseEnemySkill);
             DataManager.instance.readEnd = true;
             callBack?.Invoke();
         }
     }
 
-    private void LoadData(string tsv, Action<string> action)
+    private void LoadData(string csv, Action<string> action)
     {
-        action?.Invoke(tsv);
+        action?.Invoke(csv);
     }
 
     private IEnumerator LoadData(int pageIndex, Action<string> dataAction, Action callBack = default)
@@ -222,6 +226,28 @@ public class ReadSpreadSheet : MonoBehaviour
 
     public void ParseEnemyData(string data)
     {
+        var d = DataManager.instance;
+        string[] row = data.Split("\n");
+        d.loadData.enemyData.Clear();
+        for (int i = 1; i < row.Length; i++)
+        {
+            string[] column = row[i].Split(",");
+            UnitData newEnemy = new();
+            newEnemy.index = int.Parse(column[0]);
+            newEnemy.name = column[1];
+            newEnemy.hp = int.Parse(column[2]);
+            newEnemy.shield = int.Parse(column[3]);
+            newEnemy.atk = int.Parse(column[4]);
+            newEnemy.minCount = int.Parse(column[5]);
+            newEnemy.maxCount = int.Parse(column[6]);
+
+            d.loadData.enemyData.Add(newEnemy);
+        }
+    }
+
+    public void ParseEnemySkill(string data)
+    {
+        return;
         var d = DataManager.instance;
         string[] row = data.Split("\n");
         d.loadData.enemyData.Clear();

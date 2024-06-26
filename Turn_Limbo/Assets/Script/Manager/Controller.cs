@@ -28,7 +28,7 @@ public class Skill
     public PropertyType propertyType;
 }
 
-public class Controller : MonoBehaviour
+public class Controller : MonoBehaviour, IInitObserver
 {
     public Player player;
     public Enemy enemy;
@@ -73,15 +73,15 @@ public class Controller : MonoBehaviour
 
     [Header("option")]
     [SerializeField] IngamePause pause;
-    private void Awake()
+
+    public int Priority => 1;
+
+    public void Init()
     {
         volume.TryGet(out glitch);
         volume.TryGet(out depth);
         volume.TryGet(out color);
         data = DataManager.instance;
-    }
-    void Start()
-    {
         
         player.hitSound = hitSound;
         enemy.hitSound = hitSound;
@@ -96,12 +96,15 @@ public class Controller : MonoBehaviour
     }
     public void SetStage()
     {
-        // var enemy = Instantiate(DataManager.instance.loadData.SpawnData[DataManager.instance.curStageID].enemies[spawnCount],new Vector3(5,-0.5f, 0), Quaternion.identity);
-        // enemy.target = player;
-        // enemy.unitUI = UIManager.instance.unitUI[1];
-        // spawnCount++;
+        enemy = Instantiate(DataManager.instance.loadData.SpawnData[DataManager.instance.curStageID].enemies[spawnCount],new Vector3(5,-0.5f, 0), Quaternion.identity);
+        enemy.target = player;
+        player.target = enemy;
+        enemy.unitUI = UIManager.instance.unitUI[1];
+        spawnCount++;
+        InitEnemy();
         var map = Instantiate(DataManager.instance.loadData.SpawnData[DataManager.instance.curStageID].maps);
         bg = map;
+        
     }
     public void TurnReset()
     {
@@ -261,7 +264,8 @@ public class Controller : MonoBehaviour
                 {
                     isSkillExplain = true;
                     keyHoldTime = 0;
-                    ui.SetExplain(true, inputs[i][0], ui.keys[i].rectTransform.anchoredPosition);
+                    if(player.skillInfo.holdSkills.TryGetValue(inputs[i][0].index - 1, out var holdSkill))
+                    ui.SetExplain(true, inputs[i][0], ui.keys[i].rectTransform.anchoredPosition,holdSkill.level);
                 }
                 keyHoldImage.fillAmount = Mathf.Clamp(keyHoldTime - 0.3f, 0, 10) / 0.5f;
             }
@@ -390,8 +394,7 @@ public class Controller : MonoBehaviour
         var skill = unit.SkillChange();
         unit.SkillInit(skill);
 
-        Debug.Log(skill);
-        if(skill.animation == null) Debug.Log($"!!!!!!!!!!!! {skill.skillName}");
+        if(skill.animation == null) Debug.Log($"!!!!!!!!!!!! {unit.name} {skill.skillName},");
         return skill.animation.length;
     }
 
@@ -400,7 +403,8 @@ public class Controller : MonoBehaviour
         var skill = unit.curSkill;
         //print($"{unit.name} : {unit.curAttackCount}");
         if (unit.curSkill.actionType == Unit.ActionType.none) yield break;
-        unit.InitCurSkillDamage(skill.minDamage[unit.skillInfo.holdSkills[skill.index].level],
+
+        unit.InitCurSkillDamage(skill.minDamage[unit.skillInfo.holdSkills[skill.index + 1].level],
             skill.maxDamage[unit.skillInfo.holdSkills[skill.index].level], skill.attackCount);
 
         unit.curSkill.effect?.Setting(unit, unit.target);

@@ -4,15 +4,18 @@ using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UI;
 
-public class UIShelfClick : MonoBehaviour
+public class UIShelfClick : MonoBehaviour, IInitObserver
 {
     private Button btn;
-    private void Start()
+    public int Priority => 3;
+
+    public void Init()
     {
         btn = GetComponent<Button>();
         btn.onClick.AddListener(() => Actions());
     }
     [SerializeField] private UIFadeObject fadeObject;
+
 
     private void Actions()
     {

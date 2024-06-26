@@ -5,9 +5,11 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class StageStartBtn : MonoBehaviour
+public class StageStartBtn : MonoBehaviour, IInitObserver
 {
-    void Start()
+    public int Priority => 1;
+
+    public void Init()
     {
         for(int i = 0; i < transform.childCount; i++)
         {

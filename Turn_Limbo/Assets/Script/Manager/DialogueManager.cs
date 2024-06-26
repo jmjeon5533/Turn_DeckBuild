@@ -24,10 +24,14 @@ public class Dialogue
     //background
 }
 
-public class DialogueManager : MonoBehaviour
+public class DialogueManager : MonoBehaviour, IInitObserver
 {
     public static DialogueManager instance { get; private set; }
-    private void Awake()
+
+    public int Priority => 2;
+
+
+    public void Init()
     {
         instance = this;
         text.text = null;

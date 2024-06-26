@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -10,7 +11,7 @@ public class SaveData
     public bool isInitialize;
     public int money;
     public List<int> selectIndex = new List<int>();
-    public List<HoldSkills> holdSkills = new List<HoldSkills>();
+    public Dictionary<int, HoldSkills> holdSkills = new Dictionary<int, HoldSkills>();
 }
 [System.Serializable]
 public struct UnitData
@@ -46,30 +47,30 @@ public class DataManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
         JsonLoad();
     }
+    private void JsonReset()
+    {
+        
+    }
     public void JsonLoad()
     {
-        Debug.LogError("Load!");
         var data = PlayerPrefs.GetString("SaveData");
         
-        saveData = JsonUtility.FromJson<SaveData>(data) ?? new SaveData();
+        saveData = JsonConvert.DeserializeObject<SaveData>(data) ?? new SaveData();
         if(!saveData.isInitialize)
         {
             saveData.isInitialize = true;
             for(int i = 0; i < 6; i++)
-                saveData.holdSkills.Add(new() { holdIndex = i, level = 0 });
+                saveData.holdSkills.Add(i,new() { holdIndex = i, level = 0 });
         }
         player.holdSkills = saveData.holdSkills;
         player.selectIndex = saveData.selectIndex;
-        Debug.LogError(string.Join(',', saveData.selectIndex));
-        Debug.LogError(string.Join(',', saveData.holdSkills.Select(x => x.holdIndex)));
     }
     public void JsonSave()
     {
-        Debug.LogError("Save!");
         // Debug.LogError(saveData.isInitialize);
         saveData.selectIndex = player.selectIndex;
         saveData.holdSkills = player.holdSkills;
-        var data = JsonUtility.ToJson(saveData);
+        var data = JsonConvert.SerializeObject(saveData);
         PlayerPrefs.SetString("SaveData", data);
         PlayerPrefs.Save();
     }

@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 739189877109174759}
   - component: {fileID: 739189877109174758}
-  - component: {fileID: 739189877109174756}
   m_Layer: 0
   m_Name: Controller
   m_TagString: Untagged
@@ -56,11 +55,11 @@ MonoBehaviour:
   keyHoldTime: 0
   useAbleCoin: 0
   useTurnCount: 0
-  isGame: 1
+  isGame: 0
   isTab: 0
   isAttack: 0
   isTimeSlowEffect: 0
-  isDialogue: 1
+  isDialogue: 0
   isSkillExplain: 0
   volume: {fileID: 11400000, guid: 72a2e1dd5db4404458eb0cd8ea9798eb, type: 2}
   glitch: {fileID: 0}
@@ -77,16 +76,3 @@ MonoBehaviour:
   - {fileID: 8300000, guid: e76d480738bc1484b9bc222e015aeebb, type: 3}
   - {fileID: 8300000, guid: 819c83192fcf260459901587ae14f41c, type: 3}
   pause: {fileID: 0}
---- !u!114 &739189877109174756
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 739189877109174761}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 02944ec83ff9dc74ab1fadd4645d6257, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SkillList: []

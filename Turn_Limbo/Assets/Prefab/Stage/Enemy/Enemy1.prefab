@@ -47,6 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab8adb398d1e33b44aee2ccf34feed86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  unitName: Enemy1
   hp: 100
   maxHP: 100
   hpLimit: 0
@@ -60,9 +61,13 @@ MonoBehaviour:
   isAttack: 0
   target: {fileID: 0}
   effect: {fileID: 1429954232896169632, guid: 83036083a4ebcd34f98131bd3cf6f4d2, type: 3}
-  hitSound: {fileID: 0}
+  hitSound:
+  - {fileID: 0}
   Uniticon: {fileID: 0}
   skillInfo: {fileID: 11400000, guid: 84760a5a73f705044aedec432bfb8ec9, type: 2}
+  maxColorTime: 0
+  colorTime: 0
+  color: {r: 0, g: 0, b: 0, a: 0}
   anim: {fileID: 0}
   isLeft: 0
   isDialogue: 0

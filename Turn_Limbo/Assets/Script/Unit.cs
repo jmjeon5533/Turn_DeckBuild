@@ -70,7 +70,7 @@ public abstract class Unit : MonoBehaviour
     public List<Buff> usedBuff = new();
 
     public List<RequestSkill> attackRequest = new List<RequestSkill>();
-    public string unitName => gameObject.name;
+    public string unitName;
     public int hp;
     public int maxHP;
     public int hpLimit;
