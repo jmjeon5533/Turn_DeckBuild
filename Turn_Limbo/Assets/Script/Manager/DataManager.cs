@@ -93,6 +93,14 @@ public class DataManager : MonoBehaviour
         if(loadData.hpDialogBox.TryGetValue(curStageID, out Queue<Queue<Dialogue>> hp)) hpDialogBox = hp;
     }
 
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.T)){
+            Debug.Log($"{loadData.buffList.Count} {loadData.debuffList.Count}");
+
+        }
+    }
+
     public void InitUnit(Unit unit)
     {
         //Debug.Log($"{hpDialogBox.Count} {(hpDialogBox.Count != 0 ? hpDialogBox.Peek().Count : -1)}");

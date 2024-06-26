@@ -21,6 +21,7 @@ MonoBehaviour:
     level: 0
     attackCount: 1
     keyIndex: 0
+    sale: 0
     icon: {fileID: 21300000, guid: 373d69e886bd46a4f8c9ebe389fe0e84, type: 3}
     animationName: Slash
     actionType: 1
@@ -35,6 +36,7 @@ MonoBehaviour:
     level: 0
     attackCount: 2
     keyIndex: 0
+    sale: 0
     icon: {fileID: 21300000, guid: 4f7eae31e9b2fb448b4ac2fcce69e0ba, type: 3}
     animationName: Slash
     actionType: 1
@@ -50,6 +52,7 @@ MonoBehaviour:
     level: 0
     attackCount: 3
     keyIndex: 1
+    sale: 0
     icon: {fileID: 21300000, guid: c9616b36d42b94c4ea1fc5110e43d5ff, type: 3}
     animationName: Penetrate
     actionType: 1
@@ -65,6 +68,7 @@ MonoBehaviour:
     level: 0
     attackCount: 1
     keyIndex: 1
+    sale: 0
     icon: {fileID: 21300000, guid: c50ed2fa14dd00347900aad9ce3c48b6, type: 3}
     animationName: Penetrate
     actionType: 1
@@ -80,6 +84,7 @@ MonoBehaviour:
     level: 0
     attackCount: 2
     keyIndex: 2
+    sale: 0
     icon: {fileID: 21300000, guid: 1552e3c95ad59834681e769d0f884003, type: 3}
     animationName: Hit
     actionType: 1
@@ -95,6 +100,7 @@ MonoBehaviour:
     level: 0
     attackCount: 3
     keyIndex: 2
+    sale: 0
     icon: {fileID: 21300000, guid: 84a33276bb305304f90a665d01c66a97, type: 3}
     animationName: Hit
     actionType: 1
@@ -110,6 +116,7 @@ MonoBehaviour:
     level: 0
     attackCount: 1
     keyIndex: 0
+    sale: 0
     icon: {fileID: 21300000, guid: c02d00e047d073c4ab7a7a06c6596a50, type: 3}
     animationName: Defense
     actionType: 2
@@ -124,6 +131,7 @@ MonoBehaviour:
     level: 0
     attackCount: 1
     keyIndex: 1
+    sale: 0
     icon: {fileID: 21300000, guid: 9f9338f42f3b10e4087f42401f71af11, type: 3}
     animationName: Defense
     actionType: 2
@@ -139,6 +147,7 @@ MonoBehaviour:
     level: 0
     attackCount: 1
     keyIndex: 2
+    sale: 0
     icon: {fileID: 21300000, guid: dc0576a6a03431140ace9835f280b19f, type: 3}
     animationName: Defense
     actionType: 2
@@ -154,6 +163,7 @@ MonoBehaviour:
     level: 0
     attackCount: 1
     keyIndex: 0
+    sale: 0
     icon: {fileID: 21300000, guid: 2ef426812862db04ab60029e16a6abc1, type: 3}
     animationName: Hit
     actionType: 1
@@ -169,6 +179,7 @@ MonoBehaviour:
     level: 0
     attackCount: 4
     keyIndex: 1
+    sale: 0
     icon: {fileID: 21300000, guid: e707ef4f32c320240adf90284eaca123, type: 3}
     animationName: Hit
     actionType: 1
@@ -185,6 +196,7 @@ MonoBehaviour:
     level: 0
     attackCount: 2
     keyIndex: 2
+    sale: 0
     icon: {fileID: 21300000, guid: ff1449356078ad84394fabcca77cd5b7, type: 3}
     animationName: Penetrate
     actionType: 1
@@ -200,6 +212,7 @@ MonoBehaviour:
     level: 0
     attackCount: 1
     keyIndex: 0
+    sale: 0
     icon: {fileID: 21300000, guid: e2e5b36165d313a4db4ee1a597e96f9c, type: 3}
     animationName: Slash
     actionType: 1
@@ -216,6 +229,7 @@ MonoBehaviour:
     level: 0
     attackCount: 1
     keyIndex: 0
+    sale: 0
     icon: {fileID: 21300000, guid: 6d39b6e418abe9a4c8affe5aeca3b863, type: 3}
     animationName: Slash
     actionType: 1
@@ -232,6 +246,7 @@ MonoBehaviour:
     level: 0
     attackCount: 2
     keyIndex: 0
+    sale: 0
     icon: {fileID: 21300000, guid: 6dc83f6a6d6ad9e4eb69b3680249b6b7, type: 3}
     animationName: Slash
     actionType: 1

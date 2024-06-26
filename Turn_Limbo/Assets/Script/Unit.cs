@@ -31,7 +31,7 @@ public class Buff
     public int stack;
     public int count;
 
-    public Buff(Buff_Base _curBuff, int _stack, int _count, PropertyType _type = PropertyType.AllType)
+    public Buff(Buff_Base _curBuff, int _stack, int _count, PropertyType _type = PropertyType.All)
     {
         buff = _curBuff;
         type = _type;
@@ -42,14 +42,20 @@ public class Buff
 
 public enum BuffTiming
 {
+    TurnStart,
+    TurnEnd,
+    Attack,
+    BattleEnd,
+
     turnStart,
     turnEnd,
+    attack,
     battleEnd,
 }
 
 public enum PropertyType
 {
-    AllType,
+    All,
     Slash,
     Hit,
     Penetrate,
@@ -67,6 +73,7 @@ public abstract class Unit : MonoBehaviour
     }
 
     public List<Buff> curBuff = new();
+    public List<Buff> nextBuff = new();
     public List<Buff> usedBuff = new();
 
     public List<RequestSkill> attackRequest = new List<RequestSkill>();
@@ -82,6 +89,8 @@ public abstract class Unit : MonoBehaviour
 
     public int curDamage;
     public int curAttackCount;
+    public int plusAttackValue;
+    public int plusDefenseValue;
     public float attack_Drainage;
     public float defense_Drainage;
     public bool isAttack;
@@ -134,10 +143,9 @@ public abstract class Unit : MonoBehaviour
     }
     public virtual void TurnInit()
     {
-        UseBuff(BuffTiming.battleEnd);
         curBuff = ClearBuffList(curBuff, true);
 
-        Debug.Log($"{this} : {curBuff.Count} / {usedBuff.Count}");
+        //Debug.Log($"{this} : {curBuff.Count} / {usedBuff.Count}");
 
         isAttack = true;
         nextSkill = nullSkill;
@@ -159,6 +167,8 @@ public abstract class Unit : MonoBehaviour
         isAttack = true;
         attack_Drainage = 1;
         defense_Drainage = 1;
+        plusAttackValue = 0;
+        plusDefenseValue = 0;
 
         usedSkill = curSkill;
         curSkill = skill;
@@ -235,17 +245,17 @@ public abstract class Unit : MonoBehaviour
                 if (list[i].insertImage == null)
                 {
                     list[i].insertImage = UIManager.instance.AddImage(list[i].buff.buffIcon, unitUI.requestBuffParent);
-                    //Debug.Log($"AddImage {this.name} {list[i].curBuff} {list[i].insertImage == null}");
                 }
-                //Debug.Log($"AddList {this.name} {list[i].curBuff} {list[i].insertImage == null}");
                 temp.Add(list[i]);
             }
             else
             {
-                //Debug.Log($"Die : {this.name} {list[i].curBuff} {list[i].insertImage == null} {allClaer} {list[i].count}");
                 usedBuff.Add(list[i]);
             }
         }
+
+        if(allClaer) temp = ClearBuffList(nextBuff);
+
         return temp;
     }
 
@@ -254,6 +264,9 @@ public abstract class Unit : MonoBehaviour
         //Debug.Log($"{this.name} Damage : {curDamage} {attack_Drainage}");
         var damage = (float)Random.Range(min, max + 1);
         curDamage = Mathf.FloorToInt(damage * attack_Drainage / count);
+        curDamage += plusAttackValue;
+
+        if(curDamage <= 0) curDamage = 1;
         curAttackCount = count;
     }
     public RequestSkill ConvertRequest(Skill skill)
@@ -271,6 +284,7 @@ public abstract class Unit : MonoBehaviour
         newRequest.icon = skill.icon;
         newRequest.skillName = skill.skillName;
         newRequest.propertyType = skill.propertyType;
+        newRequest.index = skill.index;
         return newRequest;
     }
 
@@ -317,6 +331,7 @@ public abstract class Unit : MonoBehaviour
         }
         else
         {
+            damage += plusDefenseValue;
             dmgDelayCurTime = dmgDelayTime;
             var totalDmg = damage;
             shield -= totalDmg;
@@ -335,6 +350,7 @@ public abstract class Unit : MonoBehaviour
         //Debug.Log(damage);
         int totalDmg = 0;
         damage = Mathf.RoundToInt(damage * defense_Drainage);
+        damage += plusDefenseValue;
         if (shield <= 0)
         {
             totalDmg = Mathf.FloorToInt(2f * damage);

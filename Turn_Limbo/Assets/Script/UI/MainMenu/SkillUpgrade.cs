@@ -129,7 +129,7 @@ public class SkillUpgrade : MonoBehaviour, IInitObserver
         InitSkillSelectState();
         for (int i = skillDeckBuild.btnImage.Count - 1; i >= 0; i--)
         {
-            print(i);
+            //print(i);
             Destroy(skillDeckBuild.btnImage[i].btn.gameObject);
             skillDeckBuild.btnImage.RemoveAt(i);
         }

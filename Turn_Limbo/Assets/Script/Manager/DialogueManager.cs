@@ -79,7 +79,7 @@ public class DialogueManager : MonoBehaviour, IInitObserver
     [HideInInspector] public bool isEnd;
     string eventValue;
     bool isSkip;
-    bool isPanel;
+    [SerializeField] bool isPanel;
     bool isNameHide;
     Action<string> curEvent;
 
@@ -102,13 +102,13 @@ public class DialogueManager : MonoBehaviour, IInitObserver
             nameRightBar.rectTransform.DOLocalMoveX(1410, 0.5f);
             focusUI.SetActive(false);
         }
-        UIManager.instance.inputPanel.rectTransform.DOSizeDelta(isOn ? Vector2.zero : new(0, 250), 0.5f);
+        UIManager.instance.inputPanel.rectTransform.DOSizeDelta(isOn ? Vector2.zero : new(0, 352), 0.5f);
         barSize.rectTransform.DOSizeDelta(isOn ? new(0, 275) : Vector2.zero, 0.5f);
     }
 
     public void InputDialogue(Dialogue dialogue)
     {
-        Debug.Log("Input Dialogue");
+        //Debug.Log("Input Dialogue");
         switch (dialogue.namePos)
         {
             case NamePos.Left:
@@ -209,8 +209,9 @@ public class DialogueManager : MonoBehaviour, IInitObserver
         panel.rectTransform.DOSizeDelta(isPanel ? new(1589, 892) : Vector2.zero, 0.5f);
         if (isPanel)
         {
-            panel.sprite = Resources.Load<Sprite>($"Panel/{value}");;
-            isPanel = !isPanel;
+            Debug.Log("Panel");
+            panel.sprite = Resources.Load<Sprite>($"Panel/{value}");
+            isPanel = false;
             panelState = false;
         }
     }
@@ -220,5 +221,6 @@ public class DialogueManager : MonoBehaviour, IInitObserver
         isEnd = true;
         isTyping = true;
         isSkip = true;
+        panel.rectTransform.DOSizeDelta(Vector2.zero, 0.5f);
     }
 }

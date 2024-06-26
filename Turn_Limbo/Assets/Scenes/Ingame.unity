@@ -130,9 +130,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1607977934, guid: 81ba74c15afd25641a61eca563a16a50, type: 3}
-      propertyPath: m_Color.a
-      value: 0.31764707
+    - target: {fileID: 368434018, guid: 81ba74c15afd25641a61eca563a16a50, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 2036408054, guid: a4c4b762b3173784eb6a937a2517e5ec, type: 3}
+    - target: {fileID: 761115298, guid: 81ba74c15afd25641a61eca563a16a50, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 933.63
+      objectReference: {fileID: 0}
+    - target: {fileID: 761115298, guid: 81ba74c15afd25641a61eca563a16a50, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 17.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 761115298, guid: 81ba74c15afd25641a61eca563a16a50, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -149
       objectReference: {fileID: 0}
     - target: {fileID: 1718499151790417056, guid: 81ba74c15afd25641a61eca563a16a50, type: 3}
       propertyPath: m_Name
@@ -204,7 +216,23 @@ PrefabInstance:
       objectReference: {fileID: 1885881912}
     - target: {fileID: 3187979445793426151, guid: 81ba74c15afd25641a61eca563a16a50, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.0006713867
+      value: 0.00012207031
+      objectReference: {fileID: 0}
+    - target: {fileID: 3893994022016631093, guid: 81ba74c15afd25641a61eca563a16a50, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 2036408054, guid: a4c4b762b3173784eb6a937a2517e5ec, type: 3}
+    - target: {fileID: 4795631371466309891, guid: 81ba74c15afd25641a61eca563a16a50, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 933.63
+      objectReference: {fileID: 0}
+    - target: {fileID: 4795631371466309891, guid: 81ba74c15afd25641a61eca563a16a50, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 17.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4795631371466309891, guid: 81ba74c15afd25641a61eca563a16a50, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -148.99998
       objectReference: {fileID: 0}
     - target: {fileID: 5066380162491336781, guid: 81ba74c15afd25641a61eca563a16a50, type: 3}
       propertyPath: m_AnchorMax.x
@@ -1402,6 +1430,7 @@ MonoBehaviour:
   unitUI: {fileID: 37891361}
   dmgDelayTime: 0
   dmgDelayCurTime: 0
+  coinLimit: 0
   addCoin: 4
 --- !u!95 &1715296848
 Animator:

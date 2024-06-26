@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using Unity.VisualScripting.Antlr3.Runtime.Tree;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -120,6 +121,8 @@ public class ReadSpreadSheet : MonoBehaviour
 
     void PasreBuffData(string data)
     {
+        Debug.Log("ReadBuff");
+
         Dictionary<string, Buff_Base> buff = new();
         Dictionary<string, Buff_Base> debuff = new();
 
@@ -133,10 +136,16 @@ public class ReadSpreadSheet : MonoBehaviour
             var temp = Activator.CreateInstance(Type.GetType(className)) as Buff_Base;
             temp.timing = columns[3].EnumParse<BuffTiming>();
             temp.buffIcon = Resources.Load<Sprite>($"BuffIcon/{columns[2]}");
-            //Debug.Log($"Icon/BuffIcon/{columns[2]}");
+            Debug.Log($"{columns[2]} / {columns[4]}, buff / {columns[4] == "buff"}");
 
-            if (columns[4] == "buff" && columns[4] != "") buff.Add(columns[2], temp);
-            else debuff.Add(columns[2], temp);
+            if (columns[4] == "buff" && columns[4] != "") {
+                buff.Add(columns[2], temp);
+                Debug.Log("Add Buff");
+            }
+            else {
+                debuff.Add(columns[2], temp);
+                Debug.Log("Add DeBuff");
+            }
         }
 
         d.loadData.buffList = buff;
