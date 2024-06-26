@@ -284,7 +284,8 @@ public class Skill_Hara_Kiri : Skill_Base
 {
     public override void End(Unit unit, Unit target)
     {
-        unit.hp -= Mathf.RoundToInt(unit.maxHP * (unit.curSkill.maxDamage[unit.skillInfo.holdSkills[unit.curSkill.index].level] * 2 / 100)); 
+        Debug.Log($"{Mathf.RoundToInt(unit.maxHP * ((float)unit.curSkill.maxDamage[unit.skillInfo.holdSkills[unit.curSkill.index].level] * 2 / 100))} / {unit.maxHP * ((float)unit.curSkill.maxDamage[unit.skillInfo.holdSkills[unit.curSkill.index].level] * 2 / 100)} / {(float)unit.curSkill.maxDamage[unit.skillInfo.holdSkills[unit.curSkill.index].level] * 2 / 100}");
+        unit.hp -= Mathf.RoundToInt(unit.maxHP * ((float)unit.curSkill.maxDamage[unit.skillInfo.holdSkills[unit.curSkill.index].level] * 2 / 100));
     }
 }
 

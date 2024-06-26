@@ -253,6 +253,7 @@ public abstract class Unit : MonoBehaviour
                 usedBuff.Add(list[i]);
             }
         }
+
         if(allClaer) temp = ClearBuffList(nextBuff);
 
         return temp;
@@ -283,6 +284,7 @@ public abstract class Unit : MonoBehaviour
         newRequest.icon = skill.icon;
         newRequest.skillName = skill.skillName;
         newRequest.propertyType = skill.propertyType;
+        newRequest.index = skill.index;
         return newRequest;
     }
 

@@ -1,7 +1,7 @@
 idx,name,script,timing,type,test
 0,화상,Burn,BattleEnd,debuff,
 1,마비,Paralysis,TurnStart,debuff,
-2,Act 제한,CoinLimit,TurnStart,buff,
+2,Act 제한,CoinLimit,TurnStart,debuff,
 3,공격력 감소,AttackDown,TurnStart,debuff,
 4,방어력 감소,DefenseDown,TurnStart,debuff,
 5,공격력 증가,AttackUp,TurnStart,buff,
