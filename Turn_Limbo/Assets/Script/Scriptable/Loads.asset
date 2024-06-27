@@ -15,28 +15,28 @@ MonoBehaviour:
   SkillList:
   - index: 1
     skillName: "\uBCA0\uAE30"
-    cost: 000000000000000000000000
-    minDamage: 020000000400000004000000
-    maxDamage: 030000000400000005000000
+    cost: 01000000010000000100000001000000
+    minDamage: 02000000040000000400000005000000
+    maxDamage: 03000000040000000500000007000000
     level: 0
     attackCount: 1
     keyIndex: 0
-    sale: 0
+    sale: 50
     icon: {fileID: 21300000, guid: 373d69e886bd46a4f8c9ebe389fe0e84, type: 3}
     animationName: Slash
     actionType: 1
-    effect_desc: "[\uC801\uC911\uC2DC] act 1\uB97C \uD68D\uB4DD"
+    effect_desc: "act 2\uB97C \uD68D\uB4DD"
     skill_desc: "\uCE7C\uC744 \uD718\uB458\uB7EC \uC0C1\uB300\uB97C \uBCA0\uC5B4\uB0C5\uB2C8\uB2E4"
     propertyType: 1
   - index: 2
     skillName: "\uC608\uB9AC\uD55C \uBCA0\uAE30"
-    cost: 020000000200000001000000
-    minDamage: 060000000800000008000000
-    maxDamage: 0a0000000a0000000b000000
+    cost: 02000000020000000100000001000000
+    minDamage: 080000000a0000000a0000000b000000
+    maxDamage: 0c0000000c0000000d0000000f000000
     level: 0
     attackCount: 2
     keyIndex: 0
-    sale: 0
+    sale: 125
     icon: {fileID: 21300000, guid: 4f7eae31e9b2fb448b4ac2fcce69e0ba, type: 3}
     animationName: Slash
     actionType: 1
@@ -46,13 +46,13 @@ MonoBehaviour:
     propertyType: 1
   - index: 3
     skillName: "\uCC0C\uB974\uAE30"
-    cost: 000000000000000000000000
-    minDamage: 020000000200000004000000
-    maxDamage: 030000000300000005000000
+    cost: 01000000010000000100000001000000
+    minDamage: 03000000030000000400000005000000
+    maxDamage: 03000000030000000500000007000000
     level: 0
     attackCount: 3
     keyIndex: 1
-    sale: 0
+    sale: 50
     icon: {fileID: 21300000, guid: c9616b36d42b94c4ea1fc5110e43d5ff, type: 3}
     animationName: Penetrate
     actionType: 1
@@ -62,13 +62,13 @@ MonoBehaviour:
     propertyType: 3
   - index: 4
     skillName: "\uC815\uAD50\uD55C \uCC0C\uB974\uAE30"
-    cost: 020000000200000001000000
-    minDamage: 060000000800000008000000
-    maxDamage: 0a0000000a0000000b000000
+    cost: 02000000020000000100000001000000
+    minDamage: 080000000a0000000a0000000b000000
+    maxDamage: 0c0000000c0000000d0000000f000000
     level: 0
     attackCount: 1
     keyIndex: 1
-    sale: 0
+    sale: 125
     icon: {fileID: 21300000, guid: c50ed2fa14dd00347900aad9ce3c48b6, type: 3}
     animationName: Penetrate
     actionType: 1
@@ -78,13 +78,13 @@ MonoBehaviour:
     propertyType: 3
   - index: 5
     skillName: "\uBD80\uC218\uAE30"
-    cost: 010000000100000001000000
-    minDamage: 040000000600000006000000
-    maxDamage: 070000000700000008000000
+    cost: 01000000010000000100000001000000
+    minDamage: 04000000060000000600000007000000
+    maxDamage: 0700000007000000080000000a000000
     level: 0
     attackCount: 2
     keyIndex: 2
-    sale: 0
+    sale: 50
     icon: {fileID: 21300000, guid: 1552e3c95ad59834681e769d0f884003, type: 3}
     animationName: Hit
     actionType: 1
@@ -94,14 +94,14 @@ MonoBehaviour:
     propertyType: 2
   - index: 6
     skillName: "\uAC15\uB825\uD55C \uBD80\uC218\uAE30"
-    cost: 030000000300000003000000
-    minDamage: 0a0000000c0000000c000000
-    maxDamage: 0e0000000e0000000f000000
+    cost: 03000000030000000300000003000000
+    minDamage: 0d0000000f0000000f00000010000000
+    maxDamage: 11000000110000001200000014000000
     level: 0
     attackCount: 3
     keyIndex: 2
-    sale: 0
-    icon: {fileID: 21300000, guid: 84a33276bb305304f90a665d01c66a97, type: 3}
+    sale: 125
+    icon: {fileID: 21300000, guid: 20e1ecd780e4db544a8bbdefcb76ce08, type: 3}
     animationName: Hit
     actionType: 1
     effect_desc: 
@@ -110,13 +110,13 @@ MonoBehaviour:
     propertyType: 2
   - index: 7
     skillName: "\uB9C9\uAE30"
-    cost: 000000000000000000000000
-    minDamage: 030000000500000005000000
-    maxDamage: 060000000600000007000000
+    cost: 01000000010000000100000001000000
+    minDamage: 03000000050000000500000006000000
+    maxDamage: 06000000060000000700000009000000
     level: 0
     attackCount: 1
     keyIndex: 0
-    sale: 0
+    sale: 75
     icon: {fileID: 21300000, guid: c02d00e047d073c4ab7a7a06c6596a50, type: 3}
     animationName: Defense
     actionType: 2
@@ -125,13 +125,13 @@ MonoBehaviour:
     propertyType: 4
   - index: 8
     skillName: "\uD758\uB9AC\uAE30"
-    cost: 010000000100000001000000
-    minDamage: 050000000700000007000000
-    maxDamage: 09000000090000000a000000
+    cost: 01000000010000000100000001000000
+    minDamage: 05000000070000000700000008000000
+    maxDamage: 09000000090000000a0000000c000000
     level: 0
     attackCount: 1
     keyIndex: 1
-    sale: 0
+    sale: 75
     icon: {fileID: 21300000, guid: 9f9338f42f3b10e4087f42401f71af11, type: 3}
     animationName: Defense
     actionType: 2
@@ -141,45 +141,44 @@ MonoBehaviour:
     propertyType: 4
   - index: 9
     skillName: "\uCCD0\uB0B4\uAE30"
-    cost: 020000000200000000000000
-    minDamage: 020000000300000003000000
-    maxDamage: 040000000400000006000000
+    cost: 01000000010000000100000001000000
+    minDamage: 02000000030000000300000004000000
+    maxDamage: 04000000040000000600000008000000
     level: 0
     attackCount: 1
     keyIndex: 2
-    sale: 0
+    sale: 75
     icon: {fileID: 21300000, guid: dc0576a6a03431140ace9835f280b19f, type: 3}
     animationName: Defense
     actionType: 2
-    effect_desc: "\uB2E4\uC74C \uD134\uC5D0 \uC0AC\uC6A9\uD558\uB294 \uBAA8\uB4E0
-      \uC2A4\uD0AC\uC758 \uD53C\uD574\uB7C9 5% \uC99D\uAC00"
+    effect_desc: "\uB2E4\uC74C \uD134\uC5D0 \uC8FC\uB294 \uD53C\uD574\uB7C9 3% \uC99D\uAC00"
     skill_desc: "\uC0C1\uB300\uBC29\uC758 \uCE7C\uB0A0\uC744 \uB9DE\uBC1B\uC544\uCE69\uB2C8\uB2E4."
     propertyType: 4
   - index: 10
     skillName: "\uC900\uBE44"
-    cost: 010000000000000000000000
-    minDamage: 020000000400000004000000
-    maxDamage: 030000000400000005000000
+    cost: 01000000010000000100000001000000
+    minDamage: 02000000040000000400000005000000
+    maxDamage: 03000000040000000500000007000000
     level: 0
     attackCount: 1
     keyIndex: 0
-    sale: 0
+    sale: 200
     icon: {fileID: 21300000, guid: 2ef426812862db04ab60029e16a6abc1, type: 3}
     animationName: Hit
     actionType: 1
     effect_desc: "\uB2E4\uC74C\uC5D0 \uC0AC\uC6A9\uD558\uB294 \uC2A4\uD0AC 1\uAC1C\uC758
-      \uD53C\uD574\uB7C9 40% \uC99D\uAC00"
+      \uD53C\uD574\uB7C9 30% \uC99D\uAC00"
     skill_desc: "\uB2E4\uC74C \uACF5\uACA9\uC744 \uC900\uBE44\uD569\uB2C8\uB2E4."
     propertyType: 2
   - index: 11
     skillName: "\uACBD\uACC4"
-    cost: 020000000200000002000000
-    minDamage: 040000000600000006000000
-    maxDamage: 08000000080000000c000000
+    cost: 02000000020000000200000001000000
+    minDamage: 04000000060000000600000008000000
+    maxDamage: 08000000080000000c0000000e000000
     level: 0
     attackCount: 4
     keyIndex: 1
-    sale: 0
+    sale: 200
     icon: {fileID: 21300000, guid: e707ef4f32c320240adf90284eaca123, type: 3}
     animationName: Hit
     actionType: 1
@@ -190,71 +189,365 @@ MonoBehaviour:
     propertyType: 2
   - index: 12
     skillName: "\uC804\uC9C4"
-    cost: 000000000000000000000000
-    minDamage: 060000000800000008000000
-    maxDamage: 0a000000080000000c000000
+    cost: 02000000020000000200000002000000
+    minDamage: 00000000000000000100000002000000
+    maxDamage: 02000000030000000400000005000000
     level: 0
     attackCount: 2
     keyIndex: 2
-    sale: 0
+    sale: 450
     icon: {fileID: 21300000, guid: ff1449356078ad84394fabcca77cd5b7, type: 3}
     animationName: Penetrate
     actionType: 1
     effect_desc: "\uB2E4\uC74C \uD134\uC5D0 \uBC1B\uB294 \uD53C\uD574\uB7C9 50% \uC99D\uAC00
-      act 5 \uD68C\uBCF5"
+      act 3 \uD68C\uBCF5"
     skill_desc: "\uD55C \uBC1C\uC790\uAD6D \uC55E\uC73C\uB85C \uB098\uC544\uAC11\uB2C8\uB2E4."
     propertyType: 3
   - index: 13
     skillName: "\uC138\uB85C\uBCA0\uAE30"
-    cost: 010000000000000000000000
-    minDamage: 020000000400000004000000
-    maxDamage: 030000000400000005000000
+    cost: 02000000020000000200000001000000
+    minDamage: 02000000040000000400000005000000
+    maxDamage: 03000000040000000500000007000000
     level: 0
     attackCount: 1
     keyIndex: 0
-    sale: 0
+    sale: 100
     icon: {fileID: 21300000, guid: e2e5b36165d313a4db4ee1a597e96f9c, type: 3}
     animationName: Slash
     actionType: 1
-    effect_desc: "[\uC801\uC911\uC2DC] \uC774\uBC88 \uC804\uD22C \uD398\uC774\uC988\uC5D0\uC11C
-      \uC8FC\uB294 \uD53C\uD574\uB7C9 30% \uC99D\uAC00"
+    effect_desc: "\uC774\uBC88 \uC804\uD22C \uD398\uC774\uC988\uC5D0\uC11C \uC8FC\uB294
+      \uD53C\uD574\uB7C9 15% \uC99D\uAC00"
     skill_desc: "\uC0C1\uB300\uB97C \uC138\uB85C\uB85C \uD06C\uAC8C \uD55C \uBC88
       \uBCA0\uC5B4\uB0C5\uB2C8\uB2E4."
     propertyType: 1
   - index: 14
     skillName: "\uAC00\uB85C\uBCA0\uAE30"
-    cost: 030000000300000003000000
-    minDamage: 0a0000000c0000000c000000
-    maxDamage: 0e0000000e0000000f000000
+    cost: 01000000010000000100000001000000
+    minDamage: 06000000080000000800000009000000
+    maxDamage: 09000000090000000a0000000c000000
     level: 0
     attackCount: 1
     keyIndex: 0
-    sale: 0
+    sale: 300
     icon: {fileID: 21300000, guid: 6d39b6e418abe9a4c8affe5aeca3b863, type: 3}
     animationName: Slash
     actionType: 1
-    effect_desc: "\uC9C1\uC804\uC5D0 \uC0AC\uC6A9\uD55C \uC2A4\uD0AC\uC774 '\uC138\uB85C\uBCA0\uAE30'\uC77C
-      \uC2DC \uD53C\uD574\uB7C9 100% \uC99D\uAC00"
+    effect_desc: "[[\uC774\uC804] '\uC138\uB85C\uBCA0\uAE30' \uC0AC\uC6A9\uC2DC]
+      \uD53C\uD574\uB7C9 30% \uC99D\uAC00"
     skill_desc: "\uC0C1\uB300\uB97C \uAC00\uB85C\uB85C \uD06C\uAC8C \uD55C \uBC88
       \uBCA0\uC5B4\uB0C5\uB2C8\uB2E4."
     propertyType: 1
   - index: 15
     skillName: "\uC0AC\uC120\uBCA0\uAE30"
-    cost: 000000000000000000000000
-    minDamage: 020000000200000004000000
-    maxDamage: 030000000300000005000000
+    cost: 01000000010000000100000001000000
+    minDamage: 02000000020000000400000005000000
+    maxDamage: 03000000030000000500000007000000
     level: 0
     attackCount: 2
     keyIndex: 0
-    sale: 0
+    sale: 100
     icon: {fileID: 21300000, guid: 6dc83f6a6d6ad9e4eb69b3680249b6b7, type: 3}
     animationName: Slash
     actionType: 1
     effect_desc: "[[\uB300\uC0C1] \uBC29\uC5B4 \uC0AC\uC6A9] \uB2E4\uC74C \uD134\uC5D0
-      \uB300\uC0C1\uC758 act 1 \uAC10\uC18C"
+      \uB300\uC0C1\uC774 \uC0AC\uC6A9\uD558\uB294 \uBC29\uC5B4 \uC2A4\uD0AC\uC758
+      \uD53C\uD574\uB7C9 90% \uAC10\uC18C"
     skill_desc: "\uC0C1\uB300\uB97C \uAD50\uCC28\uB85C \uBE60\uB974\uAC8C \uB450
       \uBC88 \uBCA0\uC5B4\uB0C5\uB2C8\uB2E4."
     propertyType: 1
+  - index: 16
+    skillName: "\uC77C\uB3C4\uC591\uB2E8"
+    cost: 05000000050000000500000005000000
+    minDamage: 0300000005000000080000000a000000
+    maxDamage: 140000001e0000002300000028000000
+    level: 0
+    attackCount: 1
+    keyIndex: 1
+    sale: 600
+    icon: {fileID: 21300000, guid: 35ae996cbb6cd1d4f9ac23a22e9cf517, type: 3}
+    animationName: Slash
+    actionType: 1
+    effect_desc: 
+    skill_desc: "\uC0C1\uB300\uC5D0\uAC8C \uAC15\uB825\uD55C \uC77C\uACA9\uC744 \uB0A0\uB9BD\uB2C8\uB2E4."
+    propertyType: 1
+  - index: 17
+    skillName: "\uD638\uD761"
+    cost: 02000000020000000200000002000000
+    minDamage: 05000000060000000600000008000000
+    maxDamage: 08000000080000000a0000000c000000
+    level: 0
+    attackCount: 1
+    keyIndex: 0
+    sale: 200
+    icon: {fileID: 21300000, guid: b62918a1f7b4ad945a75acb791b41057, type: 3}
+    animationName: Defense
+    actionType: 2
+    effect_desc: "[[\uB300\uC0C1] \uACF5\uACA9 \uC0AC\uC6A9] act 3\uC744 \uD68D\uB4DD"
+    skill_desc: "\uC228\uC744 \uD06C\uAC8C \uB4E4\uC774\uC26C\uACE0 \uD3C9\uC815\uC2EC\uC744
+      \uB418\uCC3E\uC2B5\uB2C8\uB2E4."
+    propertyType: 4
+  - index: 18
+    skillName: "\uC9C0\uD608"
+    cost: 02000000020000000100000001000000
+    minDamage: 01000000010000000100000001000000
+    maxDamage: 01000000010000000100000001000000
+    level: 0
+    attackCount: 1
+    keyIndex: 1
+    sale: 200
+    icon: {fileID: 21300000, guid: 744093378c698e34896fddcd8ec71fcf, type: 3}
+    animationName: Defense
+    actionType: 2
+    effect_desc: "[[\uB300\uC0C1] \uBC29\uC5B4 \uC0AC\uC6A9] \uD604\uC7AC \uCCB4\uB825\uC758
+      5%\uB9CC\uD07C \uD68C\uBCF5"
+    skill_desc: "\uC0C1\uCC98 \uBD80\uC704\uB97C \uC555\uBC15\uD574 \uCD9C\uD608\uC744
+      \uC784\uC2DC\uC801\uC73C\uB85C \uBA48\uCDA5\uB2C8\uB2E4."
+    propertyType: 4
+  - index: 19
+    skillName: "\uD22C\uC9C0"
+    cost: 02000000020000000200000002000000
+    minDamage: 01000000010000000100000001000000
+    maxDamage: 01000000010000000100000001000000
+    level: 0
+    attackCount: 1
+    keyIndex: 2
+    sale: 200
+    icon: {fileID: 21300000, guid: cea512aac6383644c848071f555b8c5d, type: 3}
+    animationName: Defense
+    actionType: 2
+    effect_desc: "\uD604\uC7AC \uC800\uD56D\uB825\uC758 10%\uB9CC\uD07C \uD68C\uBCF5"
+    skill_desc: "\uC4F0\uB7EC\uC9C0\uC9C0 \uC54A\uAE30 \uC704\uD574 \uB9C8\uC74C\uC744
+      \uAC00\uB2E4\uB4EC\uC2B5\uB2C8\uB2E4."
+    propertyType: 4
+  - index: 20
+    skillName: "\uC57D\uC810 \uAC04\uD30C"
+    cost: 01000000010000000100000001000000
+    minDamage: 03000000030000000400000005000000
+    maxDamage: 03000000030000000500000007000000
+    level: 0
+    attackCount: 3
+    keyIndex: 0
+    sale: 75
+    icon: {fileID: 21300000, guid: 51c999b317c50954290fdb2a2a291ed3, type: 3}
+    animationName: Penetrate
+    actionType: 1
+    effect_desc: "[[\uB300\uC0C1] \uBC29\uC5B4 \uC0AC\uC6A9] \uC0C1\uB300 \uC800\uD56D\uB825\uC5D0
+      10 \uD53C\uD574"
+    skill_desc: "\uC0C1\uB300\uC758 \uC57D\uC810\uC744 \uAC04\uD30C\uD569\uB2C8\uB2E4."
+    propertyType: 3
+  - index: 21
+    skillName: "\uAE09\uC18C \uCC0C\uB974\uAE30"
+    cost: 03000000030000000300000002000000
+    minDamage: 0a0000000c0000000c0000000d000000
+    maxDamage: 0e0000000e0000000f00000010000000
+    level: 0
+    attackCount: 1
+    keyIndex: 1
+    sale: 300
+    icon: {fileID: 21300000, guid: f25a78679d7482244b4494de0a0c2085, type: 3}
+    animationName: Penetrate
+    actionType: 1
+    effect_desc: "[[\uB300\uC0C1] \uC800\uD56D 25% \uC774\uD558] \uC0C1\uB300 \uC800\uD56D\uB825\uC5D0
+      50 \uD53C\uD574"
+    skill_desc: "\uC0C1\uB300\uC758 \uC601 \uC88B\uC9C0 \uC54A\uC740 \uBD80\uC704\uB97C
+      \uACF5\uACA9\uD569\uB2C8\uB2E4."
+    propertyType: 3
+  - index: 22
+    skillName: "\uD560\uBCF5"
+    cost: 02000000000000000000000000000000
+    minDamage: 0a0000000f000000140000001e000000
+    maxDamage: 14000000190000001e0000002d000000
+    level: 0
+    attackCount: 1
+    keyIndex: 2
+    sale: 600
+    icon: {fileID: 21300000, guid: fa9b3c598cde19b4b867503169e46c10, type: 3}
+    animationName: Penetrate
+    actionType: 1
+    effect_desc: "\uCD5C\uB300 \uCCB4\uB825\uC758 (\uC774 \uC2A4\uD0AC\uC758 \uCD5C\uB300
+      \uD53C\uD574\uB7C9 x 2)%\uB9CC\uD07C \uCCB4\uB825 \uAC10\uC18C"
+    skill_desc: "\uB098\uC5D0\uAC8C \uD53C\uD574\uB97C \uC8FC\uBA70 \uC0C1\uB300\uC5D0\uAC8C
+      \uCE58\uBA85\uC801\uC778 \uC77C\uACA9\uC744 \uB0A0\uB9BD\uB2C8\uB2E4."
+    propertyType: 3
+  - index: 23
+    skillName: "\uBD84\uC1C4"
+    cost: 01000000010000000100000001000000
+    minDamage: 03000000040000000400000006000000
+    maxDamage: 06000000060000000700000008000000
+    level: 0
+    attackCount: 4
+    keyIndex: 1
+    sale: 50
+    icon: {fileID: 21300000, guid: b530300ab91ac7c4ba8b56fecde16577, type: 3}
+    animationName: Hit
+    actionType: 1
+    effect_desc: "[[\uB300\uC0C1] \uBC29\uC5B4 \uC0AC\uC6A9] \uC0C1\uB300 \uCCB4\uB825\uC5D0
+      5 \uD53C\uD574"
+    skill_desc: "\uC0C1\uB300\uC758 \uBC29\uC5B4 \uD0DC\uC138\uB97C \uC644\uC804\uD788
+      \uBB34\uB108\uB728\uB9BD\uB2C8\uB2E4."
+    propertyType: 2
+  - index: 24
+    skillName: "\uBD80\uB52A\uD798"
+    cost: 01000000010000000100000001000000
+    minDamage: 03000000040000000400000006000000
+    maxDamage: 06000000060000000700000008000000
+    level: 0
+    attackCount: 1
+    keyIndex: 1
+    sale: 50
+    icon: {fileID: 21300000, guid: 5443553c96d6ddd4b95a9a7376ed3a41, type: 3}
+    animationName: Hit
+    actionType: 1
+    effect_desc: "[\uC800\uD56D 50% \uC774\uD558] \uD604\uC7AC \uC800\uD56D\uB825\uC758
+      20%\uB9CC\uD07C \uD68C\uBCF5"
+    skill_desc: "\uC0C1\uB300\uC640 \uB098\uC758 \uAC80\uC2E0\uC744 \uB9DE\uBD80\uB52A\uD799\uB2C8\uB2E4."
+    propertyType: 2
+  - index: 25
+    skillName: "\uC555\uBC15\uAC10"
+    cost: 00000000000000000000000000000000
+    minDamage: 03000000040000000400000005000000
+    maxDamage: 06000000060000000700000007000000
+    level: 0
+    attackCount: 1
+    keyIndex: 2
+    sale: 200
+    icon: {fileID: 21300000, guid: ff797bf137b969741ad79ec782911e56, type: 3}
+    animationName: Hit
+    actionType: 1
+    effect_desc: "\uB2E4\uC74C \uD134\uC5D0 \uC2A4\uD0AC \uD6A8\uACFC\uB85C act \uD68C\uBCF5
+      \uBD88\uAC00"
+    skill_desc: "\uC790\uAE30 \uC790\uC2E0\uC744 \uBAB0\uC544\uBD99\uC774\uBA70 \uC555\uBC15\uD569\uB2C8\uB2E4."
+    propertyType: 2
+  - index: 26
+    skillName: "\uAE34\uC7A5\uAC10"
+    cost: 01000000010000000100000001000000
+    minDamage: 04000000060000000600000007000000
+    maxDamage: 0800000008000000090000000b000000
+    level: 0
+    attackCount: 1
+    keyIndex: 2
+    sale: 200
+    icon: {fileID: 21300000, guid: 896adf5f74b3be645ba90909d7953dab, type: 3}
+    animationName: Slash
+    actionType: 1
+    effect_desc: "\uB2E4\uC74C \uD134\uC5D0 \uBC1B\uB294 \uD53C\uD574\uB7C9 1 \uAC10\uC18C
+      \n \uD604\uC7AC \uCCB4\uB825\uC758 5%\uB9CC\uD07C \uAC10\uC18C"
+    skill_desc: "\uBC29\uC2EC\uD558\uC9C0 \uC54A\uAE30 \uC704\uD574 \uADFC\uC721\uC744
+      \uAE34\uC7A5\uC2DC\uD0B5\uB2C8\uB2E4."
+    propertyType: 1
+  - index: 27
+    skillName: "\uC2E0\uCCB4 \uC548\uC815"
+    cost: 01000000010000000100000001000000
+    minDamage: 04000000060000000600000007000000
+    maxDamage: 0800000008000000090000000b000000
+    level: 0
+    attackCount: 1
+    keyIndex: 2
+    sale: 200
+    icon: {fileID: 21300000, guid: 0e8adedc36dc4084091bbf488c3aff11, type: 3}
+    animationName: Penetrate
+    actionType: 1
+    effect_desc: "\uB2E4\uC74C \uD134\uC5D0 \uBC1B\uB294 \uD53C\uD574\uB7C9 2 \uC99D\uAC00
+      \n \uD604\uC7AC \uCCB4\uB825 10%\uB9CC\uD07C \uD68C\uBCF5"
+    skill_desc: "\uBE60\uB978 \uD68C\uBCF5\uC744 \uC704\uD574 \uADFC\uC721\uC744
+      \uC774\uC644\uD569\uB2C8\uB2E4."
+    propertyType: 3
+  - index: 28
+    skillName: "\uC804\uC2EC\uC804\uB825"
+    cost: 0a0000000a0000000a0000000a000000
+    minDamage: 1e000000280000002800000032000000
+    maxDamage: 3c0000003c0000004600000050000000
+    level: 0
+    attackCount: 3
+    keyIndex: 0
+    sale: 500
+    icon: {fileID: 21300000, guid: 36336d163d83d31439bc29e2ecf89272, type: 3}
+    animationName: Slash
+    actionType: 1
+    effect_desc: 
+    skill_desc: "\uC628 \uBAB8\uC758 \uD798\uC744 \uC9D1\uC911\uC2DC\uCF1C \uC0C1\uB300\uB97C
+      \uBCA0\uC5B4\uB0C5\uB2C8\uB2E4."
+    propertyType: 1
+  - index: 29
+    skillName: "\uC77C\uACA9\uD544\uC0B4"
+    cost: 0a0000000a0000000a0000000a000000
+    minDamage: 1e000000280000002800000032000000
+    maxDamage: 3c0000003c0000004600000050000000
+    level: 0
+    attackCount: 3
+    keyIndex: 1
+    sale: 500
+    icon: {fileID: 21300000, guid: 4ffc01e17fcf04041876cc06464e9078, type: 3}
+    animationName: Penetrate
+    actionType: 1
+    effect_desc: 
+    skill_desc: "\uC628 \uBAB8\uC758 \uD798\uC744 \uC9D1\uC911\uC2DC\uCF1C \uC0C1\uB300\uC758
+      \uC2E0\uCCB4\uB97C \uAFF0\uB6AB\uC2B5\uB2C8\uB2E4."
+    propertyType: 3
+  - index: 30
+    skillName: "\uCD5C\uD6C4\uC758 \uC77C\uACA9"
+    cost: 0a0000000a0000000a0000000a000000
+    minDamage: 1e000000280000002800000032000000
+    maxDamage: 3c0000003c0000004600000050000000
+    level: 0
+    attackCount: 3
+    keyIndex: 2
+    sale: 500
+    icon: {fileID: 21300000, guid: be9f98f0bdfb8424595406910fb44109, type: 3}
+    animationName: Hit
+    actionType: 1
+    effect_desc: 
+    skill_desc: "\uC628 \uBAB8\uC758 \uD798\uC744 \uC9D1\uC911\uC2DC\uCF1C \uC0C1\uB300\uC5D0\uAC8C
+      \uD070 \uD53C\uD574\uB97C \uC90D\uB2C8\uB2E4."
+    propertyType: 2
+  - index: 31
+    skillName: "\uBD80\uB3D9 \uC790\uC138"
+    cost: 03000000030000000300000003000000
+    minDamage: 0d0000000f0000000f00000010000000
+    maxDamage: 11000000110000001200000014000000
+    level: 0
+    attackCount: 1
+    keyIndex: 0
+    sale: 125
+    icon: {fileID: 21300000, guid: 42d0b12e9808261488b8de4bfba29fd6, type: 3}
+    animationName: Defense
+    actionType: 2
+    effect_desc: "\uB2E4\uC74C\uC5D0 \uC0AC\uC6A9\uD558\uB294 \uC2A4\uD0AC 3\uAC1C\uC758
+      \uD53C\uD574\uB7C9 10% \uC99D\uAC00"
+    skill_desc: "\uC5B4\uB5A0\uD55C \uACF5\uACA9\uC744 \uBC1B\uB354\uB77C\uB3C4 \uC790\uC138\uB97C
+      \uC720\uC9C0\uD569\uB2C8\uB2E4."
+    propertyType: 4
+  - index: 32
+    skillName: "\uC720\uC5F0\uD568"
+    cost: 02000000020000000100000001000000
+    minDamage: 080000000a0000000a0000000b000000
+    maxDamage: 0c0000000c0000000d0000000f000000
+    level: 0
+    attackCount: 1
+    keyIndex: 1
+    sale: 125
+    icon: {fileID: 21300000, guid: 94e646bd8da6abd40829b8c3bec36384, type: 3}
+    animationName: Defense
+    actionType: 2
+    effect_desc: 
+    skill_desc: "\uAC80\uC758 \uD750\uB984\uC744 \uC720\uC5F0\uD558\uAC8C \uD558\uC5EC
+      \uC2E0\uCCB4\uC758 \uBD80\uB2F4\uC744 \uC904\uC785\uB2C8\uB2E4."
+    propertyType: 4
+  - index: 33
+    skillName: "\uC9D1\uC911"
+    cost: 01000000010000000100000001000000
+    minDamage: 05000000070000000700000008000000
+    maxDamage: 09000000090000000a0000000c000000
+    level: 0
+    attackCount: 1
+    keyIndex: 2
+    sale: 125
+    icon: {fileID: 21300000, guid: 2210d0438be1f3f42b84a1ccef992ebf, type: 3}
+    animationName: Defense
+    actionType: 2
+    effect_desc: "act 2\uB97C \uD68D\uB4DD"
+    skill_desc: "\uC0C1\uB300\uC758 \uAC80\uC5D0 \uC2DC\uC57C\uB97C \uC9D1\uC911\uD569\uB2C8\uB2E4."
+    propertyType: 4
   SpawnData:
   - maps: {fileID: 513236402157948046, guid: 32cd0f522adbe984faf58457b098cad3, type: 3}
     enemies:
@@ -264,16 +557,16 @@ MonoBehaviour:
     - {fileID: 8111559515902139154, guid: ba7c4d240de3b63468f0c572baeb53cb, type: 3}
   - maps: {fileID: 513236402157948046, guid: 135c97d9b1a1d8342a68c46ae1d2c2f6, type: 3}
     enemies:
-    - {fileID: 8111559515902139154, guid: ba7c4d240de3b63468f0c572baeb53cb, type: 3}
+    - {fileID: 8111559515902139154, guid: cc99f2313e37ce942bf38b847d14aee7, type: 3}
   enemyData:
-  - index: 0
+  - index: 1
     name: "\uBE44\uCC2C\uD76C"
     hp: 100
     shield: 50
     atk: -2
     minCount: 1
     maxCount: 4
-  - index: 1
+  - index: 2
     name: "\uC870\uC8FC\uC601"
     hp: 150
     shield: 50

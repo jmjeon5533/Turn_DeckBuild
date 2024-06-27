@@ -2697,6 +2697,7 @@ MonoBehaviour:
   buff: {fileID: 4900000, guid: 66da24104ac3a344393fc7b569269436, type: 3}
   scenario: {fileID: 4900000, guid: 00daa3653f166054f8a43f35269e3c9b, type: 3}
   EnemyData: {fileID: 4900000, guid: d1127d310fc886448a0a9ad0220ffa1c, type: 3}
+  isFirstLoad: 0
 --- !u!4 &489823634
 Transform:
   m_ObjectHideFlags: 0
@@ -9595,19 +9596,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2038317420}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 645765364}
-        m_TargetAssemblyTypeName: PanelMovement, Assembly-CSharp
-        m_MethodName: WarningContinue
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &2038317420
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9628,7 +9617,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 17f6a421604f63a47824466407f81848, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d4d41b52820ef1446b4c5a9db7534d9d, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
