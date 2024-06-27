@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SkillUpgrade : MonoBehaviour, IInitObserver
+public class SkillUpgrade : MonoBehaviour
 {
     [SerializeField] Transform panels;
     [SerializeField] private RectTransform skillUpgradeBtnParent;
@@ -18,13 +18,6 @@ public class SkillUpgrade : MonoBehaviour, IInitObserver
     [SerializeField] private int selectIndex;
     [SerializeField] private int selectLevel;
     private bool isShow = false;
-
-    public int Priority => 0;
-
-    public void Init()
-    {
-        ReadSpreadSheet.instance.Load(AddSkillUpgradeBtn);
-    }
 
     public void OnOffPanel()
     {
