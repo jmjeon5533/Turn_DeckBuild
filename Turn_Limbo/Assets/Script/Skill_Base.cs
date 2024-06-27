@@ -133,7 +133,7 @@ public class Skill_Cut : Skill_Base
     public override void End(Unit unit, Unit target)
     {
         if (unit.isAttack && unit.TryGetComponent<Player>(out var p))
-            p.PlusCoin(1);
+            p.PlusCoin(2);
     }
 }
 
