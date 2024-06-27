@@ -48,11 +48,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitName: Enemy1
-  hp: 120
-  maxHP: 120
+  hp: 150
+  maxHP: 150
   hpLimit: 0
-  shield: 100
-  maxShield: 100
+  shield: 70
+  maxShield: 70
   shieldBreak: 0
   curDamage: 0
   curAttackCount: 0
@@ -77,8 +77,8 @@ MonoBehaviour:
   dmgDelayTime: 0
   dmgDelayCurTime: 0
   skillCurCount: 0
-  requestMaxCount: 4
-  requestMinCount: 2
+  requestMaxCount: 2
+  requestMinCount: 1
 --- !u!212 &8111559515902139152
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -120,8 +120,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -1755108507, guid: 2a15d9b7d5c1800429bb4d22f457165a, type: 3}
-  m_Color: {r: 1, g: 0.9780377, b: 0, a: 1}
+  m_Sprite: {fileID: -1328653317, guid: f5c3d3c6c605658418592f8586ededd1, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -141,7 +141,7 @@ Animator:
   m_GameObject: {fileID: 8111559515902139156}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: fc3b785848fd7904397c14484c987448, type: 2}
+  m_Controller: {fileID: 9100000, guid: 877f64ed6dc6dd145885de6db9ac9698, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

@@ -193,6 +193,7 @@ public abstract class Unit : MonoBehaviour
         //Debug.Log($">{this.name} {curSkill.skillName} {usedSkill.skillName}");
         if (isAttack)
         {
+            print($"{curSkill.skillName},{curAttackCount}");
             Vector3 dmgDir = (target.transform.position - transform.position).normalized;
             switch (target.curSkill.actionType)
             {

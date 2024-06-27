@@ -56,6 +56,8 @@ MonoBehaviour:
   shieldBreak: 0
   curDamage: 0
   curAttackCount: 0
+  plusAttackValue: 0
+  plusDefenseValue: 0
   attack_Drainage: 0
   defense_Drainage: 0
   isAttack: 0
@@ -75,8 +77,8 @@ MonoBehaviour:
   dmgDelayTime: 0
   dmgDelayCurTime: 0
   skillCurCount: 0
-  requestMaxCount: 4
-  requestMinCount: 2
+  requestMaxCount: 1
+  requestMinCount: 1
 --- !u!212 &8111559515902139152
 SpriteRenderer:
   m_ObjectHideFlags: 0
