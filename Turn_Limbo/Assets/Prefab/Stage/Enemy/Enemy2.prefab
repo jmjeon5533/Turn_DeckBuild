@@ -47,12 +47,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab8adb398d1e33b44aee2ccf34feed86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitName: Enemy1
-  hp: 150
-  maxHP: 150
+  unitName: Enemy2
+  hp: 100
+  maxHP: 100
   hpLimit: 0
-  shield: 70
-  maxShield: 70
+  shield: 200
+  maxShield: 200
   shieldBreak: 0
   curMinDamage: 0
   curMaxDamage: 0
@@ -79,8 +79,8 @@ MonoBehaviour:
   dmgDelayTime: 0
   dmgDelayCurTime: 0
   skillCurCount: 0
-  requestMaxCount: 2
-  requestMinCount: 1
+  requestMaxCount: 6
+  requestMinCount: 4
 --- !u!212 &8111559515902139152
 SpriteRenderer:
   m_ObjectHideFlags: 0
