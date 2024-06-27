@@ -13,12 +13,20 @@ public class InitLoading : MonoBehaviour, IInitObserver
 
     public void Init()
     {
-        LoadImage.gameObject.SetActive(true);
-        LoadImage.color = Color.white;
-        ReadSpreadSheet.instance.Load(() => 
+        if (!ReadSpreadSheet.instance.isFirstLoad)
+        {
+            LoadImage.gameObject.SetActive(true);
+            LoadImage.color = Color.black;
+            ReadSpreadSheet.instance.Load(() =>
+            {
+                skillUpgrade.AddSkillUpgradeBtn();
+                LoadImage.DOColor(Color.clear, 1f).SetEase(Ease.Linear).OnComplete(() => LoadImage.gameObject.SetActive(false));
+                ReadSpreadSheet.instance.isFirstLoad = true;
+            });
+        }
+        else
         {
             skillUpgrade.AddSkillUpgradeBtn();
-            LoadImage.DOColor(Color.clear,1f).SetEase(Ease.Linear).OnComplete(() => LoadImage.gameObject.SetActive(false));
-        });
+        }
     }
 }

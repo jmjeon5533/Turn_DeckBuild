@@ -21,6 +21,8 @@ public class ReadSpreadSheet : MonoBehaviour
     public Dictionary<KeyCode, List<Skill>> skillDatas = new();
     private List<Skill> skillLists = new();
 
+    public bool isFirstLoad;
+
     private void Awake()
     {
         if (instance != null) Destroy(gameObject);
