@@ -10,13 +10,13 @@ public class ReadSpreadSheet : MonoBehaviour
 {
     public static ReadSpreadSheet instance;
     public const string ADDRESS = "https://docs.google.com/spreadsheets/d/1ENYCDg5E6WuUwf-NZjCOpJfRufJsxQI8d7qEKh3Kf_I";
-    public readonly long[] SHEET_ID = { 1705787959, 930614922, 520277150, 232901544 };
+    public readonly long[] SHEET_ID = { 1705787959, 232901544, 930614922, 520277150 };
 
     [SerializeField] private TextAsset skill;
-    [SerializeField] private TextAsset scenario;
     [SerializeField] private TextAsset buff;
+    [SerializeField] private TextAsset scenario;
     [SerializeField] private TextAsset EnemyData;
-    [SerializeField] private TextAsset EnemySkill;
+    //[SerializeField] private TextAsset EnemySkill;
 
     public Dictionary<KeyCode, List<Skill>> skillDatas = new();
     private List<Skill> skillLists = new();
@@ -29,18 +29,20 @@ public class ReadSpreadSheet : MonoBehaviour
     }
     public void Load(Action callBack = default)
     {
-        // if (Application.internetReachability != NetworkReachability.NotReachable)
+        if (Application.internetReachability != NetworkReachability.NotReachable)
         {
-            // StartCoroutine(LoadData(0, ParseSkillData, callBack));
-            // StartCoroutine(LoadData(1, ParseTextData));
-            // StartCoroutine(LoadData(2, ParseEnemyData));
-            // StartCoroutine(LoadData(3, PasreBuffData));
-
+            StartCoroutine(LoadData(0, ParseSkillData));
+            StartCoroutine(LoadData(1, PasreBuffData));
+            StartCoroutine(LoadData(2, ParseTextData));
+            StartCoroutine(LoadData(3, ParseEnemyData, callBack));
+        }
+        else
+        {
             LoadData(skill.text, ParseSkillData);
             LoadData(buff.text, PasreBuffData);
             LoadData(scenario.text, ParseTextData);
             LoadData(EnemyData.text, ParseEnemyData);
-            LoadData(EnemySkill.text, ParseEnemySkill);
+            //LoadData(EnemySkill.text, ParseEnemySkill);
             DataManager.instance.readEnd = true;
             callBack?.Invoke();
         }
