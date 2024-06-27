@@ -22,8 +22,8 @@ public class SkillExplain : MonoBehaviour
         skill_Desc.text = skill.skill_desc;
         skill_Effect.text = skill.effect_desc;
         dmgText.text = $"{skill.minDamage[level]} ~ {skill.maxDamage[level]}";
-        skill_Cost.text = skill.cost[skill.level].ToString();
-        if(skill_BuyMoney != null) skill_BuyMoney.text = $"가격 : {125}";
+        skill_Cost.text = skill.cost[level].ToString();
+        if(skill_BuyMoney != null) skill_BuyMoney.text = $"가격 : {skill.sale * (level + 1)}";
         if(skill_keys != null) skill_keys.text = IndexToKey(skill.keyIndex);
     }
     string IndexToKey(int index)

@@ -297,8 +297,11 @@ public class UIManager : MonoBehaviour, IInitObserver
         retry.transform.DOLocalMoveY(-500, 0.2f).SetUpdate(true);
         yield return stageSelect.transform.DOLocalMoveY(-500, 0.2f).SetUpdate(true).WaitForCompletion(); ;
         float time = 0;
-        float moneyTarget = 5000 / controller.useTurnCount;
+        float moneyTarget = 2500 / controller.useTurnCount * (DataManager.instance.curStageID + 1);
         float countTarget = controller.useTurnCount;
+        
+        if (isWin) DataManager.instance.saveData.money += Mathf.RoundToInt(moneyTarget);
+
         while (time < 2)
         {
             var moneyValue = Mathf.Lerp(0, moneyTarget, time);
@@ -313,7 +316,6 @@ public class UIManager : MonoBehaviour, IInitObserver
         if (isWin) getMoneyText.text = $"얻은 돈 : {Mathf.RoundToInt(moneyTarget)}";
         useTurnCountText.text = $"사용 턴 : {Mathf.RoundToInt(countTarget)}";
 
-        if (isWin) DataManager.instance.saveData.money += Mathf.RoundToInt(moneyTarget);
         EndMove = true;
     }
     float EaseOutQuad(float t)

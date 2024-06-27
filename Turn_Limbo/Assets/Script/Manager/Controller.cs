@@ -341,7 +341,9 @@ public class Controller : MonoBehaviour, IInitObserver
                     lastSign *= -1;
                 }
             }
-            float waitTime = Mathf.Max(AttackInit(player) * player.curSkill.attackCount, AttackInit(enemy) * enemy.curSkill.attackCount);
+            float playerDelay = AttackInit(player);
+            float enemyDelay = AttackInit(enemy);
+            float waitTime = Mathf.Max(playerDelay * player.curSkill.attackCount, enemyDelay * enemy.curSkill.attackCount);
 
             player.UseBuff(BuffTiming.TurnStart); enemy.UseBuff(BuffTiming.TurnStart);
             StartCoroutine(AttackStart(player)); StartCoroutine(AttackStart(enemy));
@@ -403,17 +405,20 @@ public class Controller : MonoBehaviour, IInitObserver
         var skill = unit.curSkill;
         //print($"{unit.name} : {unit.curAttackCount}");
         if (unit.curSkill.actionType == Unit.ActionType.none) yield break;
+        print("attackStart");
 
         unit.InitCurSkillDamage(skill.minDamage[unit.skillInfo.holdSkills[skill.index - 1].level],
             skill.maxDamage[unit.skillInfo.holdSkills[skill.index - 1].level], skill.attackCount);
 
         unit.curSkill.effect?.Setting(unit, unit.target);
         StartCoroutine(IconAnim(skill.insertImage, skill.animation.length * skill.attackCount));
+        print(skill.attackCount);
         for (int i = 0; i < skill.attackCount; i++)
         {
-            unit.anim.Play(skill.propertyType.ToString());
+            unit.anim.Play(skill.propertyType.ToString(), -1, 0f);
             yield return new WaitForSeconds(skill.animation.length);
         }
+        print("attackEnd");
     }
 
     void BuffClear(Unit unit)

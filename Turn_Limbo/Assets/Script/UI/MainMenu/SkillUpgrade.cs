@@ -16,6 +16,7 @@ public class SkillUpgrade : MonoBehaviour, IInitObserver
 
     public SkillDeckBuild skillDeckBuild;
     [SerializeField] private int selectIndex;
+    [SerializeField] private int selectLevel;
     private bool isShow = false;
 
     public int Priority => 0;
@@ -53,9 +54,8 @@ public class SkillUpgrade : MonoBehaviour, IInitObserver
 
                 var skill = d.loadData.SkillList[selectIndex];
 
-                int level = 0;
-                if (playerSkills.holdSkills.ContainsKey(selectIndex)) level = playerSkills.holdSkills[selectIndex].level;
-                explainPanel.ExplainSet(skill, level);
+                selectLevel = playerSkills.holdSkills.ContainsKey(selectIndex) ? playerSkills.holdSkills[selectIndex].level : 0;
+                explainPanel.ExplainSet(skill, selectLevel);
             });
             btn.gameObject.name = d.loadData.SkillList[i].skillName;
             btnImage.Add(btn);
@@ -95,7 +95,9 @@ public class SkillUpgrade : MonoBehaviour, IInitObserver
         var d = DataManager.instance;
         var skill = d.loadData.SkillList[selectIndex];
 
-        if (d.saveData.money < 125)
+        var cost = skill.sale * (selectLevel + 1);
+
+        if (d.saveData.money < cost)
         {
             print("구매 불가 : 돈 부족");
             return;
@@ -112,7 +114,7 @@ public class SkillUpgrade : MonoBehaviour, IInitObserver
                 return;
             }
             holdSkill.level++;
-            d.saveData.money -= 125;
+            d.saveData.money -= cost;
             InitSkillSelectState();
 
             return;
@@ -123,7 +125,7 @@ public class SkillUpgrade : MonoBehaviour, IInitObserver
             level = 0
         };
         playerSkills.holdSkills.Add(selectIndex, newSkills);
-        d.saveData.money -= 125;
+        d.saveData.money -= skill.sale;
         explainPanel.ExplainSet(skill, newSkills.level);
 
         InitSkillSelectState();
