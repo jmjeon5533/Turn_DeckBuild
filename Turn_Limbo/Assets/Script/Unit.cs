@@ -46,11 +46,6 @@ public enum BuffTiming
     TurnEnd,
     Attack,
     BattleEnd,
-
-    turnStart,
-    turnEnd,
-    attack,
-    battleEnd,
 }
 
 public enum PropertyType
@@ -87,6 +82,8 @@ public abstract class Unit : MonoBehaviour
 
     public bool shieldBreak;
 
+    public int curMinDamage;
+    public int curMaxDamage;
     public int curDamage;
     public int curAttackCount;
     public int plusAttackValue;
@@ -182,6 +179,7 @@ public abstract class Unit : MonoBehaviour
             if (curBuff[i].buff.timing != timing) return;
 
             curBuff[i].buff.Use(this, curBuff[i].stack, curBuff[i].type);
+            Debug.Log(curBuff[i].buff +" / " + curBuff[i].stack+" / "+curBuff[i].count);
 
             curBuff[i].count--;
         }
@@ -254,7 +252,10 @@ public abstract class Unit : MonoBehaviour
             }
         }
 
-        if(allClaer) temp = ClearBuffList(nextBuff);
+        if(allClaer) {
+            temp = ClearBuffList(nextBuff);
+            nextBuff.Clear();
+        }
 
         return temp;
     }
@@ -263,6 +264,7 @@ public abstract class Unit : MonoBehaviour
     {
         //Debug.Log($"{this.name} Damage : {curDamage} {attack_Drainage}");
         var damage = (float)Random.Range(min, max + 1);
+        curMinDamage = min; curMaxDamage = max;
         curDamage = Mathf.FloorToInt(damage * attack_Drainage / count);
         curDamage += plusAttackValue;
 

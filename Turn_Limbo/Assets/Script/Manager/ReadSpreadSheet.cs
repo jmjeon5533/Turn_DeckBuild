@@ -136,16 +136,11 @@ public class ReadSpreadSheet : MonoBehaviour
             var temp = Activator.CreateInstance(Type.GetType(className)) as Buff_Base;
             temp.timing = columns[3].EnumParse<BuffTiming>();
             temp.buffIcon = Resources.Load<Sprite>($"BuffIcon/{columns[2]}");
-            Debug.Log($"{columns[2]} / {columns[4]}, buff / {columns[4] == "buff"}");
 
-            if (columns[4] == "buff" && columns[4] != "") {
+            if (columns[4] == "buff" && columns[4] != "")
                 buff.Add(columns[2], temp);
-                Debug.Log("Add Buff");
-            }
-            else {
+            else
                 debuff.Add(columns[2], temp);
-                Debug.Log("Add DeBuff");
-            }
         }
 
         d.loadData.buffList = buff;

@@ -103,6 +103,6 @@ public class Buff_TrueDefenseDown : Buff_Base
 {
     public override void Use(Unit target, int stack, PropertyType type)
     {
-        target.plusAttackValue -= stack;
+        target.plusDefenseValue -= stack;
     }
 }

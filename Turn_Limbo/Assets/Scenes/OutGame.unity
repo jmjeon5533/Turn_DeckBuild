@@ -2695,7 +2695,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skill: {fileID: 4900000, guid: b9f61ee8ce8fc8b41b270c55ec734f50, type: 3}
   scenario: {fileID: 4900000, guid: 00daa3653f166054f8a43f35269e3c9b, type: 3}
-  buff: {fileID: 4900000, guid: 47aa52f54c1839d40aa6e923406ad810, type: 3}
+  buff: {fileID: 4900000, guid: d5f368bb4271bbd4bb8f389a10c48c8b, type: 3}
   EnemyData: {fileID: 4900000, guid: d1127d310fc886448a0a9ad0220ffa1c, type: 3}
   EnemySkill: {fileID: 4900000, guid: e3e6ca97fdea88a488ce1ed45b738255, type: 3}
 --- !u!4 &489823634
