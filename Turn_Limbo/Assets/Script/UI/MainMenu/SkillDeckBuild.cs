@@ -11,12 +11,15 @@ public class DeckBuildBtns
 }
 public class SkillDeckBuild : MonoBehaviour
 {
-    [SerializeField] Transform panels;
+    [SerializeField] private Transform panels;
+    [SerializeField] private RectTransform[] skillViewEnterBtnParent;
+    [SerializeField] private GameObject[] skillViewPanel;
     [SerializeField] private RectTransform[] skillSelectBtnParent;
     [SerializeField] private Button skillSelectBaseBtn;
     [SerializeField] SkillExplain explainPanel;
     public SkillEffect playerSkills;
-    public List<DeckBuildBtns> btnImage;
+    public List<DeckBuildBtns> selectBtnImage;
+    public List<DeckBuildBtns> viewBtnImage;
     bool isShow = false;
     public Skill IndexToSkill(int index)
     {
@@ -27,18 +30,47 @@ public class SkillDeckBuild : MonoBehaviour
         print($"skill index {index} is Null");
         return null;
     }
+    public void EnterKeyPanel(int index)
+    {
+        skillViewPanel[index].SetActive(true);
+        for (int i = selectBtnImage.Count - 1; i >= 0; i--)
+        {
+            Destroy(selectBtnImage[i].btn.gameObject);
+            selectBtnImage.RemoveAt(i);
+        }
+        AddSkillSelectBtn();
+    }
+    private void AddSkillViewBtn()
+    {
+        for (int i = viewBtnImage.Count - 1; i >= 0; i--)
+        {
+            Destroy(viewBtnImage[i].btn.gameObject);
+            viewBtnImage.RemoveAt(i);
+        }
+        var d = DataManager.instance;
+        foreach (var skills in playerSkills.selectIndex)
+        {
+            print(1);
+            var btn = Instantiate(skillSelectBaseBtn, skillViewEnterBtnParent[d.loadData.SkillList[skills].keyIndex]);
+            DeckBuildBtns newBtn = new DeckBuildBtns();
+            newBtn.skillIndex = skills;
+            newBtn.btn = btn;
+            viewBtnImage.Add(newBtn);
+            btn.transform.GetChild(0).GetComponent<Image>().sprite = d.loadData.SkillList[skills].icon;
+        }
+    }
+    public void ExitKeyPanel()
+    {
+        for (int i = 0; i < 3; i++) skillViewPanel[i].SetActive(false);
+        AddSkillViewBtn();
+    }
     public void OnOffPanel()
     {
         isShow = !isShow;
-        for (int i = btnImage.Count - 1; i >= 0; i--)
-        {
-            Destroy(btnImage[i].btn.gameObject);
-            btnImage.RemoveAt(i);
-        }
         panels.gameObject.SetActive(isShow);
         DataManager.instance.JsonSave();
 
-        AddSkillSelectBtn();
+        AddSkillViewBtn();
     }
     public void AddSkillSelectBtn()
     {
@@ -51,18 +83,19 @@ public class SkillDeckBuild : MonoBehaviour
             DeckBuildBtns newBtn = new DeckBuildBtns();
             newBtn.skillIndex = skills.Value.holdIndex;
             newBtn.btn = btn;
-            btnImage.Add(newBtn);
+            selectBtnImage.Add(newBtn);
             btn.transform.GetChild(0).GetComponent<Image>().sprite = d.loadData.SkillList[skills.Value.holdIndex].icon;
         }
+
         InitSkillSelectState();
     }
     private void InitSkillSelectState()
     {
-        for (int i = 0; i < btnImage.Count; i++) btnImage[i].btn.image.color = Color.gray;
-        for (int i = 0; i < btnImage.Count; i++)
+        for (int i = 0; i < selectBtnImage.Count; i++) selectBtnImage[i].btn.image.color = Color.gray;
+        for (int i = 0; i < selectBtnImage.Count; i++)
         {
-            if (playerSkills.selectIndex.Contains(btnImage[i].skillIndex))
-                btnImage[i].btn.image.color = Color.yellow;
+            if (playerSkills.selectIndex.Contains(selectBtnImage[i].skillIndex))
+                selectBtnImage[i].btn.image.color = Color.yellow;
         }
     }
     public void TriggerAddSkills(int index)
@@ -70,14 +103,14 @@ public class SkillDeckBuild : MonoBehaviour
         var d = DataManager.instance;
         var skill = d.loadData.SkillList[index];
 
-        if(!playerSkills.holdSkills.TryGetValue(index, out var holdSkill))
+        if (!playerSkills.holdSkills.TryGetValue(index, out var holdSkill))
             return;
 
         for (int i = 0; i < playerSkills.selectIndex.Count; i++)
         {
             if (playerSkills.selectIndex[i] == index)
             {
-                    explainPanel.ExplainSet(skill, holdSkill.level);
+                explainPanel.ExplainSet(skill, holdSkill.level);
 
                 playerSkills.selectIndex.RemoveAt(i);
                 InitSkillSelectState();

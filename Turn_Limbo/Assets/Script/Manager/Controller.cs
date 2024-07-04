@@ -19,6 +19,7 @@ public class Skill
     public int attackCount;
     public int keyIndex;
     public int sale;
+    public bool isOnlyEnemy;
     public Skill_Base effect;
     public Sprite icon;
     public string animationName;

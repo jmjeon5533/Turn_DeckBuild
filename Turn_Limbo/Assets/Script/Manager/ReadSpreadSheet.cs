@@ -100,6 +100,7 @@ public class ReadSpreadSheet : MonoBehaviour
             newSkill.animationName = columns[4];
             newSkill.effect_desc = explain;
             newSkill.sale = int.Parse(columns[22]);
+            newSkill.isOnlyEnemy = bool.Parse(columns[24]);
             newSkill.skill_desc = columns[7];
             newSkill.icon = Resources.Load<Sprite>($"Icon/skill{int.Parse(columns[0])}");
 

@@ -29,16 +29,17 @@ public class SkillUpgrade : MonoBehaviour
 
     public void AddSkillUpgradeBtn()
     {
-        for (int i = skillDeckBuild.btnImage.Count - 1; i >= 0; i--)
+        for (int i = skillDeckBuild.selectBtnImage.Count - 1; i >= 0; i--)
         {
             print(i);
-            Destroy(skillDeckBuild.btnImage[i].btn.gameObject);
-            skillDeckBuild.btnImage.RemoveAt(i);
+            Destroy(skillDeckBuild.selectBtnImage[i].btn.gameObject);
+            skillDeckBuild.selectBtnImage.RemoveAt(i);
         }
         skillDeckBuild.AddSkillSelectBtn();
         var d = DataManager.instance;
         for (int i = 0; i < d.loadData.SkillList.Count; i++)
         {
+            if(d.loadData.SkillList[i].isOnlyEnemy) continue;
             var btn = Instantiate(skillUpgradeBaseBtn, skillUpgradeBtnParent);
             var num = i;
             btn.onClick.AddListener(() =>
@@ -122,11 +123,11 @@ public class SkillUpgrade : MonoBehaviour
         explainPanel.ExplainSet(skill, newSkills.level);
 
         InitSkillSelectState();
-        for (int i = skillDeckBuild.btnImage.Count - 1; i >= 0; i--)
+        for (int i = skillDeckBuild.selectBtnImage.Count - 1; i >= 0; i--)
         {
             //print(i);
-            Destroy(skillDeckBuild.btnImage[i].btn.gameObject);
-            skillDeckBuild.btnImage.RemoveAt(i);
+            Destroy(skillDeckBuild.selectBtnImage[i].btn.gameObject);
+            skillDeckBuild.selectBtnImage.RemoveAt(i);
         }
         skillDeckBuild.AddSkillSelectBtn();
     }
