@@ -54,7 +54,8 @@ public enum PropertyType
     Slash,
     Hit,
     Penetrate,
-    Defense
+    Defense,
+    Chain
 }
 
 public abstract class Unit : MonoBehaviour
@@ -64,7 +65,8 @@ public abstract class Unit : MonoBehaviour
         none,
         Attack,
         Defence,
-        Dodge
+        Dodge,
+        Chain
     }
 
     public List<Buff> curBuff = new();

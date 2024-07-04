@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using Unity.VisualScripting;
 using Unity.VisualScripting.Antlr3.Runtime.Tree;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -10,11 +11,12 @@ public class ReadSpreadSheet : MonoBehaviour
 {
     public static ReadSpreadSheet instance;
     public const string ADDRESS = "https://docs.google.com/spreadsheets/d/1ENYCDg5E6WuUwf-NZjCOpJfRufJsxQI8d7qEKh3Kf_I";
-    public readonly long[] SHEET_ID = { 1705787959, 232901544, 930614922, 520277150 };
+    public readonly long[] SHEET_ID = { 1705787959, 232901544, 930614922, 520277150, 2026427493 };
 
     [SerializeField] private TextAsset skill;
     [SerializeField] private TextAsset buff;
     [SerializeField] private TextAsset scenario;
+    [SerializeField] private TextAsset skillTree;
     [SerializeField] private TextAsset EnemyData;
     //[SerializeField] private TextAsset EnemySkill;
 
@@ -36,10 +38,12 @@ public class ReadSpreadSheet : MonoBehaviour
             StartCoroutine(LoadData(0, ParseSkillData));
             StartCoroutine(LoadData(1, PasreBuffData));
             StartCoroutine(LoadData(2, ParseTextData));
-            StartCoroutine(LoadData(3, ParseEnemyData, callBack));
+            StartCoroutine(LoadData(3, ParseEnemyData));
+            StartCoroutine(LoadData(4, ParseSkillTreeData, callBack));
         }
         else
         {
+            Debug.Log("IS NOT CONNECTION");
             LoadData(skill.text, ParseSkillData);
             LoadData(buff.text, PasreBuffData);
             LoadData(scenario.text, ParseTextData);
@@ -104,7 +108,12 @@ public class ReadSpreadSheet : MonoBehaviour
             newSkill.icon = Resources.Load<Sprite>($"Icon/skill{int.Parse(columns[0])}");
 
             string className = "Skill_" + columns[6];
-            newSkill.effect = Activator.CreateInstance(Type.GetType(className)) as Skill_Base;
+            try
+            {
+                newSkill.effect = Activator.CreateInstance(Type.GetType(className)) as Skill_Base;
+            }
+            catch { Debug.LogError("NewSkillData"); newSkill.effect = Activator.CreateInstance(Type.GetType("Skill_")) as Skill_Base; }
+
 
             for (int j = 0; j < 4; j++)
             {
@@ -230,6 +239,112 @@ public class ReadSpreadSheet : MonoBehaviour
 
         d.readEnd = true;
         d.hpUnitIsPlayer = isPlayer;
+    }
+
+    public void ParseSkillTreeData(string data)
+    {
+        var d = DataManager.instance;
+
+        //if (data == skillTree.text) return;
+        Debug.Log("ReadSkillTree");
+
+        string[] rows = data.Split('\n');
+
+        string[] startPoint = rows[1].Split(',');
+        TreeNode startNode = new()
+        {
+            parentNode = null,
+            name = startPoint[2],
+            desc = startPoint[7],
+            use = startPoint[4],
+            value = 0,
+            cost = 0
+        };
+
+        TreeNode lineOne = null;
+        TreeNode lineTwo = null;
+        TreeNode lineThree = null;
+        int[] lineIndex = new int[4] { -1, 0, 0, 0 };
+        int oldLine = 0;
+
+        void SettingParent(TreeNode curNode, int curLine)
+        {
+            TreeNode parentNode = null;
+
+            switch (curLine)
+            {
+                case 1: parentNode = lineOne; lineOne = curNode; break;
+                case 2: parentNode = lineTwo; lineTwo = curNode; break;
+                case 3: parentNode = lineThree; lineThree = curNode; break;
+            }
+            parentNode ??= startNode;
+
+            curNode.parentNode = parentNode;
+            parentNode.childNode.Add(curNode);
+        }
+
+        void SettingChild(TreeNode curNode, int curLine)
+        {
+            TreeNode parentNode = GetNode(startNode.childNode[curLine - 1], lineIndex[curLine]);
+
+            curNode.parentNode = parentNode;
+            parentNode.childNode.Add(curNode);
+        }
+
+        TreeNode GetNode(TreeNode curNode, int count)
+        {
+            if (count == 0) return curNode;
+            else return GetNode(curNode.childNode[0], count - 1);
+        }
+
+        for (int i = 2; i < rows.Length; i++)
+        {
+            string[] columns = rows[i].Split(',');
+
+            int.TryParse(columns[1], out int readLine);
+            string type = columns[3];
+            int.TryParse(columns[5], out int value);
+            int.TryParse(columns[6], out int cost);
+            TreeNode newTree = new()
+            {
+                name = columns[2],
+                desc = columns[7],
+                use = columns[4],
+                value = value,
+                cost = cost,
+            };
+
+            if (type == "Parent") SettingParent(newTree, readLine);
+            else if (type == "Child")
+            {
+                if(readLine != 0){
+                    lineIndex[oldLine]++;
+                    oldLine = readLine;
+                }
+                SettingChild(newTree, oldLine);
+            }else lineIndex[oldLine]++;
+
+            oldLine = readLine == 0 ? oldLine : readLine;
+        }
+
+        void ReadTest(TreeNode test)
+        {
+            if (test == null) return;
+            else
+            {
+                Debug.Log($"cur : {test.desc}\n\tparent : {test.parentNode.desc}");
+                foreach (var n in test.childNode)
+                {
+                    ReadTest(n);
+                }
+            }
+        }
+
+        for (int i = 0; i < 3; i++)
+        {
+            ReadTest(startNode.childNode[i]);
+            Debug.Log("////////////////////////////////////");
+        }
     }
 
     public void ParseEnemyData(string data)

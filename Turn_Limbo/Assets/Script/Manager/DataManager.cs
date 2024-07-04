@@ -10,6 +10,7 @@ public class SaveData
 {
     public bool isInitialize;
     public int money;
+    public PlusStats plusStats;
     public List<int> selectIndex = new List<int>();
     public Dictionary<int, HoldSkills> holdSkills = new Dictionary<int, HoldSkills>();
 }
