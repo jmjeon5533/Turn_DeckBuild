@@ -20,7 +20,9 @@ public class SkillDeckBuild : MonoBehaviour
     public SkillEffect playerSkills;
     public List<DeckBuildBtns> selectBtnImage;
     public List<DeckBuildBtns> viewBtnImage;
-    bool isShow = false;
+    private bool isShow = false;
+    private int selectIndex = -1;
+    private int selectKeyIndex = -1;
     public Skill IndexToSkill(int index)
     {
         for (int i = 0; i < playerSkills.selectIndex.Count; i++)
@@ -42,21 +44,60 @@ public class SkillDeckBuild : MonoBehaviour
     }
     private void AddSkillViewBtn()
     {
+        int[] keyCount = { 0, 0, 0 };
         for (int i = viewBtnImage.Count - 1; i >= 0; i--)
         {
             Destroy(viewBtnImage[i].btn.gameObject);
             viewBtnImage.RemoveAt(i);
         }
         var d = DataManager.instance;
-        foreach (var skills in playerSkills.selectIndex)
+        for (int i = 0; i < playerSkills.selectIndex.Count; i++)
         {
-            print(1);
-            var btn = Instantiate(skillSelectBaseBtn, skillViewEnterBtnParent[d.loadData.SkillList[skills].keyIndex]);
+            int skills = playerSkills.selectIndex[i];
+            var keyIndex = d.loadData.SkillList[skills].keyIndex;
+            keyCount[keyIndex]++;
+            var btn = Instantiate(skillSelectBaseBtn, skillViewEnterBtnParent[keyIndex]);
+
+            var num = skills;
+            btn.onClick.AddListener(() => 
+            {
+                if(selectIndex == -1)
+                {
+                    selectIndex = skills;
+                    selectKeyIndex = keyIndex;
+                    print(skills);
+                }
+                else
+                {
+                    if(selectKeyIndex == keyIndex)
+                    {
+                        var firstIndex = d.player.selectIndex.FindIndex((x) => x == skills);
+                        var secontIndex = d.player.selectIndex.FindIndex((x) => x == selectIndex);
+
+                        var temp = d.player.selectIndex[firstIndex];
+                        d.player.selectIndex[firstIndex] = d.player.selectIndex[secontIndex];
+                        d.player.selectIndex[secontIndex] = temp;
+
+
+                        selectIndex = -1;
+                        selectKeyIndex = -1;
+                        
+                        AddSkillViewBtn();
+                    }
+                    else
+                    {
+                        selectIndex = skills;
+                        selectKeyIndex = keyIndex;
+                    }
+                }
+            });
             DeckBuildBtns newBtn = new DeckBuildBtns();
             newBtn.skillIndex = skills;
             newBtn.btn = btn;
             viewBtnImage.Add(newBtn);
             btn.transform.GetChild(0).GetComponent<Image>().sprite = d.loadData.SkillList[skills].icon;
+            btn.transform.GetChild(1).GetComponent<Text>().text = keyCount[keyIndex].ToString();
+            btn.image.color = Color.white;
         }
     }
     public void ExitKeyPanel()
