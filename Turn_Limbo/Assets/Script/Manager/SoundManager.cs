@@ -5,6 +5,8 @@ using UnityEngine;
 public class SoundManager : MonoBehaviour
 {
     public static SoundManager instance{get; private set;}
+    public static float soundVolume = 0.5f;
+
     public enum SoundState
     {
         BGM,

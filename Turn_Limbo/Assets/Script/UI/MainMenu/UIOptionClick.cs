@@ -7,22 +7,23 @@ using UnityEngine.UI;
 public class UIOptionClick : MonoBehaviour, IInitObserver
 {
     [SerializeField] private Button btn;
+    [SerializeField] private GameObject optionPanel;
+    [SerializeField] private Slider volumeSlider;
     public int Priority => 2;
+    bool isOn;
 
     public void Init()
     {
-        //btn.onClick.AddListener(() => Actions());
+        btn.onClick.AddListener(() => OptionOnOff());
+        SoundManager.soundVolume = volumeSlider.value;
     }
-    [SerializeField] private UIFadeObject fadeObject;
-
-
-    private void Actions()
+    public void OptionOnOff()
     {
-        if (fadeObject.isFade) return;
-        fadeObject.isFade = true;
-
-        fadeObject.isShow = !fadeObject.isShow;
-        if (fadeObject.isShow) fadeObject.FadeIn(0.5f, () => fadeObject.isFade = false);
-        else fadeObject.FadeOut(0.5f, () => fadeObject.isFade = false);
+        isOn = !isOn;
+        optionPanel.SetActive(isOn);
+    }
+    private void Update()
+    {
+        SoundManager.soundVolume = volumeSlider.value;
     }
 }
