@@ -19,7 +19,7 @@ public class Skill
     public int attackCount;
     public int keyIndex;
     public int sale;
-    public Skill_Base effect;
+    public SkillScript effect;
     public Sprite icon;
     public string animationName;
     public Unit.ActionType actionType;
@@ -35,7 +35,7 @@ public class Controller : MonoBehaviour, IInitObserver
     public Vector3 movePos;
     public SpriteRenderer bg;
     public Image keyHoldImage;
-    public List<Skill_Base> skills = new();
+    public List<SkillScript> skills = new();
     public List<Skill> inputLists = new();
     [Header("dialog")]
     Queue<Dialogue> dialogueBox = new();

@@ -63,6 +63,8 @@ public class DataManager : MonoBehaviour
             for(int i = 0; i < 6; i++)
                 saveData.holdSkills.Add(i,new() { holdIndex = i, level = 0 });
         }
+        saveData.plusStats = Resources.Load<PlusStats>("PlusStats");
+        saveData.plusStats.Init();
         player.holdSkills = saveData.holdSkills;
         player.selectIndex = saveData.selectIndex;
     }

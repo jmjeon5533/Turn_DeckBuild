@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Buff_Base
+public abstract class BuffScript
 {
     public Sprite buffIcon;
     public BuffTiming timing;
@@ -10,7 +10,7 @@ public abstract class Buff_Base
     public abstract void Use(Unit target, int stack, PropertyType type);
 }
 
-public class Buff_AttackUp : Buff_Base
+public class Buff_AttackUp : BuffScript
 {
     public override void Use(Unit target, int stack, PropertyType type)
     {
@@ -19,7 +19,7 @@ public class Buff_AttackUp : Buff_Base
     }
 }
 
-public class Buff_AttackDown : Buff_Base
+public class Buff_AttackDown : BuffScript
 {
     public override void Use(Unit target, int stack, PropertyType type)
     {
@@ -28,7 +28,7 @@ public class Buff_AttackDown : Buff_Base
     }
 }
 
-public class Buff_DefenseUp : Buff_Base
+public class Buff_DefenseUp : BuffScript
 {
     public override void Use(Unit target, int stack, PropertyType type)
     {
@@ -37,7 +37,7 @@ public class Buff_DefenseUp : Buff_Base
     }
 }
 
-public class Buff_DefenseDown : Buff_Base
+public class Buff_DefenseDown : BuffScript
 {
     public override void Use(Unit target, int stack, PropertyType type)
     {
@@ -46,7 +46,7 @@ public class Buff_DefenseDown : Buff_Base
     }
 }
 
-public class Buff_Burn : Buff_Base
+public class Buff_Burn : BuffScript
 {
     public override void Use(Unit target, int stack, PropertyType type)
     {
@@ -54,7 +54,7 @@ public class Buff_Burn : Buff_Base
     }
 }
 
-public class Buff_Paralysis : Buff_Base
+public class Buff_Paralysis : BuffScript
 {
     public override void Use(Unit target, int stack, PropertyType type)
     {
@@ -65,7 +65,7 @@ public class Buff_Paralysis : Buff_Base
     }
 }
 
-public class Buff_CoinLimit : Buff_Base
+public class Buff_CoinLimit : BuffScript
 {
     public override void Use(Unit target, int stack, PropertyType type)
     {
@@ -75,7 +75,7 @@ public class Buff_CoinLimit : Buff_Base
     }
 }
 
-public class Buff_TrueDamageUp : Buff_Base
+public class Buff_TrueDamageUp : BuffScript
 {
     public override void Use(Unit target, int stack, PropertyType type)
     {
@@ -83,7 +83,7 @@ public class Buff_TrueDamageUp : Buff_Base
     }
 }
 
-public class Buff_TrueDefenseUp : Buff_Base
+public class Buff_TrueDefenseUp : BuffScript
 {
     public override void Use(Unit target, int stack, PropertyType type)
     {
@@ -91,7 +91,7 @@ public class Buff_TrueDefenseUp : Buff_Base
     }
 }
 
-public class Buff_TrueDamageDown : Buff_Base
+public class Buff_TrueDamageDown : BuffScript
 {
     public override void Use(Unit target, int stack, PropertyType type)
     {
@@ -99,7 +99,7 @@ public class Buff_TrueDamageDown : Buff_Base
     }
 }
 
-public class Buff_TrueDefenseDown : Buff_Base
+public class Buff_TrueDefenseDown : BuffScript
 {
     public override void Use(Unit target, int stack, PropertyType type)
     {

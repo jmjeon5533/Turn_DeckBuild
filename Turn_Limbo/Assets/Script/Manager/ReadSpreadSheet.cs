@@ -110,9 +110,9 @@ public class ReadSpreadSheet : MonoBehaviour
             string className = "Skill_" + columns[6];
             try
             {
-                newSkill.effect = Activator.CreateInstance(Type.GetType(className)) as Skill_Base;
+                newSkill.effect = Activator.CreateInstance(Type.GetType(className)) as SkillScript;
             }
-            catch { Debug.LogError("NewSkillData"); newSkill.effect = Activator.CreateInstance(Type.GetType("Skill_")) as Skill_Base; }
+            catch { Debug.LogError("NewSkillData"); newSkill.effect = Activator.CreateInstance(Type.GetType("Skill_")) as SkillScript; }
 
 
             for (int j = 0; j < 4; j++)
@@ -136,8 +136,8 @@ public class ReadSpreadSheet : MonoBehaviour
     {
         Debug.Log("ReadBuff");
 
-        Dictionary<string, Buff_Base> buff = new();
-        Dictionary<string, Buff_Base> debuff = new();
+        Dictionary<string, BuffScript> buff = new();
+        Dictionary<string, BuffScript> debuff = new();
 
         var d = DataManager.instance;
         string[] rows = data.Split('\n');
@@ -146,7 +146,7 @@ public class ReadSpreadSheet : MonoBehaviour
             string[] columns = rows[i].Split(',');
 
             string className = "Buff_" + columns[2];
-            var temp = Activator.CreateInstance(Type.GetType(className)) as Buff_Base;
+            var temp = Activator.CreateInstance(Type.GetType(className)) as BuffScript;
             temp.timing = columns[3].EnumParse<BuffTiming>();
             temp.buffIcon = Resources.Load<Sprite>($"BuffIcon/{columns[2]}");
 
@@ -256,9 +256,10 @@ public class ReadSpreadSheet : MonoBehaviour
             parentNode = null,
             name = startPoint[2],
             desc = startPoint[7],
-            use = startPoint[4],
-            value = 0,
-            cost = 0
+            use = Activator.CreateInstance(Type.GetType("SkillTree_")) as SkillTreeScript,
+            value = "",
+            cost = 0,
+            plusStats = DataManager.instance.saveData.plusStats
         };
 
         TreeNode lineOne = null;
@@ -304,15 +305,17 @@ public class ReadSpreadSheet : MonoBehaviour
 
             int.TryParse(columns[1], out int readLine);
             string type = columns[3];
-            int.TryParse(columns[5], out int value);
             int.TryParse(columns[6], out int cost);
+            string className = "SkillTree_" + columns[4];
+
             TreeNode newTree = new()
             {
                 name = columns[2],
                 desc = columns[7],
-                use = columns[4],
-                value = value,
+                use = Activator.CreateInstance(Type.GetType(className)) as SkillTreeScript,
+                value = columns[5],
                 cost = cost,
+                plusStats = DataManager.instance.saveData.plusStats
             };
 
             if (type == "Parent") SettingParent(newTree, readLine);
