@@ -83,7 +83,7 @@ public class Controller : MonoBehaviour, IInitObserver
         volume.TryGet(out depth);
         volume.TryGet(out color);
         data = DataManager.instance;
-        
+
         player.hitSound = hitSound;
         enemy.hitSound = hitSound;
         player.dmgDelayTime = AnimTime;
@@ -97,15 +97,24 @@ public class Controller : MonoBehaviour, IInitObserver
     }
     public void SetStage()
     {
-        enemy = Instantiate(DataManager.instance.loadData.SpawnData[DataManager.instance.curStageID].enemies[spawnCount],new Vector3(5,-0.5f, 0), Quaternion.identity);
-        enemy.target = player;
-        player.target = enemy;
-        enemy.unitUI = UIManager.instance.unitUI[1];
-        spawnCount++;
+        SpawnEnemy();
+
         InitEnemy();
         var map = Instantiate(DataManager.instance.loadData.SpawnData[DataManager.instance.curStageID].maps);
         bg = map;
-        
+    }
+    public void SpawnEnemy()
+    {
+        enemy = Instantiate(DataManager.instance.loadData.SpawnData[DataManager.instance.curStageID].enemies[spawnCount], new Vector3(12, -0.5f, 0), Quaternion.identity);
+
+        enemy.hitSound = hitSound;
+        enemy.dmgDelayTime = AnimTime;
+
+        enemy.target = player;
+        player.target = enemy;
+        enemy.unitUI = UIManager.instance.unitUI[1];
+        enemy.transform.DOMoveX(5,0.5f);
+        spawnCount++;
     }
     public void TurnReset()
     {
@@ -124,8 +133,25 @@ public class Controller : MonoBehaviour, IInitObserver
     }
     public void TurnEnd()
     {
-        InitEnemy();
-        TurnReset();
+        if(enemy == null)
+        {
+            if(spawnCount < DataManager.instance.loadData.SpawnData[DataManager.instance.curStageID].enemies.Count)
+            {
+                SpawnEnemy();
+                InitEnemy();
+                TurnReset();
+            }
+            else
+            {
+                UIManager.instance.isPause = true;
+                Time.timeScale = 0;
+            }
+        }
+        else
+        {
+            InitEnemy();
+            TurnReset();
+        }
     }
     public void InitEnemy()
     {
@@ -150,7 +176,7 @@ public class Controller : MonoBehaviour, IInitObserver
         if (isDialogue && Input.GetMouseButtonDown(0)) Dialogue();
 
         UIUpdate(player);
-        UIUpdate(enemy);
+        if (enemy != null) UIUpdate(enemy);
         int blurValue;
         if (isAttack && isGame) blurValue = 500;
         else
@@ -160,7 +186,7 @@ public class Controller : MonoBehaviour, IInitObserver
             if (gameCurTimeCount <= 0) UseAttack();
         }
         UIUpdate(player);
-        UIUpdate(enemy);
+        if (enemy != null) UIUpdate(enemy);
         depth.focalLength.value = Mathf.MoveTowards(depth.focalLength.value, blurValue, Time.deltaTime * 375);
         glitch.intensity.value = Mathf.MoveTowards(glitch.intensity.value, 0, Time.deltaTime * 0.75f);
         color.postExposure.value = Mathf.MoveTowards(color.postExposure.value, 0, Time.deltaTime * 0.75f);
@@ -191,6 +217,7 @@ public class Controller : MonoBehaviour, IInitObserver
     }
     void UIUpdate(Unit character)
     {
+        print(character.unitName);
         var ui = UIManager.instance;
         var requestPos = !isAttack ? ui.cam.WorldToScreenPoint(character.transform.position
         + new Vector3((2 - (5 - ui.cam.orthographicSize)) * (character.isLeft ? 1 : -1), 2))
@@ -262,18 +289,29 @@ public class Controller : MonoBehaviour, IInitObserver
                 {
                     isSkillExplain = true;
                     keyHoldTime = 0;
-                    if(player.skillInfo.holdSkills.TryGetValue(inputs[i][0].index - 1, out var holdSkill))
-                    ui.SetExplain(true, inputs[i][0], ui.keys[i].rectTransform.anchoredPosition,holdSkill.level);
+                    if (player.skillInfo.holdSkills.TryGetValue(inputs[i][0].index - 1, out var holdSkill))
+                        ui.SetExplain(true, inputs[i][0], ui.keys[i].rectTransform.anchoredPosition, holdSkill.level);
                 }
                 keyHoldImage.fillAmount = Mathf.Clamp(keyHoldTime - 0.3f, 0, 10) / 0.5f;
             }
         }
     }
-    public void GameEnd()
+    public void PhaseEnd()
     {
         if (player.hp <= 0) GameOver();
-        else GameClear();
-        Time.timeScale = 0;
+        else KillEnemy();
+    }
+    public void KillEnemy()
+    {
+        var deadEnemy = enemy;
+        deadEnemy.transform.DOMoveX(12, 0.5f).OnComplete(() => Destroy(deadEnemy.gameObject));
+        enemy.target = null;
+        enemy.unitUI = null;
+        player.target = null;
+        enemy = null;
+
+        if (spawnCount >= DataManager.instance.loadData.SpawnData[DataManager.instance.curStageID].enemies.Count)
+            GameClear();
     }
     public void GameOver()
     {
@@ -287,7 +325,7 @@ public class Controller : MonoBehaviour, IInitObserver
 
     public void UseAttack()
     {
-        if(isDialogue || isAttack) return;
+        if (isDialogue || isAttack) return;
         isAttack = true;
         UIManager.instance.ActiveBtn(false);
         UIManager.instance.SetExplain(false);
@@ -368,25 +406,25 @@ public class Controller : MonoBehaviour, IInitObserver
 
             if (player.hp <= 0 || enemy.hp <= 0)
             {
-                GameEnd();
-                yield break;
+                PhaseEnd();
+                break;
             }
         }
 
         yield return new WaitForSeconds(0.5f);
         ui.cam.DOOrthoSize(5f, 0.5f).SetEase(Ease.OutCubic);
-        player.anim.Play("Idle"); enemy.anim.Play("Idle");
+        player.anim.Play("Idle"); enemy?.anim.Play("Idle");
 
         ui.camRotZ = 0;
-        player.transform.DOMoveX(-3.5f * (player.isLeft ? 1 : -1), 0.5f)
+        enemy?.transform.DOMoveX(-3.5f * (enemy.isLeft ? 1 : -1), 0.5f)
         .SetEase(Ease.InOutSine).WaitForCompletion();
-        yield return enemy.transform.DOMoveX(-3.5f * (enemy.isLeft ? 1 : -1), 0.5f)
+        yield return player.transform.DOMoveX(-3.5f * (player.isLeft ? 1 : -1), 0.5f)
         .SetEase(Ease.InOutSine).WaitForCompletion();
         useTurnCount++;
         ui.inputPanel.rectTransform.sizeDelta = new Vector2(0, 352);
         isAttack = false;
         ui.ActiveBtn(true);
-        player.UseBuff(BuffTiming.BattleEnd); enemy.UseBuff(BuffTiming.BattleEnd);
+        player.UseBuff(BuffTiming.BattleEnd); enemy?.UseBuff(BuffTiming.BattleEnd);
         TurnEnd();
     }
 

@@ -108,6 +108,7 @@ public class UIManager : MonoBehaviour, IInitObserver
             else
             {
                 cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, 3.5f, 0.1f);
+                if(controller.enemy != null)
                 camPivot = Vector3.Lerp(controller.player.transform.position, controller.enemy.transform.position, 0.5f);
                 camPivot = new Vector3(camPivot.x, camPivot.y, -10);
                 if (isCamRotate)

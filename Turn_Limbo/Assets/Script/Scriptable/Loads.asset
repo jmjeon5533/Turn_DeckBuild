@@ -22,6 +22,7 @@ MonoBehaviour:
     attackCount: 1
     keyIndex: 0
     sale: 50
+    isOnlyEnemy: 0
     icon: {fileID: 21300000, guid: 373d69e886bd46a4f8c9ebe389fe0e84, type: 3}
     animationName: Slash
     actionType: 1
@@ -37,6 +38,7 @@ MonoBehaviour:
     attackCount: 2
     keyIndex: 0
     sale: 125
+    isOnlyEnemy: 0
     icon: {fileID: 21300000, guid: 4f7eae31e9b2fb448b4ac2fcce69e0ba, type: 3}
     animationName: Slash
     actionType: 1
@@ -53,6 +55,7 @@ MonoBehaviour:
     attackCount: 3
     keyIndex: 1
     sale: 50
+    isOnlyEnemy: 0
     icon: {fileID: 21300000, guid: c9616b36d42b94c4ea1fc5110e43d5ff, type: 3}
     animationName: Penetrate
     actionType: 1
@@ -69,6 +72,7 @@ MonoBehaviour:
     attackCount: 1
     keyIndex: 1
     sale: 125
+    isOnlyEnemy: 0
     icon: {fileID: 21300000, guid: c50ed2fa14dd00347900aad9ce3c48b6, type: 3}
     animationName: Penetrate
     actionType: 1
@@ -85,6 +89,7 @@ MonoBehaviour:
     attackCount: 2
     keyIndex: 2
     sale: 50
+    isOnlyEnemy: 0
     icon: {fileID: 21300000, guid: 1552e3c95ad59834681e769d0f884003, type: 3}
     animationName: Hit
     actionType: 1
@@ -101,6 +106,7 @@ MonoBehaviour:
     attackCount: 3
     keyIndex: 2
     sale: 125
+    isOnlyEnemy: 0
     icon: {fileID: 21300000, guid: 20e1ecd780e4db544a8bbdefcb76ce08, type: 3}
     animationName: Hit
     actionType: 1
@@ -117,6 +123,7 @@ MonoBehaviour:
     attackCount: 1
     keyIndex: 0
     sale: 75
+    isOnlyEnemy: 0
     icon: {fileID: 21300000, guid: c02d00e047d073c4ab7a7a06c6596a50, type: 3}
     animationName: Defense
     actionType: 2
@@ -132,6 +139,7 @@ MonoBehaviour:
     attackCount: 1
     keyIndex: 1
     sale: 75
+    isOnlyEnemy: 0
     icon: {fileID: 21300000, guid: 9f9338f42f3b10e4087f42401f71af11, type: 3}
     animationName: Defense
     actionType: 2
@@ -148,6 +156,7 @@ MonoBehaviour:
     attackCount: 1
     keyIndex: 2
     sale: 75
+    isOnlyEnemy: 0
     icon: {fileID: 21300000, guid: dc0576a6a03431140ace9835f280b19f, type: 3}
     animationName: Defense
     actionType: 2
@@ -163,6 +172,7 @@ MonoBehaviour:
     attackCount: 1
     keyIndex: 0
     sale: 200
+    isOnlyEnemy: 0
     icon: {fileID: 21300000, guid: 2ef426812862db04ab60029e16a6abc1, type: 3}
     animationName: Hit
     actionType: 1
@@ -179,6 +189,7 @@ MonoBehaviour:
     attackCount: 4
     keyIndex: 1
     sale: 200
+    isOnlyEnemy: 0
     icon: {fileID: 21300000, guid: e707ef4f32c320240adf90284eaca123, type: 3}
     animationName: Hit
     actionType: 1
@@ -196,6 +207,7 @@ MonoBehaviour:
     attackCount: 2
     keyIndex: 2
     sale: 450
+    isOnlyEnemy: 0
     icon: {fileID: 21300000, guid: ff1449356078ad84394fabcca77cd5b7, type: 3}
     animationName: Penetrate
     actionType: 1
@@ -212,6 +224,7 @@ MonoBehaviour:
     attackCount: 1
     keyIndex: 0
     sale: 100
+    isOnlyEnemy: 0
     icon: {fileID: 21300000, guid: e2e5b36165d313a4db4ee1a597e96f9c, type: 3}
     animationName: Slash
     actionType: 1
@@ -229,6 +242,7 @@ MonoBehaviour:
     attackCount: 1
     keyIndex: 0
     sale: 300
+    isOnlyEnemy: 0
     icon: {fileID: 21300000, guid: 6d39b6e418abe9a4c8affe5aeca3b863, type: 3}
     animationName: Slash
     actionType: 1
@@ -246,6 +260,7 @@ MonoBehaviour:
     attackCount: 2
     keyIndex: 0
     sale: 100
+    isOnlyEnemy: 0
     icon: {fileID: 21300000, guid: 6dc83f6a6d6ad9e4eb69b3680249b6b7, type: 3}
     animationName: Slash
     actionType: 1
@@ -264,6 +279,7 @@ MonoBehaviour:
     attackCount: 1
     keyIndex: 1
     sale: 600
+    isOnlyEnemy: 0
     icon: {fileID: 21300000, guid: 35ae996cbb6cd1d4f9ac23a22e9cf517, type: 3}
     animationName: Slash
     actionType: 1
@@ -279,6 +295,7 @@ MonoBehaviour:
     attackCount: 1
     keyIndex: 0
     sale: 200
+    isOnlyEnemy: 0
     icon: {fileID: 21300000, guid: b62918a1f7b4ad945a75acb791b41057, type: 3}
     animationName: Defense
     actionType: 2
@@ -295,6 +312,7 @@ MonoBehaviour:
     attackCount: 1
     keyIndex: 1
     sale: 200
+    isOnlyEnemy: 0
     icon: {fileID: 21300000, guid: 744093378c698e34896fddcd8ec71fcf, type: 3}
     animationName: Defense
     actionType: 2
@@ -312,6 +330,7 @@ MonoBehaviour:
     attackCount: 1
     keyIndex: 2
     sale: 200
+    isOnlyEnemy: 0
     icon: {fileID: 21300000, guid: cea512aac6383644c848071f555b8c5d, type: 3}
     animationName: Defense
     actionType: 2
@@ -328,6 +347,7 @@ MonoBehaviour:
     attackCount: 3
     keyIndex: 0
     sale: 75
+    isOnlyEnemy: 0
     icon: {fileID: 21300000, guid: 51c999b317c50954290fdb2a2a291ed3, type: 3}
     animationName: Penetrate
     actionType: 1
@@ -344,6 +364,7 @@ MonoBehaviour:
     attackCount: 1
     keyIndex: 1
     sale: 300
+    isOnlyEnemy: 0
     icon: {fileID: 21300000, guid: f25a78679d7482244b4494de0a0c2085, type: 3}
     animationName: Penetrate
     actionType: 1
@@ -361,6 +382,7 @@ MonoBehaviour:
     attackCount: 1
     keyIndex: 2
     sale: 600
+    isOnlyEnemy: 0
     icon: {fileID: 21300000, guid: fa9b3c598cde19b4b867503169e46c10, type: 3}
     animationName: Penetrate
     actionType: 1
@@ -378,6 +400,7 @@ MonoBehaviour:
     attackCount: 4
     keyIndex: 1
     sale: 50
+    isOnlyEnemy: 0
     icon: {fileID: 21300000, guid: b530300ab91ac7c4ba8b56fecde16577, type: 3}
     animationName: Hit
     actionType: 1
@@ -395,6 +418,7 @@ MonoBehaviour:
     attackCount: 1
     keyIndex: 1
     sale: 50
+    isOnlyEnemy: 0
     icon: {fileID: 21300000, guid: 5443553c96d6ddd4b95a9a7376ed3a41, type: 3}
     animationName: Hit
     actionType: 1
@@ -411,6 +435,7 @@ MonoBehaviour:
     attackCount: 1
     keyIndex: 2
     sale: 200
+    isOnlyEnemy: 0
     icon: {fileID: 21300000, guid: ff797bf137b969741ad79ec782911e56, type: 3}
     animationName: Hit
     actionType: 1
@@ -427,6 +452,7 @@ MonoBehaviour:
     attackCount: 1
     keyIndex: 2
     sale: 200
+    isOnlyEnemy: 0
     icon: {fileID: 21300000, guid: 896adf5f74b3be645ba90909d7953dab, type: 3}
     animationName: Slash
     actionType: 1
@@ -444,6 +470,7 @@ MonoBehaviour:
     attackCount: 1
     keyIndex: 2
     sale: 200
+    isOnlyEnemy: 0
     icon: {fileID: 21300000, guid: 0e8adedc36dc4084091bbf488c3aff11, type: 3}
     animationName: Penetrate
     actionType: 1
@@ -461,6 +488,7 @@ MonoBehaviour:
     attackCount: 3
     keyIndex: 0
     sale: 500
+    isOnlyEnemy: 0
     icon: {fileID: 21300000, guid: 36336d163d83d31439bc29e2ecf89272, type: 3}
     animationName: Slash
     actionType: 1
@@ -477,6 +505,7 @@ MonoBehaviour:
     attackCount: 3
     keyIndex: 1
     sale: 500
+    isOnlyEnemy: 0
     icon: {fileID: 21300000, guid: 4ffc01e17fcf04041876cc06464e9078, type: 3}
     animationName: Penetrate
     actionType: 1
@@ -493,6 +522,7 @@ MonoBehaviour:
     attackCount: 3
     keyIndex: 2
     sale: 500
+    isOnlyEnemy: 0
     icon: {fileID: 21300000, guid: be9f98f0bdfb8424595406910fb44109, type: 3}
     animationName: Hit
     actionType: 1
@@ -509,6 +539,7 @@ MonoBehaviour:
     attackCount: 1
     keyIndex: 0
     sale: 125
+    isOnlyEnemy: 0
     icon: {fileID: 21300000, guid: 42d0b12e9808261488b8de4bfba29fd6, type: 3}
     animationName: Defense
     actionType: 2
@@ -526,6 +557,7 @@ MonoBehaviour:
     attackCount: 1
     keyIndex: 1
     sale: 125
+    isOnlyEnemy: 0
     icon: {fileID: 21300000, guid: 94e646bd8da6abd40829b8c3bec36384, type: 3}
     animationName: Defense
     actionType: 2
@@ -542,6 +574,7 @@ MonoBehaviour:
     attackCount: 1
     keyIndex: 2
     sale: 125
+    isOnlyEnemy: 0
     icon: {fileID: 21300000, guid: 2210d0438be1f3f42b84a1ccef992ebf, type: 3}
     animationName: Defense
     actionType: 2

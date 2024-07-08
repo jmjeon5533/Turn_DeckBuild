@@ -136,7 +136,7 @@ public abstract class Unit : MonoBehaviour
             spriteRenderer.color = Color.Lerp(Color.white, color, colorTime / maxColorTime);
             colorTime -= Time.deltaTime;
         }
-        unitUI.UIUpdate(transform, hp, maxHP, shield, maxShield, ref dmgDelayCurTime, isLeft);
+        unitUI?.UIUpdate(transform, hp, maxHP, shield, maxShield, ref dmgDelayCurTime, isLeft);
     }
     public virtual void TurnInit()
     {
