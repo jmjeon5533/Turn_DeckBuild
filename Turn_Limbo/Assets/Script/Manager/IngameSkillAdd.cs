@@ -15,6 +15,7 @@ public class IngameSkillAdd : MonoBehaviour, IInitObserver
     {
         GivePlayerSkill(() =>
         {
+            controller.useTurnCount = 1;
             controller.SetStage();
             controller.TurnReset();
             UIManager.instance.SetExplain(false);

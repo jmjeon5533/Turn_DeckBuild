@@ -6,6 +6,7 @@ using UnityEngine;
 public class SkillEffect : ScriptableObject
 {
     public List<int> selectIndex = new List<int>();
+    public List<int> turnActCounts = new List<int>();
     public Dictionary<int,HoldSkills> holdSkills = new Dictionary<int,HoldSkills>();
 }
 [System.Serializable]

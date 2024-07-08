@@ -54,6 +54,8 @@ public class Controller : MonoBehaviour, IInitObserver
     public bool isTimeSlowEffect;
     public bool isDialogue;
     public bool isSkillExplain;
+    public bool isEnemyRandomSkillCount;
+    public bool isEnemyRandomSkillIndex;
 
     private int lastSign;
     private int spawnCount = 0;
@@ -92,8 +94,6 @@ public class Controller : MonoBehaviour, IInitObserver
         depth.focalLength.value = 1;
         color.postExposure.value = 0;
         color.saturation.value = 0;
-
-        useTurnCount = 1;
     }
     public void SetStage()
     {
@@ -156,7 +156,14 @@ public class Controller : MonoBehaviour, IInitObserver
     public void InitEnemy()
     {
         var d = DataManager.instance;
-        var coinCount = Random.Range(enemy.requestMinCount, enemy.requestMaxCount + 1);
+        var count = (useTurnCount - 1) % enemy.skillInfo.turnActCounts.Count;
+        var coinCount = isEnemyRandomSkillCount 
+        ? Random.Range(enemy.requestMinCount, enemy.requestMaxCount + 1) 
+        : enemy.skillInfo.turnActCounts[count];
+
+        // print(coinCount);
+        // print($"{useTurnCount - 1} % {enemy.skillInfo.turnActCounts.Count} = {count}");
+        // print(isEnemyRandomSkillCount);
         for (int i = 0; i < coinCount; i++)
         {
             AddRequest(enemy, d.loadData.SkillList[enemy.skillInfo.selectIndex[enemy.skillCurCount % enemy.skillInfo.selectIndex.Count]]);
@@ -217,7 +224,6 @@ public class Controller : MonoBehaviour, IInitObserver
     }
     void UIUpdate(Unit character)
     {
-        print(character.unitName);
         var ui = UIManager.instance;
         var requestPos = !isAttack ? ui.cam.WorldToScreenPoint(character.transform.position
         + new Vector3((2 - (5 - ui.cam.orthographicSize)) * (character.isLeft ? 1 : -1), 2))
@@ -444,20 +450,17 @@ public class Controller : MonoBehaviour, IInitObserver
         var skill = unit.curSkill;
         //print($"{unit.name} : {unit.curAttackCount}");
         if (unit.curSkill.actionType == Unit.ActionType.none) yield break;
-        print("attackStart");
 
         unit.InitCurSkillDamage(skill.minDamage[unit.skillInfo.holdSkills[skill.index - 1].level],
             skill.maxDamage[unit.skillInfo.holdSkills[skill.index - 1].level], skill.attackCount);
 
         unit.curSkill.effect?.Setting(unit, unit.target);
         StartCoroutine(IconAnim(skill.insertImage, skill.animation.length * skill.attackCount));
-        print(skill.attackCount);
         for (int i = 0; i < skill.attackCount; i++)
         {
             unit.anim.Play(skill.propertyType.ToString(), -1, 0f);
             yield return new WaitForSeconds(skill.animation.length);
         }
-        print("attackEnd");
     }
 
     void BuffClear(Unit unit)
