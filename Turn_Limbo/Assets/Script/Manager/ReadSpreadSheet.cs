@@ -280,6 +280,7 @@ public class ReadSpreadSheet : MonoBehaviour
             parentNode ??= startNode;
 
             curNode.parentNode = parentNode;
+            curNode.isParent = true;
             parentNode.childNode.Add(curNode);
         }
 
@@ -317,34 +318,36 @@ public class ReadSpreadSheet : MonoBehaviour
             if (type == "Parent") SettingParent(newTree, readLine);
             else if (type == "Child")
             {
-                if(readLine != 0){
+                if (readLine != 0)
+                {
                     lineIndex[oldLine]++;
+                    //Debug.Log(lineIndex[oldLine] + " / " + readLine);
                     oldLine = readLine;
                 }
                 SettingChild(newTree, oldLine);
-            }else lineIndex[oldLine]++;
+            }
+            //else lineIndex[oldLine]++;
 
             oldLine = readLine == 0 ? oldLine : readLine;
         }
 
-        void ReadTest(TreeNode test)
-        {
-            if (test == null) return;
-            else
-            {
-                Debug.Log($"cur : {test.desc}\n\tparent : {test.parentNode.desc}");
-                foreach (var n in test.childNode)
-                {
-                    ReadTest(n);
-                }
-            }
-        }
+        d.startNode = startNode;
 
-        for (int i = 0; i < 3; i++)
-        {
-            ReadTest(startNode.childNode[i]);
-            Debug.Log("////////////////////////////////////");
-        }
+        // void ReadTest(TreeNode test)
+        // {
+        //     foreach (var n in test.childNode)
+        //     {
+        //         Debug.Log($"cur : {n.desc}\n\tparent : {n.parentNode.desc}");
+        //     }
+        //     if(test.childNode.Count > 0) ReadTest(test.childNode[0]);
+        // }
+
+        // for (int i = 0; i < 3; i++)
+        // {
+        //     Debug.Log($"cur : {startNode.childNode[i].desc}\n\tparent : {startNode.childNode[i].parentNode.desc}");
+        //     ReadTest(startNode.childNode[i]);
+        //     Debug.Log("////////////////////////////////////");
+        // }
     }
 
     public void ParseEnemyData(string data)
