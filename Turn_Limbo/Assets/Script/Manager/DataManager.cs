@@ -10,7 +10,6 @@ public class SaveData
 {
     public bool isInitialize;
     public int money;
-    public PlusStats plusStats;
     public List<int> selectIndex = new List<int>();
     public Dictionary<int, HoldSkills> holdSkills = new Dictionary<int, HoldSkills>();
 }
@@ -63,8 +62,6 @@ public class DataManager : MonoBehaviour
             for(int i = 0; i < 6; i++)
                 saveData.holdSkills.Add(i,new() { holdIndex = i, level = 0 });
         }
-        saveData.plusStats = Resources.Load<PlusStats>("PlusStats");
-        saveData.plusStats.Init();
         player.holdSkills = saveData.holdSkills;
         player.selectIndex = saveData.selectIndex;
     }
@@ -86,6 +83,7 @@ public class DataManager : MonoBehaviour
     public Queue<Dialogue> stageDialogBox = new();
     public Queue<Queue<Dialogue>> hpDialogBox = new();
     public TreeNode startNode;
+    public PlusStats plusStats;
 
     public bool hpUnitIsPlayer;
     public bool readEnd;

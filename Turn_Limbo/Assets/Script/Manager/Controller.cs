@@ -93,6 +93,8 @@ public class Controller : MonoBehaviour, IInitObserver
         color.saturation.value = 0;
 
         useTurnCount = 1;
+
+        data.plusStats.AddStats(player);
     }
     public void SetStage()
     {
@@ -110,7 +112,7 @@ public class Controller : MonoBehaviour, IInitObserver
     {
         gameCurTimeCount = 10;
 
-        useAbleCoin += player.addCoin;
+        useAbleCoin += player.nextTurnAddCoin;
         useAbleCoin = Mathf.Clamp(useAbleCoin, 0, 10);
         player.TurnInit();
         enemy.TurnInit();

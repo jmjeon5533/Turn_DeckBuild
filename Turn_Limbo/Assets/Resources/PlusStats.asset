@@ -18,3 +18,4 @@ MonoBehaviour:
   plusDefenseValue: 0
   attack_Drainage: 0
   defense_Drainage: 0
+  addCoin: 0

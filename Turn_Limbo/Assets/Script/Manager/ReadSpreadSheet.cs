@@ -253,18 +253,20 @@ public class ReadSpreadSheet : MonoBehaviour
         string[] startPoint = rows[1].Split(',');
         TreeNode startNode = new()
         {
-            parentNode = null,
+            parentNode = new(){isOpen = true},
             name = startPoint[2],
             desc = startPoint[7],
             use = Activator.CreateInstance(Type.GetType("SkillTree_")) as SkillTreeScript,
             value = "",
             cost = 0,
-            plusStats = DataManager.instance.saveData.plusStats
+            plusStats = d.plusStats
         };
 
         TreeNode lineOne = null;
         TreeNode lineTwo = null;
         TreeNode lineThree = null;
+
+        int[] saveLineIndex = new int[4] { -1, 0, 0, 0 };
         int[] lineIndex = new int[4] { -1, 0, 0, 0 };
         int oldLine = 0;
 
@@ -283,6 +285,8 @@ public class ReadSpreadSheet : MonoBehaviour
             curNode.parentNode = parentNode;
             curNode.isParent = true;
             parentNode.childNode.Add(curNode);
+            
+            //Debug.Log($"cur {curNode.desc} / save {ReadSaveNode(saveNode, curLine, saveLineIndex[curLine], parentNode.childNode.Count).desc}");
         }
 
         void SettingChild(TreeNode curNode, int curLine)
@@ -297,6 +301,12 @@ public class ReadSpreadSheet : MonoBehaviour
         {
             if (count == 0) return curNode;
             else return GetNode(curNode.childNode[0], count - 1);
+        }
+
+        TreeNode ReadSaveNode(TreeNode curNode, int curLine, int parentCount, int childCount){
+            if(parentCount > 0) return ReadSaveNode(curNode.childNode[curLine - 1], curLine, parentCount - 1, childCount);
+
+            return curNode.childNode[childCount - 1];
         }
 
         for (int i = 2; i < rows.Length; i++)
@@ -315,7 +325,7 @@ public class ReadSpreadSheet : MonoBehaviour
                 use = Activator.CreateInstance(Type.GetType(className)) as SkillTreeScript,
                 value = columns[5],
                 cost = cost,
-                plusStats = DataManager.instance.saveData.plusStats
+                plusStats = d.plusStats
             };
 
             if (type == "Parent") SettingParent(newTree, readLine);

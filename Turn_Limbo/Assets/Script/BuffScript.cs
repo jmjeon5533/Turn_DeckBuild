@@ -71,7 +71,7 @@ public class Buff_CoinLimit : BuffScript
     {
         if (!target.TryGetComponent<Player>(out var p)) return;
 
-        p.addCoin = 3;
+        p.nextTurnAddCoin = 3;
     }
 }
 

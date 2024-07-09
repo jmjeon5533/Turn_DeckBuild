@@ -7,16 +7,31 @@ public class SkillTreeBtnObj : MonoBehaviour
 {
     [SerializeField] List<Transform> line = new();
     [SerializeField] private Button skillTreeSelectBtn;
+    private int[] lineStack = new int[3] { 0, 0, 0};
 
-    public Button AddButton(int curLine, TreeNode curNode, bool isParent = false)
+    public Button AddButton(int curLine, bool isParent = false)
     {
-        if(!isParent) return null;
-        
+        Button btn;
         Transform curPos = line[curLine];
+        if (!isParent)
+        {
+            btn = Instantiate(skillTreeSelectBtn, curPos);
 
-        Button btn = Instantiate(skillTreeSelectBtn, curPos);
+            Vector3 plusPos = 
+            new((lineStack[curLine] % 2 == 0 ? 0 : 80) * (lineStack[curLine] > 1 ? -1 : 1), 
+            (lineStack[curLine] % 2 == 0 ? 80 : 0) * (lineStack[curLine] > 1 ? -1 : 1));
 
-        if(isParent) line[curLine] = btn.transform;
+            btn.transform.localPosition += plusPos;
+            btn.transform.localScale = btn.transform.localScale * 0.5f;
+
+            lineStack[curLine]++;
+            return btn;
+        }
+
+
+        btn = Instantiate(skillTreeSelectBtn, curPos);
+
+        if (isParent) line[curLine] = btn.transform;
 
         return btn;
     }

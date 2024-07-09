@@ -1,9 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
+[System.Serializable]
 public class TreeNode
 {
     public TreeNode parentNode;
@@ -19,6 +22,7 @@ public class TreeNode
     public bool isOpen;
 
     public PlusStats plusStats;
+    public Button btn;
 }
 
 public class SkillTree : MonoBehaviour
@@ -53,7 +57,7 @@ public class SkillTree : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.T))
         {
-            AddSkillTreeButton();
+
         }
     }
 
@@ -75,7 +79,7 @@ public class SkillTree : MonoBehaviour
 
             if (curNode.isParent) SettingButton(curLine, parnetObj, curNode, true);
 
-            for (int i = 0; i > curNode.childNode.Count; i++)
+            for (int i = 0; i < curNode.childNode.Count; i++)
             {
                 if (i == 0) continue;
                 SettingButton(curLine, parnetObj, curNode.childNode[i]);
@@ -87,14 +91,17 @@ public class SkillTree : MonoBehaviour
         {
             Button btn;
 
-            btn = parnetObj.AddButton(curLine, curNode, isParent);
+            btn = parnetObj.AddButton(curLine, isParent);
 
             btn.onClick.AddListener(() =>
             {
                 curTreeNode = curNode;
 
-                SettingSelectPanel(curNode);
+                nameText.text = curNode.name;
+                desc.text = curNode.desc;
+                cost.text = curNode.cost.ToString();
             });
+            curNode.btn = btn;
         }
 
         var temp = Instantiate(groupObj, skillTreeParent).GetComponent<SkillTreeBtnObj>();
@@ -105,38 +112,61 @@ public class SkillTree : MonoBehaviour
         }
     }
 
-    public void SettingSelectPanel(TreeNode curNode)
-    {
-        nameText.text = curNode.name;
-        desc.text = curNode.desc;
-        cost.text = curNode.cost.ToString();
-    }
-
     public void Buy()
     {
         var d = DataManager.instance;
 
         int cost = curTreeNode.cost;
 
-        if (curTreeNode.parentNode != null)
+        if (curTreeNode.isOpen || d.saveData.money < cost || !curTreeNode.parentNode.isOpen)
         {
-            if (curTreeNode.isOpen || !curTreeNode.parentNode.isOpen)
-            {
-                Debug.Log("해금 불가");
-                return;
+            Debug.Log("해금 불가");
+            if(!curTreeNode.isOpen){
+                curTreeNode.btn.image.color = new Color(1, 0, 0);
+            curTreeNode.btn.image.DOColor(new Color(0.7f, 0.7f, 0.7f), 0.5f);
             }
-            if (d.saveData.money < cost)
-            {
-                print("구매 불가 : 돈 부족");
-                return;
-            }
+            return;
         }
-        //BtnImage color Chage?
 
+        Debug.Log("해금");
         curTreeNode.use.Use(curTreeNode.plusStats, curTreeNode.value);
         curTreeNode.isOpen = true;
+        curTreeNode.btn.image.color = new Color(255, 255, 255);
 
         d.saveData.money -= cost;
+        MoneyText.text = $"보유자원 : {DataManager.instance.saveData.money}";
+    }
+
+    public void ReSetSkillTree()
+    {
+        var d = DataManager.instance;
+        TreeNode startNode = d.startNode;
+
+        void Init(TreeNode curNode)
+        {
+            foreach (var n in curNode.childNode)
+            {
+                Debug.Log($"Check : {n.desc}");
+                if (n.isOpen)
+                {
+                    Debug.Log($"Close : {n.desc}");
+                    n.isOpen = false;
+                    d.saveData.money += n.cost;
+                    n.btn.image.color = new Color(0.7f, 0.7f, 0.7f);
+                }
+            }
+            if (curNode.childNode.Count > 0) Init(curNode.childNode[0]);
+        }
+
+        if (startNode.isOpen)
+        {
+            startNode.isOpen = false;
+            Debug.Log($"Close : {startNode.desc}");
+            startNode.btn.image.color = new Color(0.7f, 0.7f, 0.7f);
+        }
+        Init(startNode);
+
+        d.plusStats.Init();
         MoneyText.text = $"보유자원 : {DataManager.instance.saveData.money}";
     }
 }

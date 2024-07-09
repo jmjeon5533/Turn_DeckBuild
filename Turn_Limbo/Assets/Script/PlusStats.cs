@@ -16,7 +16,24 @@ public class PlusStats : ScriptableObject
 
     public int addCoin;
 
-    public void Init(){
+    public void AddStats(Unit unit){
+        unit.maxHP += maxHP;
+        unit.hp = unit.maxHP;
+        unit.maxShield += maxShield;
+        unit.shield = unit.maxShield;
+
+        unit.plusAttackValue += plusAttackValue;
+        unit.plusDefenseValue += plusDefenseValue;
+        unit.attack_Drainage += attack_Drainage;
+        unit.defense_Drainage += defense_Drainage;
+
+        if(unit.TryGetComponent<Player>(out var p)){
+            p.addCoin += addCoin;   
+        }
+    }
+
+    public void Init()
+    {
         maxHP = 0;
         maxShield = 0;
         plusAttackValue = 0;
