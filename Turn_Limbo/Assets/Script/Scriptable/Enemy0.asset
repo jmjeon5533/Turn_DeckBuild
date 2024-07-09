@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: Enemy0
   m_EditorClassIdentifier: 
   selectIndex: 000000000100000002000000030000000400000005000000
+  turnActCounts: 03000000020000000500000004000000
