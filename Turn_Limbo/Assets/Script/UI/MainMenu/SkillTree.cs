@@ -146,10 +146,10 @@ public class SkillTree : MonoBehaviour
         {
             foreach (var n in curNode.childNode)
             {
-                Debug.Log($"Check : {n.desc}");
+                //Debug.Log($"Check : {n.desc}");
                 if (n.isOpen)
                 {
-                    Debug.Log($"Close : {n.desc}");
+                    //Debug.Log($"Close : {n.desc}");
                     n.isOpen = false;
                     d.saveData.money += n.cost;
                     n.btn.image.color = new Color(0.7f, 0.7f, 0.7f);
@@ -161,7 +161,7 @@ public class SkillTree : MonoBehaviour
         if (startNode.isOpen)
         {
             startNode.isOpen = false;
-            Debug.Log($"Close : {startNode.desc}");
+            //Debug.Log($"Close : {startNode.desc}");
             startNode.btn.image.color = new Color(0.7f, 0.7f, 0.7f);
         }
         Init(startNode);

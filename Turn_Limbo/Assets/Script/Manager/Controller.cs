@@ -20,7 +20,7 @@ public class Skill
     public int keyIndex;
     public int sale;
     public bool isOnlyEnemy;
-    public Skill_Base effect;
+    public SkillScript effect;
     public Sprite icon;
     public string animationName;
     public Unit.ActionType actionType;
@@ -94,8 +94,6 @@ public class Controller : MonoBehaviour, IInitObserver
         depth.focalLength.value = 1;
         color.postExposure.value = 0;
         color.saturation.value = 0;
-
-        useTurnCount = 1;
 
         data.plusStats.AddStats(player);
     }
