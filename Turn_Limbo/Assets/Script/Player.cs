@@ -7,17 +7,18 @@ using UnityEngine.UI;
 public class Player : Unit
 {
     public bool coinLimit;
-    public int addCoin;
+    public int addCoin = 3;
+    public int nextTurnAddCoin;
 
     public override void TurnInit()
     {
         base.TurnInit();
-        addCoin = 3;
+        nextTurnAddCoin = addCoin;
         coinLimit = false;
     }
     public void PlusCoin(int value){
         if(coinLimit) return;
-        addCoin += value;
+        nextTurnAddCoin += value;
     }
     protected override void FatalDamage()
     {

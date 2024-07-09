@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public abstract class Skill_Base
+public abstract class SkillScript
 {
     public virtual void Setting(Unit unit, Unit target) { }
     public virtual void End(Unit unit, Unit target) { }
 }
 
-// public class Skill_Zornhauw : Skill_Base
+// public class Skill_Zornhauw : SkillScript
 // {
 //     public override void Setting(Unit unit, Unit target)
 //     {
@@ -18,7 +18,7 @@ public abstract class Skill_Base
 //     }
 // }
 
-// public class Skill_SlantCut : Skill_Base
+// public class Skill_SlantCut : SkillScript
 // {
 //     public override void Setting(Unit unit, Unit target)
 //     {
@@ -27,7 +27,7 @@ public abstract class Skill_Base
 //     }
 // }
 
-// public class Skill_HitAndRun : Skill_Base
+// public class Skill_HitAndRun : SkillScript
 // {
 //     public override void End(Unit unit, Unit target)
 //     {
@@ -36,7 +36,7 @@ public abstract class Skill_Base
 //     }
 // }
 
-// public class Skill_WarCry : Skill_Base
+// public class Skill_WarCry : SkillScript
 // {
 //     public override void End(Unit unit, Unit target)
 //     {
@@ -44,7 +44,7 @@ public abstract class Skill_Base
 //     }
 // }
 
-// public class Skill_BurnAttack : Skill_Base
+// public class Skill_BurnAttack : SkillScript
 // {
 //     public override void End(Unit unit, Unit target)
 //     {
@@ -62,7 +62,7 @@ public abstract class Skill_Base
 //     }
 // }
 
-// public class Skill_ExplodingBlade : Skill_Base
+// public class Skill_ExplodingBlade : SkillScript
 // {
 //     public override void Setting(Unit unit, Unit target)
 //     {
@@ -79,7 +79,7 @@ public abstract class Skill_Base
 //     }
 // }
 
-// public class Skill_Ox : Skill_Base
+// public class Skill_Ox : SkillScript
 // {
 //     public override void End(Unit unit, Unit target)
 //     {
@@ -87,7 +87,7 @@ public abstract class Skill_Base
 //     }
 // }
 
-// public class Skill_Eisenport : Skill_Base
+// public class Skill_Eisenport : SkillScript
 // {
 //     public override void Setting(Unit unit, Unit target)
 //     {
@@ -95,7 +95,7 @@ public abstract class Skill_Base
 //     }
 // }
 
-// public class Skill_Kronhowe : Skill_Base
+// public class Skill_Kronhowe : SkillScript
 // {
 //     public override void Setting(Unit unit, Unit target)
 //     {
@@ -104,7 +104,7 @@ public abstract class Skill_Base
 //     }
 // }
 
-// public class Skill_Hekireki_issen : Skill_Base
+// public class Skill_Hekireki_issen : SkillScript
 // {
 //     public override void Setting(Unit unit, Unit target)
 //     {
@@ -120,7 +120,7 @@ public abstract class Skill_Base
 //     }
 // }
 
-// public class Skill_FoamTak : Skill_Base
+// public class Skill_FoamTak : SkillScript
 // {
 //     public override void End(Unit unit, Unit target)
 //     {
@@ -128,7 +128,7 @@ public abstract class Skill_Base
 //     }
 // }
 
-public class Skill_Cut : Skill_Base
+public class Skill_Cut : SkillScript
 {
     public override void End(Unit unit, Unit target)
     {
@@ -137,7 +137,7 @@ public class Skill_Cut : Skill_Base
     }
 }
 
-public class Skill_Stab : Skill_Base
+public class Skill_Stab : SkillScript
 {
     public override void End(Unit unit, Unit target)
     {
@@ -145,7 +145,7 @@ public class Skill_Stab : Skill_Base
     }
 }
 
-public class Skill_Smashing : Skill_Base
+public class Skill_Smashing : SkillScript
 {
     public override void Setting(Unit unit, Unit target)
     {
@@ -154,7 +154,7 @@ public class Skill_Smashing : Skill_Base
     }
 }
 
-public class Skill_Defence : Skill_Base
+public class Skill_Defence : SkillScript
 {
     public override void End(Unit unit, Unit target)
     {
@@ -163,7 +163,7 @@ public class Skill_Defence : Skill_Base
     }
 }
 
-public class Skill_Spilling : Skill_Base
+public class Skill_Spilling : SkillScript
 {
     public override void Setting(Unit unit, Unit target)
     {
@@ -171,7 +171,7 @@ public class Skill_Spilling : Skill_Base
     }
 }
 
-public class Skill_Blocking : Skill_Base
+public class Skill_Blocking : SkillScript
 {
     public override void End(Unit unit, Unit target)
     {
@@ -179,7 +179,7 @@ public class Skill_Blocking : Skill_Base
     }
 }
 
-public class Skill_Ready : Skill_Base
+public class Skill_Ready : SkillScript
 {
     public override void Setting(Unit unit, Unit target)
     {
@@ -188,7 +188,7 @@ public class Skill_Ready : Skill_Base
 }
 
 
-public class Skill_Onguard : Skill_Base
+public class Skill_Onguard : SkillScript
 {
     public override void Setting(Unit unit, Unit target)
     {
@@ -197,7 +197,7 @@ public class Skill_Onguard : Skill_Base
     }
 }
 
-public class Skill_Forward : Skill_Base
+public class Skill_Forward : SkillScript
 {
     public override void End(Unit unit, Unit target)
     {
@@ -207,7 +207,7 @@ public class Skill_Forward : Skill_Base
     }
 }
 
-public class Skill_LengthCut : Skill_Base
+public class Skill_LengthCut : SkillScript
 {
     public override void End(Unit unit, Unit target)
     {
@@ -215,7 +215,7 @@ public class Skill_LengthCut : Skill_Base
     }
 }
 
-public class Skill_WidthCut : Skill_Base
+public class Skill_WidthCut : SkillScript
 {
     public override void Setting(Unit unit, Unit target)
     {
@@ -223,7 +223,7 @@ public class Skill_WidthCut : Skill_Base
     }
 }
 
-public class Skill_CrossCut : Skill_Base
+public class Skill_CrossCut : SkillScript
 {
     public override void End(Unit unit, Unit target)
     {
@@ -233,14 +233,14 @@ public class Skill_CrossCut : Skill_Base
     }
 }
 
-public class Skill_Breath : Skill_Base{
+public class Skill_Breath : SkillScript{
     public override void End(Unit unit, Unit target)
     {
         if (target.isAttack && unit.TryGetComponent<Player>(out var p)) p.PlusCoin(3);        
     }
 }
 
-public class Skill_FirstAid : Skill_Base{
+public class Skill_FirstAid : SkillScript{
     public override void End(Unit unit, Unit target)
     {
         if (target.curSkill.propertyType == PropertyType.Defense){
@@ -250,7 +250,7 @@ public class Skill_FirstAid : Skill_Base{
     }
 }
 
-public class Skill_FightingSpirit : Skill_Base{
+public class Skill_FightingSpirit : SkillScript{
     public override void End(Unit unit, Unit target)
     {
         int temp = Mathf.RoundToInt(unit.maxShield * 0.1f);
@@ -258,7 +258,7 @@ public class Skill_FightingSpirit : Skill_Base{
     }
 }
 
-public class Skill_Inkling : Skill_Base
+public class Skill_Inkling : SkillScript
 {
     public override void End(Unit unit, Unit target)
     {
@@ -269,7 +269,7 @@ public class Skill_Inkling : Skill_Base
     }
 }
 
-public class Skill_VitalPoint : Skill_Base
+public class Skill_VitalPoint : SkillScript
 {
     public override void End(Unit unit, Unit target)
     {
@@ -280,7 +280,7 @@ public class Skill_VitalPoint : Skill_Base
     }
 }
 
-public class Skill_Hara_Kiri : Skill_Base
+public class Skill_Hara_Kiri : SkillScript
 {
     public override void End(Unit unit, Unit target)
     {
@@ -288,7 +288,7 @@ public class Skill_Hara_Kiri : Skill_Base
     }
 }
 
-public class Skill_Crushing : Skill_Base
+public class Skill_Crushing : SkillScript
 {
     public override void End(Unit unit, Unit target)
     {
@@ -298,7 +298,7 @@ public class Skill_Crushing : Skill_Base
     }
 }
 
-public class Skill_Bump : Skill_Base
+public class Skill_Bump : SkillScript
 {
     public override void End(Unit unit, Unit target)
     {
@@ -308,7 +308,7 @@ public class Skill_Bump : Skill_Base
     }
 }
 
-public class Skill_Pressure : Skill_Base
+public class Skill_Pressure : SkillScript
 {
     public override void Setting(Unit unit, Unit target)
     {
@@ -316,7 +316,7 @@ public class Skill_Pressure : Skill_Base
     }
 }
 
-public class Skill_Tension : Skill_Base
+public class Skill_Tension : SkillScript
 {
     public override void End(Unit unit, Unit target)
     {
@@ -325,7 +325,7 @@ public class Skill_Tension : Skill_Base
     }
 }
 
-public class Skill_Stability : Skill_Base
+public class Skill_Stability : SkillScript
 {
     public override void End(Unit unit, Unit target)
     {
@@ -335,7 +335,7 @@ public class Skill_Stability : Skill_Base
     }
 }
 
-public class Skill_ : Skill_Base
+public class Skill_ : SkillScript
 {
 
 }

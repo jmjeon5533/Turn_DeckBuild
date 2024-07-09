@@ -14,7 +14,7 @@ public struct RequestSkill
     public int level;
     public int attackCount;
     public Sprite icon;
-    public Skill_Base effect;
+    public SkillScript effect;
     public Icon insertImage;
     public AnimationClip animation;
     public Unit.ActionType actionType;
@@ -25,13 +25,13 @@ public struct RequestSkill
 
 public class Buff
 {
-    public Buff_Base buff;
+    public BuffScript buff;
     public PropertyType type;
     public Image insertImage;
     public int stack;
     public int count;
 
-    public Buff(Buff_Base _curBuff, int _stack, int _count, PropertyType _type = PropertyType.All)
+    public Buff(BuffScript _curBuff, int _stack, int _count, PropertyType _type = PropertyType.All)
     {
         buff = _curBuff;
         type = _type;
@@ -54,7 +54,8 @@ public enum PropertyType
     Slash,
     Hit,
     Penetrate,
-    Defense
+    Defense,
+    Chain
 }
 
 public abstract class Unit : MonoBehaviour
@@ -64,7 +65,8 @@ public abstract class Unit : MonoBehaviour
         none,
         Attack,
         Defence,
-        Dodge
+        Dodge,
+        Chain
     }
 
     public List<Buff> curBuff = new();

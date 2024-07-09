@@ -7,6 +7,7 @@ using DG.Tweening;
 public class InitLoading : MonoBehaviour, IInitObserver
 {
     [SerializeField] SkillUpgrade skillUpgrade;
+    [SerializeField] SkillTree skillTree;
     [SerializeField] Image LoadImage;
 
     public int Priority => 0;
@@ -20,6 +21,7 @@ public class InitLoading : MonoBehaviour, IInitObserver
             ReadSpreadSheet.instance.Load(() =>
             {
                 skillUpgrade.AddSkillUpgradeBtn();
+                skillTree.AddSkillTreeButton();
                 LoadImage.DOColor(Color.clear, 1f).SetEase(Ease.Linear).OnComplete(() => LoadImage.gameObject.SetActive(false));
                 ReadSpreadSheet.instance.isFirstLoad = true;
             });

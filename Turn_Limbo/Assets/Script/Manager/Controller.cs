@@ -36,7 +36,7 @@ public class Controller : MonoBehaviour, IInitObserver
     public Vector3 movePos;
     public SpriteRenderer bg;
     public Image keyHoldImage;
-    public List<Skill_Base> skills = new();
+    public List<SkillScript> skills = new();
     public List<Skill> inputLists = new();
     [Header("dialog")]
     Queue<Dialogue> dialogueBox = new();
@@ -94,6 +94,10 @@ public class Controller : MonoBehaviour, IInitObserver
         depth.focalLength.value = 1;
         color.postExposure.value = 0;
         color.saturation.value = 0;
+
+        useTurnCount = 1;
+
+        data.plusStats.AddStats(player);
     }
     public void SetStage()
     {
@@ -120,7 +124,7 @@ public class Controller : MonoBehaviour, IInitObserver
     {
         gameCurTimeCount = 10;
 
-        useAbleCoin += player.addCoin;
+        useAbleCoin += player.nextTurnAddCoin;
         useAbleCoin = Mathf.Clamp(useAbleCoin, 0, 10);
         player.TurnInit();
         enemy.TurnInit();
