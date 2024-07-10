@@ -121,9 +121,10 @@ public class SkillTree : MonoBehaviour
         if (curTreeNode.isOpen || d.saveData.money < cost || !curTreeNode.parentNode.isOpen)
         {
             Debug.Log("해금 불가");
-            if(!curTreeNode.isOpen){
+            if (!curTreeNode.isOpen)
+            {
                 curTreeNode.btn.image.color = new Color(1, 0, 0);
-            curTreeNode.btn.image.DOColor(new Color(0.7f, 0.7f, 0.7f), 0.5f);
+                curTreeNode.btn.image.DOColor(new Color(0.7f, 0.7f, 0.7f), 0.5f);
             }
             return;
         }
@@ -161,7 +162,7 @@ public class SkillTree : MonoBehaviour
         if (startNode.isOpen)
         {
             startNode.isOpen = false;
-            //Debug.Log($"Close : {startNode.desc}");
+            d.saveData.money += startNode.cost;
             startNode.btn.image.color = new Color(0.7f, 0.7f, 0.7f);
         }
         Init(startNode);

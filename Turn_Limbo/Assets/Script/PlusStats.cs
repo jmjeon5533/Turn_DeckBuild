@@ -16,7 +16,14 @@ public class PlusStats : ScriptableObject
 
     public int addCoin;
 
-    public void AddStats(Unit unit){
+    public List<Buff> pBuffs = new();
+    public List<Buff> pLoopBuffs = new();
+
+    public List<Buff> eBuffs = new();
+    public List<Buff> eLoopBuffs = new();
+
+    public void AddStats(Unit unit)
+    {
         unit.maxHP += maxHP;
         unit.hp = unit.maxHP;
         unit.maxShield += maxShield;
@@ -27,9 +34,16 @@ public class PlusStats : ScriptableObject
         unit.attack_Drainage += attack_Drainage;
         unit.defense_Drainage += defense_Drainage;
 
-        if(unit.TryGetComponent<Player>(out var p)){
-            p.addCoin += addCoin;   
+        if (unit.TryGetComponent<Player>(out var p))
+        {
+            p.addCoin += addCoin;
         }
+    }
+
+    public void AddBuff(Unit unit, bool isPlayer = true)
+    {
+        unit.curBuff = isPlayer ? pBuffs : eBuffs;
+        unit.loopBuff = isPlayer ? pLoopBuffs : eLoopBuffs;
     }
 
     public void Init()

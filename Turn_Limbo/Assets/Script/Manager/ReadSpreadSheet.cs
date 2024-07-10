@@ -252,14 +252,16 @@ public class ReadSpreadSheet : MonoBehaviour
         string[] rows = data.Split('\n');
 
         string[] startPoint = rows[1].Split(',');
+
+        string startClassName = "SkillTree_" + startPoint[4];
         TreeNode startNode = new()
         {
             parentNode = new(){isOpen = true},
             name = startPoint[2],
             desc = startPoint[7],
-            use = Activator.CreateInstance(Type.GetType("SkillTree_")) as SkillTreeScript,
-            value = "",
-            cost = 0,
+            use = Activator.CreateInstance(Type.GetType(startClassName)) as SkillTreeScript,
+            value = startPoint[5],
+            cost = int.Parse(startPoint[6]),
             plusStats = d.plusStats
         };
 
@@ -316,7 +318,6 @@ public class ReadSpreadSheet : MonoBehaviour
 
             int.TryParse(columns[1], out int readLine);
             string type = columns[3];
-            int.TryParse(columns[6], out int cost);
             string className = "SkillTree_" + columns[4];
 
             TreeNode newTree = new()
@@ -325,7 +326,7 @@ public class ReadSpreadSheet : MonoBehaviour
                 desc = columns[7],
                 use = Activator.CreateInstance(Type.GetType(className)) as SkillTreeScript,
                 value = columns[5],
-                cost = cost,
+                cost = int.Parse(columns[6]),
                 plusStats = d.plusStats
             };
 
