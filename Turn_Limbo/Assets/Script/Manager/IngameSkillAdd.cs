@@ -19,7 +19,7 @@ public class IngameSkillAdd : MonoBehaviour, IInitObserver
             controller.SetStage();
             controller.TurnReset();
             UIManager.instance.SetExplain(false);
-            GiveEnemySkill();
+            controller.GiveEnemySkill();
             controller.isGame = true;
         });
     }
@@ -42,18 +42,5 @@ public class IngameSkillAdd : MonoBehaviour, IInitObserver
         DataManager.instance.InitUnit(controller.talkUnit);
 
         action?.Invoke();
-    }
-    public void GiveEnemySkill()
-    {
-        var skillList = controller.enemy.skillInfo;
-        for(int i = 0; i < skillList.selectIndex.Count; i++)
-        {
-            var newSkill = new HoldSkills()
-            {
-                holdIndex = i,
-                level = 0
-            };
-            skillList.holdSkills.TryAdd(skillList.selectIndex[i], newSkill);
-        }
     }
 }

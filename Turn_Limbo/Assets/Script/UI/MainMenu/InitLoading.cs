@@ -29,6 +29,7 @@ public class InitLoading : MonoBehaviour, IInitObserver
         else
         {
             skillUpgrade.AddSkillUpgradeBtn();
+            skillTree.AddSkillTreeButton();
         }
     }
 }

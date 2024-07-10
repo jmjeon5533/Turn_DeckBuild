@@ -90,6 +90,7 @@ public class SkillDeckBuild : MonoBehaviour
                         selectKeyIndex = keyIndex;
                     }
                 }
+                explainPanel.ExplainSet(d.loadData.SkillList[skills],d.player.holdSkills[skills].level);
             });
             DeckBuildBtns newBtn = new DeckBuildBtns();
             newBtn.skillIndex = skills;
