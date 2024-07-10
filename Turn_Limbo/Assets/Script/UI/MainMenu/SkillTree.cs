@@ -53,14 +53,6 @@ public class SkillTree : MonoBehaviour
         //DataManager.instance.JsonSave();
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-
-        }
-    }
-
     public void AddSkillTreeButton()
     {
         var d = DataManager.instance;

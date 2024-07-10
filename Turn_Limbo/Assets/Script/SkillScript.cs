@@ -320,7 +320,7 @@ public class Skill_Tension : SkillScript
 {
     public override void End(Unit unit, Unit target)
     {
-        unit.nextBuff.Add(new Buff(DataManager.instance.loadData.buffList["TrueDamageUp"], 1, 10));
+        unit.nextBuff.Add(new Buff(DataManager.instance.loadData.buffList["TrueDefenseUp"], 1, 10));
         unit.hp -= Mathf.RoundToInt(unit.hp * 0.05f);
     }
 }
@@ -329,7 +329,7 @@ public class Skill_Stability : SkillScript
 {
     public override void End(Unit unit, Unit target)
     {
-        unit.nextBuff.Add(new Buff(DataManager.instance.loadData.debuffList["TrueDefenseDown"], 1, 10));
+        unit.nextBuff.Add(new Buff(DataManager.instance.loadData.debuffList["TrueDefenseDown"], 2, 10));
         int plushp = Mathf.RoundToInt(unit.hp * 0.1f);
         unit.hp = unit.hp + plushp >= unit.maxHP ? unit.maxHP : plushp;
     }
@@ -363,6 +363,26 @@ public class Skill_HyperSpeed : SkillScript
     {
         if (target.curSkill.propertyType == PropertyType.Slash || target.curSkill.propertyType == PropertyType.Penetrate || target.curSkill.propertyType == PropertyType.Hit){
             target.hp -= 30;
+        } 
+    }
+}
+
+public class Skill_OneCut : SkillScript
+{
+    public override void End(Unit unit, Unit target)
+    {
+        if (target.curSkill.propertyType != PropertyType.Slash){
+            unit.shield += Mathf.RoundToInt(unit.shield * 0.1f);
+        } 
+    }
+}
+
+public class Skill_Determination : SkillScript
+{
+    public override void End(Unit unit, Unit target)
+    {
+        if (target.curSkill.propertyType == PropertyType.Slash){
+            unit.hp -= unit.curMaxDamage;
         } 
     }
 }

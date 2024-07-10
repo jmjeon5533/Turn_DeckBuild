@@ -74,7 +74,7 @@ public abstract class Unit : MonoBehaviour
 
     public List<Buff> curBuff = new();
     public List<Buff> nextBuff = new();
-    public List<Buff> loopBuff = new(); 
+    public List<Buff> loopBuff = new();
     public List<Buff> usedBuff = new();
 
     public List<RequestSkill> attackRequest = new List<RequestSkill>();
@@ -183,7 +183,7 @@ public abstract class Unit : MonoBehaviour
             if (curBuff[i].buff.timing != timing) return;
 
             curBuff[i].buff.Use(this, curBuff[i].stack, curBuff[i].type);
-            Debug.Log(curBuff[i].buff +" / " + curBuff[i].stack+" / "+curBuff[i].count);
+            Debug.Log(curBuff[i].buff + " / " + curBuff[i].stack + " / " + curBuff[i].count);
 
             curBuff[i].count--;
         }
@@ -256,13 +256,17 @@ public abstract class Unit : MonoBehaviour
             }
         }
 
-        if(allClaer) {
-            for(int i = 0; i < loopBuff.Count; i++){
+        if (allClaer)
+        {
+            for (int i = 0; i < loopBuff.Count; i++)
+            {
                 loopBuff[i].loopStack++;
 
-                if(loopBuff[i].loopStack == loopBuff[i].loopCount){
+                if (loopBuff[i].loopStack == loopBuff[i].loopCount)
+                {
                     loopBuff[i].loopStack = 0;
-                    nextBuff.Add(new Buff(loopBuff[i].buff,  loopBuff[i].stack,  loopBuff[i].count,  loopBuff[i].type));
+                    Debug.Log($"Add {loopBuff[i].buff}");
+                    nextBuff.Add(new Buff(loopBuff[i].buff, loopBuff[i].stack, loopBuff[i].count, loopBuff[i].type));
                 }
             }
 
@@ -281,7 +285,7 @@ public abstract class Unit : MonoBehaviour
         curDamage = Mathf.FloorToInt(damage * attack_Drainage / count);
         curDamage += plusAttackValue;
 
-        if(curDamage <= 0) curDamage = 1;
+        if (curDamage <= 0) curDamage = 1;
         curAttackCount = count;
     }
     public RequestSkill ConvertRequest(Skill skill)
@@ -346,7 +350,7 @@ public abstract class Unit : MonoBehaviour
         }
         else
         {
-            damage += plusDefenseValue;
+            damage -= plusDefenseValue;
             dmgDelayCurTime = dmgDelayTime;
             var totalDmg = damage;
             shield -= totalDmg;
@@ -365,7 +369,7 @@ public abstract class Unit : MonoBehaviour
         //Debug.Log(damage);
         int totalDmg = 0;
         damage = Mathf.RoundToInt(damage * defense_Drainage);
-        damage += plusDefenseValue;
+        damage -= plusDefenseValue;
         if (shield <= 0)
         {
             totalDmg = Mathf.FloorToInt(2f * damage);

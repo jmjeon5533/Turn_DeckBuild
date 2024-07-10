@@ -75,10 +75,36 @@ public class SkillTree_PBuff : SkillTreeScript{
 
 public class SkillTree_PLoopBuff : SkillTreeScript{
     public override void Use(PlusStats plusStats, string value){
+        var buffInfor = value.Split('&');
 
+        plusStats.pLoopBuffs.Add(new Buff(DataManager.instance.loadData.buffList[buffInfor[0]],
+        int.Parse(buffInfor[1]), int.Parse(buffInfor[2]), buffInfor[3].EnumParse<PropertyType>())
+        {
+            loopCount = int.Parse(buffInfor[4])
+        });
     }
 }
 
+public class SkillTree_EBuff : SkillTreeScript{
+    public override void Use(PlusStats plusStats, string value){
+        var buffInfor = value.Split('&');
+
+        plusStats.eBuffs.Add(new Buff(DataManager.instance.loadData.buffList[buffInfor[0]], 
+        int.Parse(buffInfor[1]), int.Parse(buffInfor[2]), buffInfor[3].EnumParse<PropertyType>()));
+    }
+}
+
+public class SkillTree_ELoopBuff : SkillTreeScript{
+    public override void Use(PlusStats plusStats, string value){
+        var buffInfor = value.Split('&');
+        
+        plusStats.eLoopBuffs.Add(new Buff(DataManager.instance.loadData.buffList[buffInfor[0]],
+        int.Parse(buffInfor[1]), int.Parse(buffInfor[2]), buffInfor[3].EnumParse<PropertyType>())
+        {
+            loopCount = int.Parse(buffInfor[4])
+        });
+    }
+}
 public class SkillTree_ : SkillTreeScript
 {
     public override void Use(PlusStats plusStats, string value)
