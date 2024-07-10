@@ -51,8 +51,8 @@ MonoBehaviour:
   hp: 100
   maxHP: 100
   hpLimit: 0
-  shield: 200
-  maxShield: 200
+  shield: 175
+  maxShield: 175
   shieldBreak: 0
   curMinDamage: 0
   curMaxDamage: 0

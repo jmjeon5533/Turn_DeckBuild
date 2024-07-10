@@ -423,12 +423,12 @@ MonoBehaviour:
     animationName: Hit
     actionType: 1
     effect_desc: "[\uC800\uD56D 50% \uC774\uD558] \uD604\uC7AC \uC800\uD56D\uB825\uC758
-      20%\uB9CC\uD07C \uD68C\uBCF5"
+      20%\uB9CC\uD07C \uC800\uD56D\uB825 \uD68C\uBCF5"
     skill_desc: "\uC0C1\uB300\uC640 \uB098\uC758 \uAC80\uC2E0\uC744 \uB9DE\uBD80\uB52A\uD799\uB2C8\uB2E4."
     propertyType: 2
   - index: 25
     skillName: "\uC555\uBC15\uAC10"
-    cost: 00000000000000000000000000000000
+    cost: 01000000000000000000000000000000
     minDamage: 03000000040000000400000005000000
     maxDamage: 06000000060000000700000007000000
     level: 0
@@ -457,7 +457,7 @@ MonoBehaviour:
     animationName: Slash
     actionType: 1
     effect_desc: "\uB2E4\uC74C \uD134\uC5D0 \uBC1B\uB294 \uD53C\uD574\uB7C9 1 \uAC10\uC18C
-      \n \uD604\uC7AC \uCCB4\uB825\uC758 5%\uB9CC\uD07C \uAC10\uC18C"
+      \n \uD604\uC7AC \uCCB4\uB825\uC758 5%\uB9CC\uD07C \uCCB4\uB825 \uAC10\uC18C"
     skill_desc: "\uBC29\uC2EC\uD558\uC9C0 \uC54A\uAE30 \uC704\uD574 \uADFC\uC721\uC744
       \uAE34\uC7A5\uC2DC\uD0B5\uB2C8\uB2E4."
     propertyType: 1
@@ -475,7 +475,7 @@ MonoBehaviour:
     animationName: Penetrate
     actionType: 1
     effect_desc: "\uB2E4\uC74C \uD134\uC5D0 \uBC1B\uB294 \uD53C\uD574\uB7C9 2 \uC99D\uAC00
-      \n \uD604\uC7AC \uCCB4\uB825 10%\uB9CC\uD07C \uD68C\uBCF5"
+      \n \uD604\uC7AC \uCCB4\uB825 10%\uB9CC\uD07C \uCCB4\uB825 \uD68C\uBCF5"
     skill_desc: "\uBE60\uB978 \uD68C\uBCF5\uC744 \uC704\uD574 \uADFC\uC721\uC744
       \uC774\uC644\uD569\uB2C8\uB2E4."
     propertyType: 3
@@ -591,7 +591,7 @@ MonoBehaviour:
     keyIndex: 0
     sale: 125
     isOnlyEnemy: 1
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: 9c3a102c04c4dba44a4b862a8ec05c12, type: 3}
     animationName: Defense
     actionType: 2
     effect_desc: "\uB2E4\uC74C \uC2A4\uD0AC\uC758 \uD53C\uD574\uB7C9 100% \uC99D\uAC00"
@@ -607,7 +607,7 @@ MonoBehaviour:
     attackCount: 1
     keyIndex: 2
     sale: 125
-    isOnlyEnemy: 0
+    isOnlyEnemy: 1
     icon: {fileID: 21300000, guid: 6eac8947e2c9ded45b690adfcdaffd52, type: 3}
     animationName: Chain
     actionType: 4
@@ -623,7 +623,7 @@ MonoBehaviour:
     attackCount: 1
     keyIndex: 2
     sale: 125
-    isOnlyEnemy: 0
+    isOnlyEnemy: 1
     icon: {fileID: 21300000, guid: a1cc25a8a78370140a13f165a80ea10a, type: 3}
     animationName: Chain
     actionType: 4
@@ -717,7 +717,7 @@ MonoBehaviour:
     propertyType: 1
   - index: 42
     skillName: "\uBC1C\uAC80"
-    cost: 00000000000000000000000000000000
+    cost: 01000000000000000000000000000000
     minDamage: 04000000060000000600000007000000
     maxDamage: 0800000008000000090000000b000000
     level: 0
@@ -750,17 +750,53 @@ MonoBehaviour:
     skill_desc: "\uC5C4\uCCAD\uB09C \uC18D\uB3C4\uB85C \uC0C1\uB300\uB97C \uB450
       \uBC88 \uBCA0\uC5B4\uB0C5\uB2C8\uB2E4."
     propertyType: 1
+  - index: 44
+    skillName: "\uC77C\uC12C"
+    cost: 00000000000000000000000000000000
+    minDamage: 05000000060000000600000007000000
+    maxDamage: 0700000008000000090000000b000000
+    level: 0
+    attackCount: 1
+    keyIndex: 1
+    sale: 125
+    isOnlyEnemy: 1
+    icon: {fileID: 0}
+    animationName: Slash
+    actionType: 1
+    effect_desc: "[[\uB300\uC0C1] \uCC38\uACA9 \uC678 \uC0AC\uC6A9] \uD604\uC7AC
+      \uC800\uD56D\uB825\uC758 10%\uB9CC\uD07C \uC800\uD56D\uB825 \uD68C\uBCF5"
+    skill_desc: "\uC0C1\uB300\uB97C \uAE54\uB054\uD558\uAC8C \uD55C \uBC88 \uBCA0\uC5B4\uB0C5\uB2C8\uB2E4."
+    propertyType: 1
+  - index: 45
+    skillName: "\uAC01\uC624"
+    cost: 00000000000000000000000000000000
+    minDamage: 12000000060000000600000007000000
+    maxDamage: 1400000008000000090000000b000000
+    level: 0
+    attackCount: 1
+    keyIndex: 1
+    sale: 125
+    isOnlyEnemy: 1
+    icon: {fileID: 0}
+    animationName: Defense
+    actionType: 2
+    effect_desc: "[[\uB300\uC0C1] \uCC38\uACA9 \uC0AC\uC6A9] \uC774 \uC2A4\uD0AC\uC758
+      \uCD5C\uB300 \uD53C\uD574\uB7C9\uB9CC\uD07C \uC790\uC2E0\uC758 \uCCB4\uB825
+      \uAC10\uC18C"
+    skill_desc: "\uAC01\uC624\uB97C \uB2E4\uC7A1\uACE0 \uC0C1\uB300\uC758 \uAC80\uC5D0
+      \uC9D1\uC911\uD569\uB2C8\uB2E4."
+    propertyType: 4
   SpawnData:
   - maps: {fileID: 513236402157948046, guid: 32cd0f522adbe984faf58457b098cad3, type: 3}
     enemies:
     - {fileID: 8111559515902139154, guid: 5e255b8bf0b17e0448842383ab69a4ec, type: 3}
-  - maps: {fileID: 513236402157948046, guid: 135c97d9b1a1d8342a68c46ae1d2c2f6, type: 3}
+  - maps: {fileID: 513236402157948046, guid: a8dd50686cbd709499c95ce0a35b4814, type: 3}
     enemies:
     - {fileID: 8111559515902139154, guid: ba7c4d240de3b63468f0c572baeb53cb, type: 3}
-  - maps: {fileID: 513236402157948046, guid: 135c97d9b1a1d8342a68c46ae1d2c2f6, type: 3}
+  - maps: {fileID: 513236402157948046, guid: a8dd50686cbd709499c95ce0a35b4814, type: 3}
     enemies:
     - {fileID: 8111559515902139154, guid: cc99f2313e37ce942bf38b847d14aee7, type: 3}
-  - maps: {fileID: 513236402157948046, guid: a8dd50686cbd709499c95ce0a35b4814, type: 3}
+  - maps: {fileID: 513236402157948046, guid: 5710905efc73e684a9661ac31eaf74b2, type: 3}
     enemies:
     - {fileID: 8111559515902139154, guid: ba7c4d240de3b63468f0c572baeb53cb, type: 3}
     - {fileID: 8111559515902139154, guid: 4fa30b83d74663e4298e90238db9218f, type: 3}

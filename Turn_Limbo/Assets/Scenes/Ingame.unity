@@ -1435,8 +1435,8 @@ MonoBehaviour:
   dmgDelayTime: 0
   dmgDelayCurTime: 0
   coinLimit: 0
-  addCoin: 2
-  nextTurnAddCoin: 2
+  addCoin: 3
+  nextTurnAddCoin: 3
 --- !u!95 &1715296848
 Animator:
   serializedVersion: 5
