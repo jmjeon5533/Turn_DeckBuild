@@ -335,6 +335,10 @@ public class Controller : MonoBehaviour, IInitObserver
         {
             Destroy(child.gameObject);
         }
+        foreach(Transform child in player.unitUI.requestUIParent)
+        {
+            Destroy(child.gameObject);
+        }
         enemy.target = null;
         enemy.unitUI = null;
         player.target = null;
