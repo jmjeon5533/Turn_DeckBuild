@@ -117,8 +117,8 @@ MonoBehaviour:
   - index: 7
     skillName: "\uB9C9\uAE30"
     cost: 01000000010000000100000001000000
-    minDamage: 03000000050000000500000006000000
-    maxDamage: 06000000060000000700000009000000
+    minDamage: 05000000070000000700000008000000
+    maxDamage: 0800000008000000090000000b000000
     level: 0
     attackCount: 1
     keyIndex: 0
@@ -133,8 +133,8 @@ MonoBehaviour:
   - index: 8
     skillName: "\uD758\uB9AC\uAE30"
     cost: 01000000010000000100000001000000
-    minDamage: 05000000070000000700000008000000
-    maxDamage: 09000000090000000a0000000c000000
+    minDamage: 0700000009000000090000000a000000
+    maxDamage: 0b0000000b0000000c0000000e000000
     level: 0
     attackCount: 1
     keyIndex: 1
@@ -150,8 +150,8 @@ MonoBehaviour:
   - index: 9
     skillName: "\uCCD0\uB0B4\uAE30"
     cost: 01000000010000000100000001000000
-    minDamage: 02000000030000000300000004000000
-    maxDamage: 04000000040000000600000008000000
+    minDamage: 04000000050000000500000006000000
+    maxDamage: 0600000006000000080000000a000000
     level: 0
     attackCount: 1
     keyIndex: 2
@@ -289,8 +289,8 @@ MonoBehaviour:
   - index: 17
     skillName: "\uD638\uD761"
     cost: 02000000020000000200000002000000
-    minDamage: 05000000060000000600000008000000
-    maxDamage: 08000000080000000a0000000c000000
+    minDamage: 090000000b0000000b0000000c000000
+    maxDamage: 0c0000000c0000000d0000000f000000
     level: 0
     attackCount: 1
     keyIndex: 0
@@ -306,8 +306,8 @@ MonoBehaviour:
   - index: 18
     skillName: "\uC9C0\uD608"
     cost: 02000000020000000100000001000000
-    minDamage: 01000000010000000100000001000000
-    maxDamage: 01000000010000000100000001000000
+    minDamage: 0700000009000000090000000a000000
+    maxDamage: 0b0000000b0000000c0000000e000000
     level: 0
     attackCount: 1
     keyIndex: 1
@@ -323,9 +323,9 @@ MonoBehaviour:
     propertyType: 4
   - index: 19
     skillName: "\uD22C\uC9C0"
-    cost: 02000000020000000200000002000000
-    minDamage: 01000000010000000100000001000000
-    maxDamage: 01000000010000000100000001000000
+    cost: 02000000020000000100000001000000
+    minDamage: 0700000009000000090000000a000000
+    maxDamage: 0b0000000b0000000c0000000e000000
     level: 0
     attackCount: 1
     keyIndex: 2
@@ -376,8 +376,8 @@ MonoBehaviour:
   - index: 22
     skillName: "\uD560\uBCF5"
     cost: 02000000000000000000000000000000
-    minDamage: 0a0000000f000000140000001e000000
-    maxDamage: 14000000190000001e0000002d000000
+    minDamage: 0a0000000f0000001400000019000000
+    maxDamage: 14000000190000001e0000001e000000
     level: 0
     attackCount: 1
     keyIndex: 2
@@ -581,6 +581,175 @@ MonoBehaviour:
     effect_desc: "act 2\uB97C \uD68D\uB4DD"
     skill_desc: "\uC0C1\uB300\uC758 \uAC80\uC5D0 \uC2DC\uC57C\uB97C \uC9D1\uC911\uD569\uB2C8\uB2E4."
     propertyType: 4
+  - index: 34
+    skillName: "\uC228\uACE0\uB974\uAE30"
+    cost: 03000000030000000300000003000000
+    minDamage: 0d0000000f0000000f00000010000000
+    maxDamage: 11000000110000001200000014000000
+    level: 0
+    attackCount: 1
+    keyIndex: 0
+    sale: 125
+    isOnlyEnemy: 1
+    icon: {fileID: 0}
+    animationName: Defense
+    actionType: 2
+    effect_desc: "\uB2E4\uC74C \uC2A4\uD0AC\uC758 \uD53C\uD574\uB7C9 100% \uC99D\uAC00"
+    skill_desc: "\uC7A0\uC2DC \uD589\uB3D9\uC744 \uBA48\uCD94\uACE0 \uCE68\uCC29\uD568\uC744
+      \uC720\uC9C0\uD569\uB2C8\uB2E4."
+    propertyType: 4
+  - index: 35
+    skillName: "\uC12C"
+    cost: 02000000020000000200000002000000
+    minDamage: 080000000c0000000f00000014000000
+    maxDamage: 080000000c0000000f00000014000000
+    level: 0
+    attackCount: 1
+    keyIndex: 2
+    sale: 125
+    isOnlyEnemy: 0
+    icon: {fileID: 0}
+    animationName: Chain
+    actionType: 4
+    effect_desc: 
+    skill_desc: "\uB0A0\uCE74\uB85C\uC6B4 \uAC80\uACA9"
+    propertyType: 5
+  - index: 36
+    skillName: "\uCC3D"
+    cost: 01000000010000000100000001000000
+    minDamage: 080000000a0000000c0000000f000000
+    maxDamage: 080000000a0000000c0000000f000000
+    level: 0
+    attackCount: 1
+    keyIndex: 2
+    sale: 125
+    isOnlyEnemy: 0
+    icon: {fileID: 0}
+    animationName: Chain
+    actionType: 4
+    effect_desc: "[[\uCCB4\uC778] 2 \uC774\uD558] act 3 \uD68C\uBCF5"
+    skill_desc: "\uD478\uB974\uB978 \uAE30\uC6B4\uC774"
+    propertyType: 5
+  - index: 37
+    skillName: "\uD608"
+    cost: 02000000020000000200000002000000
+    minDamage: 03000000080000000e00000012000000
+    maxDamage: 03000000080000000e00000012000000
+    level: 0
+    attackCount: 1
+    keyIndex: 0
+    sale: 125
+    isOnlyEnemy: 1
+    icon: {fileID: 0}
+    animationName: Chain
+    actionType: 4
+    effect_desc: "[[\uCCB4\uC778] 3 \uC774\uC0C1] \uB2E4\uC74C 2\uD134 \uB3D9\uC548
+      '\uC0C1\uCC98' \uBD80\uC5EC"
+    skill_desc: "\uD750\uB974\uB294 \uC120\uD608\uC774"
+    propertyType: 5
+  - index: 38
+    skillName: "\uC0B0"
+    cost: 02000000020000000200000002000000
+    minDamage: 0a000000140000001e00000028000000
+    maxDamage: 0a000000140000001e00000028000000
+    level: 0
+    attackCount: 1
+    keyIndex: 0
+    sale: 125
+    isOnlyEnemy: 1
+    icon: {fileID: 0}
+    animationName: Chain
+    actionType: 4
+    effect_desc: "[[\uCCB4\uC778] 3 \uC774\uC0C1] \uB2E4\uC74C 2\uD134 \uB3D9\uC548
+      \uCC38\uACA9 \uD53C\uD574\uB7C9 10% \uC99D\uAC00"
+    skill_desc: "\uD769\uC5B4\uC9C0\uACE0"
+    propertyType: 5
+  - index: 39
+    skillName: "\uC2DC"
+    cost: 02000000020000000200000002000000
+    minDamage: 0f000000140000001e00000028000000
+    maxDamage: 0f000000140000001e00000028000000
+    level: 0
+    attackCount: 1
+    keyIndex: 1
+    sale: 125
+    isOnlyEnemy: 1
+    icon: {fileID: 0}
+    animationName: Chain
+    actionType: 4
+    effect_desc: "[[\uCCB4\uC778] 3 \uC774\uC0C1] \uC0C1\uB300 \uC800\uD56D\uB825\uC5D0
+      25 \uD53C\uD574"
+    skill_desc: "\uC801\uC758 \uC0B4\uAC17\uC740"
+    propertyType: 5
+  - index: 40
+    skillName: "\uD574"
+    cost: 02000000020000000200000002000000
+    minDamage: 060000000c0000001200000018000000
+    maxDamage: 060000000c0000001200000019000000
+    level: 0
+    attackCount: 1
+    keyIndex: 1
+    sale: 125
+    isOnlyEnemy: 1
+    icon: {fileID: 0}
+    animationName: Chain
+    actionType: 4
+    effect_desc: "[[\uCCB4\uC778] 4 \uC774\uC0C1] \uB2E4\uC74C \uC2A4\uD0AC\uC758
+      \uD53C\uD574\uB7C9 25% \uC99D\uAC00"
+    skill_desc: "\uBC14\uB2E4\uB97C \uC774\uB8E8\uB9AC"
+    propertyType: 5
+  - index: 41
+    skillName: "\uBC1C\uB3C4"
+    cost: 00000000000000000000000000000000
+    minDamage: 0e0000000e0000000e0000000e000000
+    maxDamage: 18000000180000001800000018000000
+    level: 0
+    attackCount: 1
+    keyIndex: 0
+    sale: 125
+    isOnlyEnemy: 1
+    icon: {fileID: 0}
+    animationName: Slash
+    actionType: 1
+    effect_desc: "[[\uB300\uC0C1] \uBC29\uC5B4 \uC0AC\uC6A9] \uC0C1\uB300 \uC800\uD56D\uB825\uC5D0
+      999 \uD53C\uD574"
+    skill_desc: "\uAC80\uC744 \uBF51\uC544 \uC804\uD22C\uB97C \uC900\uBE44\uD569\uB2C8\uB2E4."
+    propertyType: 1
+  - index: 42
+    skillName: "\uBC1C\uAC80"
+    cost: 00000000000000000000000000000000
+    minDamage: 04000000060000000600000007000000
+    maxDamage: 0800000008000000090000000b000000
+    level: 0
+    attackCount: 1
+    keyIndex: 0
+    sale: 500
+    isOnlyEnemy: 0
+    icon: {fileID: 0}
+    animationName: Slash
+    actionType: 1
+    effect_desc: "[[\uB300\uC0C1] \uBC29\uC5B4 \uC0AC\uC6A9] \uC0C1\uB300 \uC800\uD56D\uB825\uC5D0
+      20 \uD53C\uD574 \n act 2\uB97C \uD68D\uB4DD"
+    skill_desc: "\uAC80\uC744 \uBF51\uC544 \uC804\uD22C\uB97C \uC900\uBE44\uD569\uB2C8\uB2E4."
+    propertyType: 1
+  - index: 43
+    skillName: "\uC18D\uAC80"
+    cost: 00000000000000000000000000000000
+    minDamage: 0a000000060000000600000007000000
+    maxDamage: 0f00000008000000090000000b000000
+    level: 0
+    attackCount: 2
+    keyIndex: 0
+    sale: 125
+    isOnlyEnemy: 1
+    icon: {fileID: 0}
+    animationName: Slash
+    actionType: 1
+    effect_desc: "[[\uB300\uC0C1] \uACF5\uACA9 \uC0AC\uC6A9] \uC0C1\uB300 \uCCB4\uB825\uC5D0
+      30 \uD53C\uD574"
+    skill_desc: "\uC5C4\uCCAD\uB09C \uC18D\uB3C4\uB85C \uC0C1\uB300\uB97C \uB450
+      \uBC88 \uBCA0\uC5B4\uB0C5\uB2C8\uB2E4."
+    propertyType: 1
   SpawnData:
   - maps: {fileID: 513236402157948046, guid: 32cd0f522adbe984faf58457b098cad3, type: 3}
     enemies:
@@ -592,6 +761,10 @@ MonoBehaviour:
   - maps: {fileID: 513236402157948046, guid: 135c97d9b1a1d8342a68c46ae1d2c2f6, type: 3}
     enemies:
     - {fileID: 8111559515902139154, guid: cc99f2313e37ce942bf38b847d14aee7, type: 3}
+  - maps: {fileID: 513236402157948046, guid: 135c97d9b1a1d8342a68c46ae1d2c2f6, type: 3}
+    enemies:
+    - {fileID: 8111559515902139154, guid: cc99f2313e37ce942bf38b847d14aee7, type: 3}
+    - {fileID: 8111559515902139154, guid: 4fa30b83d74663e4298e90238db9218f, type: 3}
   enemyData:
   - index: 1
     name: "\uBE44\uCC2C\uD76C"
