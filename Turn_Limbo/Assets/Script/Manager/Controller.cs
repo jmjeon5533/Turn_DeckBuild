@@ -96,6 +96,7 @@ public class Controller : MonoBehaviour, IInitObserver
         color.saturation.value = 0;
 
         data.plusStats.AddStats(player);
+        data.plusStats.AddBuff(player);
     }
     public void SetStage()
     {

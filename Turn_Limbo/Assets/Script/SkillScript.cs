@@ -132,7 +132,7 @@ public class Skill_Cut : SkillScript
 {
     public override void End(Unit unit, Unit target)
     {
-        if (unit.isAttack && unit.TryGetComponent<Player>(out var p))
+        if (unit.TryGetComponent<Player>(out var p))
             p.PlusCoin(2);
     }
 }
@@ -211,7 +211,7 @@ public class Skill_LengthCut : SkillScript
 {
     public override void End(Unit unit, Unit target)
     {
-        if (unit.isAttack) unit.curBuff.Add(new Buff(DataManager.instance.loadData.buffList["AttackUp"], 15, 10));       
+        unit.curBuff.Add(new Buff(DataManager.instance.loadData.buffList["AttackUp"], 15, 10));       
     }
 }
 
@@ -236,7 +236,7 @@ public class Skill_CrossCut : SkillScript
 public class Skill_Breath : SkillScript{
     public override void End(Unit unit, Unit target)
     {
-        if (target.isAttack && unit.TryGetComponent<Player>(out var p)) p.PlusCoin(3);        
+        if ((target.curSkill.propertyType == PropertyType.Slash || target.curSkill.propertyType == PropertyType.Penetrate || target.curSkill.propertyType == PropertyType.Hit) && unit.TryGetComponent<Player>(out var p)) p.PlusCoin(3);        
     }
 }
 
@@ -332,6 +332,38 @@ public class Skill_Stability : SkillScript
         unit.nextBuff.Add(new Buff(DataManager.instance.loadData.debuffList["TrueDefenseDown"], 1, 10));
         int plushp = Mathf.RoundToInt(unit.hp * 0.1f);
         unit.hp = unit.hp + plushp >= unit.maxHP ? unit.maxHP : plushp;
+    }
+}
+
+public class Skill_BattoOjutz_Enemy : SkillScript
+{
+    public override void End(Unit unit, Unit target)
+    {
+        if (target.curSkill.propertyType == PropertyType.Defense){
+            target.shield -= 999;
+        } 
+    }
+}
+
+public class Skill_BattoOjutz : SkillScript
+{
+    public override void End(Unit unit, Unit target)
+    {
+        if (target.curSkill.propertyType == PropertyType.Defense){
+            target.shield -= 20;
+            if (unit.TryGetComponent<Player>(out var p))
+            p.PlusCoin(3);
+        } 
+    }
+}
+
+public class Skill_HyperSpeed : SkillScript
+{
+    public override void End(Unit unit, Unit target)
+    {
+        if (target.curSkill.propertyType == PropertyType.Slash || target.curSkill.propertyType == PropertyType.Penetrate || target.curSkill.propertyType == PropertyType.Hit){
+            target.hp -= 30;
+        } 
     }
 }
 

@@ -38,6 +38,9 @@ public class Buff
         stack = _stack;
         count = _count;
     }
+
+    public int loopStack;
+    public int loopCount;
 }
 
 public enum BuffTiming
@@ -71,6 +74,7 @@ public abstract class Unit : MonoBehaviour
 
     public List<Buff> curBuff = new();
     public List<Buff> nextBuff = new();
+    public List<Buff> loopBuff = new(); 
     public List<Buff> usedBuff = new();
 
     public List<RequestSkill> attackRequest = new List<RequestSkill>();
@@ -143,8 +147,6 @@ public abstract class Unit : MonoBehaviour
     public virtual void TurnInit()
     {
         curBuff = ClearBuffList(curBuff, true);
-
-        //Debug.Log($"{this} : {curBuff.Count} / {usedBuff.Count}");
 
         isAttack = true;
         nextSkill = nullSkill;
@@ -255,6 +257,15 @@ public abstract class Unit : MonoBehaviour
         }
 
         if(allClaer) {
+            for(int i = 0; i < loopBuff.Count; i++){
+                loopBuff[i].loopStack++;
+
+                if(loopBuff[i].loopStack == loopBuff[i].loopCount){
+                    loopBuff[i].loopStack = 0;
+                    nextBuff.Add(new Buff(loopBuff[i].buff,  loopBuff[i].stack,  loopBuff[i].count,  loopBuff[i].type));
+                }
+            }
+
             temp = ClearBuffList(nextBuff);
             nextBuff.Clear();
         }
