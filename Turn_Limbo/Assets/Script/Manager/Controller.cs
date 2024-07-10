@@ -116,24 +116,8 @@ public class Controller : MonoBehaviour, IInitObserver
         enemy.target = player;
         player.target = enemy;
         enemy.unitUI = UIManager.instance.unitUI[1];
-        enemy.transform.DOMoveX(5, 0.5f);
+        enemy.transform.DOMoveX(5,0.5f);
         spawnCount++;
-
-        GiveEnemySkill();
-
-    }
-    public void GiveEnemySkill()
-    {
-        var skillList = enemy.skillInfo;
-        for (int i = 0; i < skillList.selectIndex.Count; i++)
-        {
-            var newSkill = new HoldSkills()
-            {
-                holdIndex = i,
-                level = 0
-            };
-            skillList.holdSkills.TryAdd(skillList.selectIndex[i], newSkill);
-        }
     }
     public void TurnReset()
     {
@@ -152,9 +136,9 @@ public class Controller : MonoBehaviour, IInitObserver
     }
     public void TurnEnd()
     {
-        if (enemy == null)
+        if(enemy == null)
         {
-            if (spawnCount < DataManager.instance.loadData.SpawnData[DataManager.instance.curStageID].enemies.Count)
+            if(spawnCount < DataManager.instance.loadData.SpawnData[DataManager.instance.curStageID].enemies.Count)
             {
                 SpawnEnemy();
                 InitEnemy();
@@ -176,8 +160,8 @@ public class Controller : MonoBehaviour, IInitObserver
     {
         var d = DataManager.instance;
         var count = (useTurnCount - 1) % enemy.skillInfo.turnActCounts.Count;
-        var coinCount = isEnemyRandomSkillCount
-        ? Random.Range(enemy.requestMinCount, enemy.requestMaxCount + 1)
+        var coinCount = isEnemyRandomSkillCount 
+        ? Random.Range(enemy.requestMinCount, enemy.requestMaxCount + 1) 
         : enemy.skillInfo.turnActCounts[count];
 
         // print(coinCount);
@@ -324,31 +308,22 @@ public class Controller : MonoBehaviour, IInitObserver
     public void PhaseEnd()
     {
         if (player.hp <= 0) GameOver();
-        else StartCoroutine(KillEnemy());
+        else KillEnemy();
     }
-    public IEnumerator KillEnemy()
+    public void KillEnemy()
     {
         var deadEnemy = enemy;
-        yield return deadEnemy.transform.DOMoveX(12, 0.5f).OnComplete(() => Destroy(deadEnemy.gameObject)).WaitForCompletion();
-
-        foreach(Transform child in enemy.unitUI.requestUIParent)
-        {
-            Destroy(child.gameObject);
-        }
+        deadEnemy.transform.DOMoveX(12, 0.5f).OnComplete(() => Destroy(deadEnemy.gameObject));
         enemy.target = null;
         enemy.unitUI = null;
         player.target = null;
         enemy = null;
-        useTurnCount = 0;
-
 
         if (spawnCount >= DataManager.instance.loadData.SpawnData[DataManager.instance.curStageID].enemies.Count)
             GameClear();
     }
     public void GameOver()
     {
-        UIManager.instance.isPause = true;
-                Time.timeScale = 0;
         UIManager.instance.SetGameEndUI(false);
     }
     public void GameClear()
@@ -476,7 +451,7 @@ public class Controller : MonoBehaviour, IInitObserver
     IEnumerator AttackStart(Unit unit)
     {
         var skill = unit.curSkill;
-        print($"{unit.name} : {unit.curAttackCount},{unit.curSkill.index}");
+        //print($"{unit.name} : {unit.curAttackCount}");
         if (unit.curSkill.actionType == Unit.ActionType.none) yield break;
 
         unit.InitCurSkillDamage(skill.minDamage[unit.skillInfo.holdSkills[skill.index - 1].level],

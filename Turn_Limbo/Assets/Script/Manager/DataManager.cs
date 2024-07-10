@@ -49,19 +49,18 @@ public class DataManager : MonoBehaviour
     }
     private void JsonReset()
     {
-
+        
     }
     public void JsonLoad()
     {
         var data = PlayerPrefs.GetString("SaveData");
-
+        
         saveData = JsonConvert.DeserializeObject<SaveData>(data) ?? new SaveData();
-        if (!saveData.isInitialize)
+        if(!saveData.isInitialize)
         {
             saveData.isInitialize = true;
-            for (int i = 0; i < 6; i++)
-                saveData.holdSkills.Add(i, new() { holdIndex = i, level = 0 });
-            saveData.money += 500;
+            for(int i = 0; i < 6; i++)
+                saveData.holdSkills.Add(i,new() { holdIndex = i, level = 0 });
         }
         player.holdSkills = saveData.holdSkills;
         player.selectIndex = saveData.selectIndex;
@@ -91,9 +90,9 @@ public class DataManager : MonoBehaviour
 
     public void InitDialog()
     {
-        if (loadData.stageDialogBox.TryGetValue(curStageID, out Queue<Dialogue> stage)) stageDialogBox = stage;
-
-        if (loadData.hpDialogBox.TryGetValue(curStageID, out Queue<Queue<Dialogue>> hp)) hpDialogBox = hp;
+        if(loadData.stageDialogBox.TryGetValue(curStageID, out Queue<Dialogue> stage)) stageDialogBox = stage;
+        
+        if(loadData.hpDialogBox.TryGetValue(curStageID, out Queue<Queue<Dialogue>> hp)) hpDialogBox = hp;
     }
 
     public void InitUnit(Unit unit)
