@@ -347,6 +347,8 @@ public class Controller : MonoBehaviour, IInitObserver
     }
     public void GameOver()
     {
+        UIManager.instance.isPause = true;
+                Time.timeScale = 0;
         UIManager.instance.SetGameEndUI(false);
     }
     public void GameClear()
