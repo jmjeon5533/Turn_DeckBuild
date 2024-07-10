@@ -124,7 +124,7 @@ public abstract class Unit : MonoBehaviour
     [HideInInspector] public float dmgDelayTime;
     [SerializeField] private float dmgDelayCurTime;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         maxColorTime = 0.25f;
         spriteRenderer = GetComponent<SpriteRenderer>();

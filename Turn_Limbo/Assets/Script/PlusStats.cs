@@ -55,5 +55,10 @@ public class PlusStats : ScriptableObject
         attack_Drainage = 0;
         defense_Drainage = 0;
         addCoin = 0;
+
+        pBuffs.Clear();
+        pLoopBuffs.Clear();
+        eBuffs.Clear();
+        eLoopBuffs.Clear();
     }
 }

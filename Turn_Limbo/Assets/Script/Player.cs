@@ -7,8 +7,14 @@ using UnityEngine.UI;
 public class Player : Unit
 {
     public bool coinLimit;
-    public int addCoin = 3;
-    public int nextTurnAddCoin;
+    public int addCoin;
+    public int nextTurnAddCoin ;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        nextTurnAddCoin = addCoin;
+    }
 
     public override void TurnInit()
     {
