@@ -338,6 +338,7 @@ public class Controller : MonoBehaviour, IInitObserver
         enemy.unitUI = null;
         player.target = null;
         enemy = null;
+        useTurnCount = 1;
 
 
         if (spawnCount >= DataManager.instance.loadData.SpawnData[DataManager.instance.curStageID].enemies.Count)

@@ -608,7 +608,7 @@ MonoBehaviour:
     keyIndex: 2
     sale: 125
     isOnlyEnemy: 0
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: 6eac8947e2c9ded45b690adfcdaffd52, type: 3}
     animationName: Chain
     actionType: 4
     effect_desc: 
@@ -624,7 +624,7 @@ MonoBehaviour:
     keyIndex: 2
     sale: 125
     isOnlyEnemy: 0
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: a1cc25a8a78370140a13f165a80ea10a, type: 3}
     animationName: Chain
     actionType: 4
     effect_desc: "[[\uCCB4\uC778] 2 \uC774\uD558] act 3 \uD68C\uBCF5"
@@ -640,7 +640,7 @@ MonoBehaviour:
     keyIndex: 0
     sale: 125
     isOnlyEnemy: 1
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: 38d64c9e62b493547b0439615a2a7323, type: 3}
     animationName: Chain
     actionType: 4
     effect_desc: "[[\uCCB4\uC778] 3 \uC774\uC0C1] \uB2E4\uC74C 2\uD134 \uB3D9\uC548
@@ -657,7 +657,7 @@ MonoBehaviour:
     keyIndex: 0
     sale: 125
     isOnlyEnemy: 1
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: 32af75a70cd3f9d4fbd9545dd107cf2a, type: 3}
     animationName: Chain
     actionType: 4
     effect_desc: "[[\uCCB4\uC778] 3 \uC774\uC0C1] \uB2E4\uC74C 2\uD134 \uB3D9\uC548
@@ -674,7 +674,7 @@ MonoBehaviour:
     keyIndex: 1
     sale: 125
     isOnlyEnemy: 1
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: 12b424aaba45cf845ba6161af8043e8b, type: 3}
     animationName: Chain
     actionType: 4
     effect_desc: "[[\uCCB4\uC778] 3 \uC774\uC0C1] \uC0C1\uB300 \uC800\uD56D\uB825\uC5D0
@@ -691,7 +691,7 @@ MonoBehaviour:
     keyIndex: 1
     sale: 125
     isOnlyEnemy: 1
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: f23db99880d3b9249a9e6e14dbee3cbf, type: 3}
     animationName: Chain
     actionType: 4
     effect_desc: "[[\uCCB4\uC778] 4 \uC774\uC0C1] \uB2E4\uC74C \uC2A4\uD0AC\uC758
@@ -708,7 +708,7 @@ MonoBehaviour:
     keyIndex: 0
     sale: 125
     isOnlyEnemy: 1
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: c63093d2d1e1a8f4da1a841ca4be0e27, type: 3}
     animationName: Slash
     actionType: 1
     effect_desc: "[[\uB300\uC0C1] \uBC29\uC5B4 \uC0AC\uC6A9] \uC0C1\uB300 \uC800\uD56D\uB825\uC5D0
@@ -725,7 +725,7 @@ MonoBehaviour:
     keyIndex: 0
     sale: 500
     isOnlyEnemy: 0
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: 503163479d07b164f8941a3a23e6d256, type: 3}
     animationName: Slash
     actionType: 1
     effect_desc: "[[\uB300\uC0C1] \uBC29\uC5B4 \uC0AC\uC6A9] \uC0C1\uB300 \uC800\uD56D\uB825\uC5D0
@@ -742,7 +742,7 @@ MonoBehaviour:
     keyIndex: 0
     sale: 125
     isOnlyEnemy: 1
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: cf4618fa0f13ab84696a6d2d389e88a5, type: 3}
     animationName: Slash
     actionType: 1
     effect_desc: "[[\uB300\uC0C1] \uACF5\uACA9 \uC0AC\uC6A9] \uC0C1\uB300 \uCCB4\uB825\uC5D0
@@ -761,7 +761,7 @@ MonoBehaviour:
   - maps: {fileID: 513236402157948046, guid: 135c97d9b1a1d8342a68c46ae1d2c2f6, type: 3}
     enemies:
     - {fileID: 8111559515902139154, guid: cc99f2313e37ce942bf38b847d14aee7, type: 3}
-  - maps: {fileID: 513236402157948046, guid: 135c97d9b1a1d8342a68c46ae1d2c2f6, type: 3}
+  - maps: {fileID: 513236402157948046, guid: a8dd50686cbd709499c95ce0a35b4814, type: 3}
     enemies:
     - {fileID: 8111559515902139154, guid: cc99f2313e37ce942bf38b847d14aee7, type: 3}
     - {fileID: 8111559515902139154, guid: 4fa30b83d74663e4298e90238db9218f, type: 3}
