@@ -387,6 +387,46 @@ public class Skill_Determination : SkillScript
     }
 }
 
+public class Skill_LengthCut_Enemy : SkillScript
+{
+    public override void End(Unit unit, Unit target)
+    {
+        if (target.curSkill.propertyType != PropertyType.Slash){
+            unit.curBuff.Add(new Buff(DataManager.instance.loadData.buffList["AttackUp"], 50, 10));     
+        } 
+    }
+}
+
+public class Skill_WidthCut_Enemy : SkillScript
+{
+    public override void End(Unit unit, Unit target)
+    {
+        if (target.curSkill.propertyType != PropertyType.Slash){
+            target.isAttack = false;  
+        } 
+    }
+}
+
+public class Skill_Equanimity_Enemy : SkillScript
+{
+    public override void End(Unit unit, Unit target)
+    {
+        if (target.curSkill.propertyType != PropertyType.Slash){
+            unit.hp += Mathf.RoundToInt(unit.maxHP * 0.25f);
+        } 
+    }
+}
+
+public class Skill_Equanimity : SkillScript
+{
+    public override void End(Unit unit, Unit target)
+    {
+        if (target.curSkill.propertyType == PropertyType.Slash && unit.TryGetComponent<Player>(out var p)){
+            p.PlusCoin(3);
+        } 
+    }
+}
+
 public class Skill_ : SkillScript
 {
 
