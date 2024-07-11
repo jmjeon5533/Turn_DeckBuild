@@ -87,6 +87,7 @@ public class DataManager : MonoBehaviour
     public Queue<Queue<Dialogue>> hpDialogBox = new();
     public PlusStats plusStats;
     [HideInInspector] public TreeNode startNode;
+    public Controller.Modes curMode = Controller.Modes.stage;
 
     public bool hpUnitIsPlayer;
     public bool readEnd;

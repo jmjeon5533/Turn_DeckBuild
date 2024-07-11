@@ -297,7 +297,7 @@ public class ReadSpreadSheet : MonoBehaviour
             curNode.parentNode = parentNode;
             curNode.isParent = true;
             curNode.lineNum = curLine;
-            curNode.isOpen = parentSaveData[curLine - 1][saveParentIndex[curLine]];
+            if(d.saveData.treeData != null) curNode.isOpen = parentSaveData[curLine - 1][saveParentIndex[curLine]];
             saveParentIndex[curLine]++;
             parentNode.childNode.Add(curNode);
         }
@@ -308,7 +308,7 @@ public class ReadSpreadSheet : MonoBehaviour
 
             curNode.parentNode = parentNode;
             curNode.lineNum = curLine;
-            curNode.isOpen = childSaveData[curLine -1][saveChildIndex[curLine]];
+            if(d.saveData.treeData != null) curNode.isOpen = childSaveData[curLine -1][saveChildIndex[curLine]];
             saveChildIndex[curLine]++;
             parentNode.childNode.Add(curNode);
         }

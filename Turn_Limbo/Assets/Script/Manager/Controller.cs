@@ -59,6 +59,12 @@ public class Controller : MonoBehaviour, IInitObserver
     public bool isEnemyRandomSkillCount;
     public bool isEnemyRandomSkillIndex;
 
+    public enum Modes
+    {
+        stage,
+        rogLike
+    }
+
     private int lastSign;
     private int spawnCount = 0;
 
@@ -102,15 +108,23 @@ public class Controller : MonoBehaviour, IInitObserver
     }
     public void SetStage()
     {
+        var d = DataManager.instance;
         SpawnEnemy();
 
         InitEnemy();
-        var map = Instantiate(DataManager.instance.loadData.SpawnData[DataManager.instance.curStageID].maps);
+        SpriteRenderer map = new SpriteRenderer();
+        var spawnDataIndex = d.curMode == Modes.stage ? d.curStageID : Random.Range(0, d.loadData.SpawnData.Count);
+        map = Instantiate(d.loadData.SpawnData[spawnDataIndex].maps);
+
         bg = map;
     }
     public void SpawnEnemy()
     {
-        enemy = Instantiate(DataManager.instance.loadData.SpawnData[DataManager.instance.curStageID].enemies[spawnCount], new Vector3(12, -0.5f, 0), Quaternion.identity);
+        var d = DataManager.instance;
+        if (d.curMode == Modes.stage)
+            enemy = Instantiate(d.loadData.SpawnData[d.curStageID].enemies[spawnCount], new Vector3(12, -0.5f, 0), Quaternion.identity);
+        else
+            enemy = Instantiate(d.loadData.allEnemys[Random.Range(0, d.loadData.allEnemys.Count)], new Vector3(12, -0.5f, 0), Quaternion.identity);
 
         enemy.hitSound = hitSound;
         enemy.dmgDelayTime = AnimTime;
@@ -120,8 +134,8 @@ public class Controller : MonoBehaviour, IInitObserver
         enemy.unitUI = UIManager.instance.unitUI[1];
         enemy.transform.DOMoveX(5, 0.5f);
         spawnCount++;
-
         GiveEnemySkill();
+
 
     }
     public void GiveEnemySkill()
@@ -154,18 +168,28 @@ public class Controller : MonoBehaviour, IInitObserver
     }
     public void TurnEnd()
     {
+        var d = DataManager.instance;
         if (enemy == null)
         {
-            if (spawnCount < DataManager.instance.loadData.SpawnData[DataManager.instance.curStageID].enemies.Count)
+            if (d.curMode == Modes.stage)
+            {
+                if (spawnCount < DataManager.instance.loadData.SpawnData[DataManager.instance.curStageID].enemies.Count)
+                {
+                    SpawnEnemy();
+                    InitEnemy();
+                    TurnReset();
+                }
+                else
+                {
+                    UIManager.instance.isPause = true;
+                    Time.timeScale = 0;
+                }
+            }
+            else
             {
                 SpawnEnemy();
                 InitEnemy();
                 TurnReset();
-            }
-            else
-            {
-                UIManager.instance.isPause = true;
-                Time.timeScale = 0;
             }
         }
         else
@@ -178,7 +202,7 @@ public class Controller : MonoBehaviour, IInitObserver
     {
         var d = DataManager.instance;
         var count = (useTurnCount - 1) % enemy.skillInfo.turnActCounts.Count;
-        var coinCount = isEnemyRandomSkillCount
+        var coinCount = d.curMode == Modes.rogLike
         ? Random.Range(enemy.requestMinCount, enemy.requestMaxCount + 1)
         : enemy.skillInfo.turnActCounts[count];
 
@@ -187,7 +211,8 @@ public class Controller : MonoBehaviour, IInitObserver
         // print(isEnemyRandomSkillCount);
         for (int i = 0; i < coinCount; i++)
         {
-            AddRequest(enemy, d.loadData.SkillList[enemy.skillInfo.selectIndex[enemy.skillCurCount % enemy.skillInfo.selectIndex.Count]]);
+            var addIndex = d.curMode == Modes.stage ? enemy.skillCurCount % enemy.skillInfo.selectIndex.Count : Random.Range(0,enemy.skillInfo.selectIndex.Count);
+            AddRequest(enemy, d.loadData.SkillList[enemy.skillInfo.selectIndex[addIndex]]);
             enemy.skillCurCount++;
         }
     }
@@ -333,11 +358,11 @@ public class Controller : MonoBehaviour, IInitObserver
         var deadEnemy = enemy;
         yield return deadEnemy.transform.DOMoveX(12, 0.5f).OnComplete(() => Destroy(deadEnemy.gameObject)).WaitForCompletion();
 
-        foreach(Transform child in enemy.unitUI.requestUIParent)
+        foreach (Transform child in enemy.unitUI.requestUIParent)
         {
             Destroy(child.gameObject);
         }
-        foreach(Transform child in player.unitUI.requestUIParent)
+        foreach (Transform child in player.unitUI.requestUIParent)
         {
             Destroy(child.gameObject);
         }
@@ -347,14 +372,15 @@ public class Controller : MonoBehaviour, IInitObserver
         enemy = null;
         useTurnCount = 0;
 
+        if (DataManager.instance.curMode == Modes.stage)
+            if (spawnCount >= DataManager.instance.loadData.SpawnData[DataManager.instance.curStageID].enemies.Count)
+                GameClear();
 
-        if (spawnCount >= DataManager.instance.loadData.SpawnData[DataManager.instance.curStageID].enemies.Count)
-            GameClear();
     }
     public void GameOver()
     {
         UIManager.instance.isPause = true;
-                Time.timeScale = 0;
+        Time.timeScale = 0;
         UIManager.instance.SetGameEndUI(false);
     }
     public void GameClear()
