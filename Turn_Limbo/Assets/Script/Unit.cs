@@ -343,6 +343,8 @@ public abstract class Unit : MonoBehaviour
         damage = Mathf.RoundToInt(damage * defense_Drainage);
         if (shield <= damage)
         {
+            if(shield < 0) shield = 0;
+
             Damage(damage - shield, dir);
             DamageLogs(damage - shield);
             if (shield > 0) FatalDamage();
