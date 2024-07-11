@@ -274,8 +274,12 @@ public class ReadSpreadSheet : MonoBehaviour
         int[] lineIndex = new int[4] { -1, 0, 0, 0 };
         int oldLine = 0;
 
-        List<List<bool>> parentSaveData = d.saveData.treeData.parent;
-        List<List<bool>> childSaveData = d.saveData.treeData.child;
+        List<List<bool>> parentSaveData = new();
+        List<List<bool>> childSaveData = new();
+        if(d.saveData.treeData != null){
+            parentSaveData = d.saveData.treeData.parent;
+            childSaveData = d.saveData.treeData.child;
+        }
         d.plusStats.Init();
 
         void SettingParent(TreeNode curNode, int curLine)
