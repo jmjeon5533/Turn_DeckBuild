@@ -10,8 +10,9 @@ public class SaveData
 {
     public bool isInitialize;
     public int money;
-    public List<int> selectIndex = new List<int>();
-    public Dictionary<int, HoldSkills> holdSkills = new Dictionary<int, HoldSkills>();
+    public List<int> selectIndex = new();
+    public Dictionary<int, HoldSkills> holdSkills = new();
+    public SaveTreeData treeData;
 }
 [System.Serializable]
 public struct UnitData
@@ -71,6 +72,7 @@ public class DataManager : MonoBehaviour
         // Debug.LogError(saveData.isInitialize);
         saveData.selectIndex = player.selectIndex;
         saveData.holdSkills = player.holdSkills;
+        saveData.treeData = startNode.SaveData();
         var data = JsonConvert.SerializeObject(saveData);
         PlayerPrefs.SetString("SaveData", data);
         PlayerPrefs.Save();

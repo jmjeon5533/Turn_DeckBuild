@@ -6,7 +6,7 @@ using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
-[System.Serializable]
+[Serializable]
 public class TreeNode
 {
     public TreeNode parentNode;
@@ -18,11 +18,78 @@ public class TreeNode
     public string value;
     public int cost;
 
+    public int lineNum;
     public bool isParent;
     public bool isOpen;
 
     public PlusStats plusStats;
     public Button btn;
+
+    public SaveTreeData SaveData()
+    {
+        List<bool> _lineOne = new();
+        List<bool> _lineTwo = new();
+        List<bool> _lineThree = new();
+
+        List<bool> _childLineOne = new();
+        List<bool> _childLineTwo = new();
+        List<bool> _childLineThree = new();
+
+        GetData(this);
+        SaveTreeData data = new()
+        {
+            startNode = isOpen,
+        };
+        data.parent.Add(_lineOne);
+        data.parent.Add(_lineTwo);
+        data.parent.Add(_lineThree);
+
+        data.child.Add(_childLineOne);
+        data.child.Add(_childLineTwo);
+        data.child.Add(_childLineThree);
+
+        return data;
+
+        void GetData(TreeNode curNode)
+        {
+            if (curNode.childNode.Count == 0) return;
+
+            foreach (var n in curNode.childNode)
+            {
+                if (n.isParent)
+                {
+                    switch (n.lineNum)
+                    {
+                        case 1: _lineOne.Add(n.isOpen); break;
+                        case 2: _lineTwo.Add(n.isOpen); break;
+                        case 3: _lineThree.Add(n.isOpen); break;
+                    }
+                }
+                else
+                {
+                    switch (n.lineNum)
+                    {
+                        case 1: _childLineOne.Add(n.isOpen); break;
+                        case 2: _childLineTwo.Add(n.isOpen); break;
+                        case 3: _childLineThree.Add(n.isOpen); break;
+                    }
+                }
+            }
+
+            for (int i = 0; i < curNode.childNode.Count; i++)
+            {
+                GetData(curNode.childNode[i]);
+            }
+        }
+    }
+}
+
+[Serializable]
+public class SaveTreeData
+{
+    public bool startNode;
+    public List<List<bool>> parent = new();
+    public List<List<bool>> child = new();
 }
 
 public class SkillTree : MonoBehaviour
@@ -50,7 +117,7 @@ public class SkillTree : MonoBehaviour
 
         panels.gameObject.SetActive(isShow);
         MoneyText.text = $"보유자원 : {DataManager.instance.saveData.money}";
-        //DataManager.instance.JsonSave();
+        DataManager.instance.JsonSave();
     }
 
     public void AddSkillTreeButton()
@@ -84,6 +151,10 @@ public class SkillTree : MonoBehaviour
             Button btn;
 
             btn = parnetObj.AddButton(curLine, isParent);
+            if(curNode.isOpen) {
+                curNode.use.Use(curNode.plusStats, curNode.value);
+                btn.image.color = new Color(1, 1, 1);
+            }
 
             btn.onClick.AddListener(() =>
             {
@@ -112,7 +183,7 @@ public class SkillTree : MonoBehaviour
 
         if (curTreeNode.isOpen || d.saveData.money < cost || !curTreeNode.parentNode.isOpen)
         {
-            Debug.Log("해금 불가");
+            Debug.Log($"해금 불가 - {curTreeNode.name}");
             if (!curTreeNode.isOpen)
             {
                 curTreeNode.btn.image.color = new Color(1, 0, 0);
@@ -121,13 +192,14 @@ public class SkillTree : MonoBehaviour
             return;
         }
 
-        Debug.Log("해금");
+        Debug.Log($"해금 - {curTreeNode.name}");
         curTreeNode.use.Use(curTreeNode.plusStats, curTreeNode.value);
         curTreeNode.isOpen = true;
-        curTreeNode.btn.image.color = new Color(255, 255, 255);
+        curTreeNode.btn.image.color = new Color(1, 1, 1);
 
         d.saveData.money -= cost;
         MoneyText.text = $"보유자원 : {DataManager.instance.saveData.money}";
+        DataManager.instance.JsonSave();
     }
 
     public void ReSetSkillTree()
@@ -148,7 +220,10 @@ public class SkillTree : MonoBehaviour
                     n.btn.image.color = new Color(0.7f, 0.7f, 0.7f);
                 }
             }
-            if (curNode.childNode.Count > 0) Init(curNode.childNode[0]);
+            foreach (var n in curNode.childNode)
+            {
+                Init(n);
+            }
         }
 
         if (startNode.isOpen)
@@ -161,5 +236,6 @@ public class SkillTree : MonoBehaviour
 
         d.plusStats.Init();
         MoneyText.text = $"보유자원 : {DataManager.instance.saveData.money}";
+        DataManager.instance.JsonSave();
     }
 }

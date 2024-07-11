@@ -250,7 +250,6 @@ public class ReadSpreadSheet : MonoBehaviour
         Debug.Log("ReadSkillTree");
 
         string[] rows = data.Split('\n');
-
         string[] startPoint = rows[1].Split(',');
 
         string startClassName = "SkillTree_" + startPoint[4];
@@ -262,16 +261,22 @@ public class ReadSpreadSheet : MonoBehaviour
             use = Activator.CreateInstance(Type.GetType(startClassName)) as SkillTreeScript,
             value = startPoint[5],
             cost = int.Parse(startPoint[6]),
-            plusStats = d.plusStats
+            plusStats = d.plusStats,
+            isOpen = d.saveData.treeData.startNode,
         };
 
         TreeNode lineOne = null;
         TreeNode lineTwo = null;
         TreeNode lineThree = null;
 
-        int[] saveLineIndex = new int[4] { -1, 0, 0, 0 };
+        int[] saveParentIndex = new int[4] { -1, 0, 0, 0 };
+        int[] saveChildIndex = new int[4] { -1, 0, 0, 0 };
         int[] lineIndex = new int[4] { -1, 0, 0, 0 };
         int oldLine = 0;
+
+        List<List<bool>> parentSaveData = d.saveData.treeData.parent;
+        List<List<bool>> childSaveData = d.saveData.treeData.child;
+        d.plusStats.Init();
 
         void SettingParent(TreeNode curNode, int curLine)
         {
@@ -287,9 +292,10 @@ public class ReadSpreadSheet : MonoBehaviour
 
             curNode.parentNode = parentNode;
             curNode.isParent = true;
+            curNode.lineNum = curLine;
+            curNode.isOpen = parentSaveData[curLine - 1][saveParentIndex[curLine]];
+            saveParentIndex[curLine]++;
             parentNode.childNode.Add(curNode);
-            
-            //Debug.Log($"cur {curNode.desc} / save {ReadSaveNode(saveNode, curLine, saveLineIndex[curLine], parentNode.childNode.Count).desc}");
         }
 
         void SettingChild(TreeNode curNode, int curLine)
@@ -297,6 +303,9 @@ public class ReadSpreadSheet : MonoBehaviour
             TreeNode parentNode = GetNode(startNode.childNode[curLine - 1], lineIndex[curLine]);
 
             curNode.parentNode = parentNode;
+            curNode.lineNum = curLine;
+            curNode.isOpen = childSaveData[curLine -1][saveChildIndex[curLine]];
+            saveChildIndex[curLine]++;
             parentNode.childNode.Add(curNode);
         }
 
@@ -306,12 +315,6 @@ public class ReadSpreadSheet : MonoBehaviour
             else return GetNode(curNode.childNode[0], count - 1);
         }
 
-        TreeNode ReadSaveNode(TreeNode curNode, int curLine, int parentCount, int childCount){
-            if(parentCount > 0) return ReadSaveNode(curNode.childNode[curLine - 1], curLine, parentCount - 1, childCount);
-
-            return curNode.childNode[childCount - 1];
-        }
-
         for (int i = 2; i < rows.Length; i++)
         {
             string[] columns = rows[i].Split(',');
@@ -319,6 +322,7 @@ public class ReadSpreadSheet : MonoBehaviour
             int.TryParse(columns[1], out int readLine);
             string type = columns[3];
             string className = "SkillTree_" + columns[4];
+            int.TryParse(columns[6], out int cost);
 
             TreeNode newTree = new()
             {
@@ -326,8 +330,8 @@ public class ReadSpreadSheet : MonoBehaviour
                 desc = columns[7],
                 use = Activator.CreateInstance(Type.GetType(className)) as SkillTreeScript,
                 value = columns[5],
-                cost = int.Parse(columns[6]),
-                plusStats = d.plusStats
+                cost = cost,
+                plusStats = d.plusStats,
             };
 
             if (type == "Parent") SettingParent(newTree, readLine);
@@ -341,7 +345,7 @@ public class ReadSpreadSheet : MonoBehaviour
                 }
                 SettingChild(newTree, oldLine);
             }
-            //else lineIndex[oldLine]++;
+            else lineIndex[oldLine]++;
 
             oldLine = readLine == 0 ? oldLine : readLine;
         }
