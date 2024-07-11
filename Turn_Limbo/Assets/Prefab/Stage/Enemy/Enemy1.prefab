@@ -54,6 +54,8 @@ MonoBehaviour:
   shield: 70
   maxShield: 70
   shieldBreak: 0
+  curMinDamage: 0
+  curMaxDamage: 0
   curDamage: 0
   curAttackCount: 0
   plusAttackValue: 0
@@ -62,7 +64,7 @@ MonoBehaviour:
   defense_Drainage: 0
   isAttack: 0
   target: {fileID: 0}
-  effect: {fileID: 1429954232896169632, guid: 83036083a4ebcd34f98131bd3cf6f4d2, type: 3}
+  effect: {fileID: 1429954232896169632, guid: 66bbf44e04dfea34a80e1551a1a388ac, type: 3}
   hitSound:
   - {fileID: 0}
   Uniticon: {fileID: 0}
