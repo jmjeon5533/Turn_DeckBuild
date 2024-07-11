@@ -23,6 +23,7 @@ public class SkillDeckBuild : MonoBehaviour
     private bool isShow = false;
     private int selectIndex = -1;
     private int selectKeyIndex = -1;
+    private DeckBuildBtns selectBtn;
     public Skill IndexToSkill(int index)
     {
         for (int i = 0; i < playerSkills.selectIndex.Count; i++)
@@ -65,6 +66,9 @@ public class SkillDeckBuild : MonoBehaviour
                 {
                     selectIndex = skills;
                     selectKeyIndex = keyIndex;
+                    selectBtn = viewBtnImage.Find((x) => x.skillIndex == skills);
+
+                    selectBtn.btn.image.color = Color.green;
                     print(skills);
                 }
                 else
@@ -78,7 +82,8 @@ public class SkillDeckBuild : MonoBehaviour
                         d.player.selectIndex[firstIndex] = d.player.selectIndex[secontIndex];
                         d.player.selectIndex[secontIndex] = temp;
 
-
+                        selectBtn.btn.image.color = Color.white;
+                        selectBtn = null;
                         selectIndex = -1;
                         selectKeyIndex = -1;
                         
@@ -88,6 +93,11 @@ public class SkillDeckBuild : MonoBehaviour
                     {
                         selectIndex = skills;
                         selectKeyIndex = keyIndex;
+
+                        selectBtn.btn.image.color = Color.white;
+
+                        selectBtn = viewBtnImage.Find((x) => x.skillIndex == skills);
+                        selectBtn.btn.image.color = Color.green;
                     }
                 }
                 explainPanel.ExplainSet(d.loadData.SkillList[skills],d.player.holdSkills[skills].level);
