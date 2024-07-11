@@ -351,6 +351,7 @@ public abstract class Unit : MonoBehaviour
         else
         {
             damage -= plusDefenseValue;
+            if(damage < 0) damage = 1;
             dmgDelayCurTime = dmgDelayTime;
             var totalDmg = damage;
             shield -= totalDmg;
@@ -370,6 +371,8 @@ public abstract class Unit : MonoBehaviour
         int totalDmg = 0;
         damage = Mathf.RoundToInt(damage * defense_Drainage);
         damage -= plusDefenseValue;
+        if(damage < 0) damage = 1;
+
         if (shield <= 0)
         {
             totalDmg = Mathf.FloorToInt(2f * damage);

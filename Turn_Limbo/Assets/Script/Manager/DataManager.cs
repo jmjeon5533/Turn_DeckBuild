@@ -12,7 +12,7 @@ public class SaveData
     public int money;
     public List<int> selectIndex = new();
     public Dictionary<int, HoldSkills> holdSkills = new();
-    public SaveTreeData treeData;
+    [HideInInspector] public SaveTreeData treeData;
 }
 [System.Serializable]
 public struct UnitData
@@ -85,8 +85,8 @@ public class DataManager : MonoBehaviour
 
     public Queue<Dialogue> stageDialogBox = new();
     public Queue<Queue<Dialogue>> hpDialogBox = new();
-    public TreeNode startNode;
     public PlusStats plusStats;
+    [HideInInspector] public TreeNode startNode;
 
     public bool hpUnitIsPlayer;
     public bool readEnd;
