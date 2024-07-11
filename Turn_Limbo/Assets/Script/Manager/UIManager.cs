@@ -274,6 +274,7 @@ public class UIManager : MonoBehaviour, IInitObserver
     IEnumerator SetGameEnd(bool isWin)
     {
         string text = isWin ? "Victory" : "Defeat";
+        var isMoneyGiveActive = isWin || DataManager.instance.curMode == Controller.Modes.rogLike;
         yield return gameEndPanel.DOColor(new Color(0, 0, 0, 0.5f), 0.5f).SetUpdate(true).WaitForCompletion();
         gameEndText.text = text;
         yield return new WaitForSecondsRealtime(0.2f);
@@ -298,23 +299,26 @@ public class UIManager : MonoBehaviour, IInitObserver
         retry.transform.DOLocalMoveY(-500, 0.2f).SetUpdate(true);
         yield return stageSelect.transform.DOLocalMoveY(-500, 0.2f).SetUpdate(true).WaitForCompletion(); ;
         float time = 0;
-        float moneyTarget = 2500 / controller.useTotalTurnCount * (DataManager.instance.curStageID + 1);
+        float moneyTarget = DataManager.instance.curMode == Controller.Modes.stage ? 
+            2500 / controller.useTotalTurnCount * (DataManager.instance.curStageID + 1) :
+            1000 * controller.enemyKillCount;
+
         float countTarget = controller.useTotalTurnCount;
         
-        if (isWin) DataManager.instance.saveData.money += Mathf.RoundToInt(moneyTarget);
+        if (isMoneyGiveActive) DataManager.instance.saveData.money += Mathf.RoundToInt(moneyTarget);
 
         while (time < 2)
         {
             var moneyValue = Mathf.Lerp(0, moneyTarget, time);
             var countValue = Mathf.Lerp(0, countTarget, time);
 
-            if (isWin) getMoneyText.text = $"¾òÀº µ· : {Mathf.RoundToInt(moneyValue)}";
+            if (isMoneyGiveActive) getMoneyText.text = $"¾òÀº µ· : {Mathf.RoundToInt(moneyValue)}";
             useTurnCountText.text = $"»ç¿ë ÅÏ : {Mathf.RoundToInt(countValue)}";
 
             time += Time.unscaledDeltaTime;
             yield return null;
         }
-        if (isWin) getMoneyText.text = $"¾òÀº µ· : {Mathf.RoundToInt(moneyTarget)}";
+        if (isMoneyGiveActive) getMoneyText.text = $"¾òÀº µ· : {Mathf.RoundToInt(moneyTarget)}";
         useTurnCountText.text = $"»ç¿ë ÅÏ : {Mathf.RoundToInt(countTarget)}";
 
         EndMove = true;

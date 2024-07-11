@@ -49,6 +49,7 @@ public class Controller : MonoBehaviour, IInitObserver
     [HideInInspector]
     public int useTurnCount;
     public int useTotalTurnCount;
+    public int enemyKillCount;
 
     public bool isGame;
     public bool isTab;
@@ -371,6 +372,7 @@ public class Controller : MonoBehaviour, IInitObserver
         player.target = null;
         enemy = null;
         useTurnCount = 0;
+        enemyKillCount++;
 
         if (DataManager.instance.curMode == Modes.stage)
             if (spawnCount >= DataManager.instance.loadData.SpawnData[DataManager.instance.curStageID].enemies.Count)
