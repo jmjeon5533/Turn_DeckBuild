@@ -483,7 +483,7 @@ public class Controller : MonoBehaviour, IInitObserver
     IEnumerator AttackStart(Unit unit)
     {
         var skill = unit.curSkill;
-        print($"{unit.name} : {unit.curAttackCount},{unit.curSkill.index}");
+        //print($"{unit.name} : {unit.curAttackCount},{unit.curSkill.index}");
         if (unit.curSkill.actionType == Unit.ActionType.none) yield break;
 
         unit.InitCurSkillDamage(skill.minDamage[unit.skillInfo.holdSkills[skill.index - 1].level],

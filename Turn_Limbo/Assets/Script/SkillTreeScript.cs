@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -65,19 +66,45 @@ public class SkillTree_AddCoin : SkillTreeScript
 
 public class SkillTree_PBuff : SkillTreeScript{
     public override void Use(PlusStats plusStats, string value){
-        var splitExplain = value.Split('&');
-        foreach(var n in splitExplain){
-            
-        }
+        var buffInfor = value.Split('&');
+
+        plusStats.pBuffs.Add(new Buff(DataManager.instance.loadData.buffList[buffInfor[0]], 
+        int.Parse(buffInfor[1]), int.Parse(buffInfor[2]), buffInfor[3].EnumParse<PropertyType>()));
     }
 }
 
 public class SkillTree_PLoopBuff : SkillTreeScript{
     public override void Use(PlusStats plusStats, string value){
+        var buffInfor = value.Split('&');
 
+        plusStats.pLoopBuffs.Add(new Buff(DataManager.instance.loadData.buffList[buffInfor[0]],
+        int.Parse(buffInfor[1]), int.Parse(buffInfor[2]), buffInfor[3].EnumParse<PropertyType>())
+        {
+            loopCount = int.Parse(buffInfor[4])
+        });
     }
 }
 
+public class SkillTree_EBuff : SkillTreeScript{
+    public override void Use(PlusStats plusStats, string value){
+        var buffInfor = value.Split('&');
+
+        plusStats.eBuffs.Add(new Buff(DataManager.instance.loadData.buffList[buffInfor[0]], 
+        int.Parse(buffInfor[1]), int.Parse(buffInfor[2]), buffInfor[3].EnumParse<PropertyType>()));
+    }
+}
+
+public class SkillTree_ELoopBuff : SkillTreeScript{
+    public override void Use(PlusStats plusStats, string value){
+        var buffInfor = value.Split('&');
+        
+        plusStats.eLoopBuffs.Add(new Buff(DataManager.instance.loadData.buffList[buffInfor[0]],
+        int.Parse(buffInfor[1]), int.Parse(buffInfor[2]), buffInfor[3].EnumParse<PropertyType>())
+        {
+            loopCount = int.Parse(buffInfor[4])
+        });
+    }
+}
 public class SkillTree_ : SkillTreeScript
 {
     public override void Use(PlusStats plusStats, string value)
