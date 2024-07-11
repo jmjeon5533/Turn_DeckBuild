@@ -46,7 +46,9 @@ public class Controller : MonoBehaviour, IInitObserver
     public float gameCurTimeCount;
     public float keyHoldTime;
     public int useAbleCoin;
+    [HideInInspector]
     public int useTurnCount;
+    public int useTotalTurnCount;
 
     public bool isGame;
     public bool isTab;
@@ -459,6 +461,7 @@ public class Controller : MonoBehaviour, IInitObserver
         yield return player.transform.DOMoveX(-3.5f * (player.isLeft ? 1 : -1), 0.5f)
         .SetEase(Ease.InOutSine).WaitForCompletion();
         useTurnCount++;
+        useTotalTurnCount++;
         ui.inputPanel.rectTransform.sizeDelta = new Vector2(0, 352);
         isAttack = false;
         ui.ActiveBtn(true);

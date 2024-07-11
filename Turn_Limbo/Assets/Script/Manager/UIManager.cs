@@ -298,8 +298,8 @@ public class UIManager : MonoBehaviour, IInitObserver
         retry.transform.DOLocalMoveY(-500, 0.2f).SetUpdate(true);
         yield return stageSelect.transform.DOLocalMoveY(-500, 0.2f).SetUpdate(true).WaitForCompletion(); ;
         float time = 0;
-        float moneyTarget = 2500 / controller.useTurnCount * (DataManager.instance.curStageID + 1);
-        float countTarget = controller.useTurnCount;
+        float moneyTarget = 2500 / controller.useTotalTurnCount * (DataManager.instance.curStageID + 1);
+        float countTarget = controller.useTotalTurnCount;
         
         if (isWin) DataManager.instance.saveData.money += Mathf.RoundToInt(moneyTarget);
 
