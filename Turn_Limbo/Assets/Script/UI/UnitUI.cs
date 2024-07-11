@@ -16,11 +16,7 @@ public class UnitUI : MonoBehaviour
 
     public virtual void InitUnit()
     {
-        hpAnimImage = statParent.GetChild(1).GetComponent<Image>();
-        hpImage = hpAnimImage.transform.GetChild(0).GetComponent<Image>();
-
-        shieldAnimImage = statParent.GetChild(3).GetComponent<Image>();
-        shieldImage = shieldAnimImage.transform.GetChild(0).GetComponent<Image>();
+        
     }
     public void UIUpdate(Transform target,int hp, int maxHP, int shield, int maxShield, ref float dmgDelayCurTime, bool isLeft)
     {
