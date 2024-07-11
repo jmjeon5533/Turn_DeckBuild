@@ -47,7 +47,7 @@ public class PanelMovement : MonoBehaviour
                 keys[d.loadData.SkillList[playerSkill.selectIndex[i]].keyIndex]++;
             }
 
-            if (keys.Any(n => n <= 1))
+            if (keys.Any(n => n <= 2))
             {
                 print("스킬 미할당");
                 WarningSkillUnSelect();

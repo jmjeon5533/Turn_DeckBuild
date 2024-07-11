@@ -59,7 +59,7 @@ public class DataManager : MonoBehaviour
         if (!saveData.isInitialize)
         {
             saveData.isInitialize = true;
-            for (int i = 0; i < 6; i++)
+            for (int i = 0; i < 9; i++)
                 saveData.holdSkills.Add(i, new() { holdIndex = i, level = 0 });
             saveData.money += 500;
         }
