@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,7 +13,7 @@ public class SkillUpgrade : MonoBehaviour
     [SerializeField] SkillExplain explainPanel;
     [SerializeField] Text MoneyText;
     public SkillEffect playerSkills;
-    public List<Button> btnImage;
+    public List<SkillUpgradeBtn> btnImage;
 
     public SkillDeckBuild skillDeckBuild;
     [SerializeField] private int selectIndex;
@@ -25,6 +26,10 @@ public class SkillUpgrade : MonoBehaviour
 
         panels.gameObject.SetActive(isShow);
         MoneyText.text = $"보유자원 : {DataManager.instance.saveData.money}";
+        foreach(var p in playerSkills.holdSkills)
+        {
+            print(p);
+        }
     }
 
     public void AddSkillUpgradeBtn()
@@ -40,9 +45,10 @@ public class SkillUpgrade : MonoBehaviour
         for (int i = 0; i < d.loadData.SkillList.Count; i++)
         {
             if(d.loadData.SkillList[i].isOnlyEnemy) continue;
-            var btn = Instantiate(skillUpgradeBaseBtn, skillUpgradeBtnParent);
+            var btn = Instantiate(skillUpgradeBaseBtn, skillUpgradeBtnParent).GetComponent<SkillUpgradeBtn>();;
             var num = i;
-            btn.onClick.AddListener(() =>
+            btn.skillIndex = num;
+            btn.btn.onClick.AddListener(() =>
             {
                 selectIndex = num;
 
@@ -60,10 +66,14 @@ public class SkillUpgrade : MonoBehaviour
     }
     private void InitSkillSelectState()
     {
+        foreach(var p in playerSkills.holdSkills)
+        {
+            print($"{p}");
+        }
         for (int i = 0; i < btnImage.Count; i++)
         {
             Color color = Color.gray;
-            if (playerSkills.holdSkills.TryGetValue(i, out var holdskill))
+            if (playerSkills.holdSkills.TryGetValue(btnImage[i].skillIndex, out var holdskill))
             {
                 switch (holdskill.level)
                 {
@@ -73,7 +83,7 @@ public class SkillUpgrade : MonoBehaviour
                     case 3: color = new Color(0.3f, 0, 1, 1); break;
                 }
             }
-            btnImage[i].image.color = color;
+            btnImage[i].btn.image.color = color;
         }
         {
             if (playerSkills.holdSkills.TryGetValue(selectIndex, out var holdskill))
@@ -113,6 +123,7 @@ public class SkillUpgrade : MonoBehaviour
 
             return;
         }
+        print(selectIndex);
         HoldSkills newSkills = new HoldSkills()
         {
             holdIndex = selectIndex,
