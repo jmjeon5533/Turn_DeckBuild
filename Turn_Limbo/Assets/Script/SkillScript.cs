@@ -331,7 +331,7 @@ public class Skill_Stability : SkillScript
     {
         unit.nextBuff.Add(new Buff(DataManager.instance.loadData.debuffList["TrueDefenseDown"], 2, 10));
         int plushp = Mathf.RoundToInt(unit.hp * 0.1f);
-        unit.hp = unit.hp + plushp >= unit.maxHP ? unit.maxHP : plushp;
+        unit.hp += plushp;
     }
 }
 

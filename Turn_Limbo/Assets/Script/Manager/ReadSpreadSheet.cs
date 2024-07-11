@@ -262,7 +262,7 @@ public class ReadSpreadSheet : MonoBehaviour
             value = startPoint[5],
             cost = int.Parse(startPoint[6]),
             plusStats = d.plusStats,
-            isOpen = d.saveData.treeData.startNode,
+            isOpen = d.saveData.treeData != null && d.saveData.treeData.startNode,
         };
 
         TreeNode lineOne = null;

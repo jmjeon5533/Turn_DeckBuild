@@ -37,6 +37,7 @@ public class PlusStats : ScriptableObject
         if (unit.TryGetComponent<Player>(out var p))
         {
             p.addCoin += addCoin;
+            p.nextTurnAddCoin = p.addCoin;
         }
     }
 
