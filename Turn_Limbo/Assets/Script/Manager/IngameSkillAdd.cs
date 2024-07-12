@@ -26,9 +26,12 @@ public class IngameSkillAdd : MonoBehaviour, IInitObserver
     public void GivePlayerSkill(Action action)
     {
         var d = DataManager.instance;
-        for (int i = 0; i < controller.player.skillInfo.selectIndex.Count; i++)
+
+        bool RogMode = d.curMode == Controller.Modes.rogLike;
+        var count = RogMode ? 9 : controller.player.skillInfo.selectIndex.Count;
+        for (int i = 0; i < count; i++)
         {
-            var skill = d.loadData.SkillList[controller.player.skillInfo.selectIndex[i]];
+            var skill = RogMode ? d.loadData.SkillList[i] : d.loadData.SkillList[controller.player.skillInfo.selectIndex[i]];
             controller.inputLists.Add(skill);
             int keyCode = skill.keyIndex;
             if (!controller.inputs.ContainsKey(keyCode))
@@ -40,6 +43,8 @@ public class IngameSkillAdd : MonoBehaviour, IInitObserver
         controller.talkUnit = DataManager.instance.hpUnitIsPlayer ? controller.player : controller.enemy;
         DataManager.instance.InitDialog();
         DataManager.instance.InitUnit(controller.talkUnit);
+        foreach(var input in controller.inputs)
+            foreach(var values in input.Value) print(values.index);
 
         action?.Invoke();
     }

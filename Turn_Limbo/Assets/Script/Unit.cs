@@ -183,7 +183,6 @@ public abstract class Unit : MonoBehaviour
             if (curBuff[i].buff.timing != timing) return;
 
             curBuff[i].buff.Use(this, curBuff[i].stack, curBuff[i].type);
-            Debug.Log(curBuff[i].buff + " / " + curBuff[i].stack + " / " + curBuff[i].count);
 
             curBuff[i].count--;
         }

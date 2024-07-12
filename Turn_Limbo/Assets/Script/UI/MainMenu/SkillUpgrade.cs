@@ -66,10 +66,6 @@ public class SkillUpgrade : MonoBehaviour
     }
     private void InitSkillSelectState()
     {
-        foreach(var p in playerSkills.holdSkills)
-        {
-            print($"{p}");
-        }
         for (int i = 0; i < btnImage.Count; i++)
         {
             Color color = Color.gray;

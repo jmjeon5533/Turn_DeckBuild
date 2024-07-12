@@ -18,7 +18,6 @@ public class IngameInit : InitActivator
 
         foreach (var method in aliceInits)
         {
-            Debug.Log(method.gameObject.name);
             method.Init();
         }
     }
