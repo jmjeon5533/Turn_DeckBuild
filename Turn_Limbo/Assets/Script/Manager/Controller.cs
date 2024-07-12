@@ -212,7 +212,7 @@ public class Controller : MonoBehaviour, IInitObserver
         // print(isEnemyRandomSkillCount);
         for (int i = 0; i < coinCount; i++)
         {
-            var addIndex = d.curMode == Modes.stage ? enemy.skillCurCount % enemy.skillInfo.selectIndex.Count : Random.Range(0,enemy.skillInfo.selectIndex.Count);
+            var addIndex = d.curMode == Modes.stage ? enemy.skillCurCount % enemy.skillInfo.selectIndex.Count : Random.Range(0, enemy.skillInfo.selectIndex.Count);
             AddRequest(enemy, d.loadData.SkillList[enemy.skillInfo.selectIndex[addIndex]]);
             enemy.skillCurCount++;
         }
@@ -313,15 +313,9 @@ public class Controller : MonoBehaviour, IInitObserver
         {
             if (Input.GetKeyUp(KEY_CODE[i]))
             {
-                if (keyHoldTime <= 0.3f && !isSkillExplain && inputs[i][0].cost[0] <= useAbleCoin)
+                if (keyHoldTime <= 0.3f && !isSkillExplain)
                 {
-                    var input = inputs[i];
-                    AddRequest(player, input[0]);
-                    useAbleCoin -= input[0].cost[input[0].level];
-                    SwapSkills(input);
-                    ui.ChangeCoinSkillImg();
-                    ui.NextImage(i, input[0].icon, input[1].icon);
-                    SoundManager.instance.SetAudio(addSkillSound[Random.Range(0, addSkillSound.Length)], false);
+                    RequestKeyUp(i);
                 }
                 keyHoldTime = 0;
                 keyHoldImage.fillAmount = Mathf.Clamp(keyHoldTime - 0.5f, 0, 10) / 1f;
@@ -348,6 +342,18 @@ public class Controller : MonoBehaviour, IInitObserver
                 keyHoldImage.fillAmount = Mathf.Clamp(keyHoldTime - 0.3f, 0, 10) / 0.5f;
             }
         }
+    }
+    public void RequestKeyUp(int i)
+    {
+        if(inputs[i][0].cost[0] > useAbleCoin) return;
+        var ui = UIManager.instance;
+        var input = inputs[i];
+        AddRequest(player, input[0]);
+        useAbleCoin -= input[0].cost[input[0].level];
+        SwapSkills(input);
+        ui.ChangeCoinSkillImg();
+        ui.NextImage(i, input[0].icon, input[1].icon);
+        SoundManager.instance.SetAudio(addSkillSound[Random.Range(0, addSkillSound.Length)], false);
     }
     public void PhaseEnd()
     {
