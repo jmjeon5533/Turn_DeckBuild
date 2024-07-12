@@ -27,7 +27,7 @@ public class IngameSkillAdd : MonoBehaviour, IInitObserver
     {
         var d = DataManager.instance;
 
-        bool RogMode = d.curMode == Controller.Modes.rogLike;
+        bool RogMode = d.curMode == RoglikeManager.Modes.rogLike;
         var count = RogMode ? 9 : controller.player.skillInfo.selectIndex.Count;
         for (int i = 0; i < count; i++)
         {

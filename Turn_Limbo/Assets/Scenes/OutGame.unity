@@ -4074,7 +4074,7 @@ MonoBehaviour:
   buff: {fileID: 4900000, guid: 66da24104ac3a344393fc7b569269436, type: 3}
   scenario: {fileID: 4900000, guid: 00daa3653f166054f8a43f35269e3c9b, type: 3}
   skillTree: {fileID: 0}
-  enemyData: {fileID: 4900000, guid: d1127d310fc886448a0a9ad0220ffa1c, type: 3}
+  EnemyData: {fileID: 4900000, guid: e3e6ca97fdea88a488ce1ed45b738255, type: 3}
   isFirstLoad: 0
 --- !u!4 &489823634
 Transform:

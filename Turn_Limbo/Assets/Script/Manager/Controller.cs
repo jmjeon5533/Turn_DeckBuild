@@ -6,6 +6,7 @@ using System.Linq;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
+using UnityEditorInternal.Profiling.Memory.Experimental;
 
 [System.Serializable]
 public class Skill
@@ -38,6 +39,8 @@ public class Controller : MonoBehaviour, IInitObserver
     public Image keyHoldImage;
     public List<SkillScript> skills = new();
     public List<Skill> inputLists = new();
+    public RoglikeData roglikeData;
+
     [Header("dialog")]
     Queue<Dialogue> dialogueBox = new();
     DataManager data;
@@ -60,15 +63,10 @@ public class Controller : MonoBehaviour, IInitObserver
     public bool isEnemyRandomSkillCount;
     public bool isEnemyRandomSkillIndex;
 
-    public enum Modes
-    {
-        stage,
-        rogLike
-    }
-
     private int lastSign;
     private int spawnCount = 0;
 
+    [Header("Post Processing")]
     public VolumeProfile volume;
     [HideInInspector] public ChromaticAberration glitch;
     [HideInInspector] public DepthOfField depth;
@@ -76,6 +74,7 @@ public class Controller : MonoBehaviour, IInitObserver
 
     [SerializeField] protected float AnimTime;
 
+    [Header("Sound")]
     public AudioClip[] hitSound;
     public AudioClip CritSound;
     public AudioClip[] addSkillSound;
@@ -110,11 +109,12 @@ public class Controller : MonoBehaviour, IInitObserver
     public void SetStage()
     {
         var d = DataManager.instance;
+        var r = RoglikeManager.instance;
         SpawnEnemy();
 
         InitEnemy();
-        SpriteRenderer map = new SpriteRenderer();
-        var spawnDataIndex = d.curMode == Modes.stage ? d.curStageID : Random.Range(0, d.loadData.SpawnData.Count);
+        SpriteRenderer map;
+        var spawnDataIndex = d.curMode == RoglikeManager.Modes.stage ? d.curStageID : Random.Range(0, d.loadData.SpawnData.Count);
         map = Instantiate(d.loadData.SpawnData[spawnDataIndex].maps);
 
         bg = map;
@@ -122,7 +122,7 @@ public class Controller : MonoBehaviour, IInitObserver
     public void SpawnEnemy()
     {
         var d = DataManager.instance;
-        if (d.curMode == Modes.stage)
+        if (d.curMode == RoglikeManager.Modes.stage)
             enemy = Instantiate(d.loadData.SpawnData[d.curStageID].enemies[spawnCount], new Vector3(12, -0.5f, 0), Quaternion.identity);
         else
             enemy = Instantiate(d.loadData.allEnemys[Random.Range(0, d.loadData.allEnemys.Count)], new Vector3(12, -0.5f, 0), Quaternion.identity);
@@ -170,12 +170,14 @@ public class Controller : MonoBehaviour, IInitObserver
     public void TurnEnd()
     {
         var d = DataManager.instance;
+        var r = RoglikeManager.instance;
         if (enemy == null)
         {
-            if (d.curMode == Modes.stage)
+            if (d.curMode == RoglikeManager.Modes.stage)
             {
                 if (spawnCount < DataManager.instance.loadData.SpawnData[DataManager.instance.curStageID].enemies.Count)
                 {
+                    r.TryGetItem();
                     SpawnEnemy();
                     InitEnemy();
                     TurnReset();
@@ -188,6 +190,7 @@ public class Controller : MonoBehaviour, IInitObserver
             }
             else
             {
+                r.TryGetItem();
                 SpawnEnemy();
                 InitEnemy();
                 TurnReset();
@@ -203,7 +206,7 @@ public class Controller : MonoBehaviour, IInitObserver
     {
         var d = DataManager.instance;
         var count = (useTurnCount - 1) % enemy.skillInfo.turnActCounts.Count;
-        var coinCount = d.curMode == Modes.rogLike
+        var coinCount = d.curMode == RoglikeManager.Modes.rogLike
         ? Random.Range(enemy.requestMinCount, enemy.requestMaxCount + 1)
         : enemy.skillInfo.turnActCounts[count];
 
@@ -212,14 +215,14 @@ public class Controller : MonoBehaviour, IInitObserver
         // print(isEnemyRandomSkillCount);
         for (int i = 0; i < coinCount; i++)
         {
-            var addIndex = d.curMode == Modes.stage ? enemy.skillCurCount % enemy.skillInfo.selectIndex.Count : Random.Range(0, enemy.skillInfo.selectIndex.Count);
+            var addIndex = d.curMode == RoglikeManager.Modes.stage ? enemy.skillCurCount % enemy.skillInfo.selectIndex.Count : Random.Range(0, enemy.skillInfo.selectIndex.Count);
             AddRequest(enemy, d.loadData.SkillList[enemy.skillInfo.selectIndex[addIndex]]);
             enemy.skillCurCount++;
         }
     }
     void Update()
     {
-        if (UIManager.instance.isPause) return;
+        if (UIManager.instance.isPause || RoglikeManager.instance.isEvent) return;
         if (!data.readEnd) return;
         else if (data.stageDialogBox.Count != 0 && !isDialogue)
         {
@@ -380,7 +383,7 @@ public class Controller : MonoBehaviour, IInitObserver
         useTurnCount = 0;
         enemyKillCount++;
 
-        if (DataManager.instance.curMode == Modes.stage)
+        if (DataManager.instance.curMode == RoglikeManager.Modes.stage)
             if (spawnCount >= DataManager.instance.loadData.SpawnData[DataManager.instance.curStageID].enemies.Count)
                 GameClear();
 

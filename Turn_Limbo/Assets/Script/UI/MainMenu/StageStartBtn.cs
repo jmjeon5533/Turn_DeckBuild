@@ -21,13 +21,13 @@ public class StageStartBtn : MonoBehaviour, IInitObserver
     public void StageStart(int stageIndex)
     {
         //Temporary index
-        DataManager.instance.curMode = Controller.Modes.stage;
+        DataManager.instance.curMode = RoglikeManager.Modes.stage;
         DataManager.instance.curStageID = stageIndex;
         SceneManager.LoadScene(2);
     }
     public void RogLikeStart()
     {
-        DataManager.instance.curMode = Controller.Modes.rogLike;
+        DataManager.instance.curMode = RoglikeManager.Modes.rogLike;
         DataManager.instance.curStageID = -1;
         SceneManager.LoadScene(2);
     }

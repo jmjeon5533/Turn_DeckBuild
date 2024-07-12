@@ -39,7 +39,7 @@ public class UIManager : MonoBehaviour, IInitObserver
     [SerializeField] Button pauseReturn, pauseStageSelect;
 
     [Header("GameEnd")]
-    [SerializeField] Image gameEndPanel;
+    [SerializeField] Image fadePanel;
     [SerializeField] TMP_Text gameEndText;
     [SerializeField] Button retry, stageSelect;
     [SerializeField] TMP_Text useTurnCountText;
@@ -274,8 +274,8 @@ public class UIManager : MonoBehaviour, IInitObserver
     IEnumerator SetGameEnd(bool isWin)
     {
         string text = isWin ? "Victory" : "Defeat";
-        var isMoneyGiveActive = isWin || DataManager.instance.curMode == Controller.Modes.rogLike;
-        yield return gameEndPanel.DOColor(new Color(0, 0, 0, 0.5f), 0.5f).SetUpdate(true).WaitForCompletion();
+        var isMoneyGiveActive = isWin || DataManager.instance.curMode == RoglikeManager.Modes.rogLike;
+        yield return StartCoroutine(UseFadePanel());
         gameEndText.text = text;
         yield return new WaitForSecondsRealtime(0.2f);
         EndMove = false;
@@ -299,7 +299,7 @@ public class UIManager : MonoBehaviour, IInitObserver
         retry.transform.DOLocalMoveY(-500, 0.2f).SetUpdate(true);
         yield return stageSelect.transform.DOLocalMoveY(-500, 0.2f).SetUpdate(true).WaitForCompletion(); ;
         float time = 0;
-        float moneyTarget = DataManager.instance.curMode == Controller.Modes.stage ? 
+        float moneyTarget = DataManager.instance.curMode == RoglikeManager.Modes.stage ? 
             2500 / controller.useTotalTurnCount * (DataManager.instance.curStageID + 1) :
             1000 * controller.enemyKillCount;
 
@@ -322,6 +322,10 @@ public class UIManager : MonoBehaviour, IInitObserver
         useTurnCountText.text = $"╩Г©К ео : {Mathf.RoundToInt(countTarget)}";
 
         EndMove = true;
+    }
+    public IEnumerator UseFadePanel()
+    {
+        yield return fadePanel.DOColor(new Color(0, 0, 0, 0.5f), 0.5f).SetUpdate(true).WaitForCompletion();
     }
     float EaseOutQuad(float t)
     {
