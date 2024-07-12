@@ -125,7 +125,7 @@ public class ReadSpreadSheet : MonoBehaviour
             skillLists.Add(newSkill);
             skillDatas[keyCode].Add(newSkill);
         }
-        d.loadData.skillData = new Dictionary<KeyCode, List<Skill>>(skillDatas);
+        d.loadData.skillData = new SerializableDictionary<KeyCode, List<Skill>>(skillDatas);
         d.loadData.SkillList.Clear();
         d.loadData.SkillList = new List<Skill>(skillLists);
         Debug.Log("ReadEnd");
@@ -137,8 +137,8 @@ public class ReadSpreadSheet : MonoBehaviour
     {
         Debug.Log("ReadBuff");
 
-        Dictionary<string, BuffScript> buff = new();
-        Dictionary<string, BuffScript> debuff = new();
+        SerializableDictionary<string, BuffScript> buff = new();
+        SerializableDictionary<string, BuffScript> debuff = new();
 
         var d = DataManager.instance;
         string[] rows = data.Split('\n');
