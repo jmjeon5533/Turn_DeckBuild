@@ -151,7 +151,7 @@ public class ReadSpreadSheet : MonoBehaviour
             temp.timing = columns[3].EnumParse<BuffTiming>();
             temp.buffIcon = Resources.Load<Sprite>($"BuffIcon/{columns[2]}");
 
-            if (columns[4] == "buff" && columns[4] != "")
+            if (columns[4] == "buff" && columns[4] != string.Empty)
                 buff.Add(columns[2], temp);
             else
                 debuff.Add(columns[2], temp);
@@ -184,7 +184,7 @@ public class ReadSpreadSheet : MonoBehaviour
         {
             string[] columns = rows[i].Split(',');
 
-            if (columns[1] != "") nowDialogueType = columns[1];
+            if (columns[1] != string.Empty) nowDialogueType = columns[1];
 
             var splitExplain = columns[6].Split('&');
             string explain = string.Join(",", splitExplain);
@@ -196,12 +196,12 @@ public class ReadSpreadSheet : MonoBehaviour
                 camPos = columns[5].EnumParse<DialogueManager.CamPos>(),
                 text = explain,
                 curEvent = columns[7].EnumParse<DialogueManager.CurEvent>(),
-                eventValue = columns[8] != "" ? columns[8] : "",
+                eventValue = columns[8] != string.Empty ? columns[8] : string.Empty,
             };
 
             //Debug.Log(newText.text);
 
-            if (nowDialogueType == "HpDialogue" && columns[9] != "")
+            if (nowDialogueType == "HpDialogue" && columns[9] != string.Empty)
             {
                 newText.hpValue = int.Parse(columns[10]);
                 isPlayer = columns[9] == "Player";
@@ -222,14 +222,14 @@ public class ReadSpreadSheet : MonoBehaviour
 
             string[] nextColumns = rows[i + 1].Split(',');
 
-            if (nextColumns[1] != "" && act.Count != 0)
+            if (nextColumns[1] != string.Empty && act.Count != 0)
             {
                 if (nowDialogueType == "StoryDialogue") dialogBox = new Queue<Dialogue>(act);
                 else hpDialogBox.Enqueue(new Queue<Dialogue>(act));
 
                 act.Clear();
             }
-            if (stageIndex != int.Parse(nextColumns[0]) && nextColumns[0] != "")
+            if (stageIndex != int.Parse(nextColumns[0]) && nextColumns[0] != string.Empty)
             {
                 d.loadData.stageDialogBox.Add(stageIndex, new Queue<Dialogue>(dialogBox));
                 d.loadData.hpDialogBox.Add(stageIndex, new Queue<Queue<Dialogue>>(hpDialogBox));
