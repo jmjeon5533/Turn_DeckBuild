@@ -133,7 +133,7 @@ public class Skill_Cut : SkillScript
     public override void End(Unit unit, Unit target)
     {
         if (unit.TryGetComponent<Player>(out var p))
-            p.PlusCoin(2);
+            p.PlusCoin(1);
     }
 }
 
@@ -150,7 +150,7 @@ public class Skill_Smashing : SkillScript
     public override void Setting(Unit unit, Unit target)
     {
         if (target.curSkill.propertyType == PropertyType.Defense)
-            target.isAttack = false; 
+            target.isAttack = false;
     }
 }
 
@@ -158,7 +158,7 @@ public class Skill_Defence : SkillScript
 {
     public override void End(Unit unit, Unit target)
     {
-        if (target.curSkill.propertyType == PropertyType.Hit && unit.TryGetComponent<Player>(out var p)) 
+        if (target.curSkill.propertyType == PropertyType.Hit && unit.TryGetComponent<Player>(out var p))
             p.PlusCoin(2);
     }
 }
@@ -211,7 +211,7 @@ public class Skill_LengthCut : SkillScript
 {
     public override void End(Unit unit, Unit target)
     {
-        unit.curBuff.Add(new Buff(DataManager.instance.loadData.buffList["AttackUp"], 15, 10));       
+        unit.curBuff.Add(new Buff(DataManager.instance.loadData.buffList["AttackUp"], 15, 10));
     }
 }
 
@@ -219,7 +219,7 @@ public class Skill_WidthCut : SkillScript
 {
     public override void Setting(Unit unit, Unit target)
     {
-        if(unit.usedSkill.index == 14) unit.curBuff.Add(new Buff(DataManager.instance.loadData.buffList["AttackUp"], 100, 1));     
+        if (unit.usedSkill.index == 14) unit.curBuff.Add(new Buff(DataManager.instance.loadData.buffList["AttackUp"], 100, 1));
     }
 }
 
@@ -227,34 +227,40 @@ public class Skill_CrossCut : SkillScript
 {
     public override void End(Unit unit, Unit target)
     {
-        if(target.curSkill.propertyType == PropertyType.Defense){
+        if (target.curSkill.propertyType == PropertyType.Defense)
+        {
             target.nextBuff.Add(new Buff(DataManager.instance.loadData.debuffList["AttackDown"], 90, 10, PropertyType.Defense));
         }
     }
 }
 
-public class Skill_Breath : SkillScript{
+public class Skill_Breath : SkillScript
+{
     public override void End(Unit unit, Unit target)
     {
-        if ((target.curSkill.propertyType == PropertyType.Slash || target.curSkill.propertyType == PropertyType.Penetrate || target.curSkill.propertyType == PropertyType.Hit) && unit.TryGetComponent<Player>(out var p)) p.PlusCoin(3);        
+        if ((target.curSkill.propertyType == PropertyType.Slash || target.curSkill.propertyType == PropertyType.Penetrate || target.curSkill.propertyType == PropertyType.Hit) && unit.TryGetComponent<Player>(out var p))
+            p.PlusCoin(3);
     }
 }
 
-public class Skill_FirstAid : SkillScript{
+public class Skill_FirstAid : SkillScript
+{
     public override void End(Unit unit, Unit target)
     {
-        if (target.curSkill.propertyType == PropertyType.Defense){
+        if (target.curSkill.propertyType == PropertyType.Defense)
+        {
             int temp = Mathf.RoundToInt(unit.maxHP * 0.05f);
             unit.hp += temp <= 0 ? 1 : temp;
-        } 
+        }
     }
 }
 
-public class Skill_FightingSpirit : SkillScript{
+public class Skill_FightingSpirit : SkillScript
+{
     public override void End(Unit unit, Unit target)
     {
         int temp = Mathf.RoundToInt(unit.maxShield * 0.1f);
-        unit.shield += temp <= 0 ? 0 : temp; 
+        unit.shield += temp <= 0 ? 0 : temp;
     }
 }
 
@@ -262,10 +268,11 @@ public class Skill_Inkling : SkillScript
 {
     public override void End(Unit unit, Unit target)
     {
-        if (target.curSkill.propertyType == PropertyType.Defense){
+        if (target.curSkill.propertyType == PropertyType.Defense)
+        {
             target.shield -= 10;
-            if(target.shield < 0) target.shield = 0;
-        } 
+            if (target.shield < 0) target.shield = 0;
+        }
     }
 }
 
@@ -273,10 +280,11 @@ public class Skill_VitalPoint : SkillScript
 {
     public override void End(Unit unit, Unit target)
     {
-        if (target.shield <= Mathf.CeilToInt(target.maxShield * 0.25f)){
+        if (target.shield <= Mathf.CeilToInt(target.maxShield * 0.25f))
+        {
             target.shield -= 50;
-            if(target.shield < 0) target.shield = 0;
-        } 
+            if (target.shield < 0) target.shield = 0;
+        }
     }
 }
 
@@ -292,9 +300,10 @@ public class Skill_Crushing : SkillScript
 {
     public override void End(Unit unit, Unit target)
     {
-        if (target.curSkill.propertyType == PropertyType.Defense){
+        if (target.curSkill.propertyType == PropertyType.Defense)
+        {
             target.hp -= 5;
-        } 
+        }
     }
 }
 
@@ -302,9 +311,10 @@ public class Skill_Bump : SkillScript
 {
     public override void End(Unit unit, Unit target)
     {
-        if (unit.shield <= Mathf.RoundToInt(unit.maxShield * 0.5f)){
+        if (unit.shield <= Mathf.RoundToInt(unit.maxShield * 0.5f))
+        {
             unit.shield += Mathf.RoundToInt(unit.shield * 0.2f);
-        } 
+        }
     }
 }
 
@@ -339,9 +349,10 @@ public class Skill_BattoOjutz_Enemy : SkillScript
 {
     public override void End(Unit unit, Unit target)
     {
-        if (target.curSkill.propertyType == PropertyType.Defense){
+        if (target.curSkill.propertyType == PropertyType.Defense)
+        {
             target.shield -= 999;
-        } 
+        }
     }
 }
 
@@ -349,11 +360,12 @@ public class Skill_BattoOjutz : SkillScript
 {
     public override void End(Unit unit, Unit target)
     {
-        if (target.curSkill.propertyType == PropertyType.Defense){
+        if (target.curSkill.propertyType == PropertyType.Defense)
+        {
             target.shield -= 20;
             if (unit.TryGetComponent<Player>(out var p))
-            p.PlusCoin(3);
-        } 
+                p.PlusCoin(3);
+        }
     }
 }
 
@@ -361,9 +373,10 @@ public class Skill_HyperSpeed : SkillScript
 {
     public override void End(Unit unit, Unit target)
     {
-        if (target.curSkill.propertyType == PropertyType.Slash || target.curSkill.propertyType == PropertyType.Penetrate || target.curSkill.propertyType == PropertyType.Hit){
+        if (target.curSkill.propertyType == PropertyType.Slash || target.curSkill.propertyType == PropertyType.Penetrate || target.curSkill.propertyType == PropertyType.Hit)
+        {
             target.hp -= 30;
-        } 
+        }
     }
 }
 
@@ -371,9 +384,10 @@ public class Skill_OneCut : SkillScript
 {
     public override void End(Unit unit, Unit target)
     {
-        if (target.curSkill.propertyType != PropertyType.Slash){
+        if (target.curSkill.propertyType != PropertyType.Slash)
+        {
             unit.shield += Mathf.RoundToInt(unit.shield * 0.1f);
-        } 
+        }
     }
 }
 
@@ -381,9 +395,10 @@ public class Skill_Determination : SkillScript
 {
     public override void End(Unit unit, Unit target)
     {
-        if (target.curSkill.propertyType == PropertyType.Slash){
+        if (target.curSkill.propertyType == PropertyType.Slash)
+        {
             unit.hp -= unit.curMaxDamage;
-        } 
+        }
     }
 }
 
@@ -391,9 +406,10 @@ public class Skill_LengthCut_Enemy : SkillScript
 {
     public override void End(Unit unit, Unit target)
     {
-        if (target.curSkill.propertyType != PropertyType.Slash){
-            unit.curBuff.Add(new Buff(DataManager.instance.loadData.buffList["AttackUp"], 50, 10));     
-        } 
+        if (target.curSkill.propertyType != PropertyType.Slash)
+        {
+            unit.curBuff.Add(new Buff(DataManager.instance.loadData.buffList["AttackUp"], 50, 10));
+        }
     }
 }
 
@@ -401,9 +417,10 @@ public class Skill_WidthCut_Enemy : SkillScript
 {
     public override void End(Unit unit, Unit target)
     {
-        if (target.curSkill.propertyType != PropertyType.Slash){
-            target.isAttack = false;  
-        } 
+        if (target.curSkill.propertyType != PropertyType.Slash)
+        {
+            target.isAttack = false;
+        }
     }
 }
 
@@ -411,9 +428,10 @@ public class Skill_Equanimity_Enemy : SkillScript
 {
     public override void End(Unit unit, Unit target)
     {
-        if (target.curSkill.propertyType != PropertyType.Slash){
+        if (target.curSkill.propertyType != PropertyType.Slash)
+        {
             unit.hp += Mathf.RoundToInt(unit.maxHP * 0.25f);
-        } 
+        }
     }
 }
 
@@ -421,9 +439,10 @@ public class Skill_Equanimity : SkillScript
 {
     public override void End(Unit unit, Unit target)
     {
-        if (target.curSkill.propertyType == PropertyType.Slash && unit.TryGetComponent<Player>(out var p)){
+        if (target.curSkill.propertyType == PropertyType.Slash && unit.TryGetComponent<Player>(out var p))
+        {
             p.PlusCoin(3);
-        } 
+        }
     }
 }
 
