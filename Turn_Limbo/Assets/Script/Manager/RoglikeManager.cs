@@ -11,7 +11,8 @@ public class RoglikeManager : MonoBehaviour, IInitObserver
     public bool isEvent;
     public int rogStageIndex;
     [SerializeField] private Controller controller;
-    public SkillExplain[] skillExplains;
+    public SkillExplain skillExplain;
+    public GameObject skillExplainObject;
     public RoglikeData roglikeData;
     List<Skill> getList = new List<Skill>();
     [SerializeField] private readonly float[] sectionRandValue = { 0.1f, 0.2f, 0.3f, 0.4f};
@@ -45,46 +46,49 @@ public class RoglikeManager : MonoBehaviour, IInitObserver
         float randValue = Random.Range(0f, 1f);
         if (randValue > 0.75f) return;
 
+        isEvent = true;
         Time.timeScale = 0;
 
-        int[] aris = new int[getList.Count];
+        int[] flipList = new int[getList.Count];
         float sum = 0;
         for (int i = 0; i < getList.Count; i++)
         {
-            aris[i] = 4 - getList[i].skillTier;
-            sum += sectionRandValue[aris[i]];
+            flipList[i] = 4 - getList[i].skillTier;
+            sum += sectionRandValue[flipList[i]];
         }
 
-        float randomAlice = Random.Range(0f, sum);
+        float rand = Random.Range(0f, sum);
         int index = 0;
-        while (randomAlice > 0)
+        while (rand > 0)
         {
-            randomAlice -= aris[index];
-            if (randomAlice < 0)
+            rand -= flipList[index];
+            if (rand < 0)
             {
                 break;
             }
             index++;
         }
-        
+        ShowSkillGetPanel(index);
     }
     public void ShowSkillGetPanel(int index)
     {
-
+        skillExplainObject.SetActive(true);
+        var skill = DataManager.instance.loadData.SkillList[index];
+        skillExplain.ExplainSet(skill,skill.level);
     }
-    public void ShowStagePanel()
-    {
-        isEvent = true;
-        Time.timeScale = 0;
-        StartCoroutine(ShowStageAnim());
-    }
-    private IEnumerator ShowStageAnim()
-    {
-        yield return StartCoroutine(UIManager.instance.UseFadePanel());
-        for (int i = 0; i < skillExplains.Length; i++)
-        {
-            skillExplains[i].transform.DOMoveX(-500 + (i * 500), 0.5f).SetEase(Ease.OutQuad);
-            yield return new WaitForSeconds(0.1f * (i + 1));
-        }
-    }
+    // public void ShowStagePanel()
+    // {
+    //     isEvent = true;
+    //     Time.timeScale = 0;
+    //     StartCoroutine(ShowStageAnim());
+    // }
+    // private IEnumerator ShowStageAnim()
+    // {
+    //     yield return StartCoroutine(UIManager.instance.UseFadePanel());
+    //     for (int i = 0; i < skillExplains.Length; i++)
+    //     {
+    //         skillExplains[i].transform.DOMoveX(-500 + (i * 500), 0.5f).SetEase(Ease.OutQuad);
+    //         yield return new WaitForSeconds(0.1f * (i + 1));
+    //     }
+    // }
 }

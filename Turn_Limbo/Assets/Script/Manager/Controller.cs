@@ -40,7 +40,6 @@ public class Controller : MonoBehaviour, IInitObserver
     public Image keyHoldImage;
     public List<SkillScript> skills = new();
     public List<Skill> inputLists = new();
-    public RoglikeData roglikeData;
 
     [Header("dialog")]
     Queue<Dialogue> dialogueBox = new();
