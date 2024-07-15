@@ -103,9 +103,6 @@ public class Controller : MonoBehaviour, IInitObserver
         depth.focalLength.value = 1;
         color.postExposure.value = 0;
         color.saturation.value = 0;
-
-        data.plusStats.AddStats(player);
-        data.plusStats.AddBuff(player);
     }
     public void SetStage()
     {
@@ -119,6 +116,8 @@ public class Controller : MonoBehaviour, IInitObserver
         map = Instantiate(d.loadData.SpawnData[spawnDataIndex].maps);
 
         bg = map;
+        d.plusStats.AddStats(player);
+        d.plusStats.AddBuff(player);
     }
     public void SpawnEnemy()
     {
@@ -137,8 +136,6 @@ public class Controller : MonoBehaviour, IInitObserver
         enemy.transform.DOMoveX(5, 0.5f);
         spawnCount++;
         GiveEnemySkill();
-
-
     }
     public void GiveEnemySkill()
     {
