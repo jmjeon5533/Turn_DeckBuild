@@ -93,6 +93,7 @@ public class ReadSpreadSheet : MonoBehaviour
             string explain = string.Join("\n", splitExplain);
             var newSkill = new Skill();
             newSkill.index = i;
+            newSkill.skillTier = int.Parse(columns[25]);
             newSkill.skillName = columns[2];
             newSkill.cost = new int[4];
             newSkill.minDamage = new int[4];

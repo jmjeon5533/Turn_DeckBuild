@@ -12,6 +12,7 @@ using UnityEditorInternal.Profiling.Memory.Experimental;
 public class Skill
 {
     public int index;
+    public int skillTier;
     public string skillName;
     public int[] cost;
     public int[] minDamage;
