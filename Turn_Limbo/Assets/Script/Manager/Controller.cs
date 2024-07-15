@@ -177,7 +177,7 @@ public class Controller : MonoBehaviour, IInitObserver
             {
                 if (spawnCount < DataManager.instance.loadData.SpawnData[DataManager.instance.curStageID].enemies.Count)
                 {
-                    r.TryGetItem();
+                    r.GetItemRandom();
                     SpawnEnemy();
                     InitEnemy();
                     TurnReset();
@@ -190,7 +190,7 @@ public class Controller : MonoBehaviour, IInitObserver
             }
             else
             {
-                r.TryGetItem();
+                r.GetItemRandom();
                 SpawnEnemy();
                 InitEnemy();
                 TurnReset();

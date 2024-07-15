@@ -176,6 +176,10 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 334556402, guid: 81ba74c15afd25641a61eca563a16a50, type: 3}
+      propertyPath: m_Color.a
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 368434018, guid: 81ba74c15afd25641a61eca563a16a50, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -236,6 +240,10 @@ PrefabInstance:
       propertyPath: effectCam
       value: 
       objectReference: {fileID: 1616153422}
+    - target: {fileID: 1718499151790417057, guid: 81ba74c15afd25641a61eca563a16a50, type: 3}
+      propertyPath: fadePanel
+      value: 
+      objectReference: {fileID: 1628730495}
     - target: {fileID: 1718499151790417057, guid: 81ba74c15afd25641a61eca563a16a50, type: 3}
       propertyPath: controller
       value: 
@@ -3387,6 +3395,17 @@ Transform:
   m_Father: {fileID: 519420032}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1628730495 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 334556402, guid: 81ba74c15afd25641a61eca563a16a50, type: 3}
+  m_PrefabInstance: {fileID: 37891359}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1642017687
 GameObject:
   m_ObjectHideFlags: 0
@@ -4910,7 +4929,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isEvent: 0
+  rogStageIndex: 0
+  controller: {fileID: 0}
   skillExplains: []
+  roglikeData: {fileID: 0}
 --- !u!1001 &1810472772723163505
 PrefabInstance:
   m_ObjectHideFlags: 0
