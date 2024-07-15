@@ -329,7 +329,7 @@ public class UIManager : MonoBehaviour, IInitObserver
     }
     public IEnumerator OffFadePanel()
     {
-        yield return fadePanel.DOColor(new Color(0, 0, 0, 0.5f), 0.5f).SetUpdate(true).WaitForCompletion();
+        yield return fadePanel.DOColor(Color.clear, 0.5f).SetUpdate(true).WaitForCompletion();
     }
     float EaseOutQuad(float t)
     {

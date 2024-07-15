@@ -43,9 +43,6 @@ public class IngameSkillAdd : MonoBehaviour, IInitObserver
         controller.talkUnit = DataManager.instance.hpUnitIsPlayer ? controller.player : controller.enemy;
         DataManager.instance.InitDialog();
         DataManager.instance.InitUnit(controller.talkUnit);
-        foreach(var input in controller.inputs)
-            foreach(var values in input.Value) print(values.index);
-
         action?.Invoke();
     }
 }

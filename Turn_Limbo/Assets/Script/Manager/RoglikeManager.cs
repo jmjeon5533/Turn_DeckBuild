@@ -14,8 +14,8 @@ public class RoglikeManager : MonoBehaviour, IInitObserver
     public int rogStageIndex = 0;
     [SerializeField] private Controller controller;
     public SkillExplain skillExplain;
+    public GameObject[] skillExplainPivots;
     public StageExplain[] stageExplains;
-    public GameObject skillExplainObject;
     public RoglikeData roglikeData;
     [SerializeField] private List<Skill> getList = new List<Skill>();
     [SerializeField] TMP_Text[] btnTexts;
@@ -30,12 +30,13 @@ public class RoglikeManager : MonoBehaviour, IInitObserver
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Comma))
-            Debug.Log("null: " + skillExplainObject);
+            Debug.Log("null: " + skillExplainPivots);
     }
     public void Init()
     {
         print("Rog");
-        skillExplainObject.SetActive(false);
+        skillExplainPivots[0].transform.localPosition = new Vector3(-1500, -105);
+        skillExplainPivots[1].transform.localPosition = new Vector3(1000, -105f);
         RebaseCanGetSkill();
     }
     public void RebaseCanGetSkill()
@@ -61,6 +62,11 @@ public class RoglikeManager : MonoBehaviour, IInitObserver
     public void GetItemRandom()
     {
         float randValue = Random.Range(0f, 1f);
+        if (controller.spawnCount >= roglikeData.stageDatas[rogStageIndex].spawnEnemyList.Length)
+        {
+            print("break");
+            return;
+        }
         if (randValue > 0.75f) return;
 
         isEvent = true;
@@ -92,7 +98,10 @@ public class RoglikeManager : MonoBehaviour, IInitObserver
     {
         KeyCode[] IndexToKey = { KeyCode.Q, KeyCode.W, KeyCode.E };
 
-        skillExplainObject.SetActive(true);
+        skillExplainPivots[0].transform.DOLocalMoveX(-428, 0.5f).SetUpdate(true);
+        skillExplainPivots[1].transform.DOLocalMoveX(125, 0.5f).SetUpdate(true);
+
+        StartCoroutine(UIManager.instance.OnFadePanel());
         curSkill = skill;
         getList.RemoveAt(index);
         skillExplain.ExplainSet(curSkill, curSkill.level);
@@ -109,7 +118,6 @@ public class RoglikeManager : MonoBehaviour, IInitObserver
             holdIndex = curSkill.index - 1,
             level = 0
         };
-        controller.player.skillInfo.holdSkills.Add(curSkill.index - 1, newSkill);
         EndEvent();
     }
     public void SaleSkill()
@@ -120,7 +128,9 @@ public class RoglikeManager : MonoBehaviour, IInitObserver
     public void EndEvent()
     {
         isEvent = false;
-        skillExplainObject.SetActive(false);
+        StartCoroutine(UIManager.instance.OffFadePanel());
+        skillExplainPivots[0].transform.localPosition = new Vector3(-1500, -105);
+        skillExplainPivots[1].transform.localPosition = new Vector3(1000, -105f);
     }
     public void ShowStagePanel()
     {

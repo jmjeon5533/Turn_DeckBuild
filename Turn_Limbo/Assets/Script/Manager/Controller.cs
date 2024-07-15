@@ -64,7 +64,8 @@ public class Controller : MonoBehaviour, IInitObserver
     public bool isEnemyRandomSkillIndex;
 
     private int lastSign;
-    private int spawnCount = 0;
+    [HideInInspector] 
+    public int spawnCount = 0;
 
     [Header("Post Processing")]
     public VolumeProfile volume;
@@ -531,12 +532,14 @@ public class Controller : MonoBehaviour, IInitObserver
 
     IEnumerator AttackStart(Unit unit)
     {
+        var d = DataManager.instance;
         var skill = unit.curSkill;
         //print($"{unit.name} : {unit.curAttackCount},{unit.curSkill.index}");
         if (unit.curSkill.actionType == Unit.ActionType.none) yield break;
 
-        unit.InitCurSkillDamage(skill.minDamage[unit.skillInfo.holdSkills[skill.index - 1].level],
-            skill.maxDamage[unit.skillInfo.holdSkills[skill.index - 1].level], skill.attackCount);
+        unit.InitCurSkillDamage(skill.minDamage[d.loadData.SkillList[skill.index - 1].level],
+            skill.maxDamage[d.loadData.SkillList[skill.index - 1].level], skill.attackCount);
+            print(skill.skillName);
 
         unit.curSkill.effect?.Setting(unit, unit.target);
         StartCoroutine(IconAnim(skill.insertImage, skill.animation.length * skill.attackCount));
