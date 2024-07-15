@@ -351,7 +351,7 @@ public class Controller : MonoBehaviour, IInitObserver
     }
     public void RequestKeyUp(int i)
     {
-        if(inputs[i][0].cost[0] > useAbleCoin) return;
+        if (inputs[i][0].cost[0] > useAbleCoin) return;
         var ui = UIManager.instance;
         var input = inputs[i];
         AddRequest(player, input[0]);
@@ -475,6 +475,7 @@ public class Controller : MonoBehaviour, IInitObserver
             float waitTime = Mathf.Max(playerDelay * player.curSkill.attackCount, enemyDelay * enemy.curSkill.attackCount);
 
             player.UseBuff(BuffTiming.TurnStart); enemy.UseBuff(BuffTiming.TurnStart);
+
             StartCoroutine(AttackStart(player)); StartCoroutine(AttackStart(enemy));
 
             for (int j = 0; j < units.Length; j++)
@@ -525,9 +526,18 @@ public class Controller : MonoBehaviour, IInitObserver
         var skill = unit.SkillChange();
         unit.SkillInit(skill);
 
-        //Debug.Log(skill);
-        if (skill.animation == null) Debug.Log($"!!!!!!!!!!!! {skill.skillName}");
         return skill.animation.length;
+    }
+
+    void AttackCheck(Unit player, Unit enemy)
+    {
+        var p = player.curSkill.actionType;
+        var e = enemy.curSkill.actionType;
+
+        if (p == Unit.ActionType.Chain)
+            enemy.curSkill.actionType = e == Unit.ActionType.Chain ? Unit.ActionType.Chain : Unit.ActionType.Change;
+        else if(e == Unit.ActionType.Chain)
+            player.curSkill.actionType = p == Unit.ActionType.Chain ? Unit.ActionType.Chain : Unit.ActionType.Change;
     }
 
     IEnumerator AttackStart(Unit unit)
@@ -536,17 +546,26 @@ public class Controller : MonoBehaviour, IInitObserver
         var skill = unit.curSkill;
         //print($"{unit.name} : {unit.curAttackCount},{unit.curSkill.index}");
         if (unit.curSkill.actionType == Unit.ActionType.none) yield break;
-
-        unit.InitCurSkillDamage(skill.minDamage[d.loadData.SkillList[skill.index - 1].level],
-            skill.maxDamage[d.loadData.SkillList[skill.index - 1].level], skill.attackCount);
-            print(skill.skillName);
-
-        unit.curSkill.effect?.Setting(unit, unit.target);
         StartCoroutine(IconAnim(skill.insertImage, skill.animation.length * skill.attackCount));
-        for (int i = 0; i < skill.attackCount; i++)
+
+        if (unit.curSkill.actionType == Unit.ActionType.Chain)
         {
-            unit.anim.Play(skill.propertyType.ToString(), -1, 0f);
-            yield return new WaitForSeconds(skill.animation.length);
+            unit.isChain = true;
+            unit.chainDamage += skill.minDamage[unit.skillInfo.holdSkills[skill.index - 1].level];
+            unit.UseChainSkill(skill);
+            unit.curSkill.effect?.Setting(unit, unit.target);
+        }
+        else
+        {
+            unit.InitCurSkillDamage(skill.minDamage[unit.skillInfo.holdSkills[skill.index - 1].level],
+            skill.maxDamage[unit.skillInfo.holdSkills[skill.index - 1].level], skill.attackCount);
+
+            unit.curSkill.effect?.Setting(unit, unit.target);
+            for (int i = 0; i < skill.attackCount; i++)
+            {
+                unit.anim.Play(skill.propertyType.ToString(), -1, 0f);
+                yield return new WaitForSeconds(skill.animation.length);
+            }
         }
     }
 
