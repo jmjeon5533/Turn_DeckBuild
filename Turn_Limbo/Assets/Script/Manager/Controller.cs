@@ -551,14 +551,14 @@ public class Controller : MonoBehaviour, IInitObserver
         if (unit.curSkill.actionType == Unit.ActionType.Chain)
         {
             unit.isChain = true;
-            unit.chainDamage += skill.minDamage[unit.skillInfo.holdSkills[skill.index - 1].level];
+            unit.chainDamage += skill.minDamage[d.loadData.SkillList[skill.index - 1].level];
             unit.UseChainSkill(skill);
             unit.curSkill.effect?.Setting(unit, unit.target);
         }
         else
         {
-            unit.InitCurSkillDamage(skill.minDamage[unit.skillInfo.holdSkills[skill.index - 1].level],
-            skill.maxDamage[unit.skillInfo.holdSkills[skill.index - 1].level], skill.attackCount);
+            unit.InitCurSkillDamage(skill.minDamage[d.loadData.SkillList[skill.index - 1].level],
+            skill.maxDamage[d.loadData.SkillList[skill.index - 1].level], skill.attackCount);
 
             unit.curSkill.effect?.Setting(unit, unit.target);
             for (int i = 0; i < skill.attackCount; i++)
