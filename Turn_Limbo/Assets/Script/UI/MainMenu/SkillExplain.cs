@@ -9,6 +9,7 @@ public class SkillExplain : MonoBehaviour
     [SerializeField] Image skillIcon;
     [SerializeField] Text skillName, skill_Desc, skill_Effect, skill_Cost, skill_BuyMoney, skill_keys;
     [SerializeField] Text dmgText;
+    
     public void ExplainSet(Skill skill,int level)
     {
         skillIcon.sprite = skill.icon;

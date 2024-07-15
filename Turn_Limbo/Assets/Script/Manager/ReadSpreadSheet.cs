@@ -114,7 +114,7 @@ public class ReadSpreadSheet : MonoBehaviour
             {
                 newSkill.effect = Activator.CreateInstance(Type.GetType(className)) as SkillScript;
             }
-            catch { Debug.LogError("NewSkillData"); newSkill.effect = Activator.CreateInstance(Type.GetType("Skill_")) as SkillScript; }
+            catch { newSkill.effect = Activator.CreateInstance(Type.GetType("Skill_")) as SkillScript; }
 
 
             for (int j = 0; j < 4; j++)

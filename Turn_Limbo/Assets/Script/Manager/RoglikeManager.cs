@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 public class RoglikeManager : MonoBehaviour, IInitObserver
 {
     public static RoglikeManager instance { get; private set; }
@@ -15,14 +17,25 @@ public class RoglikeManager : MonoBehaviour, IInitObserver
     public GameObject skillExplainObject;
     public RoglikeData roglikeData;
     List<Skill> getList = new List<Skill>();
-    [SerializeField] private readonly float[] sectionRandValue = { 0.1f, 0.2f, 0.3f, 0.4f};
+    [SerializeField] TMP_Text[] btnTexts;
+    Skill curSkill;
+    [SerializeField] private readonly float[] sectionRandValue = { 0.1f, 0.2f, 0.3f, 0.4f };
 
     private void Awake()
     {
         instance = this;
     }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Comma))
+            Debug.Log("null: " + skillExplainObject);
+    }
     public void Init()
     {
+        print("Rog");
+        skillExplainObject.SetActive(false);
+
         int[] tierCount = { 0, 0, 0, 0 };
         var d = DataManager.instance;
         if (d.curMode != Modes.rogLike) return;
@@ -47,8 +60,8 @@ public class RoglikeManager : MonoBehaviour, IInitObserver
         if (randValue > 0.75f) return;
 
         isEvent = true;
-        Time.timeScale = 0;
 
+        Time.timeScale = 0;
         int[] flipList = new int[getList.Count];
         float sum = 0;
         for (int i = 0; i < getList.Count; i++)
@@ -72,9 +85,29 @@ public class RoglikeManager : MonoBehaviour, IInitObserver
     }
     public void ShowSkillGetPanel(int index)
     {
+        KeyCode[] IndexToKey = { KeyCode.Q, KeyCode.W, KeyCode.E };
+        
         skillExplainObject.SetActive(true);
-        var skill = DataManager.instance.loadData.SkillList[index];
-        skillExplain.ExplainSet(skill,skill.level);
+        curSkill = DataManager.instance.loadData.SkillList[index];
+        getList.RemoveAt(index);
+        skillExplain.ExplainSet(curSkill, curSkill.level);
+        btnTexts[0].text = $"<size=100>{IndexToKey[curSkill.keyIndex]}</size> À§Ä¡¿¡ ÇÒ´ç";
+        btnTexts[1].text = $"<size=100>{IndexToKey[curSkill.sale]}¿ø</size> È¹µæ";
+    }
+    public void GetSkill()
+    {
+        controller.inputs[curSkill.keyIndex].Add(curSkill);
+        EndEvent();
+    }
+    public void SaleSkill()
+    {
+        DataManager.instance.saveData.money += curSkill.sale;
+        EndEvent();
+    }
+    public void EndEvent()
+    {
+        isEvent = false;
+        skillExplainObject.SetActive(false);
     }
     // public void ShowStagePanel()
     // {
