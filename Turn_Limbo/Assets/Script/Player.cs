@@ -8,13 +8,7 @@ public class Player : Unit
 {
     public bool coinLimit;
     public int addCoin;
-    public int nextTurnAddCoin ;
-
-    protected override void Awake()
-    {
-        base.Awake();
-        nextTurnAddCoin = addCoin;
-    }
+    public int nextTurnAddCoin;
 
     public override void TurnInit()
     {
