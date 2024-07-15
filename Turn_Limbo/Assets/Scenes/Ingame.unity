@@ -5766,6 +5766,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1885881912}
     - target: {fileID: 1458412470084163070, guid: af958d51dd4f8ac42b6a0a1a173f0ae8, type: 3}
+      propertyPath: roglikeData
+      value: 
+      objectReference: {fileID: 11400000, guid: e773365992c14ef4fbc475b79bc0fa4b, type: 2}
+    - target: {fileID: 1458412470084163070, guid: af958d51dd4f8ac42b6a0a1a173f0ae8, type: 3}
       propertyPath: skillExplain
       value: 
       objectReference: {fileID: 570246806}
