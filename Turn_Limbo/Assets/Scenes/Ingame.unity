@@ -1849,6 +1849,7 @@ GameObject:
   - component: {fileID: 472149207}
   - component: {fileID: 472149209}
   - component: {fileID: 472149208}
+  - component: {fileID: 472149210}
   m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
@@ -1874,7 +1875,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1300, y: 290}
+  m_AnchoredPosition: {x: 0, y: -800}
   m_SizeDelta: {x: 400, y: 440}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &472149208
@@ -1915,6 +1916,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 472149206}
   m_CullTransparentMesh: 1
+--- !u!114 &472149210
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 472149206}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d92250b29fbe2194997a31ab5d66415a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &481779761
 GameObject:
   m_ObjectHideFlags: 0
@@ -3085,6 +3098,7 @@ GameObject:
   - component: {fileID: 963167971}
   - component: {fileID: 963167973}
   - component: {fileID: 963167972}
+  - component: {fileID: 963167974}
   m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
@@ -3110,7 +3124,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 2300, y: 290}
+  m_AnchoredPosition: {x: 500, y: -800}
   m_SizeDelta: {x: 400, y: 440}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &963167972
@@ -3151,6 +3165,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963167970}
   m_CullTransparentMesh: 1
+--- !u!114 &963167974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963167970}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d92250b29fbe2194997a31ab5d66415a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &991576579
 GameObject:
   m_ObjectHideFlags: 0
@@ -5250,6 +5276,7 @@ GameObject:
   - component: {fileID: 1940503211}
   - component: {fileID: 1940503213}
   - component: {fileID: 1940503212}
+  - component: {fileID: 1940503214}
   m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
@@ -5275,7 +5302,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1800, y: 290}
+  m_AnchoredPosition: {x: -500, y: -800}
   m_SizeDelta: {x: 400, y: 440}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1940503212
@@ -5316,6 +5343,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1940503210}
   m_CullTransparentMesh: 1
+--- !u!114 &1940503214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1940503210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d92250b29fbe2194997a31ab5d66415a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1981335602 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4115617384118041461, guid: 81ba74c15afd25641a61eca563a16a50, type: 3}
@@ -5789,6 +5828,22 @@ PrefabInstance:
       propertyPath: btnTexts.Array.data[1]
       value: 
       objectReference: {fileID: 1843065610}
+    - target: {fileID: 1458412470084163070, guid: af958d51dd4f8ac42b6a0a1a173f0ae8, type: 3}
+      propertyPath: stageExplains.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1458412470084163070, guid: af958d51dd4f8ac42b6a0a1a173f0ae8, type: 3}
+      propertyPath: stageExplains.Array.data[0]
+      value: 
+      objectReference: {fileID: 472149210}
+    - target: {fileID: 1458412470084163070, guid: af958d51dd4f8ac42b6a0a1a173f0ae8, type: 3}
+      propertyPath: stageExplains.Array.data[1]
+      value: 
+      objectReference: {fileID: 1940503214}
+    - target: {fileID: 1458412470084163070, guid: af958d51dd4f8ac42b6a0a1a173f0ae8, type: 3}
+      propertyPath: stageExplains.Array.data[2]
+      value: 
+      objectReference: {fileID: 963167974}
     - target: {fileID: 1458412470084163071, guid: af958d51dd4f8ac42b6a0a1a173f0ae8, type: 3}
       propertyPath: m_RootOrder
       value: 12

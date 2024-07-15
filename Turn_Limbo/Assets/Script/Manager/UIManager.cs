@@ -275,7 +275,7 @@ public class UIManager : MonoBehaviour, IInitObserver
     {
         string text = isWin ? "Victory" : "Defeat";
         var isMoneyGiveActive = isWin || DataManager.instance.curMode == RoglikeManager.Modes.rogLike;
-        yield return StartCoroutine(UseFadePanel());
+        yield return StartCoroutine(OnFadePanel());
         gameEndText.text = text;
         yield return new WaitForSecondsRealtime(0.2f);
         EndMove = false;
@@ -323,7 +323,11 @@ public class UIManager : MonoBehaviour, IInitObserver
 
         EndMove = true;
     }
-    public IEnumerator UseFadePanel()
+    public IEnumerator OnFadePanel()
+    {
+        yield return fadePanel.DOColor(new Color(0, 0, 0, 0.5f), 0.5f).SetUpdate(true).WaitForCompletion();
+    }
+    public IEnumerator OffFadePanel()
     {
         yield return fadePanel.DOColor(new Color(0, 0, 0, 0.5f), 0.5f).SetUpdate(true).WaitForCompletion();
     }

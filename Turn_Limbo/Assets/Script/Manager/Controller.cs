@@ -111,7 +111,7 @@ public class Controller : MonoBehaviour, IInitObserver
 
         InitEnemy();
         SpriteRenderer map;
-        var spawnDataIndex = d.curMode == RoglikeManager.Modes.stage ? d.curStageID : Random.Range(0, d.loadData.SpawnData.Count);
+        var spawnDataIndex = d.curMode == RoglikeManager.Modes.stage ? d.curStageID : r.rogStageIndex;
         map = Instantiate(d.loadData.SpawnData[spawnDataIndex].maps);
 
         bg = map;
@@ -121,10 +121,15 @@ public class Controller : MonoBehaviour, IInitObserver
     public void SpawnEnemy()
     {
         var d = DataManager.instance;
+        var r = RoglikeManager.instance;
         if (d.curMode == RoglikeManager.Modes.stage)
+        {
             enemy = Instantiate(d.loadData.SpawnData[d.curStageID].enemies[spawnCount], new Vector3(12, -0.5f, 0), Quaternion.identity);
+        }
         else
-            enemy = Instantiate(d.loadData.allEnemys[Random.Range(0, d.loadData.allEnemys.Count)], new Vector3(12, -0.5f, 0), Quaternion.identity);
+        {
+            enemy = Instantiate(r.roglikeData.stageDatas[r.rogStageIndex].spawnEnemyList[spawnCount], new Vector3(12, -0.5f, 0), Quaternion.identity);
+        }
 
         enemy.hitSound = hitSound;
         enemy.dmgDelayTime = AnimTime;
@@ -362,6 +367,8 @@ public class Controller : MonoBehaviour, IInitObserver
     }
     public IEnumerator KillEnemy()
     {
+        var d = DataManager.instance;
+        var r = RoglikeManager.instance;
         var deadEnemy = enemy;
         yield return deadEnemy.transform.DOMoveX(12, 0.5f).OnComplete(() => Destroy(deadEnemy.gameObject)).WaitForCompletion();
 
@@ -380,9 +387,17 @@ public class Controller : MonoBehaviour, IInitObserver
         useTurnCount = 0;
         enemyKillCount++;
 
-        if (DataManager.instance.curMode == RoglikeManager.Modes.stage)
-            if (spawnCount >= DataManager.instance.loadData.SpawnData[DataManager.instance.curStageID].enemies.Count)
+        if (d.curMode == RoglikeManager.Modes.stage)
+        {
+            if (spawnCount >= d.loadData.SpawnData[d.curStageID].enemies.Count)
                 GameClear();
+        }
+        else
+        {
+            if (spawnCount >= r.roglikeData.stageDatas[r.rogStageIndex].spawnEnemyList.Length)
+                r.ShowStagePanel();
+        }
+
 
     }
     public void GameOver()
