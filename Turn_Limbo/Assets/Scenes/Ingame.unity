@@ -3272,7 +3272,7 @@ MonoBehaviour:
   rogStageIndex: 0
   controller: {fileID: 0}
   skillExplains: []
-  roglikeData: {fileID: 0}
+  roglikeData: {fileID: 11400000, guid: e773365992c14ef4fbc475b79bc0fa4b, type: 2}
 --- !u!4 &1573090561
 Transform:
   m_ObjectHideFlags: 0

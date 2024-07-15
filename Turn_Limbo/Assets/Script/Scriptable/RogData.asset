@@ -12,4 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb57c7f89bbcc294d8135f6ed743b657, type: 3}
   m_Name: RogData
   m_EditorClassIdentifier: 
-  stageDatas: []
+  stageDatas:
+  - stageName: 
+    getSkillIndex: 
+    spawnEnemyList: []
+    spawnBoss: {fileID: 0}
+    clearGetMoney: 0
+  - stageName: 
+    getSkillIndex: 
+    spawnEnemyList: []
+    spawnBoss: {fileID: 0}
+    clearGetMoney: 0
+  - stageName: 
+    getSkillIndex: 
+    spawnEnemyList: []
+    spawnBoss: {fileID: 0}
+    clearGetMoney: 0
