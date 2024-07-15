@@ -28,7 +28,7 @@ public class SkillUpgrade : MonoBehaviour
         MoneyText.text = $"보유자원 : {DataManager.instance.saveData.money}";
         foreach(var p in playerSkills.holdSkills)
         {
-            print(p);
+            //print(p);
         }
     }
 
@@ -36,7 +36,7 @@ public class SkillUpgrade : MonoBehaviour
     {
         for (int i = skillDeckBuild.selectBtnImage.Count - 1; i >= 0; i--)
         {
-            print(i);
+            //print(i);
             Destroy(skillDeckBuild.selectBtnImage[i].btn.gameObject);
             skillDeckBuild.selectBtnImage.RemoveAt(i);
         }

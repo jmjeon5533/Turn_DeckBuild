@@ -69,7 +69,8 @@ public abstract class Unit : MonoBehaviour
         Attack,
         Defence,
         Dodge,
-        Chain
+        Chain,
+        Change,
     }
 
     public List<Buff> curBuff = new();
@@ -97,6 +98,11 @@ public abstract class Unit : MonoBehaviour
     public float attack_Drainage;
     public float defense_Drainage;
     public bool isAttack;
+
+    public int chainDamage;
+    public int chainCount;
+    public bool isChain;
+    public List<string> chainName;
 
     public Unit target;
     public RequestSkill nextSkill;
@@ -244,15 +250,10 @@ public abstract class Unit : MonoBehaviour
             if (list[i].count != 0 && !allClaer)
             {
                 if (list[i].insertImage == null)
-                {
                     list[i].insertImage = UIManager.instance.AddImage(list[i].buff.buffIcon, unitUI.requestBuffParent);
-                }
                 temp.Add(list[i]);
             }
-            else
-            {
-                usedBuff.Add(list[i]);
-            }
+            else usedBuff.Add(list[i]);
         }
 
         if (allClaer)
@@ -274,6 +275,11 @@ public abstract class Unit : MonoBehaviour
         }
 
         return temp;
+    }
+
+    public void UseChainSkill(RequestSkill skill){
+        chainCount++;
+        chainName.Add(skill.skillName);
     }
 
     public void InitCurSkillDamage(int min, int max, int count)
@@ -342,7 +348,7 @@ public abstract class Unit : MonoBehaviour
         damage = Mathf.RoundToInt(damage * defense_Drainage);
         if (shield <= damage)
         {
-            if(shield < 0) shield = 0;
+            if (shield < 0) shield = 0;
 
             Damage(damage - shield, dir);
             DamageLogs(damage - shield);
@@ -352,7 +358,7 @@ public abstract class Unit : MonoBehaviour
         else
         {
             damage -= plusDefenseValue;
-            if(damage < 0) damage = 1;
+            if (damage < 0) damage = 1;
             dmgDelayCurTime = dmgDelayTime;
             var totalDmg = damage;
             shield -= totalDmg;
@@ -372,7 +378,7 @@ public abstract class Unit : MonoBehaviour
         int totalDmg = 0;
         damage = Mathf.RoundToInt(damage * defense_Drainage);
         damage -= plusDefenseValue;
-        if(damage < 0) damage = 1;
+        if (damage < 0) damage = 1;
 
         if (shield <= 0)
         {
@@ -397,6 +403,7 @@ public abstract class Unit : MonoBehaviour
         DamageLogs(totalDmg);
         UIManager.instance.DamageText(totalDmg, transform.position, this);
     }
+
     void DamagePush(Vector3 dir, int damage)
     {
         var addPos = dir * damage * 0.3f;
