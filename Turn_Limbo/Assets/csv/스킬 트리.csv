@@ -1,0 +1,27 @@
+idx,Line,name,Type,Script,Value,cost,desc
+1,,학습,Parent,AddCoin,1,1250,기본 act 회복 +1
+2,1,체력 증강,Parent,HP,5,500,최대 체력 +5
+3,2,날카롭게,Parent,AttackValue,1,1750,적에게 주는 피해량 +1
+4,3,신체 단련,Parent,Shield,8,1000,최대 저항력 +8
+5,1,유산소 운동,Parent,HP,20,1000,최대 체력 +20
+6,2,전술 수정,Parent,,1,3500,처음 1턴의 act 회복 +1
+7,3,강인함,Parent,DefenseValue,1,1200,받는 피해량 -1
+8,1,응급 처치,Parent,,,1000,방어 스킬 사용 시 체력 1 회복
+9,2,준비,Parent,PLoopBuff,AttackUp&10&1&All&5,500,5턴마다 스킬 피해량 +10%
+10,3,숨고르기,Parent,,,1000,2턴마다 저항력 3 회복
+11,1,흡혈,Parent,,,1500,피해를 입힐 때 마다 저항력 1 회복
+12,2,발도술,Parent,PLoopBuff,AttackUp&30&1&All&1,2000,매 턴마다 가장 처음 사용하는 스킬의 피해량 +30%
+13,3,판금 갑옷,Parent,Shield,22,1500,최대 저항력 +22
+14,1,체력 증강 I,Child,HP,2,800,최대 체력 +2
+15,,체력 증강 II,Child,HP,2,800,최대 체력 +2
+16,,체력 증강 III,Child,HP,2,800,최대 체력 +2
+17,,체력 증강 IV,Child,HP,2,800,최대 체력 +2
+18,3,신체 단련 I,Child,Shield,4,800,최대 저항력 +4
+19,,신체 단련 II,Child,Shield,4,800,최대 저항력 +5
+20,,신체 단련 III,Child,Shield,4,800,최대 저항력 +6
+21,,신체 단련 IV,Child,Shield,4,800,최대 저항력 +7
+22,2,스킵,Skip,,,,
+23,2,스킵,Skip,,,,
+24,2,참격 준비,Child,PLoopBuff,AttackUp&15&100&Slash&3,2000,3턴마다 참격 스킬 피해량 +15%
+25,,타격 준비,Child,PLoopBuff,AttackUp&15&100&Hit&3,2000,3턴마다 타격 스킬 피해량 +15%
+26,,관통 준비,Child,PLoopBuff,AttackUp&15&100&Penetrate&3,2000,3턴마다 관통 스킬 피해량 +15%
