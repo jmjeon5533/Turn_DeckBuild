@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "RogData", menuName = "Roglike", order = 4)]
-public class RoglikeData : ScriptableObject
+public class RogLikeData : ScriptableObject
 {
     public List<RogStageData> stageDatas = new();
 }

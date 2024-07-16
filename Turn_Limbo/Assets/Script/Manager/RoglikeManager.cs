@@ -16,7 +16,7 @@ public class RoglikeManager : MonoBehaviour, IInitObserver
     public SkillExplain skillExplain;
     public GameObject[] skillExplainPivots;
     public StageExplain[] stageExplains;
-    public RoglikeData roglikeData;
+    public RogLikeData roglikeData;
     [SerializeField] private List<Skill> getList = new List<Skill>();
     [SerializeField] TMP_Text[] btnTexts;
     [SerializeField] private Skill curSkill;
