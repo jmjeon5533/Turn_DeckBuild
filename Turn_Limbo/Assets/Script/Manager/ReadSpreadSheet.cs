@@ -48,6 +48,7 @@ public class ReadSpreadSheet : MonoBehaviour
             LoadData(buff.text, PasreBuffData);
             LoadData(scenario.text, ParseTextData);
             LoadData(EnemyData.text, ParseEnemyData);
+            LoadData(skillTree.text, ParseSkillTreeData);
             //LoadData(EnemySkill.text, ParseEnemySkill);
             DataManager.instance.readEnd = true;
             callBack?.Invoke();
