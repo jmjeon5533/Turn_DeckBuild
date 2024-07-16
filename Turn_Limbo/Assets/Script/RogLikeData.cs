@@ -11,6 +11,7 @@ public class RoglikeData : ScriptableObject
 public class RogStageData
 {
     public Sprite icon;
+    public Sprite Bg;
     public string stageName;
     public int[] getSkillIndex;
     public Enemy[] spawnEnemyList;

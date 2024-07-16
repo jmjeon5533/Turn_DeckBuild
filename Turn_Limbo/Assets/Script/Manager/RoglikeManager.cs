@@ -38,10 +38,10 @@ public class RoglikeManager : MonoBehaviour, IInitObserver
     {
         skillExplainPivots[0].transform.localPosition = new Vector3(-1500, -105);
         skillExplainPivots[1].transform.localPosition = new Vector3(1000, -105);
-        eventExplainText.transform.localPosition = new Vector3(0,650);
-        for(int i = 0; i < stageExplains.Length; i++)
+        eventExplainText.transform.localPosition = new Vector3(0, 650);
+        for (int i = 0; i < stageExplains.Length; i++)
         {
-            stageExplains[i].transform.DOMoveY(-800,0);
+            stageExplains[i].transform.DOMoveY(-800, 0);
         }
         RebaseCanGetSkill();
     }
@@ -135,7 +135,7 @@ public class RoglikeManager : MonoBehaviour, IInitObserver
     {
         isEvent = false;
         StartCoroutine(UIManager.instance.OffFadePanel());
-        eventExplainText.transform.DOLocalMoveY(650,0.5f).SetUpdate(true);
+        eventExplainText.transform.DOLocalMoveY(650, 0.5f).SetUpdate(true);
         skillExplainPivots[0].transform.localPosition = new Vector3(-1500, -105);
         skillExplainPivots[1].transform.localPosition = new Vector3(1000, -105f);
     }
@@ -147,25 +147,55 @@ public class RoglikeManager : MonoBehaviour, IInitObserver
     }
     private IEnumerator ShowStageAnim(bool isOn)
     {
-        eventExplainText.transform.DOLocalMoveY(450,0.5f).SetUpdate(true);
+        eventExplainText.transform.DOLocalMoveY(450, 0.5f).SetUpdate(true);
         StartCoroutine(UIManager.instance.OnFadePanel());
         var targetY = isOn ? 112 : -800;
         List<RogStageData> stages = new List<RogStageData>();
-        
-        foreach(var stage in roglikeData.stageDatas)
+
+        foreach (var stage in roglikeData.stageDatas)
         {
             stages.Add(stage);
         }
         for (int i = 0; i < stageExplains.Length; i++)
         {
             int randIndex = Random.Range(0, stages.Count);
+            var curStage = stages[randIndex];
+            var index = randIndex;
             stageExplains[i].SetExplain(stages[randIndex], controller);
+            stageExplains[i].btn.onClick.RemoveAllListeners();
+            stageExplains[i].btn.onClick.AddListener(() =>
+            {
+                rogStageIndex = index;
+                StageMove(curStage);
+            });
             stages.RemoveAt(randIndex);
-
             var speed = 0.5f + (i * 0.1f);
-            stageExplains[i].transform.DOLocalMoveY(targetY, speed).SetEase(Ease.OutQuad).SetUpdate(true);
+            MoveStagePanel(i, targetY, speed);
             yield return new WaitForSecondsRealtime(0.1f + (i * 0.1f));
             print(i);
         }
+    }
+    private void MoveStagePanel(int index, float targetY, float speed)
+    {
+        stageExplains[index].transform.DOLocalMoveY(targetY, speed).SetEase(Ease.OutQuad).SetUpdate(true);
+    }
+    public void StageMove(RogStageData rogStageData)
+    {
+        for (int i = 0; i < stageExplains.Length; i++)
+        {
+            var speed = 0.5f + (i * 0.1f);
+            MoveStagePanel(i, -800, speed);
+        }
+        StartCoroutine(fadeBg(rogStageData));
+        eventExplainText.transform.DOLocalMoveY(650, 0.5f).SetUpdate(true);
+        StartCoroutine(UIManager.instance.OffFadePanel());
+    }
+    IEnumerator fadeBg(RogStageData rogStageData)
+    {
+        yield return controller.bg.DOColor(Color.black, 0.3f).SetUpdate(true).WaitForCompletion();
+        controller.bg.sprite = rogStageData.Bg;
+        yield return controller.bg.DOColor(Color.white, 0.3f).SetUpdate(true).WaitForCompletion();
+        controller.spawnCount = 0;
+        isEvent = false;
     }
 }

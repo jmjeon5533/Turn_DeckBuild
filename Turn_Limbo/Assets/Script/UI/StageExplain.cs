@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class StageExplain : MonoBehaviour
 {
-    Image icon;
+    [HideInInspector] public Button btn;
     [SerializeField] TMP_Text getMoneyText;
     [SerializeField] Text stageNameText;
     [SerializeField] TMP_Text spawnEnemyListText;
@@ -15,11 +15,11 @@ public class StageExplain : MonoBehaviour
     [SerializeField] Transform imgSetParent;
     private void Awake()
     {
-        icon = GetComponent<Image>();
+        btn = GetComponent<Button>();
     }
     public void SetExplain(RogStageData stageData, Controller controller)
     {
-        icon.sprite = stageData.icon;
+        btn.image.sprite = stageData.icon;
         getMoneyText.text = $"<size=80>{stageData.clearGetMoney}</size>xp";
         stageNameText.text = stageData.stageName;
         List<string> enemyNames = new List<string>();

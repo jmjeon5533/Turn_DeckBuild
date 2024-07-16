@@ -64,7 +64,7 @@ public class Controller : MonoBehaviour, IInitObserver
     public bool isEnemyRandomSkillIndex;
 
     private int lastSign;
-    [HideInInspector] 
+    [HideInInspector]
     public int spawnCount = 0;
 
     [Header("Post Processing")]
@@ -129,7 +129,14 @@ public class Controller : MonoBehaviour, IInitObserver
         }
         else
         {
-            enemy = Instantiate(r.roglikeData.stageDatas[r.rogStageIndex].spawnEnemyList[spawnCount], new Vector3(12, -0.5f, 0), Quaternion.identity);
+            if (spawnCount >= r.roglikeData.stageDatas[r.rogStageIndex].spawnEnemyList.Length)
+            {
+                enemy = Instantiate(r.roglikeData.stageDatas[r.rogStageIndex].spawnBoss, new Vector3(12, -0.5f, 0), Quaternion.identity);
+            }
+            else
+            {
+                enemy = Instantiate(r.roglikeData.stageDatas[r.rogStageIndex].spawnEnemyList[spawnCount], new Vector3(12, -0.5f, 0), Quaternion.identity);
+            }
         }
 
         enemy.hitSound = hitSound;
@@ -397,8 +404,11 @@ public class Controller : MonoBehaviour, IInitObserver
         {
             if (spawnCount >= r.roglikeData.stageDatas[r.rogStageIndex].spawnEnemyList.Length)
             {
-                r.ShowStagePanel();
-                d.saveData.money += r.roglikeData.stageDatas[r.rogStageIndex].clearGetMoney;
+                if (r.roglikeData.stageDatas[r.rogStageIndex].spawnBoss == null)
+                {
+                    r.ShowStagePanel();
+                    d.saveData.money += r.roglikeData.stageDatas[r.rogStageIndex].clearGetMoney;
+                }
             }
         }
 
@@ -539,7 +549,7 @@ public class Controller : MonoBehaviour, IInitObserver
 
         if (p == Unit.ActionType.Chain)
             enemy.curSkill.actionType = e == Unit.ActionType.Chain ? Unit.ActionType.Chain : Unit.ActionType.Change;
-        else if(e == Unit.ActionType.Chain)
+        else if (e == Unit.ActionType.Chain)
             player.curSkill.actionType = p == Unit.ActionType.Chain ? Unit.ActionType.Chain : Unit.ActionType.Change;
     }
 
