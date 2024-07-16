@@ -22,6 +22,8 @@ public class RoglikeManager : MonoBehaviour, IInitObserver
     [SerializeField] private Skill curSkill;
     [SerializeField] private readonly float[] sectionRandValue = { 0.1f, 0.2f, 0.3f, 0.4f };
 
+    [SerializeField] private Text eventExplainText;
+
     private void Awake()
     {
         instance = this;
@@ -34,9 +36,13 @@ public class RoglikeManager : MonoBehaviour, IInitObserver
     }
     public void Init()
     {
-        print("Rog");
         skillExplainPivots[0].transform.localPosition = new Vector3(-1500, -105);
-        skillExplainPivots[1].transform.localPosition = new Vector3(1000, -105f);
+        skillExplainPivots[1].transform.localPosition = new Vector3(1000, -105);
+        eventExplainText.transform.localPosition = new Vector3(0,650);
+        for(int i = 0; i < stageExplains.Length; i++)
+        {
+            stageExplains[i].transform.DOMoveY(-800,0);
+        }
         RebaseCanGetSkill();
     }
     public void RebaseCanGetSkill()
@@ -129,6 +135,7 @@ public class RoglikeManager : MonoBehaviour, IInitObserver
     {
         isEvent = false;
         StartCoroutine(UIManager.instance.OffFadePanel());
+        eventExplainText.transform.DOLocalMoveY(650,0.5f).SetUpdate(true);
         skillExplainPivots[0].transform.localPosition = new Vector3(-1500, -105);
         skillExplainPivots[1].transform.localPosition = new Vector3(1000, -105f);
     }
@@ -140,10 +147,21 @@ public class RoglikeManager : MonoBehaviour, IInitObserver
     }
     private IEnumerator ShowStageAnim(bool isOn)
     {
+        eventExplainText.transform.DOLocalMoveY(450,0.5f).SetUpdate(true);
         StartCoroutine(UIManager.instance.OnFadePanel());
-        var targetY = isOn ? 275 : -800;
+        var targetY = isOn ? 112 : -800;
+        List<RogStageData> stages = new List<RogStageData>();
+        
+        foreach(var stage in roglikeData.stageDatas)
+        {
+            stages.Add(stage);
+        }
         for (int i = 0; i < stageExplains.Length; i++)
         {
+            int randIndex = Random.Range(0, stages.Count);
+            stageExplains[i].SetExplain(stages[randIndex], controller);
+            stages.RemoveAt(randIndex);
+
             var speed = 0.5f + (i * 0.1f);
             stageExplains[i].transform.DOLocalMoveY(targetY, speed).SetEase(Ease.OutQuad).SetUpdate(true);
             yield return new WaitForSecondsRealtime(0.1f + (i * 0.1f));

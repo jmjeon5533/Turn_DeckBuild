@@ -396,7 +396,10 @@ public class Controller : MonoBehaviour, IInitObserver
         else
         {
             if (spawnCount >= r.roglikeData.stageDatas[r.rogStageIndex].spawnEnemyList.Length)
+            {
                 r.ShowStagePanel();
+                d.saveData.money += r.roglikeData.stageDatas[r.rogStageIndex].clearGetMoney;
+            }
         }
 
 

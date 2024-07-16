@@ -10,6 +10,7 @@ public class RoglikeData : ScriptableObject
 [System.Serializable]
 public class RogStageData
 {
+    public Sprite icon;
     public string stageName;
     public int[] getSkillIndex;
     public Enemy[] spawnEnemyList;
