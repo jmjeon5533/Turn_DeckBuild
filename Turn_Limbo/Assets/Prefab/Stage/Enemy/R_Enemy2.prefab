@@ -51,8 +51,8 @@ MonoBehaviour:
   hp: 50
   maxHP: 50
   hpLimit: 0
-  shield: 80
-  maxShield: 80
+  shield: 40
+  maxShield: 40
   shieldBreak: 0
   curMinDamage: 0
   curMaxDamage: 0
@@ -72,7 +72,7 @@ MonoBehaviour:
   hitSound:
   - {fileID: 0}
   Uniticon: {fileID: 0}
-  skillInfo: {fileID: 11400000, guid: 81216b5af670cf04881dd6fb4d37ae28, type: 2}
+  skillInfo: {fileID: 11400000, guid: 2198ed16a28af6e4f8f20732ff72945e, type: 2}
   maxColorTime: 0
   colorTime: 0
   color: {r: 0, g: 0, b: 0, a: 0}

@@ -72,7 +72,7 @@ MonoBehaviour:
   hitSound:
   - {fileID: 0}
   Uniticon: {fileID: 0}
-  skillInfo: {fileID: 11400000, guid: 389fe9992db9faa49ae1e244c6cc7090, type: 2}
+  skillInfo: {fileID: 11400000, guid: 82b22b92df272f040a1e61eb4771842d, type: 2}
   maxColorTime: 0
   colorTime: 0
   color: {r: 0, g: 0, b: 0, a: 0}

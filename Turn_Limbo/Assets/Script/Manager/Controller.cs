@@ -6,7 +6,6 @@ using System.Linq;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
-using UnityEditorInternal.Profiling.Memory.Experimental;
 
 [System.Serializable]
 public class Skill

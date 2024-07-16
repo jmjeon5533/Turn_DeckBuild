@@ -19,9 +19,9 @@ MonoBehaviour:
     stageName: "\uC2E0\uC785\uC0DD"
     getSkillIndex: 0a0000001000000011000000130000001e000000
     spawnEnemyList:
-    - {fileID: 8111559515902139154, guid: 5e255b8bf0b17e0448842383ab69a4ec, type: 3}
-    - {fileID: 8111559515902139154, guid: 5e255b8bf0b17e0448842383ab69a4ec, type: 3}
-    - {fileID: 8111559515902139154, guid: 5e255b8bf0b17e0448842383ab69a4ec, type: 3}
+    - {fileID: 8111559515902139154, guid: 2920f7a007cb1c94caaac3ba068a2f74, type: 3}
+    - {fileID: 8111559515902139154, guid: 2920f7a007cb1c94caaac3ba068a2f74, type: 3}
+    - {fileID: 8111559515902139154, guid: 2920f7a007cb1c94caaac3ba068a2f74, type: 3}
     spawnBoss: {fileID: 0}
     clearGetMoney: 500
   - index: 1
@@ -30,12 +30,12 @@ MonoBehaviour:
     stageName: "\uBB3C\uB7C9\uC804"
     getSkillIndex: 200000001f000000120000001400000018000000
     spawnEnemyList:
-    - {fileID: 8111559515902139154, guid: 5e255b8bf0b17e0448842383ab69a4ec, type: 3}
-    - {fileID: 8111559515902139154, guid: 5e255b8bf0b17e0448842383ab69a4ec, type: 3}
-    - {fileID: 8111559515902139154, guid: 5e255b8bf0b17e0448842383ab69a4ec, type: 3}
-    - {fileID: 8111559515902139154, guid: ba7c4d240de3b63468f0c572baeb53cb, type: 3}
-    - {fileID: 8111559515902139154, guid: ba7c4d240de3b63468f0c572baeb53cb, type: 3}
-    spawnBoss: {fileID: 8111559515902139154, guid: ba7c4d240de3b63468f0c572baeb53cb, type: 3}
+    - {fileID: 8111559515902139154, guid: 2920f7a007cb1c94caaac3ba068a2f74, type: 3}
+    - {fileID: 8111559515902139154, guid: 2920f7a007cb1c94caaac3ba068a2f74, type: 3}
+    - {fileID: 8111559515902139154, guid: 2920f7a007cb1c94caaac3ba068a2f74, type: 3}
+    - {fileID: 8111559515902139154, guid: 257b9021e450bf44c9566b635da0b065, type: 3}
+    - {fileID: 8111559515902139154, guid: 257b9021e450bf44c9566b635da0b065, type: 3}
+    spawnBoss: {fileID: 8111559515902139154, guid: 257b9021e450bf44c9566b635da0b065, type: 3}
     clearGetMoney: 1500
   - index: 2
     icon: {fileID: 21300000, guid: b9424e7a1b786b14791505976a10efb4, type: 3}
@@ -43,10 +43,10 @@ MonoBehaviour:
     stageName: "\uBD88\uB7C9\uBC30\uB4E4"
     getSkillIndex: 0c0000000d0000000b00000019000000
     spawnEnemyList:
-    - {fileID: 8111559515902139154, guid: ba7c4d240de3b63468f0c572baeb53cb, type: 3}
-    - {fileID: 8111559515902139154, guid: ba7c4d240de3b63468f0c572baeb53cb, type: 3}
-    - {fileID: 8111559515902139154, guid: ba7c4d240de3b63468f0c572baeb53cb, type: 3}
-    spawnBoss: {fileID: 8111559515902139154, guid: cc99f2313e37ce942bf38b847d14aee7, type: 3}
+    - {fileID: 8111559515902139154, guid: 257b9021e450bf44c9566b635da0b065, type: 3}
+    - {fileID: 8111559515902139154, guid: 257b9021e450bf44c9566b635da0b065, type: 3}
+    - {fileID: 8111559515902139154, guid: 257b9021e450bf44c9566b635da0b065, type: 3}
+    spawnBoss: {fileID: 8111559515902139154, guid: d728a6f1395b6dc4ea2b34893a83fd72, type: 3}
     clearGetMoney: 2000
   - index: 3
     icon: {fileID: 21300000, guid: e3273b752b75e8b40b2f7c69ca5e3382, type: 3}
@@ -54,10 +54,10 @@ MonoBehaviour:
     stageName: "\uAC80\uB3C4\uBD80"
     getSkillIndex: 29000000300000000f000000150000000a0000000900000010000000
     spawnEnemyList:
-    - {fileID: 8111559515902139154, guid: 6c961ffdafa7bd14f81363fe2127b7bd, type: 3}
-    - {fileID: 8111559515902139154, guid: 6c961ffdafa7bd14f81363fe2127b7bd, type: 3}
-    - {fileID: 8111559515902139154, guid: 6c961ffdafa7bd14f81363fe2127b7bd, type: 3}
-    spawnBoss: {fileID: 8111559515902139154, guid: 4fa30b83d74663e4298e90238db9218f, type: 3}
+    - {fileID: 8111559515902139154, guid: 456c16083282faa4d866cdd784abd1a5, type: 3}
+    - {fileID: 8111559515902139154, guid: 456c16083282faa4d866cdd784abd1a5, type: 3}
+    - {fileID: 8111559515902139154, guid: 456c16083282faa4d866cdd784abd1a5, type: 3}
+    spawnBoss: {fileID: 0}
     clearGetMoney: 3000
   - index: 4
     icon: {fileID: 21300000, guid: 6fb47b0ad3b1ea144acc2154bcae2275, type: 3}
@@ -65,9 +65,11 @@ MonoBehaviour:
     stageName: "\uADF9\uC545\uBB34\uB3C4"
     getSkillIndex: 290000003000000015000000
     spawnEnemyList:
-    - {fileID: 8111559515902139154, guid: cc99f2313e37ce942bf38b847d14aee7, type: 3}
-    - {fileID: 8111559515902139154, guid: cc99f2313e37ce942bf38b847d14aee7, type: 3}
-    - {fileID: 8111559515902139154, guid: cc99f2313e37ce942bf38b847d14aee7, type: 3}
+    - {fileID: 8111559515902139154, guid: d728a6f1395b6dc4ea2b34893a83fd72, type: 3}
+    - {fileID: 8111559515902139154, guid: d728a6f1395b6dc4ea2b34893a83fd72, type: 3}
+    - {fileID: 8111559515902139154, guid: d728a6f1395b6dc4ea2b34893a83fd72, type: 3}
+    - {fileID: 8111559515902139154, guid: 257b9021e450bf44c9566b635da0b065, type: 3}
+    - {fileID: 8111559515902139154, guid: 257b9021e450bf44c9566b635da0b065, type: 3}
     spawnBoss: {fileID: 8111559515902139154, guid: 4fa30b83d74663e4298e90238db9218f, type: 3}
     clearGetMoney: 4000
   - index: 5
@@ -76,8 +78,8 @@ MonoBehaviour:
     stageName: "\uBD88\uAD74"
     getSkillIndex: 290000003000000015000000
     spawnEnemyList:
-    - {fileID: 8111559515902139154, guid: 4fa30b83d74663e4298e90238db9218f, type: 3}
-    - {fileID: 8111559515902139154, guid: 4fa30b83d74663e4298e90238db9218f, type: 3}
-    - {fileID: 8111559515902139154, guid: 4fa30b83d74663e4298e90238db9218f, type: 3}
-    spawnBoss: {fileID: 8111559515902139154, guid: 4fa30b83d74663e4298e90238db9218f, type: 3}
+    - {fileID: 8111559515902139154, guid: c921cdc63bfd84d46a8d2d279de7cc17, type: 3}
+    - {fileID: 8111559515902139154, guid: c921cdc63bfd84d46a8d2d279de7cc17, type: 3}
+    - {fileID: 8111559515902139154, guid: c921cdc63bfd84d46a8d2d279de7cc17, type: 3}
+    spawnBoss: {fileID: 8111559515902139154, guid: c921cdc63bfd84d46a8d2d279de7cc17, type: 3}
     clearGetMoney: 8000
