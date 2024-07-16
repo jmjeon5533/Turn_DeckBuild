@@ -108,12 +108,16 @@ public class Controller : MonoBehaviour, IInitObserver
     {
         var d = DataManager.instance;
         var r = RoglikeManager.instance;
-        SpawnEnemy();
-
-        InitEnemy();
         SpriteRenderer map;
         var spawnDataIndex = d.curMode == RoglikeManager.Modes.stage ? d.curStageID : r.rogStageIndex;
         map = Instantiate(d.loadData.SpawnData[spawnDataIndex].maps);
+
+        if (d.curMode == RoglikeManager.Modes.rogLike) r.ShowStagePanel();
+        else
+        {
+            SpawnEnemy();
+            InitEnemy();
+        }
 
         bg = map;
         d.plusStats.AddStats(player);
@@ -201,8 +205,6 @@ public class Controller : MonoBehaviour, IInitObserver
             else
             {
                 r.GetItemRandom();
-                SpawnEnemy();
-                InitEnemy();
                 TurnReset();
             }
         }

@@ -54,7 +54,7 @@ public class StageExplain : MonoBehaviour
         for(int i = 0; i < stageData.getSkillIndex.Length; i++)
         {
             print($"{DataManager.instance.loadData.SkillList[stageData.getSkillIndex[i]].index}, {stageData.getSkillIndex[i]}");
-            if(controller.player.skillInfo.holdSkills.ContainsKey(stageData.getSkillIndex[i])) return;
+            if(controller.player.skillInfo.holdSkills.ContainsKey(stageData.getSkillIndex[i])) continue;
 
             var skills = Instantiate(new GameObject(),imgSetParent).AddComponent<Image>();
             skills.sprite = DataManager.instance.loadData.SkillList[stageData.getSkillIndex[i]].icon;

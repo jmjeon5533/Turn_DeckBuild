@@ -2481,6 +2481,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d92250b29fbe2194997a31ab5d66415a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  btn: {fileID: 0}
   getMoneyText: {fileID: 1677717182}
   stageNameText: {fileID: 112573097}
   spawnEnemyListText: {fileID: 140071676}
@@ -2682,6 +2683,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d92250b29fbe2194997a31ab5d66415a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  btn: {fileID: 0}
   getMoneyText: {fileID: 1864238693}
   stageNameText: {fileID: 1135559459}
   spawnEnemyListText: {fileID: 2107562855}
@@ -4786,7 +4788,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -6299,7 +6301,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -6564,6 +6566,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d92250b29fbe2194997a31ab5d66415a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  btn: {fileID: 0}
   getMoneyText: {fileID: 909485097}
   stageNameText: {fileID: 501671274}
   spawnEnemyListText: {fileID: 796268200}
@@ -7591,7 +7594,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:

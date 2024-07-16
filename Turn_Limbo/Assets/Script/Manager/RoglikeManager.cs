@@ -41,7 +41,7 @@ public class RoglikeManager : MonoBehaviour, IInitObserver
         eventExplainText.transform.localPosition = new Vector3(0, 650);
         for (int i = 0; i < stageExplains.Length; i++)
         {
-            stageExplains[i].transform.DOMoveY(-800, 0);
+            stageExplains[i].transform.localPosition = new Vector3(stageExplains[i].transform.localPosition.x, -800);
         }
         RebaseCanGetSkill();
     }
@@ -168,6 +168,8 @@ public class RoglikeManager : MonoBehaviour, IInitObserver
                 rogStageIndex = index;
                 RebaseCanGetSkill();
                 StageMove(curStage);
+                controller.SpawnEnemy();
+                controller.InitEnemy();
             });
             stages.RemoveAt(randIndex);
             var speed = 0.5f + (i * 0.1f);
