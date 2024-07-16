@@ -475,7 +475,8 @@ public class Controller : MonoBehaviour, IInitObserver
             float waitTime = Mathf.Max(playerDelay * player.curSkill.attackCount, enemyDelay * enemy.curSkill.attackCount);
 
             player.UseBuff(BuffTiming.TurnStart); enemy.UseBuff(BuffTiming.TurnStart);
-            AttackCheck(player, enemy);
+            float checkTime = AttackCheck(player, enemy);
+            waitTime = checkTime == 0 ? waitTime : checkTime;
             StartCoroutine(AttackStart(player)); StartCoroutine(AttackStart(enemy));
 
             for (int j = 0; j < units.Length; j++)
@@ -529,7 +530,7 @@ public class Controller : MonoBehaviour, IInitObserver
         return skill.animation.length;
     }
 
-    void AttackCheck(Unit player, Unit enemy)
+    float AttackCheck(Unit player, Unit enemy)
     {
         var p = player.curSkill.actionType;
         var e = enemy.curSkill.actionType;
@@ -538,6 +539,11 @@ public class Controller : MonoBehaviour, IInitObserver
             enemy.curSkill.actionType = e == Unit.ActionType.Chain ? Unit.ActionType.Chain : Unit.ActionType.Change;
         else if (e == Unit.ActionType.Chain && p != Unit.ActionType.none)
             player.curSkill.actionType = p == Unit.ActionType.Chain ? Unit.ActionType.Chain : Unit.ActionType.Change;
+
+        if(player.attackRequest.Count == 0) return player.curSkill.animation.length;
+        else if(enemy.attackRequest.Count == 0) return enemy.curSkill.animation.length;
+        else if(p == Unit.ActionType.Chain || e == Unit.ActionType.Chain) return 0.4f;
+        else return 0;
     }
 
     IEnumerator AttackStart(Unit unit)
