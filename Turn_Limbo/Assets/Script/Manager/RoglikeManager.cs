@@ -194,7 +194,8 @@ public class RoglikeManager : MonoBehaviour, IInitObserver
     IEnumerator fadeBg(RogStageData rogStageData)
     {
         yield return controller.bg.DOColor(Color.black, 0.3f).SetUpdate(true).WaitForCompletion();
-        controller.bg.sprite = rogStageData.Bg;
+        Destroy(controller.bg);
+        controller.bg = Instantiate(rogStageData.Bg).GetComponent<SpriteRenderer>();
         yield return controller.bg.DOColor(Color.white, 0.3f).SetUpdate(true).WaitForCompletion();
         controller.spawnCount = 0;
         isEvent = false;
