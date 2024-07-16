@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -52,6 +53,8 @@ public class UIManager : MonoBehaviour, IInitObserver
     [SerializeField] TMP_Text skill_Effect_Text;
     [SerializeField] TMP_Text skill_Damage_Text;
     [SerializeField] TMP_Text skill_Cost_Text;
+    [SerializeField] TMP_Text skill_Property_Text;
+    
     [Space(5)]
     [SerializeField] Image enemySkillExplainPanel;
     [SerializeField] TMP_Text enemySkill_Desc_Text;
@@ -253,6 +256,7 @@ public class UIManager : MonoBehaviour, IInitObserver
     }
     public void SetExplain(bool isActive, Skill skill = null, Vector3 pos = default, int level = 0)
     {
+        string[] property = { "모든", "참격", "타격", "관통", "방어"};
         skillExplainPanel.gameObject.SetActive(isActive);
         skillExplainPanel.rectTransform.anchoredPosition = pos + new Vector3(350f, 300);
         if (skill != null)
@@ -261,6 +265,7 @@ public class UIManager : MonoBehaviour, IInitObserver
             skill_Effect_Text.text = skill.effect_desc;
             skill_Damage_Text.text = $"{skill.minDamage[level]} ~ {skill.maxDamage[level]}";
             skill_Cost_Text.text = skill.cost[level].ToString();
+            skill_Property_Text.text = property[(int)skill.propertyType];
         }
     }
     public void SetGameEndUI(bool isWin)
