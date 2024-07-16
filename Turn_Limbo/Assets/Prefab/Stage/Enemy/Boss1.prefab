@@ -63,6 +63,10 @@ MonoBehaviour:
   attack_Drainage: 0
   defense_Drainage: 0
   isAttack: 0
+  chainDamage: 0
+  chainCount: 0
+  isChain: 0
+  chainName: []
   target: {fileID: 0}
   effect: {fileID: 1429954232896169632, guid: 83036083a4ebcd34f98131bd3cf6f4d2, type: 3}
   hitSound:
@@ -122,12 +126,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 275424775, guid: 4a7edf4b855bd454fbba7acd88f434df, type: 3}
+  m_Sprite: {fileID: -79855456, guid: de40f1861214b7f4ebc0bcf0094dcb21, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 2}
+  m_Size: {x: 12.444445, y: 7.111111}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1

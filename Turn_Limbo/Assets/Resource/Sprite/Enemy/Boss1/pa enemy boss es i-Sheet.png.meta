@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: c1304aed29abe4c4085f23e8bd5d4751
+guid: de40f1861214b7f4ebc0bcf0094dcb21
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -117,169 +117,169 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: pa_enemy_2_i-Sheet_0
+      name: pa enemy boss es i-Sheet_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 64
-        width: 96
-        height: 64
+        y: 128
+        width: 224
+        height: 128
       alignment: 9
-      pivot: {x: 0.7, y: 0.65}
+      pivot: {x: 0.65, y: 0.45}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 866a831db03863449a8321132d4c337d
-      internalID: 261010212
+      spriteID: 07900b5f927e2d648a6fa5e8927224e5
+      internalID: -79855456
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: pa_enemy_2_i-Sheet_1
+      name: pa enemy boss es i-Sheet_1
       rect:
         serializedVersion: 2
-        x: 96
-        y: 64
-        width: 96
-        height: 64
+        x: 224
+        y: 128
+        width: 224
+        height: 128
       alignment: 9
-      pivot: {x: 0.7, y: 0.65}
+      pivot: {x: 0.65, y: 0.45}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e723c7fe1b339b7418f9cd2754c6add1
-      internalID: -278213977
+      spriteID: 857b563840cff7747a08929f7a7e248e
+      internalID: -1876437816
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: pa_enemy_2_i-Sheet_2
+      name: pa enemy boss es i-Sheet_2
       rect:
         serializedVersion: 2
-        x: 192
-        y: 64
-        width: 96
-        height: 64
+        x: 448
+        y: 128
+        width: 224
+        height: 128
       alignment: 9
-      pivot: {x: 0.7, y: 0.65}
+      pivot: {x: 0.65, y: 0.45}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c558c50d66292434188b2b5d2efdcfa6
-      internalID: 1478864773
+      spriteID: ccbaf83a57172b547b28a813ecc7701d
+      internalID: 905828212
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: pa_enemy_2_i-Sheet_3
+      name: pa enemy boss es i-Sheet_3
       rect:
         serializedVersion: 2
-        x: 288
-        y: 64
-        width: 96
-        height: 64
+        x: 671
+        y: 128
+        width: 224
+        height: 128
       alignment: 9
-      pivot: {x: 0.7, y: 0.65}
+      pivot: {x: 0.65, y: 0.45}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b7869f9c1b330ff4491e830497fa2ef6
-      internalID: -1509523261
+      spriteID: b88cab8c13d934b45bfcd7e5e23d7bc6
+      internalID: 1465127769
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: pa_enemy_2_i-Sheet_4
+      name: pa enemy boss es i-Sheet_4
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 96
-        height: 64
+        width: 224
+        height: 128
       alignment: 9
-      pivot: {x: 0.7, y: 0.65}
+      pivot: {x: 0.65, y: 0.45}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a17d58d913573fa458ff06eece8d2f8d
-      internalID: 1896973302
+      spriteID: 1c9ec9177d466b7499a19e25327096a6
+      internalID: -1628296340
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: pa_enemy_2_i-Sheet_5
+      name: pa enemy boss es i-Sheet_5
       rect:
         serializedVersion: 2
-        x: 96
+        x: 224
         y: 0
-        width: 96
-        height: 64
+        width: 224
+        height: 128
       alignment: 9
-      pivot: {x: 0.7, y: 0.65}
+      pivot: {x: 0.65, y: 0.45}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f7d405bc81ba61a43bb5ec28d51b4475
-      internalID: 1880650609
+      spriteID: 0caca61c46511cd47a10286ef479118d
+      internalID: -25129320
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: pa_enemy_2_i-Sheet_6
+      name: pa enemy boss es i-Sheet_6
       rect:
         serializedVersion: 2
-        x: 192
+        x: 448
         y: 0
-        width: 96
-        height: 64
+        width: 224
+        height: 128
       alignment: 9
-      pivot: {x: 0.7, y: 0.65}
+      pivot: {x: 0.65, y: 0.45}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 193702f6aef76d845b1cebe4f3579056
-      internalID: -300031783
+      spriteID: dc0d50386fd6cc44cb638822d6de3482
+      internalID: 1113903118
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: pa_enemy_2_i-Sheet_7
+      name: pa enemy boss es i-Sheet_7
       rect:
         serializedVersion: 2
-        x: 288
+        x: 672
         y: 0
-        width: 96
-        height: 64
+        width: 224
+        height: 128
       alignment: 9
-      pivot: {x: 0.7, y: 0.65}
+      pivot: {x: 0.65, y: 0.45}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 04fdcaf3546c2e343b6d37a5d8169293
-      internalID: 983956551
+      spriteID: ee46b43b94a808242addabea358ffc43
+      internalID: -1605272338
       vertices: []
       indices: 
       edges: []
@@ -295,14 +295,14 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      pa_enemy_2_i-Sheet_0: 261010212
-      pa_enemy_2_i-Sheet_1: -278213977
-      pa_enemy_2_i-Sheet_2: 1478864773
-      pa_enemy_2_i-Sheet_3: -1509523261
-      pa_enemy_2_i-Sheet_4: 1896973302
-      pa_enemy_2_i-Sheet_5: 1880650609
-      pa_enemy_2_i-Sheet_6: -300031783
-      pa_enemy_2_i-Sheet_7: 983956551
+      pa enemy boss es i-Sheet_0: -79855456
+      pa enemy boss es i-Sheet_1: -1876437816
+      pa enemy boss es i-Sheet_2: 905828212
+      pa enemy boss es i-Sheet_3: 1465127769
+      pa enemy boss es i-Sheet_4: -1628296340
+      pa enemy boss es i-Sheet_5: -25129320
+      pa enemy boss es i-Sheet_6: 1113903118
+      pa enemy boss es i-Sheet_7: -1605272338
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: b06e93900b5beb047a492913b41b74d0
+guid: b4d767ce2ee8564438598a8c6c66547e
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -117,43 +117,43 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: pa_enemy_boss_es_bs-Sheet_0
+      name: pa enemy boss es bst-Sheet_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 176
-        height: 112
+        width: 224
+        height: 128
       alignment: 9
-      pivot: {x: 0.6, y: 0.35}
+      pivot: {x: 0.7, y: 0.4}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b7bca6999df0d524ca74a56650bab4c8
-      internalID: -1960962145
+      spriteID: 86a85c54b138eb346b3a7940fedbfac2
+      internalID: 1043633506
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: pa_enemy_boss_es_bs-Sheet_1
+      name: pa enemy boss es bst-Sheet_1
       rect:
         serializedVersion: 2
-        x: 176
+        x: 224
         y: 0
-        width: 176
-        height: 112
+        width: 224
+        height: 128
       alignment: 9
-      pivot: {x: 0.6, y: 0.35}
+      pivot: {x: 0.7, y: 0.4}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e4a9c36381e29ef42b44478fb9192a40
-      internalID: 886364879
+      spriteID: 9a01ea5925f54ad4f93ce411c4f14f48
+      internalID: -959482888
       vertices: []
       indices: 
       edges: []
@@ -169,8 +169,8 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      pa_enemy_boss_es_bs-Sheet_0: -1960962145
-      pa_enemy_boss_es_bs-Sheet_1: 886364879
+      pa enemy boss es bst-Sheet_0: 1043633506
+      pa enemy boss es bst-Sheet_1: -959482888
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
