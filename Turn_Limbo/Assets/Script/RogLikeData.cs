@@ -10,6 +10,7 @@ public class RogLikeData : ScriptableObject
 [System.Serializable]
 public class RogStageData
 {
+    public int index;
     public Sprite icon;
     public GameObject Bg;
     public string stageName;

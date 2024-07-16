@@ -160,16 +160,19 @@ public class RoglikeManager : MonoBehaviour, IInitObserver
         {
             int randIndex = Random.Range(0, stages.Count);
             var curStage = stages[randIndex];
-            var index = randIndex;
             stageExplains[i].SetExplain(stages[randIndex], controller);
             stageExplains[i].btn.onClick.RemoveAllListeners();
             stageExplains[i].btn.onClick.AddListener(() =>
             {
-                rogStageIndex = index;
+                print(curStage.stageName);
+                rogStageIndex = curStage.index;
                 RebaseCanGetSkill();
-                StageMove(curStage);
                 controller.SpawnEnemy();
                 controller.InitEnemy();
+                controller.TurnReset();
+                StageMove(curStage);
+                isEvent = false;
+
             });
             stages.RemoveAt(randIndex);
             var speed = 0.5f + (i * 0.1f);
@@ -200,6 +203,5 @@ public class RoglikeManager : MonoBehaviour, IInitObserver
         controller.bg = Instantiate(rogStageData.Bg).GetComponent<SpriteRenderer>();
         yield return controller.bg.DOColor(Color.white, 0.3f).SetUpdate(true).WaitForCompletion();
         controller.spawnCount = 0;
-        isEvent = false;
     }
 }

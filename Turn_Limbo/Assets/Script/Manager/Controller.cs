@@ -205,8 +205,17 @@ public class Controller : MonoBehaviour, IInitObserver
             }
             else
             {
-                r.GetItemRandom();
-                TurnReset();
+                if (spawnCount < r.roglikeData.stageDatas[r.rogStageIndex].spawnEnemyList.Length)
+                {
+                    r.GetItemRandom();
+                    SpawnEnemy();
+                    InitEnemy();
+                    TurnReset();
+                }
+                else
+                {
+                    r.GetItemRandom();
+                }
             }
         }
         else
@@ -432,7 +441,7 @@ public class Controller : MonoBehaviour, IInitObserver
 
     public void UseAttack()
     {
-        if (isDialogue || isAttack) return;
+        if (isDialogue || isAttack || RoglikeManager.instance.isEvent || UIManager.instance.isPause) return;
         isAttack = true;
         UIManager.instance.ActiveBtn(false);
         UIManager.instance.SetExplain(false);
@@ -574,7 +583,8 @@ public class Controller : MonoBehaviour, IInitObserver
             else if (enemy.attackRequest.Count == 0) return enemy.curSkill.animation == null ? 0.4f : enemy.curSkill.animation.length;
             else return 0.4f;
         }
-        else {
+        else
+        {
             this.isChain = false;
             return 0;
         }
