@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8111559515902139152}
   - component: {fileID: 8111559515902139167}
   m_Layer: 8
-  m_Name: Enemy0
+  m_Name: R_Boss1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26,7 +26,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8111559515902139156}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 5, y: -0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -47,18 +47,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab8adb398d1e33b44aee2ccf34feed86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitName: Enemy0
-  hp: 80
-  maxHP: 80
+  unitName: Boss1
+  hp: 70
+  maxHP: 70
   hpLimit: 0
-  shield: 15
-  maxShield: 15
+  shield: 100
+  maxShield: 100
   shieldBreak: 0
   curMinDamage: 0
   curMaxDamage: 0
   curDamage: 0
   curAttackCount: 0
-  plusAttackValue: 0
+  plusAttackValue: 1
   plusDefenseValue: 0
   attack_Drainage: 0
   defense_Drainage: 0
@@ -68,11 +68,11 @@ MonoBehaviour:
   isChain: 0
   chainName: []
   target: {fileID: 0}
-  effect: {fileID: 1429954232896169632, guid: 66bbf44e04dfea34a80e1551a1a388ac, type: 3}
+  effect: {fileID: 1429954232896169632, guid: 83036083a4ebcd34f98131bd3cf6f4d2, type: 3}
   hitSound:
   - {fileID: 0}
   Uniticon: {fileID: 0}
-  skillInfo: {fileID: 11400000, guid: 84760a5a73f705044aedec432bfb8ec9, type: 2}
+  skillInfo: {fileID: 11400000, guid: 389fe9992db9faa49ae1e244c6cc7090, type: 2}
   maxColorTime: 0
   colorTime: 0
   color: {r: 0, g: 0, b: 0, a: 0}
@@ -83,8 +83,8 @@ MonoBehaviour:
   dmgDelayTime: 0
   dmgDelayCurTime: 0
   skillCurCount: 0
-  requestMaxCount: 3
-  requestMinCount: 1
+  requestMaxCount: 5
+  requestMinCount: 3
 --- !u!212 &8111559515902139152
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -126,12 +126,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -1755108507, guid: 2a15d9b7d5c1800429bb4d22f457165a, type: 3}
+  m_Sprite: {fileID: -79855456, guid: de40f1861214b7f4ebc0bcf0094dcb21, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 2}
+  m_Size: {x: 12.444445, y: 7.111111}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -147,7 +147,7 @@ Animator:
   m_GameObject: {fileID: 8111559515902139156}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: fc3b785848fd7904397c14484c987448, type: 2}
+  m_Controller: {fileID: 9100000, guid: 51302a41887632843801672a54303183, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -183,7 +183,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8111559516275123396}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -2.23, z: 0}
+  m_LocalPosition: {x: -0.44, y: -2.23, z: 0}
   m_LocalScale: {x: 3, y: 0.7, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
