@@ -37,6 +37,7 @@ public class UIManager : MonoBehaviour, IInitObserver
     public TMP_Text percentageText;
     public RectTransform pauseTab;
     [SerializeField] Button pauseReturn, pauseStageSelect;
+    [SerializeField] GameObject chainObj;
 
     [Header("GameEnd")]
     [SerializeField] Image fadePanel;
@@ -197,6 +198,12 @@ public class UIManager : MonoBehaviour, IInitObserver
         controller.color.postExposure.value = 1;
         StartCoroutine(FatalDamageTimeSlow(controller.enemy.transform));
         SoundManager.instance.SetAudio(controller.CritSound, false);
+    }
+    public void ChainView(bool isOpen){
+        chainObj.SetActive(isOpen);
+    }
+    public void ChainAttack(bool isPlayer){
+
     }
     IEnumerator FatalDamageTimeSlow(Transform target)
     {
