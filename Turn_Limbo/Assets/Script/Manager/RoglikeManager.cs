@@ -73,7 +73,7 @@ public class RoglikeManager : MonoBehaviour, IInitObserver
             print("break");
             return;
         }
-        if (randValue > 0.75f) return;
+        if (randValue > 0.75f || getList.Count <= 0) return;
 
         isEvent = true;
 
@@ -166,6 +166,7 @@ public class RoglikeManager : MonoBehaviour, IInitObserver
             stageExplains[i].btn.onClick.AddListener(() =>
             {
                 rogStageIndex = index;
+                RebaseCanGetSkill();
                 StageMove(curStage);
             });
             stages.RemoveAt(randIndex);

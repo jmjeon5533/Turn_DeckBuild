@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab8adb398d1e33b44aee2ccf34feed86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitName: Enemy2
+  unitName: Boss1
   hp: 125
   maxHP: 125
   hpLimit: 0

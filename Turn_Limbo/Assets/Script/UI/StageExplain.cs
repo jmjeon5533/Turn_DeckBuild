@@ -42,8 +42,14 @@ public class StageExplain : MonoBehaviour
         for(int i = 0; i < enemyNames.Count; i++)
         {
             sb.Append($"<align=\"flush\"><color=black>{enemyNames[i]}</color>    x{enemyCounts[i]}");
-            if(i < enemyNames.Count - 1) sb.Append("\n");
+            if(i < enemyNames.Count - 1 || stageData.spawnBoss != null) sb.Append("\n");
         }
+        if(stageData.spawnBoss != null) 
+        {
+            print($"{stageData.stageName}, {stageData.spawnBoss.unitName}");
+            sb.Append($"<align=\"flush\"><color=black>{stageData.spawnBoss.unitName}</color>    x{1}");
+        }
+
         spawnEnemyListText.text = sb.ToString();
         for(int i = 0; i < stageData.getSkillIndex.Length; i++)
         {
