@@ -64,7 +64,7 @@ public class Controller : MonoBehaviour, IInitObserver
     public bool isEnemyRandomSkillIndex;
 
     private int lastSign;
-    [HideInInspector] 
+    [HideInInspector]
     public int spawnCount = 0;
 
     [Header("Post Processing")]
@@ -475,7 +475,7 @@ public class Controller : MonoBehaviour, IInitObserver
             float waitTime = Mathf.Max(playerDelay * player.curSkill.attackCount, enemyDelay * enemy.curSkill.attackCount);
 
             player.UseBuff(BuffTiming.TurnStart); enemy.UseBuff(BuffTiming.TurnStart);
-
+            AttackCheck(player, enemy);
             StartCoroutine(AttackStart(player)); StartCoroutine(AttackStart(enemy));
 
             for (int j = 0; j < units.Length; j++)
@@ -534,9 +534,9 @@ public class Controller : MonoBehaviour, IInitObserver
         var p = player.curSkill.actionType;
         var e = enemy.curSkill.actionType;
 
-        if (p == Unit.ActionType.Chain)
+        if (p == Unit.ActionType.Chain && e != Unit.ActionType.none)
             enemy.curSkill.actionType = e == Unit.ActionType.Chain ? Unit.ActionType.Chain : Unit.ActionType.Change;
-        else if(e == Unit.ActionType.Chain)
+        else if (e == Unit.ActionType.Chain && p != Unit.ActionType.none)
             player.curSkill.actionType = p == Unit.ActionType.Chain ? Unit.ActionType.Chain : Unit.ActionType.Change;
     }
 
@@ -548,12 +548,24 @@ public class Controller : MonoBehaviour, IInitObserver
         if (unit.curSkill.actionType == Unit.ActionType.none) yield break;
         StartCoroutine(IconAnim(skill.insertImage, skill.animation.length * skill.attackCount));
 
-        if (unit.curSkill.actionType == Unit.ActionType.Chain)
+        if (unit.curSkill.actionType == Unit.ActionType.Chain || unit.curSkill.actionType == Unit.ActionType.Change)
         {
             unit.isChain = true;
             unit.chainDamage += skill.minDamage[d.loadData.SkillList[skill.index - 1].level];
-            unit.UseChainSkill(skill);
-            unit.curSkill.effect?.Setting(unit, unit.target);
+            unit.chainCount++;
+            if (unit.curSkill.actionType == Unit.ActionType.Chain)
+            {
+                unit.chainName.Add(skill.skillName);
+                unit.curSkill.effect?.Setting(unit, unit.target);
+            }
+            else if(unit.attackRequest.Count == 0)
+            {
+                for (int i = 0; i < skill.attackCount; i++)
+                {
+                    unit.anim.Play(skill.propertyType.ToString(), -1, 0f);
+                    yield return new WaitForSeconds(skill.animation.length);
+                }
+            }
         }
         else
         {

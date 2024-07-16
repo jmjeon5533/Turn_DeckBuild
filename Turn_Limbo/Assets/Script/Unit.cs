@@ -68,7 +68,6 @@ public abstract class Unit : MonoBehaviour
         none,
         Attack,
         Defence,
-        Dodge,
         Chain,
         Change,
     }
@@ -201,6 +200,20 @@ public abstract class Unit : MonoBehaviour
         if (isAttack)
         {
             Vector3 dmgDir = (target.transform.position - transform.position).normalized;
+            if (isChain)
+            {
+                string temp = "";
+                foreach (var n in chainName)
+                {
+                    temp += n + " / ";
+                }
+                Debug.Log($"{temp}{curSkill.skillName} = {curDamage + chainDamage} / {curDamage}");
+
+                curDamage += chainDamage;
+                chainDamage = 0;
+                chainName.Clear();
+                isChain = false;
+            }
             switch (target.curSkill.actionType)
             {
 
@@ -221,12 +234,9 @@ public abstract class Unit : MonoBehaviour
                         target.colorTime = target.maxColorTime;
                     }
                     break;
-                case ActionType.Dodge:
+                case ActionType.Chain:
                     {
-                        if (target.curDamage < curDamage)
-                        {
-                            target.Damage(curDamage, dmgDir);
-                        }
+                        target.Damage(curDamage, dmgDir);
                         break;
                     }
             }
@@ -277,11 +287,6 @@ public abstract class Unit : MonoBehaviour
         return temp;
     }
 
-    public void UseChainSkill(RequestSkill skill){
-        chainCount++;
-        chainName.Add(skill.skillName);
-    }
-
     public void InitCurSkillDamage(int min, int max, int count)
     {
         //Debug.Log($"{this.name} Damage : {curDamage} {attack_Drainage}");
@@ -297,6 +302,8 @@ public abstract class Unit : MonoBehaviour
     {
         RequestSkill newRequest = new RequestSkill();
         newRequest.animation = Resources.Load<AnimationClip>($"Animation/{unitName.Trim()}/{skill.animationName.Trim()}");
+        if (newRequest.animation == null)
+            newRequest.animation = Resources.Load<AnimationClip>($"Animation/{unitName.Trim()}/Idle");
         newRequest.cost = skill.cost;
         newRequest.minDamage = skill.minDamage;
         newRequest.maxDamage = skill.maxDamage;
