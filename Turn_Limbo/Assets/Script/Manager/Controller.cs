@@ -56,6 +56,7 @@ public class Controller : MonoBehaviour, IInitObserver
 
     public bool isGame;
     public bool isTab;
+    public bool isChain;
     public bool isAttack;
     public bool isTimeSlowEffect;
     public bool isDialogue;
@@ -272,8 +273,9 @@ public class Controller : MonoBehaviour, IInitObserver
             timeScale = isTab ? 0.2f : 1;
         }
         Time.timeScale = timeScale;
-        Color bgColor = isSpace || isTab ? new Color(0.6f, 0.6f, 0.6f, 1) : Color.white;
+        Color bgColor = isSpace || isTab || isChain ? new Color(0.6f, 0.6f, 0.6f, 1) : Color.white;
         bg.color = bg.color.MoveToward(bgColor, Time.deltaTime * 5f);
+        //if(isChain) UIManager.instance
     }
     void UIUpdate(Unit character)
     {
@@ -410,7 +412,7 @@ public class Controller : MonoBehaviour, IInitObserver
     public void GameClear()
     {
         UIManager.instance.SetGameEndUI(true);
-        print("게임 ?��리어");
+        print("Game Claer");
     }
 
     public void UseAttack()
@@ -535,15 +537,32 @@ public class Controller : MonoBehaviour, IInitObserver
         var p = player.curSkill.actionType;
         var e = enemy.curSkill.actionType;
 
-        if (p == Unit.ActionType.Chain && e != Unit.ActionType.none)
-            enemy.curSkill.actionType = e == Unit.ActionType.Chain ? Unit.ActionType.Chain : Unit.ActionType.Change;
-        else if (e == Unit.ActionType.Chain && p != Unit.ActionType.none)
-            player.curSkill.actionType = p == Unit.ActionType.Chain ? Unit.ActionType.Chain : Unit.ActionType.Change;
+        bool isChain = false;
 
-        if(player.attackRequest.Count == 0) return player.curSkill.animation.length;
-        else if(enemy.attackRequest.Count == 0) return enemy.curSkill.animation.length;
-        else if(p == Unit.ActionType.Chain || e == Unit.ActionType.Chain) return 0.4f;
-        else return 0;
+        if (p == Unit.ActionType.Chain)
+        {
+            isChain = true;
+            enemy.curSkill.actionType = e == Unit.ActionType.none ? Unit.ActionType.none :
+            e == Unit.ActionType.Chain ? Unit.ActionType.Chain : Unit.ActionType.Change;
+        }
+        else if (e == Unit.ActionType.Chain)
+        {
+            isChain = true;
+            player.curSkill.actionType = p == Unit.ActionType.none ? Unit.ActionType.none :
+            p == Unit.ActionType.Chain ? Unit.ActionType.Chain : Unit.ActionType.Change;
+        }
+
+        if (isChain)
+        {
+            this.isChain = true;
+            if (player.attackRequest.Count == 0) return player.curSkill.animation == null ? 0.4f : player.curSkill.animation.length;
+            else if (enemy.attackRequest.Count == 0) return enemy.curSkill.animation == null ? 0.4f : enemy.curSkill.animation.length;
+            else return 0.4f;
+        }
+        else {
+            this.isChain = false;
+            return 0;
+        }
     }
 
     IEnumerator AttackStart(Unit unit)
@@ -564,7 +583,7 @@ public class Controller : MonoBehaviour, IInitObserver
                 unit.chainName.Add(skill.skillName);
                 unit.curSkill.effect?.Setting(unit, unit.target);
             }
-            else if(unit.attackRequest.Count == 0)
+            else if (unit.attackRequest.Count == 0)
             {
                 for (int i = 0; i < skill.attackCount; i++)
                 {
