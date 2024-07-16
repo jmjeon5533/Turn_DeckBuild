@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8111559515902139152}
   - component: {fileID: 8111559515902139167}
   m_Layer: 8
-  m_Name: Enemy0
+  m_Name: R_Enemy0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -48,8 +48,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitName: Enemy0
-  hp: 80
-  maxHP: 80
+  hp: 40
+  maxHP: 40
   hpLimit: 0
   shield: 15
   maxShield: 15
