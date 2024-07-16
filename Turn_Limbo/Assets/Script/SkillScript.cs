@@ -446,6 +446,49 @@ public class Skill_Equanimity : SkillScript
     }
 }
 
+public class Skill_Chang : SkillScript
+{
+    public override void End(Unit unit, Unit target)
+    {
+        if(unit.chainCount <= 2 && unit.TryGetComponent<Player>(out var p)){
+            p.PlusCoin(3);
+        }
+    }
+}
+
+public class Skill_Bleed : SkillScript
+{
+    
+}
+
+public class Skill_Scatter : SkillScript
+{
+    public override void End(Unit unit, Unit target)
+    {
+        if(unit.chainCount >= 3){
+            unit.curBuff.Add(new Buff(DataManager.instance.loadData.buffList["AttackUp"], 10, 2, PropertyType.Slash));
+        }
+    }
+}
+
+public class Skill_DeadBody : SkillScript
+{
+    public override void End(Unit unit, Unit target)
+    {
+        if(unit.chainCount >= 3) target.shield -= 25;
+    }
+}
+
+public class Skill_Sea : SkillScript
+{
+    public override void End(Unit unit, Unit target)
+    {
+        if(unit.chainCount >= 3){
+            unit.curBuff.Add(new Buff(DataManager.instance.loadData.buffList["AttackUp"], 25, 1));
+        }
+    }
+}
+
 public class Skill_ : SkillScript
 {
 
