@@ -167,6 +167,7 @@ public abstract class Unit : MonoBehaviour
             shield = maxShield;
             shieldBreak = false;
         }
+        if(hp > maxHP) hp = maxHP;
     }
     public void SkillInit(RequestSkill skill)
     {
