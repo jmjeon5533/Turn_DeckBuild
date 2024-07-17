@@ -13,10 +13,10 @@ public class SkillTreeBtnObj : MonoBehaviour
     {
         Button btn;
         Transform curPos = line[curLine];
+        btn = Instantiate(skillTreeSelectBtn, curPos);
+
         if (!isParent)
         {
-            btn = Instantiate(skillTreeSelectBtn, curPos);
-
             Vector3 plusPos = 
             new((lineStack[curLine] % 2 == 0 ? 0 : 80) * (lineStack[curLine] > 1 ? -1 : 1), 
             (lineStack[curLine] % 2 == 0 ? 80 : 0) * (lineStack[curLine] > 1 ? -1 : 1));
@@ -27,9 +27,6 @@ public class SkillTreeBtnObj : MonoBehaviour
             lineStack[curLine]++;
             return btn;
         }
-
-
-        btn = Instantiate(skillTreeSelectBtn, curPos);
 
         if (isParent) line[curLine] = btn.transform;
 

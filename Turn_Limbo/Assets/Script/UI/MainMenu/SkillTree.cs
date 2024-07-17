@@ -23,6 +23,7 @@ public class TreeNode
     public bool isOpen;
 
     public PlusStats plusStats;
+    public Sprite sprite;
     public Button btn;
 
     public SaveTreeData SaveData()
@@ -55,31 +56,20 @@ public class TreeNode
             if (curNode.childNode.Count == 0) return;
 
             foreach (var n in curNode.childNode)
-            {
-                if (n.isParent)
-                {
-                    switch (n.lineNum)
+                if (n.isParent) switch (n.lineNum)
                     {
                         case 1: _lineOne.Add(n.isOpen); break;
                         case 2: _lineTwo.Add(n.isOpen); break;
                         case 3: _lineThree.Add(n.isOpen); break;
                     }
-                }
-                else
-                {
-                    switch (n.lineNum)
+                else switch (n.lineNum)
                     {
                         case 1: _childLineOne.Add(n.isOpen); break;
                         case 2: _childLineTwo.Add(n.isOpen); break;
                         case 3: _childLineThree.Add(n.isOpen); break;
                     }
-                }
-            }
 
-            for (int i = 0; i < curNode.childNode.Count; i++)
-            {
-                GetData(curNode.childNode[i]);
-            }
+            for (int i = 0; i < curNode.childNode.Count; i++) GetData(curNode.childNode[i]);
         }
     }
 }
@@ -151,7 +141,9 @@ public class SkillTree : MonoBehaviour
             Button btn;
 
             btn = parnetObj.AddButton(curLine, isParent);
-            if(curNode.isOpen) {
+            btn.GetComponent<Image>().sprite = curNode.sprite;
+            if (curNode.isOpen)
+            {
                 curNode.use.Use(curNode.plusStats, curNode.value);
                 btn.image.color = new Color(1, 1, 1);
             }
@@ -220,10 +212,7 @@ public class SkillTree : MonoBehaviour
                     n.btn.image.color = new Color(0.7f, 0.7f, 0.7f);
                 }
             }
-            foreach (var n in curNode.childNode)
-            {
-                Init(n);
-            }
+            foreach (var n in curNode.childNode) Init(n);
         }
 
         if (startNode.isOpen)

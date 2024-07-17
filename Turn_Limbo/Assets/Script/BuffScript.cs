@@ -6,6 +6,7 @@ public abstract class BuffScript
 {
     public Sprite buffIcon;
     public BuffTiming timing;
+    public GameObject particle;
 
     public abstract void Use(Unit target, int stack, PropertyType type);
 }

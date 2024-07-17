@@ -265,6 +265,8 @@ public class ReadSpreadSheet : MonoBehaviour
             cost = int.Parse(startPoint[6]),
             plusStats = d.plusStats,
             isOpen = d.saveData.treeData != null && d.saveData.treeData.startNode,
+            //sprite = Resources.Load<Sprite>($"SkillTreeIcon/Tree{int.Parse(startPoint[0])}")
+            sprite = Resources.Load<Sprite>($"SkillTreeIcon/Tree0")
         };
 
         TreeNode lineOne = null;
@@ -346,6 +348,8 @@ public class ReadSpreadSheet : MonoBehaviour
                 value = columns[5],
                 cost = cost,
                 plusStats = d.plusStats,
+                sprite = Resources.Load<Sprite>($"SkillTreeIcon/Tree0")
+                //sprite = Resources.Load<Sprite>($"SkillTreeIcon/Tree{int.Parse(columns[0])}")
             };
 
             if (type == "Parent") SettingParent(newTree, readLine);
