@@ -464,6 +464,7 @@ public class Controller : MonoBehaviour, IInitObserver
         yield return StartCoroutine(FirstAttackMove(enemy));
         var attackCount = Mathf.Max(player.attackRequest.Count, enemy.attackRequest.Count);
         Unit[] units = { player, enemy };
+        ui.attackView.OnOff(true);
         for (int i = 0; i < attackCount; i++)
         {
             while (Vector3.Distance(player.transform.position, enemy.transform.position) >= 5)
@@ -495,6 +496,7 @@ public class Controller : MonoBehaviour, IInitObserver
                     lastSign *= -1;
                 }
             }
+            ui.attackView.Reset();
             float playerDelay = AttackInit(player);
             float enemyDelay = AttackInit(enemy);
             float waitTime = Mathf.Max(playerDelay * player.curSkill.attackCount, enemyDelay * enemy.curSkill.attackCount);
@@ -529,6 +531,7 @@ public class Controller : MonoBehaviour, IInitObserver
         }
 
         yield return new WaitForSeconds(0.5f);
+        ui.attackView.OnOff(false);
         ui.cam.DOOrthoSize(5f, 0.5f).SetEase(Ease.OutCubic);
         player.anim.Play("Idle"); enemy?.anim.Play("Idle");
 
@@ -585,6 +588,7 @@ public class Controller : MonoBehaviour, IInitObserver
         else
         {
             this.isChain = false;
+
             return 0;
         }
     }
