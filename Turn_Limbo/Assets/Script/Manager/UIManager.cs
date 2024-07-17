@@ -36,8 +36,8 @@ public class UIManager : MonoBehaviour, IInitObserver
     public TMP_Text damageText;
     public TMP_Text percentageText;
     public RectTransform pauseTab;
+    public AttackView attackView;
     [SerializeField] Button pauseReturn, pauseStageSelect;
-    [SerializeField] GameObject chainObj;
 
     [Header("GameEnd")]
     [SerializeField] Image fadePanel;
@@ -70,7 +70,7 @@ public class UIManager : MonoBehaviour, IInitObserver
         instance = this;
     }
     public void Init()
-    {        
+    {
         SelectEnemyImage(false);
         pauseReturn.onClick.AddListener(() =>
         {
@@ -109,8 +109,8 @@ public class UIManager : MonoBehaviour, IInitObserver
             else
             {
                 cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, 3.5f, 0.1f);
-                if(controller.enemy != null)
-                camPivot = Vector3.Lerp(controller.player.transform.position, controller.enemy.transform.position, 0.5f);
+                if (controller.enemy != null)
+                    camPivot = Vector3.Lerp(controller.player.transform.position, controller.enemy.transform.position, 0.5f);
                 camPivot = new Vector3(camPivot.x, camPivot.y, -10);
                 if (isCamRotate)
                     cam.transform.rotation = Quaternion.Lerp(cam.transform.rotation, Quaternion.Euler(Vector3.forward * camRotZ), 0.05f);
@@ -153,7 +153,7 @@ public class UIManager : MonoBehaviour, IInitObserver
     }
     public void Pause()
     {
-        if(isPauseMove) return;
+        if (isPauseMove) return;
         isPauseMove = true;
         isPause = !isPause;
         Time.timeScale = isPause ? 0 : 1;
@@ -168,7 +168,7 @@ public class UIManager : MonoBehaviour, IInitObserver
     }
     public void SelectEnemyImage(bool isActive)
     {
-        string[] property = { "모든", "참격", "타격", "관통", "방어"};
+        string[] property = { "모든", "참격", "타격", "관통", "방어" };
         var request = controller.enemy.attackRequest;
         enemySkillExplainPanel.gameObject.SetActive(isActive);
         for (int i = 0; i < request.Count; i++)
@@ -199,11 +199,9 @@ public class UIManager : MonoBehaviour, IInitObserver
         StartCoroutine(FatalDamageTimeSlow(controller.enemy.transform));
         SoundManager.instance.SetAudio(controller.CritSound, false);
     }
-    public void ChainView(bool isOpen){
-        chainObj.SetActive(isOpen);
-    }
-    public void ChainAttack(bool isPlayer){
-
+    public void FatalAttack(bool isPlayer)
+    {
+        attackView.transform.DORotate(new Vector3(0, 0, isPlayer ? -8 : 8), 0.15f);
     }
     IEnumerator FatalDamageTimeSlow(Transform target)
     {
@@ -306,12 +304,12 @@ public class UIManager : MonoBehaviour, IInitObserver
         retry.transform.DOLocalMoveY(-500, 0.2f).SetUpdate(true);
         yield return stageSelect.transform.DOLocalMoveY(-500, 0.2f).SetUpdate(true).WaitForCompletion(); ;
         float time = 0;
-        float moneyTarget = DataManager.instance.curMode == RoglikeManager.Modes.stage ? 
+        float moneyTarget = DataManager.instance.curMode == RoglikeManager.Modes.stage ?
             2500 / controller.useTotalTurnCount * (DataManager.instance.curStageID + 1) :
             1000 * controller.enemyKillCount;
 
         float countTarget = controller.useTotalTurnCount;
-        
+
         if (isMoneyGiveActive) DataManager.instance.saveData.money += Mathf.RoundToInt(moneyTarget);
 
         while (time < 2)

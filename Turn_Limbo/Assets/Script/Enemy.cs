@@ -9,6 +9,7 @@ public class Enemy : Unit
     public int requestMinCount = 1;    
     protected override void FatalDamage()
     {
+        base.FatalDamage();
         UIManager.instance.EnemyFatalDamage();
     }
 

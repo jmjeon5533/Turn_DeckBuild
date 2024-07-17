@@ -202,12 +202,6 @@ public abstract class Unit : MonoBehaviour
             Vector3 dmgDir = (target.transform.position - transform.position).normalized;
             if (isChain)
             {
-                string temp = "";
-                foreach (var n in chainName)
-                {
-                    temp += n + " / ";
-                }
-                Debug.Log($"{temp}{curSkill.skillName} = {curDamage + chainDamage} / {curDamage}");
 
                 curDamage += chainDamage;
                 chainDamage = 0;
@@ -376,7 +370,7 @@ public abstract class Unit : MonoBehaviour
         }
     }
     protected abstract void DamageLogs(int damage);
-    protected abstract void FatalDamage();
+    protected virtual void FatalDamage() { UIManager.instance.FatalAttack(!isLeft); }
     public void Damage(int damage, Vector3 dir)
     {
         colorTime = maxColorTime;

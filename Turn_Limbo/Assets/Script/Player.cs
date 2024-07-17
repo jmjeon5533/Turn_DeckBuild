@@ -22,6 +22,7 @@ public class Player : Unit
     }
     protected override void FatalDamage()
     {
+        base.FatalDamage();
         UIManager.instance.PlayerFatalDamage();
     }
     protected override void DamageLogs(int damage)
