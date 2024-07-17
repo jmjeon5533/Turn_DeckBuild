@@ -53,7 +53,6 @@ public class StageExplain : MonoBehaviour
         spawnEnemyListText.text = sb.ToString();
         for(int i = 0; i < stageData.getSkillIndex.Length; i++)
         {
-            print($"{DataManager.instance.loadData.SkillList[stageData.getSkillIndex[i]].index}, {stageData.getSkillIndex[i]}");
             if(controller.player.skillInfo.holdSkills.ContainsKey(stageData.getSkillIndex[i])) continue;
 
             var skills = Instantiate(new GameObject(),imgSetParent).AddComponent<Image>();

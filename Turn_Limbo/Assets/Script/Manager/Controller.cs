@@ -57,6 +57,7 @@ public class Controller : MonoBehaviour, IInitObserver
     public bool isTab;
     public bool isChain;
     public bool isAttack;
+    public bool isBoss;
     public bool isTimeSlowEffect;
     public bool isDialogue;
     public bool isSkillExplain;
@@ -64,7 +65,6 @@ public class Controller : MonoBehaviour, IInitObserver
     public bool isEnemyRandomSkillIndex;
 
     private int lastSign;
-    [HideInInspector]
     public int spawnCount = 0;
 
     [Header("Post Processing")]
@@ -133,14 +133,7 @@ public class Controller : MonoBehaviour, IInitObserver
         }
         else
         {
-            if (spawnCount >= r.roglikeData.stageDatas[r.rogStageIndex].spawnEnemyList.Length)
-            {
-                enemy = Instantiate(r.roglikeData.stageDatas[r.rogStageIndex].spawnBoss, new Vector3(12, -0.5f, 0), Quaternion.identity);
-            }
-            else
-            {
-                enemy = Instantiate(r.roglikeData.stageDatas[r.rogStageIndex].spawnEnemyList[spawnCount], new Vector3(12, -0.5f, 0), Quaternion.identity);
-            }
+            enemy = Instantiate(r.roglikeData.stageDatas[r.rogStageIndex].spawnEnemyList[spawnCount], new Vector3(12, -0.5f, 0), Quaternion.identity);
         }
 
         enemy.hitSound = hitSound;
@@ -191,7 +184,6 @@ public class Controller : MonoBehaviour, IInitObserver
             {
                 if (spawnCount < DataManager.instance.loadData.SpawnData[DataManager.instance.curStageID].enemies.Count)
                 {
-                    r.GetItemRandom();
                     SpawnEnemy();
                     InitEnemy();
                     TurnReset();
@@ -416,10 +408,25 @@ public class Controller : MonoBehaviour, IInitObserver
         {
             if (spawnCount >= r.roglikeData.stageDatas[r.rogStageIndex].spawnEnemyList.Length)
             {
-                if (r.roglikeData.stageDatas[r.rogStageIndex].spawnBoss == null)
+                if (r.roglikeData.stageDatas[r.rogStageIndex].spawnBoss == null || isBoss)
                 {
                     r.ShowStagePanel();
                     d.saveData.money += r.roglikeData.stageDatas[r.rogStageIndex].clearGetMoney;
+                }
+                else
+                {
+                    isBoss = true;
+                    enemy = Instantiate(r.roglikeData.stageDatas[r.rogStageIndex].spawnBoss, new Vector3(12, -0.5f, 0), Quaternion.identity);
+
+                    enemy.hitSound = hitSound;
+                    enemy.dmgDelayTime = AnimTime;
+
+                    enemy.target = player;
+                    player.target = enemy;
+                    enemy.unitUI = UIManager.instance.unitUI[1];
+                    enemy.transform.DOMoveX(5, 0.5f);
+                    spawnCount++;
+                    GiveEnemySkill();
                 }
             }
         }
