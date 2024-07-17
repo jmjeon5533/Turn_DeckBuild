@@ -201,6 +201,7 @@ public class RoglikeManager : MonoBehaviour, IInitObserver
         yield return controller.bg.DOColor(Color.black, 0.3f).SetUpdate(true).WaitForCompletion();
         Destroy(controller.bg);
         controller.bg = Instantiate(rogStageData.Bg).GetComponent<SpriteRenderer>();
+        controller.bg.color = Color.black;
         yield return controller.bg.DOColor(Color.white, 0.3f).SetUpdate(true).WaitForCompletion();
         controller.spawnCount = 0;
     }
