@@ -34,6 +34,7 @@ public class UIManager : MonoBehaviour, IInitObserver
     [SerializeField] Transform dmgTextParent;
     [SerializeField] Icon baseIcon;
     [SerializeField] Image timer;
+    [SerializeField] TMP_Text turnCountText;
     public Image timerBG;
     public TMP_Text damageText;
     public TMP_Text percentageText;
@@ -126,6 +127,7 @@ public class UIManager : MonoBehaviour, IInitObserver
         {
             timer.fillAmount = controller.gameCurTimeCount / 10;
             timer.color = Utility.ColorLerp(Color.red, Color.yellow, controller.gameCurTimeCount / 10);
+            turnCountText.text = controller.useTurnCount.ToString();
             cam.orthographicSize = Mathf.Lerp(cam.orthographicSize,
             !controller.isTab ? 6 - Mathf.InverseLerp(10, 0, controller.gameCurTimeCount) : 3.5f, 0.1f);
 
@@ -253,8 +255,8 @@ public class UIManager : MonoBehaviour, IInitObserver
             keyCosts[i].enabled = isActive;
         }
         coinGauge.enabled = isActive;
-        if (!isActive) timerBG.rectTransform.DOAnchorPosY(100, 0.5f).SetEase(Ease.OutCubic);
-        else timerBG.rectTransform.anchoredPosition = new Vector2(0, -75f);
+        if (!isActive) timerBG.rectTransform.DOAnchorPosY(640, 0.5f).SetEase(Ease.OutCubic);
+        else timerBG.rectTransform.anchoredPosition = new Vector2(0, 437f);
     }
     public void NextImage(int index, Sprite sprite, Sprite nextSprite, int cost)
     {
