@@ -17,7 +17,7 @@ public struct RequestSkill
     public SkillScript effect;
     public Icon insertImage;
     public AnimationClip animation;
-    public Unit.ActionType actionType;
+    public ActionType actionType;
     public string effect_desc;
     public string skill_desc;
     public PropertyType propertyType;
@@ -68,17 +68,17 @@ public enum PropertyType
     Chain
 }
 
+public enum ActionType
+{
+    none,
+    Attack,
+    Defence,
+    Chain,
+    Change,
+}
+
 public abstract class Unit : MonoBehaviour
 {
-    public enum ActionType
-    {
-        none,
-        Attack,
-        Defence,
-        Chain,
-        Change,
-    }
-
     public List<Buff> curBuff = new();
     public List<Buff> nextBuff = new();
     public List<Buff> loopBuff = new();
@@ -163,6 +163,9 @@ public abstract class Unit : MonoBehaviour
         isAttack = true;
         nextSkill = nullSkill;
         usedSkill = nullSkill;
+        chainDamage = 0;
+        chainName.Clear();
+        isChain = false;
 
         if (shield <= 0 && !shieldBreak)
         {

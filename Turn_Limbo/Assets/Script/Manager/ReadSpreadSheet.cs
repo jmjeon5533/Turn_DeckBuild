@@ -101,7 +101,7 @@ public class ReadSpreadSheet : MonoBehaviour
             newSkill.maxDamage = new int[4];
             newSkill.attackCount = int.Parse(columns[5]);
             newSkill.keyIndex = int.Parse(columns[1]) - 1;
-            newSkill.actionType = columns[3].EnumParse<Unit.ActionType>();
+            newSkill.actionType = columns[3].EnumParse<ActionType>();
             newSkill.propertyType = columns[4].EnumParse<PropertyType>();
             newSkill.animationName = columns[4];
             newSkill.effect_desc = explain;
