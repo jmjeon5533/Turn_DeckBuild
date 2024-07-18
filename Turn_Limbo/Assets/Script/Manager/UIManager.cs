@@ -27,6 +27,7 @@ public class UIManager : MonoBehaviour, IInitObserver
     public Image inputPanel;
     public Image[] keys;
     [SerializeField] Image[] nextKeys;
+    [SerializeField] TMP_Text[] keyCosts;
     [SerializeField] Controller controller;
     [SerializeField] Image coinGauge;
 
@@ -249,15 +250,17 @@ public class UIManager : MonoBehaviour, IInitObserver
         {
             keys[i].enabled = isActive;
             nextKeys[i].enabled = isActive;
+            keyCosts[i].enabled = isActive;
         }
         coinGauge.enabled = isActive;
         if (!isActive) timerBG.rectTransform.DOAnchorPosY(100, 0.5f).SetEase(Ease.OutCubic);
         else timerBG.rectTransform.anchoredPosition = new Vector2(0, -75f);
     }
-    public void NextImage(int index, Sprite sprite, Sprite nextSprite)
+    public void NextImage(int index, Sprite sprite, Sprite nextSprite, int cost)
     {
         keys[index].sprite = sprite;
         nextKeys[index].sprite = nextSprite;
+        keyCosts[index].text = cost.ToString();
     }
     public void SetExplain(bool isActive, Skill skill = null, Vector3 pos = default, int level = 0)
     {

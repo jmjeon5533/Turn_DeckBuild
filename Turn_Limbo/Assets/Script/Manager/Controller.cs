@@ -310,7 +310,7 @@ public class Controller : MonoBehaviour, IInitObserver
     {
         for (int i = 0; i < 3; i++)
         {
-            UIManager.instance.NextImage(i, inputs[i][0].icon, inputs[i][1].icon);
+            UIManager.instance.NextImage(i, inputs[i][0].icon, inputs[i][1].icon, inputs[i][0].cost[inputs[i][0].level]);
         }
     }
     public void AddRequest(Unit target, Skill addSkill)
@@ -369,7 +369,7 @@ public class Controller : MonoBehaviour, IInitObserver
         useAbleCoin -= input[0].cost[input[0].level];
         SwapSkills(input);
         ui.ChangeCoinSkillImg();
-        ui.NextImage(i, input[0].icon, input[1].icon);
+        ui.NextImage(i, input[0].icon, input[1].icon, input[0].cost[input[0].level]);
         SoundManager.instance.SetAudio(addSkillSound[Random.Range(0, addSkillSound.Length)], false);
     }
     public void PhaseEnd()
