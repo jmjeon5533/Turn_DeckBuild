@@ -4431,11 +4431,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 557997653729a964fa66e63e1c147f3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skill: {fileID: 4900000, guid: c24a29883eec9014099390b946ec39b9, type: 3}
-  buff: {fileID: 4900000, guid: cd2403638a665934a9bb8166d9814f48, type: 3}
-  scenario: {fileID: 4900000, guid: c1e20d20102455b48aa3240d64bd7468, type: 3}
-  skillTree: {fileID: 4900000, guid: 373205323826ad942a90de73806bc5d3, type: 3}
-  EnemyData: {fileID: 4900000, guid: 8f63eb2c83f90d949b0bbff99bb7edd0, type: 3}
+  skill: {fileID: 4900000, guid: 5ae7cc4f1e338c14db3e428d5b45a5ab, type: 3}
+  buff: {fileID: 4900000, guid: 4886b5a979667164dad4b9323285b32f, type: 3}
+  scenario: {fileID: 4900000, guid: b4b88e488c705db47be22c38185d70ee, type: 3}
+  skillTree: {fileID: 4900000, guid: 9fc2e09a2a1ad754ab2d5a7b82d13da8, type: 3}
+  EnemyData: {fileID: 4900000, guid: 269edc6a81526674892876f57ed45995, type: 3}
   isFirstLoad: 0
 --- !u!4 &489823634
 Transform:

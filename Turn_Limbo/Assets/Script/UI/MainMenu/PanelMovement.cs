@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class PanelMovement : MonoBehaviour
 {
+    
     [SerializeField] SkillEffect playerSkill;
     bool isStage = false;
     bool isMove = false;
@@ -55,7 +56,7 @@ public class PanelMovement : MonoBehaviour
             }
         }
         isMove = true;
-        isStage = !isStage;
         transform.DOMoveX((isStage ? 1 : 0) * 1920, 0.5f).OnComplete(() => isMove = false);
+        isStage = !isStage;
     }
 }

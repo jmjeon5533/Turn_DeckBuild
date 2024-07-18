@@ -25,3 +25,18 @@ idx,Line,name,Type,Script,Value,cost,desc
 24,2,참격 준비,Child,PLoopBuff,AttackUp&15&100&Slash&3,2000,3턴마다 참격 스킬 피해량 +15%
 25,,타격 준비,Child,PLoopBuff,AttackUp&15&100&Hit&3,2000,3턴마다 타격 스킬 피해량 +15%
 26,,관통 준비,Child,PLoopBuff,AttackUp&15&100&Penetrate&3,2000,3턴마다 관통 스킬 피해량 +15%
+27,1,스킵,Skip,,,,
+28,1,상비약 I,Child,,,700,턴 종료 시 체력 1 회복
+29,,상비약 II,Child,,,700,턴 종료 시 체력 1 회복
+30,,상비약 III,Child,,,700,턴 종료 시 체력 1 회복
+31,3,심호흡 I,Child,,,2000,2턴마다 저항력 1 회복
+32,,심호흡 II,Child,,,2000,2턴마다 저항력 1 회복
+33,,심호흡 III,Child,,,2000,2턴마다 저항력 1 회복
+34,,심호흡 IV,Child,,,2000,2턴마다 저항력 1 회복
+35,3,천 갑옷 I,Child,DefenseValue,1,2400,받는 피해량 -1
+36,,천 갑옷 II,Child,DefenseValue,1,2400,받는 피해량 -1
+37,2,더 날카롭게,Parent,AttackValue,1,1750,적에게 주는 피해량 +1
+38,2,참격 숙달,Child,PLoopBuff,AttackUp&5&100&Slash&1,2500,참격 피해량 +10%
+39,,타격 숙달,Child,PLoopBuff,AttackUp&5&100&Hit&2,2500,타격 피해량 +10%
+40,,관통 숙달,Child,PLoopBuff,AttackUp&5&100&Penetrate&3,2500,관통 피해량 +10%
+41,,방어 숙달,Child,PLoopBuff,AttackUp&5&100&Defense&4,2500,방어 효과 +10%
