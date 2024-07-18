@@ -667,7 +667,7 @@ public class Controller : MonoBehaviour, IInitObserver
             if (unit.isChain)
             {
                 string temp = "";
-                foreach (var n in unit.chainName) { temp += n + "/"; }
+                foreach (var n in unit.chainName) { temp += n + "-"; }
                 StartCoroutine(ui.attackView.ChainAttack(unit.isLeft, temp + unit.curSkill.skillName));
                 Debug.Log(temp + unit.curSkill.skillName);
                 unit.chainName.Clear();
