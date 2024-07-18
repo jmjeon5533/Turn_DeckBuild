@@ -394,6 +394,7 @@ public abstract class Unit : MonoBehaviour
     public void Recovery(int value, bool isPlus, bool isHp = true)
     {
         string name;
+        if(!isPlus) value *= -1;
 
         if (isHp)
         {

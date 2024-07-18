@@ -567,7 +567,7 @@ public class Controller : MonoBehaviour, IInitObserver
         _ = new RequestSkill();
 
         if (smalltemp.Count == 0 || !findChain || (bigtemp.Count == smalltemp.Count)) {
-            Debug.Log($"Return / {smalltemp.Count} {findChain}");
+            //Debug.Log($"Return / {smalltemp.Count} {findChain}");
             return bigtemp.Count;
         }
 
@@ -578,7 +578,7 @@ public class Controller : MonoBehaviour, IInitObserver
             if(bigtemp.Count - 1 == smalltemp.Count) break;
         }
         smalltemp.Add(skilltemp);
-        Debug.Log($"Setting / p : {player.attackRequest.Count} / e : {enemy.attackRequest.Count}");
+        //Debug.Log($"Setting / p : {player.attackRequest.Count} / e : {enemy.attackRequest.Count}");
 
         return bigtemp.Count;
     }
@@ -667,9 +667,11 @@ public class Controller : MonoBehaviour, IInitObserver
             if (unit.isChain)
             {
                 string temp = "";
-                foreach (var n in unit.chainName) { temp += n + " "; }
+                foreach (var n in unit.chainName) { temp += n + "/"; }
                 StartCoroutine(ui.attackView.ChainAttack(unit.isLeft, temp + unit.curSkill.skillName));
+                Debug.Log(temp + unit.curSkill.skillName);
                 unit.chainName.Clear();
+                unit.isChain = false;
             }
         }
     }

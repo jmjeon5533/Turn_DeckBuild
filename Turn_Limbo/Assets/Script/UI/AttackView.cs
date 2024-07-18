@@ -30,8 +30,8 @@ public class AttackView : MonoBehaviour
 
         chainBox.localPosition = new Vector3(isPlayer ? 1760 : -1760, 400);
         chainBox.DOAnchorPosX(isPlayer ? 110 : -110, 0.1f);
-        StartCoroutine(TypingText(chainText));
-        yield return new WaitForSeconds(0.5f);
+        yield return StartCoroutine(TypingText(chainText));
+        yield return new WaitForSeconds(0.8f);
         chainBox.DOAnchorPosX(isPlayer ? 1760 : -1760, 0.1f);
     }
 
@@ -41,7 +41,7 @@ public class AttackView : MonoBehaviour
         for (int i = 0; i < chainText.Length; i++)
         {
             text.text += chainText[i];
-            yield return new WaitForSeconds(0.4f / chainText.Length);
+            yield return new WaitForSecondsRealtime(1f / chainText.Length);
         }
     }
 }

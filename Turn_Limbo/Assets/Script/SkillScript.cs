@@ -289,6 +289,7 @@ public class Skill_Hara_Kiri : SkillScript
 {
     public override void End(Unit unit, Unit target)
     {
+        Debug.Log((int)(unit.maxHP * ((float)unit.curMaxDamage * 2 / 100)));
         unit.Recovery((int)(unit.maxHP * ((float)unit.curMaxDamage * 2 / 100)), false);
     }
 }
