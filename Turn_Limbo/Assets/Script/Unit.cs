@@ -43,6 +43,13 @@ public class Buff
     public int loopCount;
 }
 
+public enum BuffList
+{
+    Cur,
+    Next,
+    Loop
+}
+
 public enum BuffTiming
 {
     TurnStart,
@@ -167,7 +174,7 @@ public abstract class Unit : MonoBehaviour
             shield = maxShield;
             shieldBreak = false;
         }
-        if(hp > maxHP) hp = maxHP;
+        if (hp > maxHP) hp = maxHP;
     }
     public void SkillInit(RequestSkill skill)
     {
@@ -176,12 +183,23 @@ public abstract class Unit : MonoBehaviour
         defense_Drainage = 1;
         plusAttackValue = 0;
         plusDefenseValue = 0;
+        unitUI.stringBuilder = new();
+        unitUI.curText = null;
 
         usedSkill = curSkill;
         curSkill = skill;
         //Debug.Log($"{this.name} >>> {usedSkill.skillName}_ _{curSkill.skillName} / usedBuffList : {usedBuff.Count}");
     }
-
+    public void AddBuff(BuffList list, Buff buff)
+    {
+        unitUI.BuffText(buff.buff.text);
+        switch (list)
+        {
+            case BuffList.Cur: curBuff.Add(buff); break;
+            case BuffList.Next: nextBuff.Add(buff); break;
+            case BuffList.Loop: loopBuff.Add(buff); break;
+        }
+    }
     public virtual void UseBuff(BuffTiming timing)
     {
         for (int i = 0; i < curBuff.Count; i++)
@@ -189,7 +207,6 @@ public abstract class Unit : MonoBehaviour
             if (curBuff[i].buff.timing != timing) return;
 
             curBuff[i].buff.Use(this, curBuff[i].stack, curBuff[i].type);
-            //Instantiate(curBuff[i].buff.particle);
 
             curBuff[i].count--;
         }
@@ -370,6 +387,27 @@ public abstract class Unit : MonoBehaviour
             //StartCoroutine(HitAnimation(curDamage));
             u.DamageText(totalDmg, transform.position, this);
         }
+    }
+    public void Recovery(int value, bool isPlus, bool isHp = true)
+    {
+        string name;
+
+        if (isHp)
+        {
+            hp += value;
+            Mathf.Clamp(hp, 0, maxHP);
+
+            name = "체력 " + (isPlus ? "회복" : "감소");
+        }
+        else
+        {
+            shield += value;
+            Mathf.Clamp(shield, 0, maxShield);
+
+            name = "저항력 " + (isPlus ? "회복" : "감소");
+        }
+
+        unitUI.BuffText(name);
     }
     protected abstract void DamageLogs(int damage);
     protected virtual void FatalDamage() { UIManager.instance.FatalAttack(!isLeft); }

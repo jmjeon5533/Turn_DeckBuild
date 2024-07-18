@@ -14,7 +14,7 @@ public abstract class SkillScript
 // {
 //     public override void Setting(Unit unit, Unit target)
 //     {
-//         unit.curBuff.Add(new Buff(DataManager.instance.loadData.buffList["AttackUp"], 50, 1, PropertyType.Slash));
+//         unit.AddBuff(BuffList.Cur, new Buff(DataManager.instance.loadData.buffList["AttackUp"], 50, 1, PropertyType.Slash));
 //     }
 // }
 
@@ -40,7 +40,7 @@ public abstract class SkillScript
 // {
 //     public override void End(Unit unit, Unit target)
 //     {
-//         unit.curBuff.Add(new Buff(DataManager.instance.loadData.buffList["AttackUp"], 20, 1, PropertyType.AllType));
+//         unit.AddBuff(BuffList.Cur, new Buff(DataManager.instance.loadData.buffList["AttackUp"], 20, 1, PropertyType.AllType));
 //     }
 // }
 
@@ -58,7 +58,7 @@ public abstract class SkillScript
 //                 return;
 //             }
 //         }
-//         target.curBuff.Add(new Buff(DataManager.instance.loadData.debuffList["Burn"], 5, 1));
+//         target.AddBuff(BuffList.Cur, new Buff(DataManager.instance.loadData.debuffList["Burn"], 5, 1));
 //     }
 // }
 
@@ -72,7 +72,7 @@ public abstract class SkillScript
 
 //             if (n.buff == DataManager.instance.loadData.debuffList["Burn"])
 //             {
-//                 target.curBuff.Add(new Buff(DataManager.instance.loadData.buffList["DefenseDown"], 100, 10, PropertyType.AllType));
+//                 target.AddBuff(BuffList.Cur, new Buff(DataManager.instance.loadData.buffList["DefenseDown"], 100, 10, PropertyType.AllType));
 //                 return;
 //             }
 //         }
@@ -83,7 +83,7 @@ public abstract class SkillScript
 // {
 //     public override void End(Unit unit, Unit target)
 //     {
-//         unit.curBuff.Add(new Buff(DataManager.instance.loadData.buffList["AttackUp"], 20, 2, PropertyType.AllType));
+//         unit.AddBuff(BuffList.Cur, new Buff(DataManager.instance.loadData.buffList["AttackUp"], 20, 2, PropertyType.AllType));
 //     }
 // }
 
@@ -116,7 +116,7 @@ public abstract class SkillScript
 //                 return;
 //             }
 //         }
-//         target.curBuff.Add(new Buff(DataManager.instance.loadData.debuffList["Paralysis"], 1, 1, PropertyType.AllType));
+//         target.AddBuff(BuffList.Cur, new Buff(DataManager.instance.loadData.debuffList["Paralysis"], 1, 1, PropertyType.AllType));
 //     }
 // }
 
@@ -124,7 +124,7 @@ public abstract class SkillScript
 // {
 //     public override void End(Unit unit, Unit target)
 //     {
-//         unit.curBuff.Add(new Buff(DataManager.instance.loadData.buffList["AttackUp"], 10, 10, PropertyType.Slash));
+//         unit.AddBuff(BuffList.Cur, new Buff(DataManager.instance.loadData.buffList["AttackUp"], 10, 10, PropertyType.Slash));
 //     }
 // }
 
@@ -141,7 +141,7 @@ public class Skill_Stab : SkillScript
 {
     public override void End(Unit unit, Unit target)
     {
-        unit.curBuff.Add(new Buff(DataManager.instance.loadData.buffList["AttackUp"], 10, 3));
+        unit.AddBuff(BuffList.Cur, new Buff(DataManager.instance.loadData.buffList["AttackUp"], 10, 3));
     }
 }
 
@@ -167,7 +167,7 @@ public class Skill_Spilling : SkillScript
 {
     public override void Setting(Unit unit, Unit target)
     {
-        unit.curBuff.Add(new Buff(DataManager.instance.loadData.buffList["DefenseUp"], 30, 10));
+        unit.AddBuff(BuffList.Cur, new Buff(DataManager.instance.loadData.buffList["DefenseUp"], 30, 10));
     }
 }
 
@@ -175,7 +175,7 @@ public class Skill_Blocking : SkillScript
 {
     public override void End(Unit unit, Unit target)
     {
-        unit.nextBuff.Add(new Buff(DataManager.instance.loadData.buffList["AttackUp"], 3, 10));
+        unit.AddBuff(BuffList.Cur, new Buff(DataManager.instance.loadData.buffList["AttackUp"], 3, 10));
     }
 }
 
@@ -183,7 +183,7 @@ public class Skill_Ready : SkillScript
 {
     public override void Setting(Unit unit, Unit target)
     {
-        unit.curBuff.Add(new Buff(DataManager.instance.loadData.buffList["AttackUp"], 30, 1));
+        unit.AddBuff(BuffList.Cur, new Buff(DataManager.instance.loadData.buffList["AttackUp"], 30, 1));
     }
 }
 
@@ -193,7 +193,7 @@ public class Skill_Onguard : SkillScript
     public override void Setting(Unit unit, Unit target)
     {
         if (target.curSkill.propertyType == PropertyType.Slash)
-            target.curBuff.Add(new Buff(DataManager.instance.loadData.debuffList["AttackDown"], 20, 1));
+            target.AddBuff(BuffList.Cur, new Buff(DataManager.instance.loadData.debuffList["AttackDown"], 20, 1));
     }
 }
 
@@ -201,7 +201,7 @@ public class Skill_Forward : SkillScript
 {
     public override void End(Unit unit, Unit target)
     {
-        unit.nextBuff.Add(new Buff(DataManager.instance.loadData.debuffList["DefenseDown"], 50, 1));
+        unit.AddBuff(BuffList.Cur, new Buff(DataManager.instance.loadData.debuffList["DefenseDown"], 50, 1));
         if (unit.TryGetComponent<Player>(out var p))
             p.PlusCoin(3);
     }
@@ -211,7 +211,7 @@ public class Skill_LengthCut : SkillScript
 {
     public override void End(Unit unit, Unit target)
     {
-        unit.curBuff.Add(new Buff(DataManager.instance.loadData.buffList["AttackUp"], 15, 10));
+        unit.AddBuff(BuffList.Cur, new Buff(DataManager.instance.loadData.buffList["AttackUp"], 15, 10));
     }
 }
 
@@ -219,7 +219,7 @@ public class Skill_WidthCut : SkillScript
 {
     public override void Setting(Unit unit, Unit target)
     {
-        if (unit.usedSkill.index == 14) unit.curBuff.Add(new Buff(DataManager.instance.loadData.buffList["AttackUp"], 100, 1));
+        if (unit.usedSkill.index == 14) unit.AddBuff(BuffList.Cur, new Buff(DataManager.instance.loadData.buffList["AttackUp"], 100, 1));
     }
 }
 
@@ -229,7 +229,7 @@ public class Skill_CrossCut : SkillScript
     {
         if (target.curSkill.propertyType == PropertyType.Defense)
         {
-            target.nextBuff.Add(new Buff(DataManager.instance.loadData.debuffList["AttackDown"], 90, 10, PropertyType.Defense));
+            target.AddBuff(BuffList.Cur, new Buff(DataManager.instance.loadData.debuffList["AttackDown"], 90, 10, PropertyType.Defense));
         }
     }
 }
@@ -250,7 +250,7 @@ public class Skill_FirstAid : SkillScript
         if (target.curSkill.propertyType == PropertyType.Defense)
         {
             int temp = Mathf.RoundToInt(unit.maxHP * 0.05f);
-            unit.hp += temp <= 0 ? 1 : temp;
+            unit.Recovery(temp <= 0 ? 1 : temp, true);
         }
     }
 }
@@ -259,8 +259,7 @@ public class Skill_FightingSpirit : SkillScript
 {
     public override void End(Unit unit, Unit target)
     {
-        int temp = Mathf.RoundToInt(unit.maxShield * 0.1f);
-        unit.shield += temp <= 0 ? 0 : temp;
+        unit.Recovery(Mathf.RoundToInt(unit.maxShield * 0.1f), true, false);
     }
 }
 
@@ -270,8 +269,7 @@ public class Skill_Inkling : SkillScript
     {
         if (target.curSkill.propertyType == PropertyType.Defense)
         {
-            target.shield -= 10;
-            if (target.shield < 0) target.shield = 0;
+           unit.Recovery(10, false, false);
         }
     }
 }
@@ -282,8 +280,7 @@ public class Skill_VitalPoint : SkillScript
     {
         if (target.shield <= Mathf.CeilToInt(target.maxShield * 0.25f))
         {
-            target.shield -= 50;
-            if (target.shield < 0) target.shield = 0;
+            unit.Recovery(50, false, false);
         }
     }
 }
@@ -292,7 +289,7 @@ public class Skill_Hara_Kiri : SkillScript
 {
     public override void End(Unit unit, Unit target)
     {
-        unit.hp -= (int)(unit.maxHP * ((float)unit.curMaxDamage * 2 / 100));
+        unit.Recovery((int)(unit.maxHP * ((float)unit.curMaxDamage * 2 / 100)), false);
     }
 }
 
@@ -302,7 +299,7 @@ public class Skill_Crushing : SkillScript
     {
         if (target.curSkill.propertyType == PropertyType.Defense)
         {
-            target.hp -= 5;
+            target.Recovery(5, false);
         }
     }
 }
@@ -313,7 +310,7 @@ public class Skill_Bump : SkillScript
     {
         if (unit.shield <= Mathf.RoundToInt(unit.maxShield * 0.5f))
         {
-            unit.shield += Mathf.RoundToInt(unit.shield * 0.2f);
+            unit.Recovery(Mathf.RoundToInt(unit.shield * 0.2f), true, false);
         }
     }
 }
@@ -322,7 +319,7 @@ public class Skill_Pressure : SkillScript
 {
     public override void Setting(Unit unit, Unit target)
     {
-        unit.nextBuff.Add(new Buff(DataManager.instance.loadData.debuffList["CoinLimit"], 0, 10));
+        unit.AddBuff(BuffList.Cur, new Buff(DataManager.instance.loadData.debuffList["CoinLimit"], 0, 10));
     }
 }
 
@@ -330,8 +327,8 @@ public class Skill_Tension : SkillScript
 {
     public override void End(Unit unit, Unit target)
     {
-        unit.nextBuff.Add(new Buff(DataManager.instance.loadData.buffList["TrueDefenseUp"], 1, 10));
-        unit.hp -= Mathf.RoundToInt(unit.hp * 0.05f);
+        unit.AddBuff(BuffList.Cur, new Buff(DataManager.instance.loadData.buffList["TrueDefenseUp"], 1, 10));
+        unit.Recovery(Mathf.RoundToInt(unit.hp * 0.05f), false);
     }
 }
 
@@ -339,9 +336,8 @@ public class Skill_Stability : SkillScript
 {
     public override void End(Unit unit, Unit target)
     {
-        unit.nextBuff.Add(new Buff(DataManager.instance.loadData.debuffList["TrueDefenseDown"], 2, 10));
-        int plushp = Mathf.RoundToInt(unit.hp * 0.1f);
-        unit.hp += plushp;
+        unit.AddBuff(BuffList.Cur, new Buff(DataManager.instance.loadData.debuffList["TrueDefenseDown"], 2, 10));
+        unit.Recovery(Mathf.RoundToInt(unit.hp * 0.1f), true);
     }
 }
 
@@ -351,7 +347,7 @@ public class Skill_BattoOjutz_Enemy : SkillScript
     {
         if (target.curSkill.propertyType == PropertyType.Defense)
         {
-            target.shield -= 999;
+            target.shield = 0;
         }
     }
 }
@@ -362,7 +358,7 @@ public class Skill_BattoOjutz : SkillScript
     {
         if (target.curSkill.propertyType == PropertyType.Defense)
         {
-            target.shield -= 20;
+            target.Recovery(20, false, false);
             if (unit.TryGetComponent<Player>(out var p))
                 p.PlusCoin(3);
         }
@@ -375,7 +371,7 @@ public class Skill_HyperSpeed : SkillScript
     {
         if (target.curSkill.propertyType == PropertyType.Slash || target.curSkill.propertyType == PropertyType.Penetrate || target.curSkill.propertyType == PropertyType.Hit)
         {
-            target.hp -= 30;
+            target.Recovery(30, false);
         }
     }
 }
@@ -386,7 +382,7 @@ public class Skill_OneCut : SkillScript
     {
         if (target.curSkill.propertyType != PropertyType.Slash)
         {
-            unit.shield += Mathf.RoundToInt(unit.shield * 0.1f);
+            unit.Recovery(Mathf.RoundToInt(unit.shield * 0.1f), true, false);
         }
     }
 }
@@ -397,7 +393,7 @@ public class Skill_Determination : SkillScript
     {
         if (target.curSkill.propertyType == PropertyType.Slash)
         {
-            unit.hp -= unit.curMaxDamage;
+            unit.Recovery(unit.curMaxDamage, true);
         }
     }
 }
@@ -408,7 +404,7 @@ public class Skill_LengthCut_Enemy : SkillScript
     {
         if (target.curSkill.propertyType != PropertyType.Slash)
         {
-            unit.curBuff.Add(new Buff(DataManager.instance.loadData.buffList["AttackUp"], 50, 10));
+            unit.AddBuff(BuffList.Cur, new Buff(DataManager.instance.loadData.buffList["AttackUp"], 50, 10));
         }
     }
 }
@@ -430,7 +426,7 @@ public class Skill_Equanimity_Enemy : SkillScript
     {
         if (target.curSkill.propertyType != PropertyType.Slash)
         {
-            unit.hp += Mathf.RoundToInt(unit.maxHP * 0.25f);
+            unit.Recovery(Mathf.RoundToInt(unit.maxHP * 0.25f), true);
         }
     }
 }
@@ -466,7 +462,7 @@ public class Skill_Scatter : SkillScript
     public override void End(Unit unit, Unit target)
     {
         if(unit.chainCount >= 3){
-            unit.curBuff.Add(new Buff(DataManager.instance.loadData.buffList["AttackUp"], 10, 2, PropertyType.Slash));
+            unit.AddBuff(BuffList.Cur, new Buff(DataManager.instance.loadData.buffList["AttackUp"], 10, 2, PropertyType.Slash));
         }
     }
 }
@@ -475,7 +471,7 @@ public class Skill_DeadBody : SkillScript
 {
     public override void End(Unit unit, Unit target)
     {
-        if(unit.chainCount >= 3) target.shield -= 25;
+        if(unit.chainCount >= 3) target.Recovery(25, false, false);
     }
 }
 
@@ -484,7 +480,7 @@ public class Skill_Sea : SkillScript
     public override void End(Unit unit, Unit target)
     {
         if(unit.chainCount >= 3){
-            unit.curBuff.Add(new Buff(DataManager.instance.loadData.buffList["AttackUp"], 25, 1));
+            unit.AddBuff(BuffList.Cur, new Buff(DataManager.instance.loadData.buffList["AttackUp"], 25, 1));
         }
     }
 }
