@@ -51,8 +51,8 @@ MonoBehaviour:
   hp: 100
   maxHP: 100
   hpLimit: 0
-  shield: 175
-  maxShield: 175
+  shield: 75
+  maxShield: 75
   shieldBreak: 0
   curMinDamage: 0
   curMaxDamage: 0
@@ -63,6 +63,10 @@ MonoBehaviour:
   attack_Drainage: 0
   defense_Drainage: 0
   isAttack: 0
+  chainDamage: 0
+  chainCount: 0
+  isChain: 0
+  chainName: []
   target: {fileID: 0}
   effect: {fileID: 1429954232896169632, guid: 83036083a4ebcd34f98131bd3cf6f4d2, type: 3}
   hitSound:
