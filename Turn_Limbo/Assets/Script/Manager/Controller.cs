@@ -566,7 +566,7 @@ public class Controller : MonoBehaviour, IInitObserver
         var smalltemp = player.attackRequest.Count > enemy.attackRequest.Count ? enemy.attackRequest : player.attackRequest;
         _ = new RequestSkill();
 
-        if (smalltemp.Count == 0 || !findChain) {
+        if (smalltemp.Count == 0 || !findChain || (bigtemp.Count == smalltemp.Count)) {
             Debug.Log($"Return / {smalltemp.Count} {findChain}");
             return bigtemp.Count;
         }

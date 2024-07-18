@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using System;
+using TMPro;
 
 public class AttackView : MonoBehaviour
 {
@@ -11,7 +12,7 @@ public class AttackView : MonoBehaviour
     [SerializeField] RectTransform downBox;
 
     [SerializeField] RectTransform chainBox;
-    [SerializeField] Text text;
+    [SerializeField] TMP_Text text;
 
     public void Reset()
     {
@@ -25,11 +26,13 @@ public class AttackView : MonoBehaviour
     }
 
     public IEnumerator ChainAttack(bool isPlayer, string chainText){
-        chainBox.localPosition = new Vector3(isPlayer ? 1500 : -1500, 400);
-        chainBox.DOAnchorPosX(isPlayer ? 560 : -560, 0.1f);
+        if(!isPlayer) yield break;
+
+        chainBox.localPosition = new Vector3(isPlayer ? 1760 : -1760, 400);
+        chainBox.DOAnchorPosX(isPlayer ? 110 : -110, 0.1f);
         StartCoroutine(TypingText(chainText));
         yield return new WaitForSeconds(0.5f);
-        chainBox.DOAnchorPosX(isPlayer ? 1500 : -1500, 0.1f);
+        chainBox.DOAnchorPosX(isPlayer ? 1760 : -1760, 0.1f);
     }
 
     IEnumerator TypingText(string chainText)
@@ -38,7 +41,7 @@ public class AttackView : MonoBehaviour
         for (int i = 0; i < chainText.Length; i++)
         {
             text.text += chainText[i];
-            yield return 1f / chainText.Length;
+            yield return new WaitForSeconds(0.4f / chainText.Length);
         }
     }
 }

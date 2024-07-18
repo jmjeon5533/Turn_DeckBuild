@@ -163,6 +163,9 @@ public abstract class Unit : MonoBehaviour
         isAttack = true;
         nextSkill = nullSkill;
         usedSkill = nullSkill;
+        chainDamage = 0;
+        chainName.Clear();
+        isChain = false;
 
         if (shield <= 0 && !shieldBreak)
         {
