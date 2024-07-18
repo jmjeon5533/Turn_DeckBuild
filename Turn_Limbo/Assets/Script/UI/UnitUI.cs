@@ -8,11 +8,12 @@ public class UnitUI : MonoBehaviour
     public RectTransform requestUIParent;
     public RectTransform requestBuffParent;
     public RectTransform statParent;
-    [SerializeField] protected GameObject status;
-    [SerializeField] protected Image hpImage;
-    [SerializeField] protected Image hpAnimImage;
-    [SerializeField] protected Image shieldImage;
-    [SerializeField] protected Image shieldAnimImage;
+    [SerializeField] private Image[] Bg;
+    [SerializeField] private GameObject status;
+    [SerializeField] private Image hpImage;
+    [SerializeField] private Image hpAnimImage;
+    [SerializeField] private Image shieldImage;
+    [SerializeField] private Image shieldAnimImage;
 
     public virtual void InitUnit()
     {
@@ -20,6 +21,10 @@ public class UnitUI : MonoBehaviour
     }
     public void UIUpdate(Transform target,int hp, int maxHP, int shield, int maxShield, ref float dmgDelayCurTime, bool isLeft)
     {
+        bool isShield = shield > 0;
+        Bg[0].enabled = !isShield;
+        Bg[1].enabled = isShield;
+
         var ui = UIManager.instance;
         statParent.anchoredPosition
         = ui.cam.WorldToScreenPoint(target.transform.localPosition + (new Vector3(-2f, 0) * (isLeft ? 1 : -1)));

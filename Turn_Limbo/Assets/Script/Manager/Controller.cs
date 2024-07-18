@@ -348,7 +348,7 @@ public class Controller : MonoBehaviour, IInitObserver
             if (Input.GetKey(KEY_CODE[i]) && !isSkillExplain)
             {
                 keyHoldTime += Time.unscaledDeltaTime;
-                keyHoldImage.rectTransform.anchoredPosition = ui.keys[i].rectTransform.anchoredPosition;
+                keyHoldImage.transform.position = ui.keys[i].transform.position;
                 if (keyHoldTime > 1f)
                 {
                     isSkillExplain = true;
