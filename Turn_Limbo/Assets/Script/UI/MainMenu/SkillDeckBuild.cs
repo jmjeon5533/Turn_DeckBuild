@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,6 +18,7 @@ public class SkillDeckBuild : MonoBehaviour
     [SerializeField] private RectTransform[] skillSelectBtnParent;
     [SerializeField] private Button skillSelectBaseBtn;
     [SerializeField] SkillExplain explainPanel;
+    [SerializeField] TMP_Text clickTipText;
     public SkillEffect playerSkills;
     public List<DeckBuildBtns> selectBtnImage;
     public List<DeckBuildBtns> viewBtnImage;
@@ -36,6 +38,7 @@ public class SkillDeckBuild : MonoBehaviour
     public void EnterKeyPanel(int index)
     {
         skillViewPanel[index].SetActive(true);
+        selectIndex = -1;
         for (int i = selectBtnImage.Count - 1; i >= 0; i--)
         {
             Destroy(selectBtnImage[i].btn.gameObject);
@@ -70,6 +73,7 @@ public class SkillDeckBuild : MonoBehaviour
 
                     selectBtn.btn.image.color = Color.green;
                     print(skills);
+                    clickTipText.enabled = true;
                 }
                 else
                 {
@@ -86,6 +90,7 @@ public class SkillDeckBuild : MonoBehaviour
                         selectBtn = null;
                         selectIndex = -1;
                         selectKeyIndex = -1;
+                        clickTipText.enabled = false;
                         
                         AddSkillViewBtn();
                     }
@@ -98,6 +103,8 @@ public class SkillDeckBuild : MonoBehaviour
 
                         selectBtn = viewBtnImage.Find((x) => x.skillIndex == skills);
                         selectBtn.btn.image.color = Color.green;
+                        clickTipText.enabled = true;
+
                     }
                 }
                 explainPanel.ExplainSet(d.loadData.SkillList[skills],d.player.holdSkills[skills].level);
