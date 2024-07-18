@@ -24,7 +24,7 @@ public class Skill
     public SkillScript effect;
     public Sprite icon;
     public string animationName;
-    public Unit.ActionType actionType;
+    public ActionType actionType;
     public string effect_desc;
     public string skill_desc;
     public PropertyType propertyType;
@@ -467,9 +467,9 @@ public class Controller : MonoBehaviour, IInitObserver
         var ui = UIManager.instance;
         ui.cam.DOOrthoSize(3.5f, 0.5f).SetEase(Ease.OutCubic);
         ui.inputPanel.rectTransform.DOSizeDelta(Vector2.zero, 0.5f);
+        var attackCount = FirstAttackCheck(player, enemy);
         StartCoroutine(FirstAttackMove(player));
         yield return StartCoroutine(FirstAttackMove(enemy));
-        var attackCount = Mathf.Max(player.attackRequest.Count, enemy.attackRequest.Count);
         Unit[] units = { player, enemy };
         ui.attackView.OnOff(true);
         for (int i = 0; i < attackCount; i++)
@@ -556,13 +556,41 @@ public class Controller : MonoBehaviour, IInitObserver
         TurnEnd();
     }
 
+    int FirstAttackCheck(Unit player, Unit enemy){
+        bool findChain = false;
+
+        foreach (var n in player.attackRequest){if(n.actionType == ActionType.Chain) findChain = true;}
+        foreach (var n in enemy.attackRequest){if(n.actionType == ActionType.Chain) findChain = true;}
+
+        var bigtemp = player.attackRequest.Count > enemy.attackRequest.Count ? player.attackRequest : enemy.attackRequest;
+        var smalltemp = player.attackRequest.Count > enemy.attackRequest.Count ? enemy.attackRequest : player.attackRequest;
+        _ = new RequestSkill();
+
+        if (smalltemp.Count == 0 || !findChain) {
+            Debug.Log($"Return / {smalltemp.Count} {findChain}");
+            return bigtemp.Count;
+        }
+
+        RequestSkill skilltemp = smalltemp.Last();
+        smalltemp.RemoveAt(smalltemp.Count -1);
+        while(true){
+            smalltemp.Add(player.nullSkill);
+            if(bigtemp.Count - 1 == smalltemp.Count) break;
+        }
+        smalltemp.Add(skilltemp);
+        Debug.Log($"Setting / p : {player.attackRequest.Count} / e : {enemy.attackRequest.Count}");
+
+        return bigtemp.Count;
+    }
+
     float AttackInit(Unit unit)
     {
         if (unit.attackRequest.Count <= 0) { unit.SkillInit(unit.nullSkill); return 0; }
+
         var skill = unit.SkillChange();
         unit.SkillInit(skill);
 
-        return skill.animation.length;
+        return skill.animation != null ? skill.animation.length : 0;
     }
 
     float AttackCheck(Unit player, Unit enemy)
@@ -572,22 +600,23 @@ public class Controller : MonoBehaviour, IInitObserver
 
         bool isChain = false;
 
-        if (p == Unit.ActionType.Chain)
+        if (p == ActionType.Chain)
         {
             isChain = true;
-            enemy.curSkill.actionType = e == Unit.ActionType.none ? Unit.ActionType.none :
-            e == Unit.ActionType.Chain ? Unit.ActionType.Chain : Unit.ActionType.Change;
+            enemy.curSkill.actionType = e == ActionType.none ? ActionType.none :
+            e == ActionType.Chain ? ActionType.Chain : ActionType.Change;
         }
-        else if (e == Unit.ActionType.Chain)
+        else if (e == ActionType.Chain)
         {
             isChain = true;
-            player.curSkill.actionType = p == Unit.ActionType.none ? Unit.ActionType.none :
-            p == Unit.ActionType.Chain ? Unit.ActionType.Chain : Unit.ActionType.Change;
+            player.curSkill.actionType = p == ActionType.none ? ActionType.none :
+            p == ActionType.Chain ? ActionType.Chain : ActionType.Change;
         }
 
         if (isChain)
         {
             this.isChain = true;
+
             if (player.attackRequest.Count == 0) return player.curSkill.animation == null ? 0.4f : player.curSkill.animation.length;
             else if (enemy.attackRequest.Count == 0) return enemy.curSkill.animation == null ? 0.4f : enemy.curSkill.animation.length;
             else return 0.4f;
@@ -595,7 +624,6 @@ public class Controller : MonoBehaviour, IInitObserver
         else
         {
             this.isChain = false;
-
             return 0;
         }
     }
@@ -603,28 +631,21 @@ public class Controller : MonoBehaviour, IInitObserver
     IEnumerator AttackStart(Unit unit)
     {
         var d = DataManager.instance;
+        var ui = UIManager.instance;
         var skill = unit.curSkill;
         //print($"{unit.name} : {unit.curAttackCount},{unit.curSkill.index}");
-        if (unit.curSkill.actionType == Unit.ActionType.none) yield break;
+        if (unit.curSkill.actionType == ActionType.none) yield break;
         StartCoroutine(IconAnim(skill.insertImage, skill.animation.length * skill.attackCount));
 
-        if (unit.curSkill.actionType == Unit.ActionType.Chain || unit.curSkill.actionType == Unit.ActionType.Change)
+        if (unit.curSkill.actionType == ActionType.Chain || unit.curSkill.actionType == ActionType.Change)
         {
             unit.isChain = true;
             unit.chainDamage += skill.minDamage[d.loadData.SkillList[skill.index - 1].level];
             unit.chainCount++;
-            if (unit.curSkill.actionType == Unit.ActionType.Chain)
+            if (unit.curSkill.actionType == ActionType.Chain)
             {
                 unit.chainName.Add(skill.skillName);
                 unit.curSkill.effect?.Setting(unit, unit.target);
-            }
-            else if (unit.attackRequest.Count == 0)
-            {
-                for (int i = 0; i < skill.attackCount; i++)
-                {
-                    unit.anim.Play(skill.propertyType.ToString(), -1, 0f);
-                    yield return new WaitForSeconds(skill.animation.length);
-                }
             }
         }
         else
@@ -633,10 +654,22 @@ public class Controller : MonoBehaviour, IInitObserver
             skill.maxDamage[d.loadData.SkillList[skill.index - 1].level], skill.attackCount);
 
             unit.curSkill.effect?.Setting(unit, unit.target);
+            ChainAttack();
             for (int i = 0; i < skill.attackCount; i++)
             {
                 unit.anim.Play(skill.propertyType.ToString(), -1, 0f);
                 yield return new WaitForSeconds(skill.animation.length);
+            }
+        }
+
+        void ChainAttack()
+        {
+            if (unit.isChain)
+            {
+                string temp = "";
+                foreach (var n in unit.chainName) { temp += n + " "; }
+                StartCoroutine(ui.attackView.ChainAttack(unit.isLeft, temp + unit.curSkill.skillName));
+                unit.chainName.Clear();
             }
         }
     }
