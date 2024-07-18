@@ -151,7 +151,8 @@ public class ReadSpreadSheet : MonoBehaviour
             string className = "Buff_" + columns[2];
             var temp = Activator.CreateInstance(Type.GetType(className)) as BuffScript;
             temp.timing = columns[3].EnumParse<BuffTiming>();
-            temp.buffIcon = Resources.Load<Sprite>($"BuffIcon/{columns[2]}");
+            temp.buffIcon = Resources.Load<Sprite>($"Buff/{columns[2]}");
+            temp.text = columns[1];
 
             if (columns[4] == "buff" && columns[4] != string.Empty)
                 buff.Add(columns[2], temp);
