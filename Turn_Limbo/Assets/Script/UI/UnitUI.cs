@@ -12,6 +12,7 @@ public class UnitUI : MonoBehaviour
     public RectTransform requestBuffParent;
     public RectTransform statParent;
     public RectTransform buffParent;
+    [SerializeField] Image[] bg;
     [SerializeField] protected GameObject status;
     [SerializeField] protected Image hpImage;
     [SerializeField] protected Image hpAnimImage;
@@ -29,8 +30,8 @@ public class UnitUI : MonoBehaviour
     public void UIUpdate(Transform target, int hp, int maxHP, int shield, int maxShield, ref float dmgDelayCurTime, bool isLeft)
     {
         bool isShield = shield > 0;
-        Bg[0].enabled = !isShield;
-        Bg[1].enabled = isShield;
+        bg[0].enabled = !isShield;
+        bg[1].enabled = isShield;
 
         var ui = UIManager.instance;
         statParent.anchoredPosition

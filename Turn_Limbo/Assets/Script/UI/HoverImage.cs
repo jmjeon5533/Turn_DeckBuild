@@ -11,7 +11,7 @@ public class HoverImage : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     {
         var ui = UIManager.instance;
         if (controller.player.skillInfo.holdSkills.TryGetValue(controller.inputs[i][0].index - 1, out var holdSkill))
-            ui.SetExplain(true, controller.inputs[i][0], ui.keys[i].rectTransform.anchoredPosition, holdSkill.level);
+            ui.SetExplain(true, controller.inputs[i][0], ui.keys[i].transform.position, holdSkill.level);
     }
     public void OnPointerExit(PointerEventData eventData)
     {

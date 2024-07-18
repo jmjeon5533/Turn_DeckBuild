@@ -266,9 +266,9 @@ public class UIManager : MonoBehaviour, IInitObserver
     }
     public void SetExplain(bool isActive, Skill skill = null, Vector3 pos = default, int level = 0)
     {
-        string[] property = { "모든", "참격", "타격", "관통", "방어"};
+        string[] property = { "모든", "참격", "타격", "관통", "방어", "체인"};
         skillExplainPanel.gameObject.SetActive(isActive);
-        skillExplainPanel.rectTransform.anchoredPosition = pos + new Vector3(350f, 300);
+        skillExplainPanel.transform.position = pos + new Vector3(350f, 300);
         if (skill != null)
         {
             skill_Desc_Text.text = skill.skill_desc;

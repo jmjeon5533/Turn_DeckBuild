@@ -20,8 +20,8 @@ public class AttackView : MonoBehaviour
 
     public void OnOff(bool isOnOff){
         if(!isOnOff) Reset();
-        upBox.DOAnchorPosY(isOnOff ? 50 : 100, 0.3f).SetUpdate(true);
-        downBox.DOAnchorPosY(isOnOff ? -50 : -100, 0.3f).SetUpdate(true);
+        upBox.DOAnchorPosY(isOnOff ? 0 : 100, 0.3f).SetUpdate(true);
+        downBox.DOAnchorPosY(isOnOff ? 0 : -100, 0.3f).SetUpdate(true);
     }
 
     public IEnumerator ChainAttack(bool isPlayer, string chainText){

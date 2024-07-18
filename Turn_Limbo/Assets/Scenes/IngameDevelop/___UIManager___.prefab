@@ -6477,6 +6477,7 @@ RectTransform:
   - {fileID: 819413764638588001}
   - {fileID: 381529147874650892}
   - {fileID: 1592163859594945556}
+  - {fileID: 2566151102046085733}
   m_Father: {fileID: 7603911004132596062}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6500,7 +6501,8 @@ MonoBehaviour:
   requestUIParent: {fileID: 8957895577234720590}
   requestBuffParent: {fileID: 381529147874650892}
   statParent: {fileID: 1592163859594945556}
-  Bg:
+  buffParent: {fileID: 2566151102046085733}
+  bg:
   - {fileID: 6072950775488859551}
   - {fileID: 4389511576479043443}
   status: {fileID: 3711132039098417938}
@@ -6508,6 +6510,8 @@ MonoBehaviour:
   hpAnimImage: {fileID: 2673098274207374221}
   shieldImage: {fileID: 5044550317035270020}
   shieldAnimImage: {fileID: 7446381849844894849}
+  buffText: {fileID: 0}
+  curText: {fileID: 0}
 --- !u!1 &408711432478203611
 GameObject:
   m_ObjectHideFlags: 0
@@ -7611,6 +7615,42 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 0
   m_VerticalFit: 0
+--- !u!1 &1530019079949066148
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2566151102046085733}
+  m_Layer: 5
+  m_Name: BuffParent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2566151102046085733
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1530019079949066148}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1053300244466032985}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 50, y: 150}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1628705496933975225
 GameObject:
   m_ObjectHideFlags: 0
@@ -10756,6 +10796,42 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &4253392158392631934
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 552974881291537280}
+  m_Layer: 5
+  m_Name: BuffParent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &552974881291537280
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4253392158392631934}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1436230186775636114}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 50, y: 150}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &4386217715321781027
 GameObject:
   m_ObjectHideFlags: 0
@@ -13874,6 +13950,7 @@ RectTransform:
   - {fileID: 6147119110612268672}
   - {fileID: 1515352057112196134}
   - {fileID: 8794699416931569570}
+  - {fileID: 552974881291537280}
   m_Father: {fileID: 7603911004132596062}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -13897,7 +13974,8 @@ MonoBehaviour:
   requestUIParent: {fileID: 5066271286702479259}
   requestBuffParent: {fileID: 1515352057112196134}
   statParent: {fileID: 8794699416931569570}
-  Bg:
+  buffParent: {fileID: 552974881291537280}
+  bg:
   - {fileID: 3039959066355288727}
   - {fileID: 3808866629079729113}
   status: {fileID: 9074647193130785970}
@@ -13905,6 +13983,8 @@ MonoBehaviour:
   hpAnimImage: {fileID: 6773009603460830870}
   shieldImage: {fileID: 1291405743449526577}
   shieldAnimImage: {fileID: 3190641575698116163}
+  buffText: {fileID: 0}
+  curText: {fileID: 0}
 --- !u!1 &7920106370357643929
 GameObject:
   m_ObjectHideFlags: 0
