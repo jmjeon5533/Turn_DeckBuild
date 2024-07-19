@@ -6500,14 +6500,14 @@ MonoBehaviour:
       m_Calls: []
   m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 4c98a48416739be4bbc3074368b3b147, type: 2}
-  m_sharedMaterial: {fileID: 2100000, guid: 5f78453527a542b4fa1d79a82f935e33, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: c72b8124d64bff34fb9d1b58b5683716, type: 2}
+  m_sharedMaterial: {fileID: 482704294929722625, guid: c72b8124d64bff34fb9d1b58b5683716, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 4278190080
   m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3

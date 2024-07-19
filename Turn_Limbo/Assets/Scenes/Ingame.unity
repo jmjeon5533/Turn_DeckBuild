@@ -382,6 +382,18 @@ PrefabInstance:
       propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7932923290527651521, guid: 81ba74c15afd25641a61eca563a16a50, type: 3}
+      propertyPath: m_text
+      value: "\uC544\uC544"
+      objectReference: {fileID: 0}
+    - target: {fileID: 7932923290527651521, guid: 81ba74c15afd25641a61eca563a16a50, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 3f41d22b4bffa8249a74247b00654ba0, type: 2}
+    - target: {fileID: 7932923290527651521, guid: 81ba74c15afd25641a61eca563a16a50, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 81ba74c15afd25641a61eca563a16a50, type: 3}
 --- !u!114 &37891360 stripped

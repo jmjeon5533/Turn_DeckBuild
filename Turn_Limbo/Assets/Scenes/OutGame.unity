@@ -14471,7 +14471,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "- \uCC38\uACA9\uC744 \uC8FC\uB85C \uC0AC\uC6A9\uD55C\uB2E4.\n\n- \uB3D9\uC591\uAC80\uC220\uBD80\n\n-
+  m_Text: "- \uCC38\uACA9\uC744 \uC8FC\uB85C \uC0AC\uC6A9\uD55C\uB2E4.\n\n- \uAC80\uB3C4\uBD80\n\n-
     \uAC80\uAC1D? \uBB34\uC0AC?\n\n\uC2E0\uC911\uD558\uAC8C \uAC80\uC744 \uD718\uB458\uB7EC\uC57C\uACA0\uC5B4."
 --- !u!222 &1929638043
 CanvasRenderer:
