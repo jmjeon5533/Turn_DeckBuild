@@ -39,7 +39,7 @@ public class PanelMovement : MonoBehaviour
     public void PanelMove()
     {
         if (isMove) return;
-        if (isStage)
+        if (!isStage)
         {
             var d = DataManager.instance;
             int[] keys = new int[3];
